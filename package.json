@@ -1,0 +1,31 @@
+{
+	"name": "legal-thingy",
+	"version": "1.0.0",
+	"author": "Lennart van Laake",
+	"license": "CC-BY-NC-4.0",
+	"private": true,
+	"workspaces": [
+		"packages/*"
+	],
+	"scripts": {
+		"docker": "docker-compose -f docker-dev/docker-compose.yml up"
+	},
+	"dependencies": {
+		"sveltekit": "file:packages/sveltekit"
+	},
+	"devDependencies": {
+		"@sveltejs/kit": "next",
+		"@typescript-eslint/eslint-plugin": "^4.31.1",
+		"@typescript-eslint/parser": "^4.31.1",
+		"eslint": "^7.32.0",
+		"eslint-config-prettier": "^8.3.0",
+		"eslint-plugin-svelte3": "^3.2.1",
+		"prettier": "^2.4.1",
+		"prettier-plugin-svelte": "^2.4.0",
+		"svelte": "^3.42.6",
+		"svelte-check": "^2.2.6",
+		"svelte-preprocess": "^4.9.4",
+		"tslib": "^2.3.1",
+		"typescript": "^4.4.3"
+	}
+}

@@ -1,0 +1,7 @@
+{
+	"name": "@legalthingy/shared",
+	"version": "1.0.0",
+	"main": "src/shared.d.ts",
+	"license": "MIT",
+	"types": "src/shared.d.ts"
+}

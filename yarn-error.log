@@ -1,0 +1,31 @@
+Arguments: 
+  /home/lennart/.config/nvm/versions/node/v15.9.0/bin/node /home/lennart/.config/nvm/versions/node/v15.9.0/bin/yarn config set workspaces-experimental true
+
+PATH: 
+  /home/lennart/.config/nvm/versions/node/v15.9.0/bin:/usr/local/sbin:/usr/local/bin:/usr/local/games:/usr/sbin:/usr/bin:/usr/games:/sbin:/bin
+
+Yarn version: 
+  1.22.10
+
+Node version: 
+  15.9.0
+
+Platform: 
+  linux x64
+
+Trace: 
+  SyntaxError: /home/lennart/legal-thingy/package.json: Unexpected end of JSON input
+      at JSON.parse (<anonymous>)
+      at /home/lennart/.config/nvm/versions/node/v15.9.0/lib/node_modules/yarn/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/home/lennart/.config/nvm/versions/node/v15.9.0/lib/node_modules/yarn/lib/cli.js:310:30)
+      at /home/lennart/.config/nvm/versions/node/v15.9.0/lib/node_modules/yarn/lib/cli.js:321:13
+
+npm manifest: 
+  
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

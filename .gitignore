@@ -1,0 +1,10 @@
+/node_modules
+/public
+/build
+.DS_Store
+.env
+/kube/secrets/*
+/volumes
+/backend/public/*
+/frontend/dist/*
+!/backend/public/dragon.jpg

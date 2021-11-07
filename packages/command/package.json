@@ -1,0 +1,26 @@
+{
+  "name": "@legalthingy/command",
+  "version": "1.0.0",
+  "main": "src/server.ts",
+  "author": "Lennart van Laake",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+	"start": "node --loader ts-node/esm src/server.ts"
+  },
+  "dependencies": {
+    "koa": "^2.13.4",
+    "koa-bodyparser": "^4.3.0",
+    "koa-json": "^2.0.2",
+    "koa-logger": "^3.2.1",
+    "koa-router": "^10.1.1",
+    "ts-node": "^10.4.0"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.13.4",
+    "@types/koa-bodyparser": "^4.3.4",
+    "@types/koa-json": "^2.0.20",
+    "@types/koa-logger": "^3.1.2",
+    "@types/koa-router": "^7.4.4"
+  }
+}
