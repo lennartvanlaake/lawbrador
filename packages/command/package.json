@@ -6,15 +6,17 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-	"start": "node --loader ts-node/esm src/server.ts"
+    "start": "node --loader ts-node/esm src/server.ts"
   },
   "dependencies": {
+    "kafkajs": "^1.15.0",
     "koa": "^2.13.4",
     "koa-bodyparser": "^4.3.0",
     "koa-json": "^2.0.2",
     "koa-logger": "^3.2.1",
     "koa-router": "^10.1.1",
-    "ts-node": "^10.4.0"
+    "ts-node": "^10.4.0",
+    "typescript-is": "^0.19.0"
   },
   "devDependencies": {
     "@types/koa": "^2.13.4",
