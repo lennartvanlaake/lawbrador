@@ -1,24 +1,22 @@
-/// <reference types="@legalthingy/shared"/>
-
 import Router from 'koa-router';
-import { TextMessage } from 'packages/shared/src/shared.js';
+import type { TextMessage } from '@legalthingy/shared';
+import { MESSAGE_TOPIC } from '@legalthingy/shared';
 import { producer } from './kafka.js';
-import { assertType } from 'typescript-is';
 
 export const textRouter = new Router();
 
 textRouter.post('/', async (ctx, next) => {
-	assertType<TextMessage>(ctx.request.body);
 	const requestBody: TextMessage = ctx.request.body;
-	producer.send({
-		topic: 'text',
-		messages: [{ value: requestBody.message }],
-	});
-	ctx.body = 'bla';
-	await next();
-});
-
-textRouter.get('/', async (ctx, next) => {
-	ctx.body = 'Thanks mate!';
+	try {
+		await producer.send({
+			topic: MESSAGE_TOPIC,
+			messages: [{ value: requestBody.message }],
+		});
+		ctx.body = 'thanks!';
+	} catch (e: any) {
+		console.error(e);
+		ctx.body = e.message;
+		ctx.status = 500;
+	}
 	await next();
 });

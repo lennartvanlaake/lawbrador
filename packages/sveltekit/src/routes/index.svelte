@@ -1,9 +1,11 @@
 <script lang="ts">
+	import type { TextMessage } from '@legalthingy/shared';
 	import axios from 'axios';
 	let text = '';
 	async function submit() {
 		try {
-			const result = await axios.post('api/text', JSON.stringify({ text: text }));
+			const message: TextMessage = { message: text };
+			const result = await axios.post('api/text', message);
 			console.log(result);
 		} catch (e) {
 			const error = e;

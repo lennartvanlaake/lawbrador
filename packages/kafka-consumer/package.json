@@ -1,9 +1,17 @@
 {
-	"name": "@legalthingy/kafka-consumer",
+	"name": "@legalthingy/consumer",
 	"version": "1.0.0",
-	"main": "server.ts",
+	"main": "src/server.ts",
+	"author": "Lennart van Laake",
 	"license": "MIT",
+	"type": "module",
+	"scripts": {
+		"dev": "node --loader ts-node/esm src/server.ts",
+		"debug": "node --inspect-brk --loader ts-node/esm src/server.ts"
+	},
 	"dependencies": {
-		"kafkajs": "^1.15.0"
-	}
+		"kafkajs": "^1.15.0",
+		"nano": "^9.0.5"
+	},
+	"devDependencies": {}
 }

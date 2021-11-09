@@ -4,11 +4,12 @@
 	"author": "Lennart van Laake",
 	"license": "CC-BY-NC-4.0",
 	"private": true,
-	"workspaces": [
-		"packages/*"
-	],
+	"workspaces": ["packages/*"],
 	"scripts": {
-		"docker": "docker-compose -f docker-dev/docker-compose.yml up"
+		"docker-down": "docker-compose -f docker-dev/docker-compose.yml down",
+		"docker": "docker-compose -f docker-dev/docker-compose.yml up",
+		"dev": "yarn docker -d && lerna run dev --stream",
+		"debug": "yarn docker -d && lerna run debug --stream"
 	},
 	"dependencies": {
 		"sveltekit": "file:packages/sveltekit"

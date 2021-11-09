@@ -1,7 +1,8 @@
 {
 	"name": "@legalthingy/shared",
 	"version": "1.0.0",
-	"main": "src/shared.d.ts",
+	"main": "src/consts.ts",
 	"license": "MIT",
+	"type": "module",
 	"types": "src/shared.d.ts"
 }

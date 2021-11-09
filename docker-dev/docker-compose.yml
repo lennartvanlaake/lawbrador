@@ -24,4 +24,9 @@ services:
       COUCHDB_USER: "admin"
       COUCHDB_PASSWORD: "admin"
     volumes: 
-      - ./couchdb:/opt/couchdb/etc/local.d 
+      - ./couchdb:/opt/couchdb/etc/local.d
+  nginx:
+    build:
+      context: nginx
+      dockerfile: Dockerfile
+    network_mode: "host"
