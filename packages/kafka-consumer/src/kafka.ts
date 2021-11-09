@@ -1,7 +1,6 @@
-/// <reference types="@legalthingy/shared"/>
 import { Kafka } from 'kafkajs';
 
-const kafka = new Kafka({
+export const kafka = new Kafka({
 	clientId: 'consumer',
 	brokers: ['localhost:9092'],
 });

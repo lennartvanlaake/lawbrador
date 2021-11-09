@@ -1,6 +1,5 @@
-import { messageDB } from './couch.js';
 import { consumer } from './kafka.js';
-import { MESSAGE_TOPIC } from '@legalthingy/shared';
+import { MESSAGE_TOPIC, messageDB } from '@legalthingy/shared';
 
 consumer.subscribe({ topic: MESSAGE_TOPIC, fromBeginning: true });
 consumer.run({

@@ -8,8 +8,8 @@
 	"scripts": {
 		"docker-down": "docker-compose -f docker-dev/docker-compose.yml down",
 		"docker": "docker-compose -f docker-dev/docker-compose.yml up",
-		"dev": "yarn docker -d && lerna run dev --stream",
-		"debug": "yarn docker -d && lerna run debug --stream"
+		"dev": "yarn docker -d && lerna run dev --stream || killall node",
+		"debug": "yarn docker -d && lerna run debug --stream || killall node"
 	},
 	"dependencies": {
 		"sveltekit": "file:packages/sveltekit"
