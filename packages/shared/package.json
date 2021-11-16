@@ -3,5 +3,8 @@
 	"version": "1.0.0",
 	"main": "main.ts",
 	"license": "MIT",
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"@sinclair/typebox": "^0.20.5"
+	}
 }

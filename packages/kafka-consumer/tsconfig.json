@@ -1,11 +1,4 @@
 {
 	"extends": "../../tsconfig.json",
-	"include": ["src/**/*.ts"],
-	"target": "es2017",
-	"module": "esnext",
-	"plugins": [
-		{
-			"transform": "typescript-is/lib/transform-inline/transformer"
-		}
-	]
+	"include": ["src/**/*.ts"]
 }

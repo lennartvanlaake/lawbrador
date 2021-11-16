@@ -4,6 +4,7 @@ services:
     image: wurstmeister/zookeeper
     ports:
       - "2181:2181"
+  
   kafka:
     image: wurstmeister/kafka
     ports:
@@ -16,15 +17,16 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-  couchdb:
-    image: couchdb
+
+  mongo:
+    image: mongo:4.4
     ports:
-      - "5984:5984"
+      - "27017:27017"
     environment:
-      COUCHDB_USER: "admin"
-      COUCHDB_PASSWORD: "admin"
-    volumes: 
-      - ./couchdb:/opt/couchdb/etc/local.d
+      MONGO_INITDB_ROOT_USERNAME: admin 
+      MONGO_INITDB_ROOT_PASSWORD: admin 
+
+  
   nginx:
     build:
       context: nginx

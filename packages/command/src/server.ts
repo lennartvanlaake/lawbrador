@@ -9,7 +9,7 @@ import logger from 'koa-logger';
 // base config
 export const app = new Koa<DefaultState, DefaultContext>();
 const router = new Router<DefaultState, Context>();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 
 // middleware
 app.use(json());

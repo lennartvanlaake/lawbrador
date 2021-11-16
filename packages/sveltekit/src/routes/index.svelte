@@ -1,3 +1,18 @@
+<script context="module" lang="ts">
+	import type { Load } from "@sveltejs/kit";
+	export const load: Load = async ({ page, fetch, session, stuff }) => {
+		const url = "/api/messages";
+		const res = await fetch(url);
+		console.log(res);
+		return { 
+			props: {
+				messages: await res.json(),
+			}
+		};
+	}
+</script>
+
+
 <script lang="ts">
 	import type { TextMessage } from '@legalthingy/shared';
 	import axios from 'axios';
@@ -16,4 +31,5 @@
 
 <h1>Upload your awesome text here!</h1>
 <textarea bind:value={text} />
+
 <button on:click={submit}>BOOM</button>

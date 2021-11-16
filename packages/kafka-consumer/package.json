@@ -6,8 +6,8 @@
 	"license": "MIT",
 	"type": "module",
 	"scripts": {
-		"dev": "node --loader ts-node/esm src/server.ts",
-		"debug": "node --inspect-brk --loader ts-node/esm src/server.ts"
+		"dev": "nodemon --watch './**/*.ts' --exec 'node --experimental-specifier-resolution=node --loader ts-node/esm' src/server.ts",
+		"debug": "nodemon --watch './**/*.ts' --exec 'node --experimental-specifier-resolution=node --loader ts-node/esm --inspect' src/server.ts"
 	},
 	"dependencies": {
 		"kafkajs": "^1.15.0",
