@@ -1,0 +1,36 @@
+Arguments: 
+  /home/lennart/.config/nvm/versions/node/v16.13.0/bin/node /home/lennart/.config/nvm/versions/node/v16.13.0/bin/yarn add cypress --save-dev
+
+PATH: 
+  /home/lennart/.config/nvm/versions/node/v16.13.0/bin:/home/lennart/bin:/usr/local/bin:/home/lennart/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/local/games:/usr/sbin:/usr/bin:/usr/games:/sbin:/bin
+
+Yarn version: 
+  1.22.17
+
+Node version: 
+  16.13.0
+
+Platform: 
+  linux x64
+
+Trace: 
+  SyntaxError: /home/lennart/legal-thingy/packages/cypress/package.json: Unexpected token } in JSON at position 94
+      at JSON.parse (<anonymous>)
+      at /home/lennart/.config/nvm/versions/node/v16.13.0/lib/node_modules/yarn/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/home/lennart/.config/nvm/versions/node/v16.13.0/lib/node_modules/yarn/lib/cli.js:310:30)
+      at /home/lennart/.config/nvm/versions/node/v16.13.0/lib/node_modules/yarn/lib/cli.js:321:13
+
+npm manifest: 
+  {
+  	"name": "@legalthingy/cypress",
+  	"version": "1.0.0",
+  	"license": "MIT",
+  	"type": "module",
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

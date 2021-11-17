@@ -1,10 +1,11 @@
 {
 	"name": "@legalthingy/shared",
 	"version": "1.0.0",
-	"main": "main.ts",
 	"license": "MIT",
 	"type": "module",
 	"dependencies": {
-		"@sinclair/typebox": "^0.20.5"
+		"@sinclair/typebox": "^0.20.5",
+		"mongodb": "^4.1.4",
+		"mongoose": "6.0.5"
 	}
 }
