@@ -1,8 +1,6 @@
 import type { FastifyPluginAsync } from 'fastify';
 import * as schema from '@legalthingy/shared/schemas/text';
-import { producer } from './kafka';
-import { TEXT_TOPIC } from '@legalthingy/shared/kafka';
-import { Text } from '@legalthingy/shared/mongo';
+import { Text } from './mongo';
 
 export const textRoutes: FastifyPluginAsync = async (fastify, _options) => {
 	fastify.post<{ Body: schema.BodyType; Reply: schema.ResponseType }>(
@@ -16,10 +14,7 @@ export const textRoutes: FastifyPluginAsync = async (fastify, _options) => {
 			},
 		},
 		async (request, _reply) => {
-			await producer.send({
-				topic: TEXT_TOPIC,
-				messages: [{ value: request.body.text }],
-			});
+			await new Text(request.body).save();
 			return { status: 'success!' };
 		},
 	);

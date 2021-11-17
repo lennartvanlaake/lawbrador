@@ -1,5 +1,5 @@
 {
-	"name": "@legalthingy/consumer",
+	"name": "@legalthingy/api",
 	"version": "1.0.0",
 	"main": "src/server.ts",
 	"author": "Lennart van Laake",
@@ -10,8 +10,9 @@
 		"debug": "nodemon --watch './**/*.ts' --exec 'node --experimental-specifier-resolution=node --loader ts-node/esm --inspect' src/server.ts"
 	},
 	"dependencies": {
-		"kafkajs": "^1.15.0",
-		"nano": "^9.0.5"
+		"fastify": "^3.24.0",
+		"nodemon": "^2.0.14",
+		"ts-node": "^10.4.0"
 	},
 	"devDependencies": {}
 }

@@ -6,4 +6,3 @@ export const Text = mongoose.model(
 	'text',
 	new mongoose.Schema({ text: String }),
 );
-export const doek = 'mans';
