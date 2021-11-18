@@ -14,7 +14,9 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands'
+import { Text } from '@legalthingy/api/src/mongo';
+import './commands';
+Text.delete({});
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

@@ -1,8 +1,11 @@
 import type { FastifyPluginAsync } from 'fastify';
 import * as schema from '@legalthingy/shared/schemas/text';
-import { Text } from './mongo';
+import { getCollection } from './utils'; 
+import { FastifyRequest } from 'fastify';
 
 export const textRoutes: FastifyPluginAsync = async (fastify, _options) => {
+	const textCollection = getCollection(fastify, 'text');
+
 	fastify.post<{ Body: schema.BodyType; Reply: schema.ResponseType }>(
 		'/api/text',
 		{
@@ -14,12 +17,22 @@ export const textRoutes: FastifyPluginAsync = async (fastify, _options) => {
 			},
 		},
 		async (request, _reply) => {
-			await new Text(request.body).save();
+			await textCollection.insertOne(request.body);
 			return { status: 'success!' };
 		},
 	);
 
 	fastify.get('/api/text', {}, async (_request, _reply) => {
-		return await Text.find();
+		return await textCollection.find().toArray();
 	});
+
+	fastify.get(
+		'/api/text/:id',
+		{},
+		async (request: FastifyRequest, _reply) => {
+			return await textCollection.findOne({
+				_id: request.id,
+			});
+		},
+	);
 };

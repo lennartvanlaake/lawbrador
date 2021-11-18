@@ -17,7 +17,7 @@
 	import type { BodyType } from '@legalthingy/shared/schemas/text';
 	import axios from 'axios';
 	let text = '';
-	export let messages;
+	export let messages: [BodyType];
 	async function submit() {
 		try {
 			const message: BodyType = { text: text };
@@ -31,10 +31,10 @@
 </script>
 
 <h1>Upload your awesome text here!</h1>
-<textarea bind:value={text} />
+<textarea id="text-field" bind:value={text} />
 <ul>
 	{ #each messages as message }
 		<li>{ message.text }</li>
 	{ /each }
 </ul>
-<button on:click={submit}>BOOM</button>
+<button id="text-button" on:click={submit}>BOOM</button>
