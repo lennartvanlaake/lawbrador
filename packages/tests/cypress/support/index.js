@@ -14,9 +14,10 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import { Text } from '@legalthingy/api/src/mongo';
-import './commands';
-Text.delete({});
 
+before(() => {
+	cy.request('DELETE', 'http://localhost:8080/api/all');
+	cy.log('cleared DB');
+});
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
