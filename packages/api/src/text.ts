@@ -1,5 +1,6 @@
 import type { FastifyPluginAsync } from 'fastify';
-import * as schema from '@legalthingy/shared/schemas/text';
+import { documentUpload, DocumentUpload, document, documents } from '@legalthingy/shared/schemas/text';
+import { IdParams, StatusResponse, statusResponse, ResponseStatus } from '@legalthingy/shared/schemas/generic';
 import { getCollection } from './utils';
 import { ObjectId } from 'mongodb';
 
@@ -7,21 +8,21 @@ export const textRoutes: FastifyPluginAsync = async (fastify, _options) => {
 	const textCollection = getCollection(fastify, 'text');
 
 	fastify.post<{
-		Body: schema.DocumentUpload;
-		Reply: schema.StatusResponse;
+		Body: DocumentUpload;
+		Reply: StatusResponse;
 	}>(
 		'/api/text',
 		{
 			schema: {
-				body: schema.documentUpload,
+				body: documentUpload,
 				response: {
-					200: schema.statusResponse,
+					200: statusResponse,
 				},
 			},
 		},
 		async (request, _reply) => {
 			await textCollection.insertOne(request.body);
-			return { status: schema.ResponseStatus.success };
+			return { status: ResponseStatus.success };
 		},
 	);
 
@@ -30,7 +31,7 @@ export const textRoutes: FastifyPluginAsync = async (fastify, _options) => {
 		{
 			schema: {
 				response: {
-					200: schema.documents,
+					200: documents,
 				},
 			},
 		},
@@ -39,16 +40,12 @@ export const textRoutes: FastifyPluginAsync = async (fastify, _options) => {
 		},
 	);
 
-	interface IdParams {
-		id: string;
-	}
-
 	fastify.get<{ Params: IdParams }>(
 		'/api/text/:id',
 		{
-			schema: {
+		 	schema: {
 				response: {
-					200: schema.document,
+					200: document,
 				},
 			},
 		},

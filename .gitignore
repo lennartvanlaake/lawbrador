@@ -7,4 +7,4 @@
 /volumes
 /backend/public/*
 /frontend/dist/*
-!/backend/public/dragon.jpg
+*.mp4
