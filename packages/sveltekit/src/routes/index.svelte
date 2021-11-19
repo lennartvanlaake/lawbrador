@@ -36,7 +36,7 @@
 <textarea id="text-field" bind:value={text} />
 <ul>
 	{ #each messages as message }
-		<li>{ message.text }: { message._id }</li>
+		<li><a href='/text/{message._id}'>{ message.text }</a></li>
 	{ /each }
 </ul>
 <button id="text-button" on:click={submit}>BOOM</button>

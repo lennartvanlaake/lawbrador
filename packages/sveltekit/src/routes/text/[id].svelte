@@ -12,8 +12,9 @@
 </script>
 
 <script lang="ts">
-	import type { BodyType } from '@legalthingy/shared/schemas/text';
-	export let text: BodyType;
+	import type { Document } from '@legalthingy/shared/schemas/text';
+	export let text: Document;
+	console.log(text);
 </script>
 
 <p>

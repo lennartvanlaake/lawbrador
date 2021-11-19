@@ -1,7 +1,7 @@
 import type { FastifyPluginAsync } from 'fastify';
 import * as schema from '@legalthingy/shared/schemas/text';
 import { getCollection } from './utils';
-import { FastifyRequest } from 'fastify';
+import { ObjectId } from 'mongodb';
 
 export const textRoutes: FastifyPluginAsync = async (fastify, _options) => {
 	const textCollection = getCollection(fastify, 'text');
@@ -39,7 +39,11 @@ export const textRoutes: FastifyPluginAsync = async (fastify, _options) => {
 		},
 	);
 
-	fastify.get(
+	interface IdParams {
+		id: string;
+	}
+
+	fastify.get<{ Params: IdParams }>(
 		'/api/text/:id',
 		{
 			schema: {
@@ -48,10 +52,11 @@ export const textRoutes: FastifyPluginAsync = async (fastify, _options) => {
 				},
 			},
 		},
-		async (request: FastifyRequest, _reply) => {
-			return await textCollection.findOne({
-				_id: request.id,
+		async (request, _reply) => {
+			const text = await textCollection.findOne({
+				_id: new ObjectId(request.params.id),
 			});
+			return text;
 		},
 	);
 };
