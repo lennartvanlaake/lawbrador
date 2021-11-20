@@ -1,12 +1,14 @@
 import Fastify from 'fastify';
 import { textRoutes } from './text';
 import { clearRoutes } from './clear';
+import { scrapeRoutes } from './scrape';
 import { MongoClient } from 'mongodb';
 import type { Db } from 'mongodb';
 
 const fastify = Fastify({ logger: true });
 fastify.register(textRoutes);
 fastify.register(clearRoutes);
+fastify.register(scrapeRoutes);
 const url = 'mongodb://admin:admin@localhost:27017';
 
 declare module 'fastify' {

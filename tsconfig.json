@@ -10,11 +10,6 @@
 		"module": "esnext",
 		"moduleResolution": "node",
 		"noEmit": true,
-		"noImplicitAny": true,
-		"noImplicitReturns": true,
-		"noImplicitThis": true,
-		"noUnusedLocals": true,
-		"noUnusedParameters": true,
 		"preserveConstEnums": true,
 		"removeComments": false,
 		"resolveJsonModule": true,
@@ -23,7 +18,6 @@
 		"target": "es2017",
 		"downlevelIteration": true,
 		"lib": ["dom", "es2017"],
-		"strict": true,
 		"paths": {
 			"@project/sveltekit": ["../sveltekit/src"],
 			"@project/shared": ["../shared/src"]
