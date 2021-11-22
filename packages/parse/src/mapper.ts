@@ -9,7 +9,7 @@ export interface MappingRulesetCondition {
 
 export interface HtmlMappingContext {
 	$: CheerioAPI;
-	currentHeader: any[];
+	currentHeader: any;
 	result: any[];
 }
 
