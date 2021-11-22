@@ -10,7 +10,6 @@
 		"debug": "nodemon --watch './**/*.ts' --exec 'node --experimental-specifier-resolution=node --loader ts-node/esm --inspect' src/server.ts"
 	},
 	"dependencies": {
-		"cheerio": "^1.0.0-rc.10",
 		"fastify": "^3.24.0",
 		"fastify-mongodb": "^4.1.1",
 		"nodemon": "^2.0.14",

@@ -1,4 +1,10 @@
+import { clearDB } from '../support/index';
+
 describe('Test if it creates a new page', () => {
+	before(() => {
+		clearDB();
+	});
+
 	it('Access index page', () => {
 		const TEXT = 'doekmans';
 		cy.visit('/');

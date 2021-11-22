@@ -14,10 +14,10 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-
-before(() => {
+export function clearDB() {
 	cy.request('DELETE', 'http://localhost:8080/api/all');
 	cy.log('cleared DB');
-});
+}
+
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
