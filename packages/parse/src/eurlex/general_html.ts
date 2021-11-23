@@ -1,6 +1,7 @@
 import { MappingRuleset } from '../mapper';
 import turndown from 'turndown';
 
+const numberRegex = /^\d+$/
 const turndownService = new turndown();
 export const ruleset: MappingRuleset = {
 	condition: (info) => {
@@ -31,8 +32,8 @@ export const ruleset: MappingRuleset = {
 							.find('.normal')
 							.html(),
 					),
-					count: /^\d+$/.test(pre) ? pre: undefined,
-					pre: !/^\d+$/.test(pre) ? pre: undefined,
+					count: numberRegex.test(pre) ? pre: undefined,
+					pre: !numberRegex.test(pre) ? pre: undefined,
 					type: 'paragraph',
 					header: ctx.currentHeader,
 				});

@@ -13,7 +13,8 @@
   },
   "type": "module",
   "dependencies": {
-    "axios": "^0.24.0"
+    "axios": "^0.24.0",
+    "marked": "^4.0.4"
   },
   "devDependencies": {}
 }
