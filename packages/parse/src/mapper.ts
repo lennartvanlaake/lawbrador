@@ -47,12 +47,14 @@ export function map(splitResult: SplitResult, info: DocumentUploadInfo): any[] {
 		result: [],
 		currentHeader: [],
 	};
+	// first arg is the index
 	splitResult.children.each((_, el) => {
-		// using for-loop here beacuse might want to have early return
+		// using for-loop here  to have early return
 		for (let i = 0; i < applicableRules.length; i++) {
 			const rule = applicableRules[i];
 			if (rule.condition(el, context)) {
 				rule.action(el, context);
+				return;
 			}
 		}
 	});
