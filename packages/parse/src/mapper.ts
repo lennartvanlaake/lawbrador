@@ -2,6 +2,7 @@ import { DocumentUploadInfo } from 'packages/shared/types';
 import { SplitResult } from './splitter';
 import { Element, CheerioAPI } from 'cheerio';
 import * as eurlexGeneralHtml from './eurlex/general_html';
+import * as eurlexEcjHtml from './eurlex/ecj_html';
 
 export interface MappingRulesetCondition {
 	(info: DocumentUploadInfo): boolean;
@@ -31,7 +32,10 @@ export interface MappingRuleset {
 	rules: HtmlMappingRule[];
 }
 
-const mappingRules: MappingRuleset[] = [eurlexGeneralHtml.ruleset];
+const mappingRules: MappingRuleset[] = [
+	eurlexGeneralHtml.ruleset,
+	eurlexEcjHtml.ruleset,
+];
 
 export function map(splitResult: SplitResult, info: DocumentUploadInfo): any[] {
 	const applicableRules = mappingRules

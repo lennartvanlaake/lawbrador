@@ -10,7 +10,6 @@ describe('Test mapper', () => {
 			EurlexHtmlConfig.EurlexECJInfo,
 		);
 		const mapResult = map(result, EurlexHtmlConfig.EurlexECJInfo);
-		console.log(mapResult);
-		expect(result.children.length).to.gt(100);
+		expect(mapResult.length).to.gt(0);
 	});
 });

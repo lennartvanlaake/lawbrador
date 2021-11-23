@@ -21,23 +21,9 @@ export const ruleset: MappingRuleset = {
 				}),
 		},
 		{
-			condition: (el) =>
-				el.name == 'p' &&
-				el.attribs['class'].includes('title'),
-			action: (el, ctx) => {
-				const text = turndownService.turndown(
-					ctx.$(el).html(),
-				);
-				ctx.result.push({
-					text: text,
-					type: 'title',
-				});
-				ctx.currentHeader = text;
-			},
-		},
-		{
 			condition: (el) => el.name == 'table',
-			action: (el, ctx) =>
+			action: (el, ctx) => {
+				const pre = ctx.$(el).find('.count').html();
 				ctx.result.push({
 					text: turndownService.turndown(
 						ctx
@@ -45,10 +31,13 @@ export const ruleset: MappingRuleset = {
 							.find('.normal')
 							.html(),
 					),
-					pre: ctx.$(el).find('.count').html(),
+					count: /^\d+$/.test(pre) ? pre: undefined,
+					pre: !/^\d+$/.test(pre) ? pre: undefined,
 					type: 'paragraph',
 					header: ctx.currentHeader,
-				}),
-		},
+				});
+			}
+		}
+
 	],
 };
