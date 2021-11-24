@@ -1,39 +1,50 @@
+
+
 <script context="module" lang="ts">
 	import type { Load } from "@sveltejs/kit";
-	import { getDocuments } from '$lib/api';
+	import { getDocuments } from "$lib/api";
 	export const load: Load = async ({ fetch }) => {
+		const res = await getDocuments(fetch);
 		return { 
 			props: {
-				messages: await getDocuments(fetch)
+				documents: res,
 			}
 		};
 	}
 </script>
 
+
 <script lang="ts">
-	import type { Document, DocumentUpload } from '@legalthingy/shared/schemas/text';
 	import axios from 'axios';
-	let text = '';
-	export let messages: [Document];
-	export let url: string;
+	import type { Document } from '@legalthingy/parse/src/document_factory';
+	import DocumentView from '$lib/DocumentView.svelte';
+	export let documents: any[];
+	$: console.log(documents);
+	let url = '';
+	let scrapeResult: Document;
+	async function preview() {
+		const scrapeRequest = { url: url };
+		const result = await axios.post('/api/scrape', scrapeRequest);
+		console.log(result);
+		scrapeResult = result.data;
+	}
 	async function submit() {
-		try {
-			const message: DocumentUpload  = { text: text };
-			const result = await axios.post('/api/text', message);
-			messages = await getDocuments(false); 
-			console.log(result);
-		} catch (e) {
-			const error = e;
-			console.error(error);
-		}
+		const result = await axios.post('/api/document', scrapeResult);
+		documents = await getDocuments(); 
+		console.log(result);
 	}
 </script>
 
-<h1>Upload your awesome text here!</h1>
-<textarea id="text-field" bind:value={text} />
-<ul>
-	{ #each messages as message }
-		<li><a href='/text/{message._id}'>{ message.text }</a></li>
-	{ /each }
-</ul>
-<button id="text-button" on:click={submit}>BOOM</button>
+<h1>Current documents</h1>
+{ #each documents as doc }
+	<p><a href="/document/{doc._id}">{doc._id}</a></p>
+	
+{/each }
+
+<h1>Insert url here!</h1>
+<textarea id="text-field" bind:value={url} />
+<button on:click={preview}>preview</button>
+<button on:click={submit}>submit</button>
+{#if scrapeResult}
+	<DocumentView document={scrapeResult}></DocumentView>
+{/if}

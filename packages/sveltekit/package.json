@@ -16,5 +16,7 @@
     "axios": "^0.24.0",
     "marked": "^4.0.4"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/marked": "^4.0.1"
+  }
 }
