@@ -47,7 +47,7 @@ function addListMarkers(doc: Document) {
 		} else {
 			// close list
 			if (activeList) {
-				addMarker(`${activeList}_end`, i + 1);
+				addMarker(`${activeList}_end`, i);
 				activeList = false;
 				i++;
 			}

@@ -21,4 +21,30 @@ describe('Test adding markers', () => {
 		expect(doc.paragraphs[0].subtype).to.eq('ul_start');
 		expect(doc.paragraphs[2].subtype).to.eq('ul_end');
 	});
+	it('Add marker for ordened list', () => {
+		const doc = process([
+			{
+				type: 'paragraph',
+				count: '1',
+			},
+		]);
+		expect(doc.paragraphs[0].subtype).to.eq('ol_start');
+		expect(doc.paragraphs[2].subtype).to.eq('ol_end');
+	});
+	it('Add marker for ordened list between other elements', () => {
+		const doc = process([
+			{
+				type: 'paragaph',
+			},
+			{
+				type: 'paragaph',
+				count: '1',
+			},
+			{
+				type: 'paragaph',
+			},
+		]);
+		expect(doc.paragraphs[1].subtype).to.eq('ol_start');
+		expect(doc.paragraphs[3].subtype).to.eq('ol_end');
+	});
 });
