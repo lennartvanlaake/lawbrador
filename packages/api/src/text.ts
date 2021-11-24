@@ -49,7 +49,10 @@ export const documentRoutes: FastifyPluginAsync = async (fastify, _options) => {
 		//},
 		//},
 		async (_request, _reply) => {
-			return await documentCollection.find().toArray();
+			return await documentCollection
+				.find()
+				.project({ _id: 1, source: 1 })
+				.toArray();
 		},
 	);
 

@@ -35,9 +35,7 @@ export const ruleset: MappingRuleset = {
 					count: numberRegex.test(pre)
 						? pre
 						: undefined,
-					pre: !numberRegex.test(pre)
-						? pre
-						: undefined,
+					pre: pre,
 					type: 'paragraph',
 					header: ctx.currentHeader,
 				});

@@ -50,7 +50,7 @@ describe('Test Eurlex HTML rules', () => {
 		 </tr>
 	      </table>
 	`);
-
+		console.log(result);
 		expect(result[0].text).to.eq(testString);
 		expect(result[0].pre).to.eq(undefined);
 		expect(result[0].count).to.eq(testCount);

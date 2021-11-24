@@ -1,5 +1,5 @@
 import { DocumentUploadInfo } from '@legalthingy/shared/types';
-import { v4 } from 'uuid';
+import { genericEnricher } from './generic/generic_html'
 
 export interface DocumentMeta {}
 
@@ -25,16 +25,6 @@ export interface DocumentEnricher {
 	function: DocumentEnricherFunction;
 	condition: DocumentEnricherConidition;
 }
-
-const genericEnricher: DocumentEnricher = {
-	condition: () => true,
-	function: (doc) => {
-		doc.paragraphs.forEach((par) => {
-			par._id = v4();
-		});
-		return doc;
-	},
-};
 
 const enrichers: DocumentEnricher[] = [genericEnricher];
 
