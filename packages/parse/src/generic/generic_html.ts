@@ -1,8 +1,4 @@
-import type {
-	DocumentEnricher,
-	Paragraph,
-	Document,
-} from '../document_factory';
+import type { DocumentEnricher, Document } from '../document_factory';
 
 import { v4 } from 'uuid';
 
@@ -15,47 +11,47 @@ export const genericEnricher: DocumentEnricher = {
 	},
 };
 
-function addParagraphIds(paragraphs: Paragraph[]) {
+function addParagraphIds(paragraphs: any[]) {
 	paragraphs.forEach((par) => {
 		par._id = v4();
 	});
 }
 
 function addListMarkers(doc: Document) {
-	let activeList: string | boolean;
+	// using array here because I want a reference to the reference of the open list object that I can erase without erasing the open List
+	let openListNodes: any[] = [];
+	const openListNode = () => openListNodes[0];
+	let resultList: any[] = [];
 	console.log(doc);
-	const addMarker = (markerType: any, position: number) => {
-		doc.paragraphs.splice(position, 0, {
-			type: 'marker',
-			subtype: markerType,
-		});
-	};
-	for (let i = 0; i < doc.paragraphs.length; i++) {
-		let par = doc.paragraphs[i];
-		if (par.count) {
-			if (!activeList) {
-				addMarker('ol_start', i);
-				i++;
+	doc.paragraphs.forEach((node) => {
+		if (node.count) {
+			if (!openListNode() || openListNode().subtype != 'ol') {
+				openListNodes = [
+					{
+						type: 'list',
+						subtype: 'ol',
+						children: [],
+					},
+				];
+				resultList.push(openListNode());
 			}
-			activeList = 'ol';
-		} else if (par.pre) {
-			if (!activeList) {
-				addMarker('ul_start', i);
-				i++;
+			openListNode().children.push(node);
+		} else if (node.pre) {
+			if (!openListNode() || openListNode().subtype != 'ul') {
+				openListNodes = [
+					{
+						type: 'list',
+						subtype: 'ul',
+						children: [],
+					},
+				];
+				resultList.push(openListNode());
 			}
-			activeList = 'ul';
+			openListNode().children.push(node);
 		} else {
-			// close list
-			if (activeList) {
-				addMarker(`${activeList}_end`, i);
-				activeList = false;
-				i++;
-			}
+			openListNodes = [];
+			resultList.push(node);
 		}
-		// check if last element and list is unclosed
-		if (i == doc.paragraphs.length - 1 && activeList) {
-			addMarker(`${activeList}_end`, i + 1);
-			break;
-		}
-	}
+	});
+	doc.paragraphs = resultList;
 }

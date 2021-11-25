@@ -3,6 +3,7 @@
 	"version": "1.0.0",
 	"main": "print.ts",
 	"author": "Lennart van Laake",
+	"types": "types.d.ts",
 	"license": "MIT",
 	"type": "module",
 	"dependencies": {

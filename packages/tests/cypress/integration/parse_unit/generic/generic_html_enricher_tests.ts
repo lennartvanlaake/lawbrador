@@ -11,40 +11,44 @@ function process(paragraphs: any[], raw = '', source = '') {
 }
 
 describe('Test adding markers', () => {
-	it('Add marker for unordened list', () => {
+	it('Add to unordened list', () => {
 		const doc = process([
 			{
 				type: 'paragaph',
 				pre: '-',
 			},
 		]);
-		expect(doc.paragraphs[0].subtype).to.eq('ul_start');
-		expect(doc.paragraphs[2].subtype).to.eq('ul_end');
+		expect(doc.paragraphs[0].subtype).to.eq('ul');
+		expect(doc.paragraphs[0].children.length).to.eq(1);
 	});
-	it('Add marker for ordened list', () => {
+	it('Add to ordened list', () => {
 		const doc = process([
 			{
 				type: 'paragraph',
 				count: '1',
 			},
 		]);
-		expect(doc.paragraphs[0].subtype).to.eq('ol_start');
-		expect(doc.paragraphs[2].subtype).to.eq('ol_end');
+		expect(doc.paragraphs[0].subtype).to.eq('ol');
+		expect(doc.paragraphs[0].children.length).to.eq(1);
 	});
-	it('Add marker for ordened list between other elements', () => {
+	it('Add ordened list after unordened', () => {
 		const doc = process([
 			{
 				type: 'paragaph',
+				pre: '-',
 			},
 			{
 				type: 'paragaph',
 				count: '1',
+				pre: '1',
 			},
 			{
 				type: 'paragaph',
 			},
 		]);
-		expect(doc.paragraphs[1].subtype).to.eq('ol_start');
-		expect(doc.paragraphs[3].subtype).to.eq('ol_end');
+		expect(doc.paragraphs[0].subtype).to.eq('ul');
+		expect(doc.paragraphs[1].subtype).to.eq('ol');
+		expect(doc.paragraphs[1].type).to.eq('paragraph');
+		expect(doc.paragraphs[1].children.length).to.eq(1);
 	});
 });
