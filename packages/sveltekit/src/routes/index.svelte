@@ -38,7 +38,6 @@
 <h1>Current documents</h1>
 { #each documents as doc }
 	<p><a href="/document/{doc._id}">{doc._id}</a></p>
-	
 {/each }
 
 <h1>Insert url here!</h1>
