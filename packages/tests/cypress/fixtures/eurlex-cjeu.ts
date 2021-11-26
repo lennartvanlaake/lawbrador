@@ -1,5 +1,4 @@
-
-export const eurlexHtml=`<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML//EN" "xhtml-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- fmx2xhtml # converter_version:8.4.1 # generated_on:20190827-0758 --><head><meta name="format-detection" content="telephone=no"/>
+export const text = `<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML//EN" "xhtml-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- fmx2xhtml # converter_version:8.4.1 # generated_on:20190827-0758 --><head><meta name="format-detection" content="telephone=no"/>
       <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
       <link type="text/css" rel="stylesheet"
             href="./../../../../css/coj/jur.css"/>
@@ -1418,4 +1417,4 @@ export const eurlexHtml=`<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PU
                >*1</a>
          </span>)	Language of the case: German.</p>
    </body>
-   </html>`
+   </html>`;
