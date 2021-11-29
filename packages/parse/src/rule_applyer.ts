@@ -40,8 +40,9 @@ function getTextRootNode(node: ParsedNode, rules: RuleSet): ParsedNode {
 	}
 	for (let i = 0; i < node.children.length; i++) {
 		const child = node.children[i];
-		if (getTextRootNode(child, rules)) {
-			return child;
+		const textRootChild = getTextRootNode(child, rules);
+		if (textRootChild) {
+			return textRootChild;
 		}
 	}
 }
