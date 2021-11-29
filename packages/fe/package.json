@@ -1,5 +1,5 @@
 {
-  "name": "@legalthingy/sveltekit",
+  "name": "@legalthingy/fe",
   "version": "0.0.1",
   "scripts": {
     "dev": "svelte-kit dev",
