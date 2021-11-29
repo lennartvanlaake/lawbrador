@@ -1,11 +1,12 @@
 
 <script lang="ts">
+	import type { DocumentVersion } from '@legalthingy/shared/schemas/document_version';
 	import NodeView from './NodeView.svelte';
-	import type { Document } from '@legalthingy/parse/src/document_factory';
-	export let document: Document;
+	export let document: DocumentVersion;
 </script>
-{#if document } 
-	{#each document.paragraphs as par}
-		<NodeView node={par} />	
+{#if document }
+	<p>URL: { document.url }</p>
+	{#each document.textRootNode.children as child}
+		<NodeView node={child} />	
 	{/each}
 {/if }

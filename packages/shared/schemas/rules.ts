@@ -39,7 +39,8 @@ export const urlSelectionRule = Type.Object(
 export type SelectionRule = Static<typeof selectionRule>;
 export type UrlSelectionRule = Static<typeof urlSelectionRule>;
 
-export const RuleSet = Type.Object({
+export const ruleSet = Type.Object({
 	urlRules: Type.Ref(urlSelectionRule),
 	bodyRule: Type.Optional(selectionRule),
 });
+export type RuleSet = Static<typeof ruleSet>;

@@ -11,9 +11,9 @@ async function get(path: string, fetchParam: any) {
 }
 
 export async function getDocuments(fetchParam: any = false): Promise<any> {
-	const result = await get('document', fetchParam);
+	const result = await get('scrape', fetchParam);
 	return result;
 }
 export async function getDocument(id: string, fetchParam: any = false): Promise<any> {
-	return await get(`document/${id}`, fetchParam);
+	return await get(`scrape/${id}`, fetchParam);
 }

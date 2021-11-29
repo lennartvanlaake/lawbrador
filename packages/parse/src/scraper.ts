@@ -1,6 +1,21 @@
 import cheerio, { Node, CheerioAPI } from 'cheerio';
 import axios from 'axios';
-import { ParsedNode } from '@legalthingy/shared';
+import { ParsedNode } from '@legalthingy/shared/schemas/document_version';
+
+// module extensions
+export interface NodeAttributes {
+	id?: string;
+	class?: string;
+}
+
+declare module 'cheerio' {
+	export interface Node {
+		children?: Node[];
+		data?: string;
+		name?: string;
+		attribs?: NodeAttributes;
+	}
+}
 
 function getTextNodes(node: Node, $: CheerioAPI): ParsedNode {
 	const output: ParsedNode = {
