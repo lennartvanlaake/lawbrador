@@ -1,10 +1,24 @@
 import type { FastifyPluginAsync } from 'fastify';
-import { process } from '@legalthingy/parse/src/processor';
+import * as scraper from '@legalthingy/parse/src/scraper';
+import { getCollection } from './utils';
 
 export const scrapeRoutes: FastifyPluginAsync = async (fastify) => {
-	fastify.post('/api/scrape', async (req) => {
-		const result = await process((req.body as any).url);
-		console.log(result);
-		return result;
+	const scrapeCollection = getCollection(fastify, 'scrape');
+	fastify.post<{ Body: any }>('/api/scrape', async (req) => {
+		const url = req.body.url;
+		const existingScrape = await scrapeCollection.findOne({
+			url: url,
+		});
+		if (existingScrape) {
+			return existingScrape;
+		} else {
+			const newScrape = {
+				nodes: await scraper.scrape(url),
+				created: new Date(),
+				url: url,
+			};
+			scrapeCollection.insertOne(newScrape);
+			return newScrape;
+		}
 	});
 };

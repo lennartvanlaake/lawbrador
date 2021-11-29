@@ -2,6 +2,7 @@
 	"name": "@legalthingy/shared",
 	"version": "1.0.0",
 	"license": "MIT",
+	"types": "types.d.ts",
 	"type": "module",
 	"dependencies": {
 		"@sinclair/typebox": "^0.20.5",

@@ -8,6 +8,44 @@ interface NodeAttributes {
 	class?: string;
 }
 
+interface ParsedNode {
+	name: string;
+	meta: any;
+	id?: string;
+	class?: string;
+	text?: string;
+	children?: ParsedNode[];
+}
+
+enum SelectionOperator {
+	Is,
+	Includes,
+}
+
+enum SelectionType {
+	Body,
+}
+
+enum SelectionLocation {
+	Tag,
+	Class,
+	Id,
+}
+
+interface SelectionRule {
+	type: SelectionType;
+	op: SelectionOperator;
+	location: SelectionLocation;
+	value: string;
+}
+
+const selRule = {
+	type: SelectionType.Body,
+	op: SelectionOperator.Includes,
+	location: SelectionLocation.Class,
+	value: 'wetgeving',
+};
+
 declare module 'cheerio' {
 	interface Node {
 		children?: Node[];
@@ -17,14 +55,28 @@ declare module 'cheerio' {
 	}
 }
 
-function getTextNodes(rootChildren: Node[], $: CheerioAPI): any {
-	return rootChildren
-		.map((child) => getTextChildren(child, $))
-		.filter((list) => list);
+function ruleApplyer(nodes: ParsedNode[], rule: SelectionRule): ParsedNode[] {
+	nodes.forEach((child) => ruleApplyerInner(child, rule, []));
+	return nodes;
 }
 
-function getTextChildren(node: Node, $: CheerioAPI): any {
+function ruleApplyerInner(
+	node: ParsedNode,
+	rule: SelectionRule,
+	chain: ParsedNode[],
+) {
+	chain.push(node);
+	node.meta.hide = !chain.some((parent) => {
+		return parent.class?.includes(rule.value);
+	});
+	node.children?.forEach((child) => {
+		ruleApplyerInner(child, rule, chain);
+	});
+}
+
+function getTextNodes(node: Node, $: CheerioAPI): ParsedNode {
 	const output = {
+		meta: {},
 		name: node.name,
 		id: node.attribs?.id,
 		class: node.attribs?.class,
@@ -37,32 +89,41 @@ function getTextChildren(node: Node, $: CheerioAPI): any {
 	}
 	if (
 		node.children.some(
-			(child) => child?.type == 'text' && child?.data.trim(),
+			(child) =>
+				child?.type == 'text' &&
+				child?.data.trim()?.length > 0,
 		)
 	) {
 		output.text = $(node).text();
 		return output;
 	}
-
-	//if (node.name == 'table') {
-	//console.log('hi');
-	//}
 	output.children = node.children
-		.map((child) => getTextChildren(child, $))
+		.map((child) => getTextNodes(child, $))
 		.filter(
 			(child) =>
 				child != null && (child.text || child.children),
 		);
-	if (output.children.length == 0) return null;
+	if (output.children?.length == 0) return null;
 	return output;
+}
+
+function recursivePrint(parsedNode: ParsedNode) {
+	if (!parsedNode.meta.hide && parsedNode.text) {
+		console.log(parsedNode.text);
+	}
+	parsedNode.children?.forEach((c) => recursivePrint(c));
 }
 
 describe('WIP', () => {
 	it('wippin', () => {
 		const $ = cheerio.load(nlText);
-		const bodyChildren = $('body').children();
-		const parsed = getTextNodes(bodyChildren.toArray(), $);
-		console.log(parsed);
+		const body = $('body');
+		const parsed = body
+			.toArray()
+			.flatMap((el) => getTextNodes(el, $));
+		const ruled = ruleApplyer(parsed, selRule);
+		console.log(ruled);
+		ruled.forEach((n) => recursivePrint(n));
 		expect(1).to.gt(0);
 	});
 });
