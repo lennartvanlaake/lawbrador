@@ -2,49 +2,30 @@ import cheerio, { Node, CheerioAPI } from 'cheerio';
 import { text as tfeuText } from '../../fixtures/tfeu';
 import { text as eurlexText } from '../../fixtures/eurlex-cjeu';
 import { text as nlText } from '../../fixtures/wet-natuurbescherming';
-
 interface NodeAttributes {
 	id?: string;
 	class?: string;
+	href?: string;
+}
+
+interface NodeProperties {
+	name: string;
+	id?: string;
+	class?: string;
+}
+
+interface NodeLink {
+	href: string;
+	text: string;
 }
 
 interface ParsedNode {
-	name: string;
 	meta: any;
-	id?: string;
-	class?: string;
-	text?: string;
+	chain: NodeProperties[];
 	children?: ParsedNode[];
+	links?: NodeLink[];
+	text?: string;
 }
-
-enum SelectionOperator {
-	Is,
-	Includes,
-}
-
-enum SelectionType {
-	Body,
-}
-
-enum SelectionLocation {
-	Tag,
-	Class,
-	Id,
-}
-
-interface SelectionRule {
-	type: SelectionType;
-	op: SelectionOperator;
-	location: SelectionLocation;
-	value: string;
-}
-
-const selRule = {
-	type: SelectionType.Body,
-	op: SelectionOperator.Includes,
-	location: SelectionLocation.Class,
-	value: 'wetgeving',
-};
 
 declare module 'cheerio' {
 	interface Node {
@@ -55,63 +36,84 @@ declare module 'cheerio' {
 	}
 }
 
-function ruleApplyer(nodes: ParsedNode[], rule: SelectionRule): ParsedNode[] {
-	nodes.forEach((child) => ruleApplyerInner(child, rule, []));
-	return nodes;
+const demoHTML = `
+	<div id='useful'>
+		<div id='useless'>
+			<li>doek<a href="/doek">mans</a></li>
+		</div> 
+	</div>
+
+`;
+
+function extractDataRecursive(node: Node, $: CheerioAPI, output: ParsedNode) {
+	if (node.data) {
+		output.text += node.data;
+	}
+	if (node.attribs?.href) {
+		output.links.push({
+			href: node.attribs.href,
+			text: $(node).text(),
+		});
+	}
+	if (node.children) {
+		node.children.forEach((c) =>
+			extractDataRecursive(c, $, output),
+		);
+	}
 }
 
-function ruleApplyerInner(
-	node: ParsedNode,
-	rule: SelectionRule,
-	chain: ParsedNode[],
-) {
-	chain.push(node);
-	node.meta.hide = !chain.some((parent) => {
-		return parent.class?.includes(rule.value);
-	});
-	node.children?.forEach((child) => {
-		ruleApplyerInner(child, rule, chain);
-	});
-}
-
-function getTextNodes(node: Node, $: CheerioAPI): ParsedNode {
-	const output = {
+function getTextNodes(node: Node, $: CheerioAPI): any {
+	let output: ParsedNode = {
 		meta: {},
-		name: node.name,
-		id: node.attribs?.id,
-		class: node.attribs?.class,
-		text: null,
+		chain: [
+			{
+				name: node.name,
+				id: node.attribs?.id,
+				class: node.attribs?.class,
+			},
+		],
+		text: '',
+		links: [],
 		children: null,
 	};
+
+	// empty text nodes do not count
+	node.children = node.children?.filter(
+		(c) => !(c.type == 'text' && c.data.trim() == ''),
+	);
 
 	if (!node.children) {
 		return null;
 	}
-	if (
-		node.children.some(
-			(child) =>
-				child?.type == 'text' &&
-				child?.data.trim()?.length > 0,
-		)
-	) {
-		output.text = $(node).text();
+	if (node.children.some((child) => child?.type == 'text')) {
+		extractDataRecursive(node, $, output);
 		return output;
 	}
+	// flatten organisation nodes with only other organisation node as child
+	if (node.children.length == 1) {
+		let childOutput = getTextNodes(node.children[0], $);
+		if (!childOutput) {
+			return null;
+		}
+		childOutput.chain.push({
+			name: node.name,
+			id: node.attribs?.id,
+			class: node.attribs?.class,
+		});
+		return childOutput;
+	}
+
+	// output has multiple children
 	output.children = node.children
 		.map((child) => getTextNodes(child, $))
 		.filter(
 			(child) =>
 				child != null && (child.text || child.children),
 		);
+
+	// organisation with no children that have text should be ignored
 	if (output.children?.length == 0) return null;
 	return output;
-}
-
-function recursivePrint(parsedNode: ParsedNode) {
-	if (!parsedNode.meta.hide && parsedNode.text) {
-		console.log(parsedNode.text);
-	}
-	parsedNode.children?.forEach((c) => recursivePrint(c));
 }
 
 describe('WIP', () => {
@@ -121,9 +123,6 @@ describe('WIP', () => {
 		const parsed = body
 			.toArray()
 			.flatMap((el) => getTextNodes(el, $));
-		const ruled = ruleApplyer(parsed, selRule);
-		console.log(ruled);
-		ruled.forEach((n) => recursivePrint(n));
-		expect(1).to.gt(0);
+		console.log(parsed);
 	});
 });

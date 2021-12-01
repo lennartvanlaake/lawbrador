@@ -28,19 +28,28 @@ export const selectionRule = Type.Object(
 	{ $id: 'selectionRule' },
 );
 
-export const urlSelectionRule = Type.Object(
-	{
-		op: Type.Ref(selectionOperator),
-		value: Type.String(),
-	},
-	{ $id: 'urlSelectionRule' },
-);
-
 export type SelectionRule = Static<typeof selectionRule>;
-export type UrlSelectionRule = Static<typeof urlSelectionRule>;
 
-export const ruleSet = Type.Object({
-	urlRules: Type.Ref(urlSelectionRule),
-	bodyRule: Type.Optional(selectionRule),
+export const documentRuleSet = Type.Object({
+	conditionRules: Type.Array(Type.Ref(selectionRule)),
+	bodyRule: Type.Optional(Type.Ref(selectionRule)),
 });
-export type RuleSet = Static<typeof ruleSet>;
+
+export type DocumentRuleSet = Static<typeof documentRuleSet>;
+
+export const htmlSearchRuleSet = Type.Object({
+	pathWithVariables: Type.String(),
+	inputVariables: Type.Array(Type.String()),
+	resultBodyRule: Type.Ref(selectionRule),
+	resultRule: Type.Ref(selectionRule),
+	resultMetaRule: Type.Ref(selectionRule),
+});
+
+export const sourceSiteConfig = Type.Object({
+	baseUrl: Type.String({ format: 'uri' }),
+	name: Type.String(),
+	documentRuleSets: Type.Array(Type.Ref(documentRuleSet)),
+	htmlSearchRuleSet: Type.Ref(htmlSearchRuleSet),
+});
+
+export type SourceSiteConfig = Static<typeof sourceSiteConfig>;
