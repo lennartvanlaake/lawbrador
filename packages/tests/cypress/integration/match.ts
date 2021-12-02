@@ -15,12 +15,10 @@ const inputOne = `
 		<div><img href="blaaa"/></div>
 		<div id='usefull' class='content'>
 			<ul>
-				<div>
-					<p class='text'>text</p>			
-					<p class='text'>actual text</p>		
-				</div>
+				<p class='text'>text</p>			
+				<p class='text'>actual text</p>		
 			</ul>
-			<div>
+			<div class='content'>
 				<p class='text'>even more text</p>		
 			</div>
 		</div> 
@@ -28,8 +26,8 @@ const inputOne = `
 `;
 
 describe('Test matching first element', () => {
+	const parsed = parse(inputOne);
 	it('Matches first element based on exact id match', () => {
-		const parsed = parse(inputOne);
 		const rule: SelectionRule = {
 			op: SelectionOperator.Is,
 			location: SelectionLocation.Id,
@@ -39,14 +37,53 @@ describe('Test matching first element', () => {
 		expect(firstMatched.chain[0].id).to.eq('usefull');
 	});
 	it('Matches first element based on id includes', () => {
-		const parsed = parse(inputOne);
 		const rule: SelectionRule = {
 			op: SelectionOperator.Includes,
 			location: SelectionLocation.Id,
 			value: 'full',
 		};
-		console.log('bla');
 		const firstMatched = getFirstMatching(parsed, rule);
 		expect(firstMatched.chain[0].id).to.eq('usefull');
 	});
+	it('Matches first element based on class', () => {
+		const rule: SelectionRule = {
+			op: SelectionOperator.Is,
+			location: SelectionLocation.Class,
+			value: 'content',
+		};
+		const firstMatched = getFirstMatching(parsed, rule);
+		expect(firstMatched.chain[0].id).to.eq('usefull');
+	});
+	it('Matches first element based on tag', () => {
+		const rule: SelectionRule = {
+			op: SelectionOperator.Is,
+			location: SelectionLocation.Tag,
+			value: 'ul',
+		};
+		const firstMatched = getFirstMatching(parsed, rule);
+		expect(firstMatched.chain[0].name).to.eq('ul');
+	});
+});
+
+describe('Test matching all elements', () => {
+	const parsed = parse(inputOne);
+	it('Matches all leaf node elements', () => {
+		const rule: SelectionRule = {
+			op: SelectionOperator.Is,
+			location: SelectionLocation.Class,
+			value: 'text',
+		};
+		const matched = getAllMatching(parsed, rule);
+		expect(matched.length).to.eq(3);
+	});
+	it('Matches all organisation nodes', () => {
+		const rule: SelectionRule = {
+			op: SelectionOperator.Is,
+			location: SelectionLocation.Class,
+			value: 'content',
+		};
+		const matched = getAllMatching(parsed, rule);
+		expect(matched.length).to.eq(2);
+	});
+	console.log('x');
 });

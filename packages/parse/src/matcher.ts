@@ -28,7 +28,6 @@ export function matches(node: ParsedNode, rule: SelectionRule): boolean {
 		}
 	});
 	if (toMatch.length == 0) return false;
-	console.log(node);
 	switch (rule.op) {
 		case SelectionOperator.Is:
 			return toMatch.includes(rule.value);
@@ -60,11 +59,16 @@ export function getAllMatching(
 	node: ParsedNode,
 	rule: SelectionRule,
 ): ParsedNode[] {
+	let result = [];
 	if (matches(node, rule)) {
-		return [node];
+		result.push(node);
 	}
-	if (!node.children) {
-		return [];
+	if (node.children) {
+		const matchedChildren = node.children.flatMap((c) =>
+			getAllMatching(c, rule),
+		);
+		result = result.concat(matchedChildren);
 	}
-	return node.children.flatMap((c) => getAllMatching(c, rule));
+	console.log(result);
+	return result;
 }
