@@ -1,7 +1,8 @@
 import cheerio, { Node, CheerioAPI } from 'cheerio';
-import { text as tfeuText } from '../../fixtures/tfeu';
-import { text as eurlexText } from '../../fixtures/eurlex-cjeu';
-import { text as nlText } from '../../fixtures/wet-natuurbescherming';
+//import { text as tfeuText } from '../../fixtures/tfeu';
+//import { text as eurlexText } from '../../fixtures/eurlex-cjeu';
+//import { text as nlText } from '../../fixtures/wet-natuurbescherming';
+
 interface NodeAttributes {
 	id?: string;
 	class?: string;
@@ -36,14 +37,6 @@ declare module 'cheerio' {
 	}
 }
 
-const demoHTML = `
-	<div id='useful'>
-		<div id='useless'>
-			<li>doek<a href="/doek">mans</a></li>
-		</div> 
-	</div>
-
-`;
 
 function extractDataRecursive(node: Node, $: CheerioAPI, output: ParsedNode) {
 	if (node.data) {
@@ -118,11 +111,11 @@ function getTextNodes(node: Node, $: CheerioAPI): any {
 
 describe('WIP', () => {
 	it('wippin', () => {
-		const $ = cheerio.load(nlText);
-		const body = $('body');
-		const parsed = body
-			.toArray()
-			.flatMap((el) => getTextNodes(el, $));
-		console.log(parsed);
+		//const $ = cheerio.load(nlText);
+		//const body = $('body');
+		//const parsed = body
+			//.toArray()
+			//.flatMap((el) => getTextNodes(el, $));
+		//console.log(parsed);
 	});
 });

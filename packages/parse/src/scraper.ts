@@ -18,13 +18,16 @@ declare module 'cheerio' {
 }
 
 function extractDataRecursive(node: Node, $: CheerioAPI, output: ParsedNode) {
-	if (node.data) {
-		output.text += node.data;
-	}
+	// get the full text of a link, ignoring further sub-elements
 	if (node.attribs?.href) {
-		output.links.push({
+		output.data.push({
 			href: node.attribs.href,
 			text: $(node).text(),
+		});
+		return;
+	} else if (node.data) {
+		output.data.push({
+			text: node.data,
 		});
 	}
 	if (node.children) {
@@ -44,8 +47,7 @@ function getTextNodes(node: Node, $: CheerioAPI): ParsedNode {
 				class: node.attribs?.class,
 			},
 		],
-		text: '',
-		links: [],
+		data: [],
 		children: null,
 	};
 
@@ -80,7 +82,8 @@ function getTextNodes(node: Node, $: CheerioAPI): ParsedNode {
 		.map((child) => getTextNodes(child, $))
 		.filter(
 			(child) =>
-				child != null && (child.text || child.children),
+				child != null &&
+				(child.data.length != 0 || child.children),
 		);
 
 	// organisation with no children that have text should be ignored
@@ -88,8 +91,12 @@ function getTextNodes(node: Node, $: CheerioAPI): ParsedNode {
 	return output;
 }
 
+export function parse(html: string): ParsedNode {
+	const $ = cheerio.load(html);
+	return getTextNodes($('body')[0], $);
+}
+
 export async function scrape(url: string): Promise<ParsedNode> {
 	const body = await axios.get(url);
-	const $ = cheerio.load(body.data);
-	return getTextNodes($('body')[0], $);
+	return parse(body.data);
 }

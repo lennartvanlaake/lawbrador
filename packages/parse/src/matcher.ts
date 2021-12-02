@@ -6,21 +6,29 @@ import {
 } from '@legalthingy/shared/schemas/rules';
 
 export function matches(node: ParsedNode, rule: SelectionRule): boolean {
+	if (!node) return false;
 	let toMatch: string[] = [];
 	node.chain.forEach((parent) => {
 		switch (+rule.location) {
 			case SelectionLocation.Id:
-				toMatch.push(parent.id);
+				if (parent.id) {
+					toMatch.push(parent.id);
+				}
 				break;
 			case SelectionLocation.Tag:
-				toMatch.push(parent.name);
+				if (parent.name) {
+					toMatch.push(parent.name);
+				}
 				break;
 			case SelectionLocation.Class:
-				toMatch.push(parent.class);
+				if (parent.class) {
+					toMatch.push(parent.class);
+				}
 				break;
 		}
 	});
 	if (toMatch.length == 0) return false;
+	console.log(node);
 	switch (rule.op) {
 		case SelectionOperator.Is:
 			return toMatch.includes(rule.value);
@@ -36,14 +44,14 @@ export function getFirstMatching(
 	if (matches(node, rule)) {
 		return node;
 	}
-	if (!node.children) {
+	if (!node || !node.children) {
 		return null;
 	}
 	for (let i = 0; i < node.children.length; i++) {
 		const child = node.children[i];
-		const textRootChild = getFirstMatching(child, rule);
-		if (textRootChild) {
-			return textRootChild;
+		const result = getFirstMatching(child, rule);
+		if (result) {
+			return result;
 		}
 	}
 }

@@ -2,7 +2,7 @@ import { documentRuleSet } from './rules';
 import { Static, Type } from '@sinclair/typebox';
 
 export const nodeLink = Type.Object({
-	href: Type.String(),
+	href: Type.Optional(Type.String()),
 	text: Type.Optional(Type.String()),
 });
 
@@ -17,8 +17,7 @@ export const parsedNode = Type.Rec(
 		Type.Object({
 			meta: Type.Any(),
 			chain: Type.Array(Type.Ref(nodeProperties)),
-			links: Type.Array(Type.Ref(nodeLink)),
-			text: Type.Optional(Type.String()),
+			data: Type.Array(Type.Ref(nodeLink)),
 			children: Type.Optional(Type.Array(Self)),
 		}),
 	{ $id: 'parsedNode' },
