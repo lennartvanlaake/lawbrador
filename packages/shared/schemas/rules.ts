@@ -42,7 +42,7 @@ export const htmlSearchRuleSet = Type.Object({
 	inputVariables: Type.Array(Type.String()),
 	resultBodyRule: Type.Ref(selectionRule),
 	resultRule: Type.Ref(selectionRule),
-	resultMetaRule: Type.Ref(selectionRule),
+	resultMetaRule: Type.Optional(Type.Ref(selectionRule)),
 });
 
 export const sourceSiteConfig = Type.Object({
