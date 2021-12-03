@@ -40,9 +40,10 @@ export type DocumentRuleSet = Static<typeof documentRuleSet>;
 export const htmlSearchRuleSet = Type.Object({
 	pathWithVariables: Type.String(),
 	inputVariables: Type.Array(Type.String()),
-	resultBodyRule: Type.Ref(selectionRule),
+	resultListRule: Type.Ref(selectionRule),
+	resultLinkRule: Type.Ref(selectionRule),
 	resultRule: Type.Ref(selectionRule),
-	resultMetaRule: Type.Optional(Type.Ref(selectionRule)),
+	resultDescriptionRule: Type.Optional(Type.Ref(selectionRule)),
 });
 
 export const sourceSiteConfig = Type.Object({

@@ -69,6 +69,5 @@ export function getAllMatching(
 		);
 		result = result.concat(matchedChildren);
 	}
-	console.log(result);
 	return result;
 }

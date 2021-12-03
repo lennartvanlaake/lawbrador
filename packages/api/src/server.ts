@@ -1,5 +1,6 @@
 import Fastify from 'fastify';
 import { clearRoutes } from './clear';
+import { sourceConfigRoutes } from './source_configs';
 import { scrapeRoutes } from './scrape';
 import { MongoClient } from 'mongodb';
 import type { Db } from 'mongodb';
@@ -7,6 +8,7 @@ import type { Db } from 'mongodb';
 const fastify = Fastify({ logger: true });
 fastify.register(clearRoutes);
 fastify.register(scrapeRoutes);
+fastify.register(sourceConfigRoutes);
 const url = 'mongodb://admin:admin@localhost:27017';
 
 declare module 'fastify' {

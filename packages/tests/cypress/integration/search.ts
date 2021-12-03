@@ -14,12 +14,17 @@ describe('Test searching', () => {
 			pathWithVariables:
 				'/search.html?scope=EURLEX&type=quick&text=$search',
 			inputVariables: ['$search'],
-			resultBodyRule: {
+			resultListRule: {
 				op: SelectionOperator.Is,
 				location: SelectionLocation.Class,
 				value: 'EurlexContent',
 			},
 			resultRule: {
+				op: SelectionOperator.Is,
+				location: SelectionLocation.Class,
+				value: 'SearchResult',
+			},
+			resultLinkRule: {
 				op: SelectionOperator.Is,
 				location: SelectionLocation.Tag,
 				value: 'h2',
@@ -29,6 +34,7 @@ describe('Test searching', () => {
 
 	it('Search result works', async () => {
 		const result = await search(config, { $search: 'van gendt' });
-		expect(result).to.not.eq(null);
+		expect(result[0].link).to.be.ok;
+		expect(result[0].text).to.be.ok;
 	});
 });
