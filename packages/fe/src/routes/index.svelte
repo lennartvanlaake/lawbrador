@@ -1,76 +1,39 @@
-
-
 <script context="module" lang="ts">
+	import type { SourceSiteConfig } from '@legalthingy/shared/schemas/rules';
 	import type { Load } from "@sveltejs/kit";
-	import { getDocuments } from "$lib/api";
-	export const load: Load = async ({ fetch }) => {
-		const res = await getDocuments(fetch);
+	export const load: Load = async ({ page, fetch }) => {
+		const url = `http://localhost:8080/api/sources`;
+		const res = await fetch(url);
+		const sources: SourceSiteConfig[] =  await res.json();
+		console.log(sources);
 		return { 
 			props: {
-				documents: res,
+				sourceConfigs: sources,
 			}
 		};
 	}
 </script>
 
-
 <script lang="ts">
-	import axios from 'axios';
-	import type { RuleSet, SelectionRule, UrlSelectionRule } from '@legalthingy/shared/schemas/rules';
-	import {  SelectionOperator, SelectionLocation } from '@legalthingy/shared/schemas/rules'
-	import type { DocumentVersion } from '@legalthingy/shared/schemas/document_version';
-	import { applyRuleSet } from '@legalthingy/parse/src/rule_applyer'
-	import DocumentView from '$lib/DocumentView.svelte';
-	export let documents: any[];
-	$: console.log(documents);
-	let url = '';
-	let urlSelectionRule: UrlSelectionRule = {
-		op: SelectionOperator.Includes,
-		value: ""
-	};
-	let bodyRule: SelectionRule = {
-		op: SelectionOperator.Includes,
-		location: SelectionLocation.Id,
-		value: ""
-	}
-	let bodyRuleOpString: keyof typeof SelectionOperator;
-	let bodyRuleLocationString: keyof typeof SelectionLocation;
-	let ruleSet: RuleSet = {
-		urlRules: urlSelectionRule,  
-		bodyRule: bodyRule
-	};
-	let scrapeResult: DocumentVersion;
-	let parsed: DocumentVersion;
-	async function preview() {
-		const scrapeRequest = { url: url };
-		scrapeResult = (await axios.post('/api/scrape', scrapeRequest)).data;
-		parsed = scrapeResult;
-		console.log(scrapeResult);
-	}
-
-	function refresh(doc, ruleSet) {
-		const parseResult = applyRuleSet(scrapeResult, ruleSet);
-		if (!parseResult.textRootNode) {
-			alert("Parse failed!");
-			return;
-		}
-		parsed = parseResult;
+	import { search } from '@legalthingy/parse/src/searcher';
+	export let sourceConfigs: SourceSiteConfig[] = [];
+	let searchTerm = "";
+	let searchResults = [];	
+	let selectedName;
+	let selected: SourceSiteConfig;
+	$: selected = sourceConfigs.filter((conf) => conf.name == selectedName)[0] 
+	function submitQuery() {
 	}
 </script>
 
-<h1>Current documents</h1>
-{ #each documents as doc }
-	<p><a href="/document/{doc._id}">{doc._id}</a></p>
+<h1>Search here</h1>
+<textarea id="text-field" bind:value={searchTerm} />
+<button on:click={submitQuery}>search</button>
+<select bind:value="{selectedName}">
+{#each sourceConfigs as config }
+	<option value={config.name}>{config.name}</option>	
 {/each }
-
-<h1>Adjust rule here!</h1>
-<label for="body-value">Value</label>
-<textarea id="body-value" bind:value={bodyRule.value} />
-
-<h1>Insert url here!</h1>
-<textarea id="text-field" bind:value={url} />
-<button on:click={preview}>preview</button>
-<button on:click={() => refresh(scrapeResult, ruleSet)}>apply rule</button>
-{#if scrapeResult}
-	<DocumentView document={parsed}></DocumentView>
-{/if}
+</select>
+{#each searchResults as result }
+	
+{/each }
