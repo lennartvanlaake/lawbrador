@@ -1,11 +1,10 @@
 <script context="module" lang="ts">
 	import type { Load } from "@sveltejs/kit";
-	import DocumentView from '$lib/DocumentView.svelte';
-	import type { Document } from '@legalthingy/parse/src/document_factory';
+	import DocumentView from '$lib/DocumentView.svelte';	
+	import { getDocument } from '$lib/api';	
+	import type { DocumentVersion } from '@legalthingy/shared/schemas/document_version';
 	export const load: Load = async ({ page, fetch }) => {
-		const url = `http://localhost:8080/api/document/${page.params.id}`;
-		const res = await fetch(url);
-		const doc: Document =  await res.json();
+		const doc = await getDocument(page.params.id, fetch);
 		return { 
 			props: {
 				document: doc,
