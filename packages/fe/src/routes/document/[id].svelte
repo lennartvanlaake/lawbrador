@@ -14,7 +14,15 @@
 </script>
 
 <script lang="ts">
-	export let document: Document;
+	import { getSourceConfig } from '$lib/store';
+	import { applyConfig } from '@legalthingy/parse/src/rule_applyer'
+  	import { browser } from '$app/env'; 
+	export let document: DocumentVersion;
+	let parsed: DocumentVersion;
+	if (browser) {
+		const config = getSourceConfig();
+		$: parsed = applyConfig(document, config); 	
+	}
 </script>
 
-<DocumentView document={document}></DocumentView>
+<DocumentView document={parsed}></DocumentView>

@@ -9,7 +9,37 @@ import type { FastifyPluginAsync } from 'fastify';
 const eurlexDemoConfig: SourceSiteConfig = {
 	name: 'eurlex-test-config',
 	baseUrl: 'https://eur-lex.europa.eu',
-	documentRuleSets: [],
+	documentRuleSets: [
+		{
+			conditionRules: [
+				{
+					op: SelectionOperator.Is,
+					location: SelectionLocation.Id,
+					value: 'TexteOnly',
+				},
+			],
+			bodyRule: {
+				op: SelectionOperator.Is,
+				location: SelectionLocation.Id,
+				value: 'TexteOnly',
+			},
+		},
+
+		{
+			conditionRules: [
+				{
+					op: SelectionOperator.Is,
+					location: SelectionLocation.Id,
+					value: 'textTabContent',
+				},
+			],
+			bodyRule: {
+				op: SelectionOperator.Is,
+				location: SelectionLocation.Id,
+				value: 'textTabContent',
+			},
+		},
+	],
 	htmlSearchRuleSet: {
 		pathWithVariables:
 			'/search.html?scope=EURLEX&type=quick&text=$search',
