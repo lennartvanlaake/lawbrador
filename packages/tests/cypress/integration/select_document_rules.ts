@@ -1,5 +1,4 @@
 import {
-	applyConfig,
 	selectRuleSet,
 } from '@legalthingy/parse/src/rule_applyer';
 import { parse } from '@legalthingy/parse/src/scraper';

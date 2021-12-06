@@ -60,6 +60,8 @@ function restructureRecursive(node: ParsedNode): RestructuredNode {
 			name: 'p',
 			children: node.data.map((c) => restructureNodeData(c)),
 		};
+	} else if (node.children.length == 1) {
+		return restructureRecursive(node.children[0]);
 	} else {
 		return {
 			name: 'div',
