@@ -1,7 +1,7 @@
 import type { FastifyPluginAsync } from 'fastify';
 import * as scraper from '@legalthingy/parse/src/scraper';
 import { getCollection } from './utils';
-import { DocumentVersion } from '@legalthingy/shared/schemas/document_version';
+import { ScrapeEvent } from '@legalthingy/shared/schemas/document_version';
 import { IdParams } from '@legalthingy/shared/schemas/generic';
 import { ObjectId } from 'mongodb';
 
@@ -17,10 +17,11 @@ export const scrapeRoutes: FastifyPluginAsync = async (fastify) => {
 			return existingScrape;
 		} else {
 			const result = await scraper.scrape(url);
-			const newScrape: Omit<DocumentVersion, '_id'> = {
-				created: new Date().getTime(),
+			const newScrape: Omit<ScrapeEvent, '_id'> = {
+				sourceConfigId: "1",
+				type: "scrape",
+				timestamp: new Date().getTime(),
 				bodyNode: result,
-				textRootNode: result,
 				url: url,
 			};
 			scrapeCollection.insertOne(newScrape);

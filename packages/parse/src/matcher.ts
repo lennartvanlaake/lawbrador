@@ -40,7 +40,7 @@ export function getFirstMatching(
 	node: ParsedNode,
 	rule: SelectionRule,
 ): ParsedNode {
-	if (matches(node, rule)) {
+	if (!rule || matches(node, rule)) {
 		return node;
 	}
 	if (!node || !node.children) {
