@@ -1,16 +1,17 @@
 <script lang="ts">
-	//@ts-ignore
-	export let node: any;
+	import type { RestructuredNode} from '@legalthingy/shared/schemas/document_version';
+	import DivView from './DivView.svelte';
+	import PargraphView from './ParagraphView.svelte';
+	export let node: RestructuredNode;
 </script>
 
-{#if node.children?.length > 0 }
-	{#each node.children as child } 
-		<svelte:self node={child} />
-	{/each } 
-{:else if node.data?.length > 0 }
-	<p>
-		{#each node.data as fragment }
-			{ fragment.text }
-		{/each }
-	</p>
+
+{#if node.name == 'div' }
+	<DivView node='{node}' />
+{:else if node.name == 'p' } 
+	<PargraphView node='{node}' />
+{:else }
+	{ node.text }
 {/if }
+
+

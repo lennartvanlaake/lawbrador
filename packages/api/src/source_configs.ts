@@ -5,19 +5,19 @@ import {
 } from '@legalthingy/shared/schemas/rules';
 import type { FastifyPluginAsync } from 'fastify';
 
+export function getSourceConfigById(id: string): SourceSiteConfig {
+	return eurlexDemoConfig;
+}
+
 // hard coded for now
 const eurlexDemoConfig: SourceSiteConfig = {
+	id: '1',
 	name: 'eurlex-test-config',
 	baseUrl: 'https://eur-lex.europa.eu',
 	documentRuleSets: [
 		{
-			conditionRules: [
-				{
-					op: SelectionOperator.Is,
-					location: SelectionLocation.Id,
-					value: 'TexteOnly',
-				},
-			],
+			id: '1',
+			conditionRules: [],
 			bodyRule: {
 				op: SelectionOperator.Is,
 				location: SelectionLocation.Id,
@@ -26,13 +26,8 @@ const eurlexDemoConfig: SourceSiteConfig = {
 		},
 
 		{
-			conditionRules: [
-				{
-					op: SelectionOperator.Is,
-					location: SelectionLocation.Id,
-					value: 'textTabContent',
-				},
-			],
+			id: '2',
+			conditionRules: [],
 			bodyRule: {
 				op: SelectionOperator.Is,
 				location: SelectionLocation.Id,

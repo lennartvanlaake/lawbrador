@@ -10,9 +10,9 @@
 			const link:string = currentResult.link;
 			const path = link[0] == '.' ? link.substring(1) : link;
 			const url = sourceConfig.baseUrl + path;
-			const scrapeResult = await scrape(url)
+			const scrapeResult = await scrape({url: url, sourceConfigId: sourceConfig.id })
 			console.debug(scrapeResult);
-			window.location.replace(`/document/${scrapeResult._id}`);
+			window.location.replace(`/document/${scrapeResult.id}`);
 		} catch (e) {
 			console.error(e);
 			alert("scraping failed");

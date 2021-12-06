@@ -30,7 +30,7 @@ export interface ParsedNode extends Static<typeof parsedNode> {
 
 export const scrapeEvent = Type.Object(
 	{
-		_id: Type.String(),
+		id: Type.String(),
 		url: Type.String(),
 		type: Type.Literal('scrape'),
 		timestamp: Type.Number(),
@@ -41,6 +41,13 @@ export const scrapeEvent = Type.Object(
 );
 
 export type ScrapeEvent = Static<typeof scrapeEvent>;
+
+export const scrapeRequest = Type.Object({
+	url: Type.String(),
+	sourceConfigId: Type.String(),
+});
+
+export type ScrapeRequest = Static<typeof scrapeRequest>;
 
 // output after all mutations have been applied
 export const restructuredNode = Type.Rec(
@@ -57,7 +64,7 @@ export const restructuredNode = Type.Rec(
 export type RestructuredNode = Static<typeof restructuredNode>;
 
 export const restructuredDocument = Type.Object({
-	_id: Type.String(),
+	id: Type.String(),
 	name: Type.String(),
 	timestamp: Type.Number(),
 	nodes: Type.Array(Type.Ref(restructuredNode)),

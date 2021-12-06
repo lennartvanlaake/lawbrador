@@ -1,5 +1,6 @@
 <script context="module" lang="ts">
 	import type { SourceSiteConfig } from '@legalthingy/shared/schemas/rules';
+	import type {  SearchResult } from '@legalthingy/shared/schemas/search';
 	import type { Load } from "@sveltejs/kit";
 	import { getSourceConfigs } from "$lib/api";
 	export const load: Load = async ({ page, fetch }) => {
@@ -14,21 +15,21 @@
 </script>
 
 <script lang="ts">
-	import { search } from '@legalthingy/parse/src/searcher';
-	import SearchResult from '$lib/SearchResult.svelte';
+	import SearchResultComponent from '$lib/SearchResult.svelte';
+	import { search } from '$lib/api';	
 	import { setSourceConfig } from '$lib/store';
   	import { browser } from '$app/env'; 
 
 	export let sourceConfigs: SourceSiteConfig[] = []
 	let sourceConfig: SourceSiteConfig;
 	let searchTerm = "";
-	let searchResults = [];	
+	let searchResults: SearchResult[] = [];	
 	let selectedName;
 	$: sourceConfig = sourceConfigs.filter((conf) => conf.name == selectedName)[0];
 	async function submitQuery() {
 		setSourceConfig(sourceConfig);
 		console.log(sourceConfig);
-		searchResults  = await(search(sourceConfig, { $search: searchTerm })); 
+		searchResults = await search({ sourceConfigId: sourceConfig.id, searchParams: { $search: searchTerm } }); 
 	}
 </script>
 
@@ -41,5 +42,5 @@
 {/each }
 </select>
 {#each searchResults as result }
-	<SearchResult link={result.link} text={result.text} />
+	<SearchResultComponent link={result.href} text={result.text} />
 {/each }

@@ -1,7 +1,6 @@
-
 import { Static, Type } from '@sinclair/typebox';
 
-export interface IdParams {
+export interface Identity {
 	id: string;
 }
 
@@ -15,4 +14,3 @@ export const statusResponse = Type.Object({
 });
 
 export type StatusResponse = Static<typeof statusResponse>;
-

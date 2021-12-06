@@ -44,3 +44,26 @@ describe('Restructuring HTML with empty ruleset', () => {
 		);
 	});
 });
+describe('Restructuring HTML with body rule', () => {
+	const ruleSet: DocumentRuleSet = {
+		id: '1',
+		conditionRules: [],
+		bodyRule: {
+			op: SelectionOperator.Is,
+			location: SelectionLocation.Id,
+			value: 'root',
+		},
+	};
+	it('Two paragraphs in root element', () => {
+		const html = `
+		<div id='root'><p>bla</p><p>bla</p></div>
+		<div><p>irrelevant bla</p></div>
+		`;
+		const parsed = parse(html);
+		const restructured = applyRuleSet(parsed, ruleSet);
+		expect(restructured.length).to.eq(2);
+		expect(restructured.every((n) => n.name == 'p')).to.be.true;
+		expect(restructured.every((n) => n.children[0].text == 'bla'))
+			.to.be.true;
+	});
+});

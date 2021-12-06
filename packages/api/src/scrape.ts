@@ -1,39 +1,66 @@
 import type { FastifyPluginAsync } from 'fastify';
 import * as scraper from '@legalthingy/parse/src/scraper';
+import { applyConfig } from '@legalthingy/parse/src/rule_applyer';
 import { getCollection } from './utils';
-import { ScrapeEvent } from '@legalthingy/shared/schemas/document_version';
-import { IdParams } from '@legalthingy/shared/schemas/generic';
-import { ObjectId } from 'mongodb';
+import { getSourceConfigById } from './source_configs';
+import {
+	ScrapeEvent,
+	ScrapeRequest,
+	RestructuredDocument,
+	RestructuredNode,
+} from '@legalthingy/shared/schemas/document_version';
+import { Identity } from '@legalthingy/shared/schemas/generic';
+import { v4 } from 'uuid';
 
 export const scrapeRoutes: FastifyPluginAsync = async (fastify) => {
-	const scrapeCollection = getCollection(fastify, 'scrape');
-	fastify.post<{ Body: any }>('/api/scrape', async (req) => {
-		const url = req.body.url;
-		const refresh = req.body.refresh ?? false;
-		const existingScrape = await scrapeCollection.findOne({
-			url: url,
-		});
-		if (existingScrape && !refresh) {
-			return existingScrape;
-		} else {
-			const result = await scraper.scrape(url);
-			const newScrape: Omit<ScrapeEvent, '_id'> = {
-				sourceConfigId: "1",
-				type: "scrape",
+	const scrapeEventCollection = getCollection(fastify, 'scrape_event');
+	const documentCollection = getCollection(fastify, 'scrape_event');
+	fastify.post<{ Body: ScrapeRequest }>(
+		'/api/scrape',
+		async (req): Promise<Identity> => {
+			const url = req.body.url;
+			const config = getSourceConfigById(
+				req.body.sourceConfigId,
+			);
+			const existingScrape =
+				await scrapeEventCollection.findOne({
+					url: url,
+				});
+			let restructuredNodes: RestructuredNode[];
+			if (existingScrape) {
+				restructuredNodes = applyConfig(
+					existingScrape.bodyNode,
+					config,
+				);
+			} else {
+				const result = await scraper.scrape(url);
+				const newScrape: ScrapeEvent = {
+					id: v4(),
+					sourceConfigId: '1',
+					type: 'scrape',
+					timestamp: new Date().getTime(),
+					bodyNode: result,
+					url: url,
+				};
+				scrapeEventCollection.insertOne(newScrape);
+				restructuredNodes = applyConfig(
+					newScrape.bodyNode,
+					config,
+				);
+			}
+			const document: RestructuredDocument = {
+				id: v4(),
+				name: req.body.url,
 				timestamp: new Date().getTime(),
-				bodyNode: result,
-				url: url,
+				nodes: restructuredNodes,
 			};
-			scrapeCollection.insertOne(newScrape);
-			return newScrape;
-		}
-	});
-	fastify.get('/api/scrape', async () => {
-		return await scrapeCollection.find().toArray();
-	});
-	fastify.get<{ Params: IdParams }>('/api/scrape/:id', async (req) => {
-		return await scrapeCollection.findOne({
-			_id: new ObjectId(req.params.id),
+			await documentCollection.insertOne(document);
+			return { id: document.id };
+		},
+	);
+	fastify.get<{ Params: Identity }>('/api/scrape/:id', async (req) => {
+		return await documentCollection.findOne({
+			id: req.params.id,
 		});
 	});
 };

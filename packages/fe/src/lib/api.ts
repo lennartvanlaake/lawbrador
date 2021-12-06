@@ -1,4 +1,10 @@
 import type { SourceSiteConfig } from '@legalthingy/shared/schemas/rules';
+import type {
+	RestructuredDocument,
+	ScrapeRequest
+} from '@legalthingy/shared/schemas/document_version';
+import type { SearchRequest, SearchResult } from '@legalthingy/shared/schemas/search';
+import type { Identity } from '@legalthingy/shared/schemas/generic';
 
 const baseUrl = 'http://localhost:8080/api';
 
@@ -24,11 +30,10 @@ async function post(path: string, body: any, fetchParam: any) {
 		return await (await fetch(`${baseUrl}/${path}`, req)).json();
 	}
 }
-export async function getDocuments(fetchParam: any = false): Promise<any> {
-	const result = await get('scrape', fetchParam);
-	return result;
-}
-export async function getDocument(id: string, fetchParam: any = false): Promise<any> {
+export async function getDocument(
+	id: string,
+	fetchParam: any = false
+): Promise<RestructuredDocument> {
 	return await get(`scrape/${id}`, fetchParam);
 }
 
@@ -36,6 +41,13 @@ export async function getSourceConfigs(fetchParam: any = false): Promise<SourceS
 	return await get('sources', fetchParam);
 }
 
-export async function scrape(url: string, fetchParam: any = false): Promise<any> {
-	return await post('scrape', { url: url }, fetchParam);
+export async function scrape(request: ScrapeRequest, fetchParam: any = false): Promise<Identity> {
+	return await post('scrape', request, fetchParam);
+}
+
+export async function search(
+	body: SearchRequest,
+	fetchParam: any = false
+): Promise<SearchResult[]> {
+	return await post('search', body, fetchParam);
 }

@@ -2,7 +2,7 @@
 	import type { Load } from "@sveltejs/kit";
 	import DocumentView from '$lib/DocumentView.svelte';	
 	import { getDocument } from '$lib/api';	
-	import type { DocumentVersion } from '@legalthingy/shared/schemas/document_version';
+	import type { RestructuredDocument } from '@legalthingy/shared/schemas/document_version';
 	export const load: Load = async ({ page, fetch }) => {
 		const doc = await getDocument(page.params.id, fetch);
 		return { 
@@ -14,15 +14,7 @@
 </script>
 
 <script lang="ts">
-	import { getSourceConfig } from '$lib/store';
-	import { applyConfig } from '@legalthingy/parse/src/rule_applyer'
-  	import { browser } from '$app/env'; 
-	export let document: DocumentVersion;
-	let parsed: DocumentVersion;
-	if (browser) {
-		const config = getSourceConfig();
-		$: parsed = applyConfig(document, config); 	
-	}
+	export let document: RestructuredDocument;
 </script>
 
-<DocumentView document={parsed}></DocumentView>
+<DocumentView document={document}></DocumentView>

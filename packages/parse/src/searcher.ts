@@ -1,6 +1,11 @@
-import { SourceSiteConfig } from 'packages/shared/schemas/rules';
+import {
+	SourceSiteConfig,
+	HtmlSearchRuleSet,
+} from 'packages/shared/schemas/rules';
+import { ParsedNode } from 'packages/shared/schemas/document_version';
+import { SearchResult } from 'packages/shared/schemas/search';
 import { getFirstMatching, getAllMatching } from './matcher';
-import axios from 'axios';
+import { scrape } from './scraper';
 
 function applyVariables(url: string, variables: any): string {
 	for (const prop in variables) {
@@ -20,36 +25,25 @@ function getUrl(config: SourceSiteConfig, variables: any): string {
 export async function search(
 	config: SourceSiteConfig,
 	searchInput: any,
-): Promise<any> {
-	const request = {
-		url: getUrl(config, searchInput),
-		refresh: true,
-	};
-	const scrapeResult = await axios.post(
-		'http://localhost:8080/api/scrape',
-		request,
-	);
-	const bodyNode = scrapeResult.data.bodyNode;
-	const base = getFirstMatching(
-		bodyNode,
-		config.htmlSearchRuleSet.resultListRule,
-	);
-	const searchResult = getAllMatching(
-		base,
-		config.htmlSearchRuleSet.resultRule,
-	);
+): Promise<SearchResult[]> {
+	const url = getUrl(config, searchInput);
+	const scrapeResult = await scrape(url);
+	return parseSearchResults(scrapeResult, config.htmlSearchRuleSet);
+}
+
+export function parseSearchResults(
+	root: ParsedNode,
+	searchRuleSet: HtmlSearchRuleSet,
+): SearchResult[] {
+	const base = getFirstMatching(root, searchRuleSet.resultListRule);
+	const searchResult = getAllMatching(base, searchRuleSet.resultRule);
 	const links = searchResult
-		.map((el) =>
-			getFirstMatching(
-				el,
-				config.htmlSearchRuleSet.resultLinkRule,
-			),
-		)
+		.map((el) => getFirstMatching(el, searchRuleSet.resultLinkRule))
 		.filter((el) => el.data && el.data?.length > 0)
 		.map((el) => {
 			return {
 				text: el.data[0].text,
-				link: el.data[0].href,
+				href: el.data[0].href,
 			};
 		});
 	return links;

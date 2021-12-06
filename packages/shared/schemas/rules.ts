@@ -47,7 +47,10 @@ export const htmlSearchRuleSet = Type.Object({
 	resultDescriptionRule: Type.Optional(Type.Ref(selectionRule)),
 });
 
+export type HtmlSearchRuleSet = Static<typeof htmlSearchRuleSet>;
+
 export const sourceSiteConfig = Type.Object({
+	id: Type.String(),
 	baseUrl: Type.String({ format: 'uri' }),
 	name: Type.String(),
 	documentRuleSets: Type.Array(Type.Ref(documentRuleSet)),
