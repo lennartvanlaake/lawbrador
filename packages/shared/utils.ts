@@ -41,23 +41,28 @@ export function buildUrl(variables: any, config: UriConfig) {
 	return `${config.base}/${renderedPath}?${renderedQueryString}`;
 }
 
-//export function extractUrlVariables(url: string, config: UriConfig): any {
-//const output: any = {};
-//const parsedUrl = new URL(url);
-//const pathArray = parsedUrl.pathname
-//.split('/')
-//.filter((it) => it.length > 0)
-//.map((it) => decodeURIComponent(it));
-//const pathVariablePositions = getPathVariablePositions(config);
-//for (const pos in pathVariablePositions) {
-//output[pathVariablePositions[pos]] = pathArray[pos];
-//}
-//console.log(pathVariablePositions);
-//config.variables.forEach((variable) => {
-//const paramValue = parsedUrl.searchParams.get(variable);
-//if (paramValue) {
-//output[variable] = decodeURIComponent(paramValue);
-//}
-//});
-//return output;
-//}
+export function extractUrlVariables(url: string, config: UriConfig): any {
+	const output: any = {};
+	const parsedUrl = new URL(url);
+	const pathArray = parsedUrl.pathname
+		.split('/')
+		.filter((it) => it.length > 0)
+		.map((it) => decodeURIComponent(it));
+	config.pathComponents.forEach((component, i) => {
+		if (!component.static) {
+			output[component.value] = pathArray[i];
+		}
+	});
+	Object.keys(config.queryComponents).forEach((key) => {
+		const component = config.queryComponents[key];
+		if (!component.static) {
+			const variableValue = parsedUrl.searchParams.get(
+				component.value,
+			);
+			if (variableValue) {
+				output[component.value] = variableValue;
+			}
+		}
+	});
+	return output;
+}
