@@ -49,6 +49,24 @@ export const htmlSearchRuleSet = Type.Object({
 
 export type HtmlSearchRuleSet = Static<typeof htmlSearchRuleSet>;
 
+export const uriComponent = Type.Object(
+	{
+		value: Type.String(),
+		static: Type.Boolean(),
+	},
+	{ $id: 'uriComponent' },
+);
+
+export type UriComponent = Static<typeof uriComponent>;
+
+export const uriConfig = Type.Object({
+	base: Type.String(),
+	pathComponents: Type.Array(Type.Ref(uriComponent)),
+	queryComponents: Type.Record(Type.String(), Type.Ref(uriComponent)),
+});
+
+export type UriConfig = Static<typeof uriConfig>;
+
 export const sourceSiteConfig = Type.Object({
 	id: Type.String(),
 	baseUrl: Type.String({ format: 'uri' }),

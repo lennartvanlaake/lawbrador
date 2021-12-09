@@ -65,7 +65,8 @@ export type RestructuredNode = Static<typeof restructuredNode>;
 
 export const restructuredDocument = Type.Object({
 	id: Type.String(),
-	name: Type.String(),
+	scrapeId: Type.String(),
+	url: Type.String(),
 	timestamp: Type.Number(),
 	nodes: Type.Array(Type.Ref(restructuredNode)),
 });

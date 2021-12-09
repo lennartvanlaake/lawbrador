@@ -31,10 +31,17 @@
 		console.log(sourceConfig);
 		searchResults = await search({ sourceConfigId: sourceConfig.id, searchParams: { $search: searchTerm } }); 
 	}
+
+	async function submitIfEnter(event: KeyboardEvent) {
+		console.log(event);
+		if (event.key == "Enter") {
+			await submitQuery();
+		}
+	}
 </script>
 
 <h1>Search here</h1>
-<textarea id="text-field" bind:value={searchTerm} />
+<input type="text" id="text-field" bind:value={searchTerm} />
 <button on:click={submitQuery}>search</button>
 <select bind:value="{selectedName}">
 {#each sourceConfigs as config }
@@ -44,3 +51,6 @@
 {#each searchResults as result }
 	<SearchResultComponent link={result.href} text={result.text} />
 {/each }
+
+<svelte:window on:keypress={submitIfEnter}/>
+

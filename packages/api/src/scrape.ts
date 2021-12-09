@@ -7,14 +7,13 @@ import {
 	ScrapeEvent,
 	ScrapeRequest,
 	RestructuredDocument,
-	RestructuredNode,
 } from '@legalthingy/shared/schemas/document_version';
 import { Identity } from '@legalthingy/shared/schemas/generic';
 import { v4 } from 'uuid';
 
 export const scrapeRoutes: FastifyPluginAsync = async (fastify) => {
 	const scrapeEventCollection = getCollection(fastify, 'scrape_event');
-	const documentCollection = getCollection(fastify, 'scrape_event');
+	const documentCollection = getCollection(fastify, 'documents');
 	fastify.post<{ Body: ScrapeRequest }>(
 		'/api/scrape',
 		async (req): Promise<Identity> => {
@@ -22,16 +21,12 @@ export const scrapeRoutes: FastifyPluginAsync = async (fastify) => {
 			const config = getSourceConfigById(
 				req.body.sourceConfigId,
 			);
-			const existingScrape =
-				await scrapeEventCollection.findOne({
+			const existingDocument =
+				await documentCollection.findOne({
 					url: url,
 				});
-			let restructuredNodes: RestructuredNode[];
-			if (existingScrape) {
-				restructuredNodes = applyConfig(
-					existingScrape.bodyNode,
-					config,
-				);
+			if (existingDocument) {
+				return existingDocument.id;
 			} else {
 				const result = await scraper.scrape(url);
 				const newScrape: ScrapeEvent = {
@@ -43,19 +38,19 @@ export const scrapeRoutes: FastifyPluginAsync = async (fastify) => {
 					url: url,
 				};
 				scrapeEventCollection.insertOne(newScrape);
-				restructuredNodes = applyConfig(
-					newScrape.bodyNode,
-					config,
-				);
+				const document: RestructuredDocument = {
+					id: v4(),
+					scrapeId: newScrape.id,
+					url: url,
+					timestamp: new Date().getTime(),
+					nodes: applyConfig(
+						newScrape.bodyNode,
+						config,
+					),
+				};
+				await documentCollection.insertOne(document);
+				return { id: document.id };
 			}
-			const document: RestructuredDocument = {
-				id: v4(),
-				name: req.body.url,
-				timestamp: new Date().getTime(),
-				nodes: restructuredNodes,
-			};
-			await documentCollection.insertOne(document);
-			return { id: document.id };
 		},
 	);
 	fastify.get<{ Params: Identity }>('/api/scrape/:id', async (req) => {

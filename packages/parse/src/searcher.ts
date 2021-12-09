@@ -28,23 +28,39 @@ export async function search(
 ): Promise<SearchResult[]> {
 	const url = getUrl(config, searchInput);
 	const scrapeResult = await scrape(url);
-	return parseSearchResults(scrapeResult, config.htmlSearchRuleSet);
+	return parseSearchResults(scrapeResult, config);
 }
 
 export function parseSearchResults(
 	root: ParsedNode,
-	searchRuleSet: HtmlSearchRuleSet,
+	config: SourceSiteConfig,
 ): SearchResult[] {
-	const base = getFirstMatching(root, searchRuleSet.resultListRule);
-	const searchResult = getAllMatching(base, searchRuleSet.resultRule);
+	const base = getFirstMatching(
+		root,
+		config.htmlSearchRuleSet.resultListRule,
+	);
+	const searchResult = getAllMatching(
+		base,
+		config.htmlSearchRuleSet.resultRule,
+	);
 	const links = searchResult
-		.map((el) => getFirstMatching(el, searchRuleSet.resultLinkRule))
+		.map((el) =>
+			getFirstMatching(
+				el,
+				config.htmlSearchRuleSet.resultLinkRule,
+			),
+		)
 		.filter((el) => el.data && el.data?.length > 0)
 		.map((el) => {
 			return {
 				text: el.data[0].text,
-				href: el.data[0].href,
+				href: makeLinkAbsolute(el.data[0].href, config),
 			};
 		});
 	return links;
+}
+
+function makeLinkAbsolute(link: string, config: SourceSiteConfig) {
+	const path = link[0] == '.' ? link.substring(1) : link;
+	return config.baseUrl + path;
 }
