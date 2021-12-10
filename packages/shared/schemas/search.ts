@@ -1,15 +1,19 @@
 import { Static, Type } from '@sinclair/typebox';
 
-export const documentSummary = Type.Object({
-	id: Type.String()
-}, { $id: "searchDocumentSummary" });
+export const documentSummary = Type.Object(
+	{
+		id: Type.String(),
+	},
+	{ $id: 'searchDocumentSummary' },
+);
 
 export type DocumentSummary = Static<typeof documentSummary>;
 
 export const searchResult = Type.Object({
 	text: Type.String(),
 	href: Type.String(),
-	document: Type.Optional(Type.Ref(documentSummary))
+	hash: Type.String(),
+	document: Type.Optional(Type.Ref(documentSummary)),
 });
 
 export type SearchResult = Static<typeof searchResult>;

@@ -9,6 +9,7 @@ import {
 	RestructuredDocument,
 } from '@legalthingy/shared/schemas/document_version';
 import { Identity } from '@legalthingy/shared/schemas/generic';
+import { hashObject, extractUrlVariables } from '@legalthingy/shared/utils';
 import { v4 } from 'uuid';
 
 export const scrapeRoutes: FastifyPluginAsync = async (fastify) => {
@@ -21,9 +22,14 @@ export const scrapeRoutes: FastifyPluginAsync = async (fastify) => {
 			const config = getSourceConfigById(
 				req.body.sourceConfigId,
 			);
+			const urlVariables = extractUrlVariables(
+				url,
+				config.documentUrlConfig,
+			);
+			const documentHash = hashObject(urlVariables);
 			const existingDocument =
 				await documentCollection.findOne({
-					url: url,
+					hash: documentHash,
 				});
 			if (existingDocument) {
 				return existingDocument.id;
@@ -32,6 +38,7 @@ export const scrapeRoutes: FastifyPluginAsync = async (fastify) => {
 				const newScrape: ScrapeEvent = {
 					id: v4(),
 					sourceConfigId: '1',
+					hash: documentHash,
 					type: 'scrape',
 					timestamp: new Date().getTime(),
 					bodyNode: result,
@@ -41,6 +48,7 @@ export const scrapeRoutes: FastifyPluginAsync = async (fastify) => {
 				const document: RestructuredDocument = {
 					id: v4(),
 					scrapeId: newScrape.id,
+					hash: documentHash,
 					url: url,
 					timestamp: new Date().getTime(),
 					nodes: applyConfig(

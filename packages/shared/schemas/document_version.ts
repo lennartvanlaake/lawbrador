@@ -32,6 +32,7 @@ export const scrapeEvent = Type.Object(
 	{
 		id: Type.String(),
 		url: Type.String(),
+		hash: Type.String(),
 		type: Type.Literal('scrape'),
 		timestamp: Type.Number(),
 		bodyNode: Type.Ref(parsedNode),
@@ -65,6 +66,7 @@ export type RestructuredNode = Static<typeof restructuredNode>;
 
 export const restructuredDocument = Type.Object({
 	id: Type.String(),
+	hash: Type.String(),
 	scrapeId: Type.String(),
 	url: Type.String(),
 	timestamp: Type.Number(),

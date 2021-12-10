@@ -22,13 +22,13 @@ describe('Test if url building works', () => {
 		);
 	});
 	it('Throws if path param is not provided ', () => {
-		expect(buildUrl({}, config)).to.throw;
+		expect(() => buildUrl({}, config)).to.throw;
 	});
 });
 
 describe('Test if extracting variables from URL worls', () => {
 	it('Testing URL with path and query variables', () => {
-		const url = 'http://text.com/static/1?static=x&var2=2%203';
+		const url = 'http://text.com/static/1?static=x&dynamic=2%203';
 		const output = extractUrlVariables(url, config);
 		expect(output).to.eql({ var1: '1', var2: '2 3' });
 	});

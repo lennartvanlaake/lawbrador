@@ -1,10 +1,25 @@
-import { UriConfig } from '@legalthingy/shared/schemas/rules';
+import { UrlConfig } from '@legalthingy/shared/schemas/rules';
+import Hashes from 'jshashes';
+
+const sha1 = new Hashes.SHA1();
 
 export function last(array: any[]) {
 	return array[array.length - 1];
 }
 
-export function buildUrl(variables: any, config: UriConfig) {
+export function hash(str: string): string {
+	return sha1.hex(str);
+}
+
+export function hashObject(obj: any) {
+	return sha1.hex(JSON.stringify(obj));
+}
+
+export function hashUrlVariables(variables: any, config: UrlConfig) {
+	return hashObject(extractUrlVariables(variables, config));
+}
+
+export function buildUrl(variables: Record<string, string>, config: UrlConfig) {
 	const renderedPath = config.pathComponents.reduce((acc, curr) => {
 		const separator = acc.length == 0 ? '' : '/';
 		if (curr.static) {
@@ -37,11 +52,12 @@ export function buildUrl(variables: any, config: UriConfig) {
 		},
 		'',
 	);
-
-	return `${config.base}/${renderedPath}?${renderedQueryString}`;
+	const pathSeparator = renderedPath.length > 0 ? '/' : '';
+	const querySeparator = renderedQueryString.length > 0 ? '?' : '';
+	return `${config.base}${pathSeparator}${renderedPath}${querySeparator}${renderedQueryString}`;
 }
 
-export function extractUrlVariables(url: string, config: UriConfig): any {
+export function extractUrlVariables(url: string, config: UrlConfig): any {
 	const output: any = {};
 	const parsedUrl = new URL(url);
 	const pathArray = parsedUrl.pathname
@@ -56,9 +72,7 @@ export function extractUrlVariables(url: string, config: UriConfig): any {
 	Object.keys(config.queryComponents).forEach((key) => {
 		const component = config.queryComponents[key];
 		if (!component.static) {
-			const variableValue = parsedUrl.searchParams.get(
-				component.value,
-			);
+			const variableValue = parsedUrl.searchParams.get(key);
 			if (variableValue) {
 				output[component.value] = variableValue;
 			}

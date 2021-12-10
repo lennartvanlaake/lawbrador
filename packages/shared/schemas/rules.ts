@@ -39,8 +39,6 @@ export const documentRuleSet = Type.Object({
 export type DocumentRuleSet = Static<typeof documentRuleSet>;
 
 export const htmlSearchRuleSet = Type.Object({
-	pathWithVariables: Type.String(),
-	inputVariables: Type.Array(Type.String()),
 	resultListRule: Type.Ref(selectionRule),
 	resultLinkRule: Type.Ref(selectionRule),
 	resultRule: Type.Ref(selectionRule),
@@ -49,28 +47,29 @@ export const htmlSearchRuleSet = Type.Object({
 
 export type HtmlSearchRuleSet = Static<typeof htmlSearchRuleSet>;
 
-export const uriComponent = Type.Object(
+export const urlComponent = Type.Object(
 	{
 		value: Type.String(),
 		static: Type.Boolean(),
 	},
-	{ $id: 'uriComponent' },
+	{ $id: 'urlComponent' },
 );
 
-export type UriComponent = Static<typeof uriComponent>;
+export type UrlComponent = Static<typeof urlComponent>;
 
-export const uriConfig = Type.Object({
-	base: Type.String(),
-	pathComponents: Type.Array(Type.Ref(uriComponent)),
-	queryComponents: Type.Record(Type.String(), Type.Ref(uriComponent)),
+export const urlConfig = Type.Object({
+	base: Type.String({ format: 'uri' }),
+	pathComponents: Type.Array(Type.Ref(urlComponent)),
+	queryComponents: Type.Record(Type.String(), Type.Ref(urlComponent)),
 });
 
-export type UriConfig = Static<typeof uriConfig>;
+export type UrlConfig = Static<typeof urlConfig>;
 
 export const sourceSiteConfig = Type.Object({
 	id: Type.String(),
-	baseUrl: Type.String({ format: 'uri' }),
 	name: Type.String(),
+	searchUrlConfig: Type.Ref(urlConfig),
+	documentUrlConfig: Type.Ref(urlConfig),
 	documentRuleSets: Type.Array(Type.Ref(documentRuleSet)),
 	htmlSearchRuleSet: Type.Ref(htmlSearchRuleSet),
 });

@@ -13,7 +13,7 @@
 		"run-it": "lerna run run-it"
 	},
 	"dependencies": {
-		"sveltekit": "file:packages/sveltekit"
+		"sveltekit": "file:packages/fe"
 	},
 	"devDependencies": {
 		"@sveltejs/kit": "next",

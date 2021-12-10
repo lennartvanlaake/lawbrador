@@ -3,25 +3,23 @@ import { search } from '@legalthingy/parse/src/searcher';
 import { SearchRequest } from '@legalthingy/shared/schemas/search';
 import { getSourceConfigById } from './source_configs';
 import { getCollection } from './utils';
-
 export const searchRoutes: FastifyPluginAsync = async (fastify) => {
 	const documentCollection = getCollection(fastify, 'documents');
 	fastify.post<{ Body: SearchRequest }>('/api/search', async (req) => {
 		const config = getSourceConfigById(req.body.sourceConfigId);
-		const results = await search(config, req.body.searchParams);
-		const resultLinks = results.map((r) => r.href);
-		console.log('1');
+		const results = await search(req.body.searchParams, config);
+		const resultHashes = results.map((r) => r.hash);
 		const documents = await documentCollection
 			.find({
-				url: { $in: resultLinks },
+				hash: { $in: resultHashes },
 			})
 			.toArray();
-		const documentMap = documents.reduce(
-			(result, doc) => (result[doc.href] = { id: doc.id }),
-			{},
-		);
+		const documentMap = documents.reduce((result, doc) => {
+			result[doc.hash] = { id: doc.id };
+			return result;
+		}, {});
 		return results.map((res) => {
-			res.document = documentMap[res.href];
+			res.document = documentMap[res.hash];
 			return res;
 		});
 	});

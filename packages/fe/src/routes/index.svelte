@@ -18,7 +18,7 @@
 	import SearchResultComponent from '$lib/SearchResult.svelte';
 	import { search } from '$lib/api';	
 	import { setSourceConfig } from '$lib/store';
-  	import { browser } from '$app/env'; 
+	import { scrape } from '$lib/api';
 
 	export let sourceConfigs: SourceSiteConfig[] = []
 	let sourceConfig: SourceSiteConfig;
@@ -29,7 +29,11 @@
 	async function submitQuery() {
 		setSourceConfig(sourceConfig);
 		console.log(sourceConfig);
-		searchResults = await search({ sourceConfigId: sourceConfig.id, searchParams: { $search: searchTerm } }); 
+		try {
+			searchResults = await search({ sourceConfigId: sourceConfig.id, searchParams: { query: searchTerm } }); 
+		} catch (e) {
+			alert(`Search went boom: ${e.message}`)
+		}
 	}
 
 	async function submitIfEnter(event: KeyboardEvent) {
@@ -49,7 +53,7 @@
 {/each }
 </select>
 {#each searchResults as result }
-	<SearchResultComponent link={result.href} text={result.text} />
+	<SearchResultComponent data={result} />
 {/each }
 
 <svelte:window on:keypress={submitIfEnter}/>

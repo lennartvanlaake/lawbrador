@@ -1,32 +1,15 @@
-import {
-	SourceSiteConfig,
-	HtmlSearchRuleSet,
-} from 'packages/shared/schemas/rules';
+import { SourceSiteConfig, UrlConfig } from 'packages/shared/schemas/rules';
 import { ParsedNode } from 'packages/shared/schemas/document_version';
 import { SearchResult } from 'packages/shared/schemas/search';
 import { getFirstMatching, getAllMatching } from './matcher';
 import { scrape } from './scraper';
-
-function applyVariables(url: string, variables: any): string {
-	for (const prop in variables) {
-		url = url.replace(prop, variables[prop]);
-	}
-	return url;
-}
-
-function getUrl(config: SourceSiteConfig, variables: any): string {
-	const renderedPath = applyVariables(
-		config.htmlSearchRuleSet.pathWithVariables,
-		variables,
-	);
-	return config.baseUrl + renderedPath;
-}
+import { hashUrlVariables, buildUrl } from '@legalthingy/shared/utils';
 
 export async function search(
+	searchInput: Record<string, string>,
 	config: SourceSiteConfig,
-	searchInput: any,
 ): Promise<SearchResult[]> {
-	const url = getUrl(config, searchInput);
+	const url = buildUrl(searchInput, config.searchUrlConfig);
 	const scrapeResult = await scrape(url);
 	return parseSearchResults(scrapeResult, config);
 }
@@ -52,15 +35,23 @@ export function parseSearchResults(
 		)
 		.filter((el) => el.data && el.data?.length > 0)
 		.map((el) => {
+			const url = makeLinkAbsolute(
+				el.data[0].href,
+				config.documentUrlConfig,
+			);
 			return {
 				text: el.data[0].text,
-				href: makeLinkAbsolute(el.data[0].href, config),
+				href: url,
+				hash: hashUrlVariables(
+					url,
+					config.documentUrlConfig,
+				),
 			};
 		});
 	return links;
 }
 
-function makeLinkAbsolute(link: string, config: SourceSiteConfig) {
+function makeLinkAbsolute(link: string, config: UrlConfig) {
 	const path = link[0] == '.' ? link.substring(1) : link;
-	return config.baseUrl + path;
+	return config.base + path;
 }
