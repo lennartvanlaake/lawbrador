@@ -1,4 +1,4 @@
-import { buildUrl, extractUrlVariables } from '@legalthingy/shared/utils';
+import { buildUrl, extractUrlVariables } from '@legalthingy/parse/src/url';
 import { UrlConfig } from '@legalthingy/shared/schemas/rules';
 
 const config: UrlConfig = {

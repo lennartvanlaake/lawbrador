@@ -9,7 +9,7 @@ import {
 	RestructuredDocument,
 } from '@legalthingy/shared/schemas/document_version';
 import { Identity } from '@legalthingy/shared/schemas/generic';
-import { hashObject, extractUrlVariables } from '@legalthingy/shared/utils';
+import { hashObject, extractUrlVariables } from '@legalthingy/parse/src/url';
 import { v4 } from 'uuid';
 
 export const scrapeRoutes: FastifyPluginAsync = async (fastify) => {

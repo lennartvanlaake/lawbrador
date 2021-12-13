@@ -7,7 +7,7 @@ import { ParsedNode } from 'packages/shared/schemas/document_version';
 import { SearchResult } from 'packages/shared/schemas/search';
 import { getFirstMatching, getAllMatching } from './matcher';
 import { scrape } from './scraper';
-import { hashUrlVariables, buildUrl } from '@legalthingy/shared/utils';
+import { buildUrl, hashUrlVariables } from '@legalthingy/parse/src/url';
 
 export async function search(
 	searchInput: Record<string, string>,
@@ -48,6 +48,9 @@ export function parseSearchResults(
 		root,
 		config.htmlSearchRuleSet.resultListRule,
 	);
+	if (!base) {
+		throw new Error('Could not find result list in html');
+	}
 	const searchResult = getAllMatching(
 		base,
 		config.htmlSearchRuleSet.resultRule,

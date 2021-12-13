@@ -11,12 +11,12 @@ export function matches(node: ParsedNode, rule: SelectionRule): boolean {
 					toMatch.push(parent.id);
 				}
 				break;
-			case 'class':
+			case 'tag':
 				if (parent.name) {
 					toMatch.push(parent.name);
 				}
 				break;
-			case 'tag':
+			case 'class':
 				if (parent.class) {
 					toMatch.push(parent.class);
 				}

@@ -6,7 +6,6 @@
 	"type": "module",
 	"dependencies": {
 		"@sinclair/typebox": "^0.20.5",
-		"jshashes": "^1.0.8",
 		"mongodb": "^4.1.4",
 		"mongoose": "6.0.5"
 	},

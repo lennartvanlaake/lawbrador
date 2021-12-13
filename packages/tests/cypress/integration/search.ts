@@ -1,6 +1,6 @@
 import { parseSearchResults } from '@legalthingy/parse/src/searcher';
 import { parse } from '@legalthingy/parse/src/scraper';
-import { HtmlSearchRuleSet } from '@legalthingy/shared/schemas/rules';
+import { SourceSiteConfig } from '@legalthingy/shared/schemas/rules';
 
 describe('Test searching', () => {
 	const demoHtml = `
@@ -11,32 +11,47 @@ describe('Test searching', () => {
 			</div>
 		</div>
 	`;
-	const eurlexRules: HtmlSearchRuleSet = {
-		pageVariable: '',
-		queryVariable: '',
-		resultListRule: {
-			op: 'is',
-			location: 'class',
-			value: 'EurlexContent',
+	const config: SourceSiteConfig = {
+		id: 'test',
+		name: 'test',
+		searchUrlConfig: {
+			base: 'http://text.com',
+			pathComponents: [],
+			queryComponents: {},
 		},
-		resultRule: {
-			op: 'is',
-			location: 'class',
-			value: 'SearchResult',
+		documentUrlConfig: {
+			base: 'http://text.com',
+			pathComponents: [],
+			queryComponents: {},
 		},
-		resultLinkRule: {
-			op: 'is',
-			location: 'tag',
-			value: 'h2',
+		documentRuleSets: [],
+		htmlSearchRuleSet: {
+			pageVariable: '',
+			queryVariable: '',
+			resultListRule: {
+				op: 'is',
+				location: 'class',
+				value: 'EurlexContent',
+			},
+			resultRule: {
+				op: 'is',
+				location: 'class',
+				value: 'SearchResult',
+			},
+			resultLinkRule: {
+				op: 'is',
+				location: 'tag',
+				value: 'h2',
+			},
 		},
 	};
 
-	it('Parsing search results works for eurlex', async () => {
+	it('Parsing search results works for eurlex', () => {
 		const parsed = parse(demoHtml);
 		console.log(parsed);
-		const result = parseSearchResults(parsed, eurlexRules);
+		const result = parseSearchResults(parsed, config);
 		console.log(result);
-		expect(result[0].link).to.be.ok;
+		expect(result[0].href).to.be.ok;
 		expect(result[0].text).to.be.ok;
 	});
 });
