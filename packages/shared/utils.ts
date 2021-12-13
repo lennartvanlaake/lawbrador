@@ -1,5 +1,6 @@
 import { UrlConfig } from '@legalthingy/shared/schemas/rules';
-import Hashes from 'jshashes';
+// somehow cypress breaks if normal import is used
+var Hashes = require('jshashes');
 
 const sha1 = new Hashes.SHA1();
 

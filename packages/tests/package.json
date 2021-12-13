@@ -4,7 +4,8 @@
 	"license": "MIT",
 	"type": "module",
 	"dependencies": {
-		"cypress": "9.1.0"
+		"cypress": "9.1.0",
+		"jshashes": "^1.0.8"
 	},
 	"scripts": {
 		"run-it": "cypress run",

@@ -1,8 +1,4 @@
-import {
-	SelectionLocation,
-	SelectionOperator,
-	SourceSiteConfig,
-} from '@legalthingy/shared/schemas/rules';
+import { SourceSiteConfig } from '@legalthingy/shared/schemas/rules';
 import type { FastifyPluginAsync } from 'fastify';
 
 export function getSourceConfigById(id: string): SourceSiteConfig {
@@ -64,8 +60,8 @@ const eurlexDemoConfig: SourceSiteConfig = {
 			id: '1',
 			conditionRules: [],
 			bodyRule: {
-				op: SelectionOperator.Is,
-				location: SelectionLocation.Id,
+				op: 'is',
+				location: 'id',
 				value: 'TexteOnly',
 			},
 		},
@@ -74,26 +70,28 @@ const eurlexDemoConfig: SourceSiteConfig = {
 			id: '2',
 			conditionRules: [],
 			bodyRule: {
-				op: SelectionOperator.Is,
-				location: SelectionLocation.Id,
+				op: 'is',
+				location: 'id',
 				value: 'textTabContent',
 			},
 		},
 	],
 	htmlSearchRuleSet: {
+		queryVariable: 'query',
+		pageVariable: 'page',
 		resultListRule: {
-			op: SelectionOperator.Is,
-			location: SelectionLocation.Class,
+			op: 'is',
+			location: 'class',
 			value: 'EurlexContent',
 		},
 		resultRule: {
-			op: SelectionOperator.Is,
-			location: SelectionLocation.Class,
+			op: 'is',
+			location: 'class',
 			value: 'SearchResult',
 		},
 		resultLinkRule: {
-			op: SelectionOperator.Is,
-			location: SelectionLocation.Tag,
+			op: 'is',
+			location: 'tag',
 			value: 'h2',
 		},
 	},

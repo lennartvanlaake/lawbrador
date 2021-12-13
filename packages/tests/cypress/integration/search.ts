@@ -1,10 +1,6 @@
 import { parseSearchResults } from '@legalthingy/parse/src/searcher';
 import { parse } from '@legalthingy/parse/src/scraper';
-import {
-	SelectionLocation,
-	SelectionOperator,
-	HtmlSearchRuleSet,
-} from '@legalthingy/shared/schemas/rules';
+import { HtmlSearchRuleSet } from '@legalthingy/shared/schemas/rules';
 
 describe('Test searching', () => {
 	const demoHtml = `
@@ -16,22 +12,21 @@ describe('Test searching', () => {
 		</div>
 	`;
 	const eurlexRules: HtmlSearchRuleSet = {
-		pathWithVariables:
-			'/search.html?scope=EURLEX&type=quick&text=$search',
-		inputVariables: ['$search'],
+		pageVariable: '',
+		queryVariable: '',
 		resultListRule: {
-			op: SelectionOperator.Is,
-			location: SelectionLocation.Class,
+			op: 'is',
+			location: 'class',
 			value: 'EurlexContent',
 		},
 		resultRule: {
-			op: SelectionOperator.Is,
-			location: SelectionLocation.Class,
+			op: 'is',
+			location: 'class',
 			value: 'SearchResult',
 		},
 		resultLinkRule: {
-			op: SelectionOperator.Is,
-			location: SelectionLocation.Tag,
+			op: 'is',
+			location: 'tag',
 			value: 'h2',
 		},
 	};

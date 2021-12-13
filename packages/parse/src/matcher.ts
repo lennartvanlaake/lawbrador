@@ -1,26 +1,22 @@
 import { ParsedNode } from '@legalthingy/shared/schemas/document_version';
-import {
-	SelectionRule,
-	SelectionLocation,
-	SelectionOperator,
-} from '@legalthingy/shared/schemas/rules';
+import { SelectionRule } from '@legalthingy/shared/schemas/rules';
 
 export function matches(node: ParsedNode, rule: SelectionRule): boolean {
 	if (!node) return false;
 	let toMatch: string[] = [];
 	node.chain.forEach((parent) => {
-		switch (+rule.location) {
-			case SelectionLocation.Id:
+		switch (rule.location) {
+			case 'id':
 				if (parent.id) {
 					toMatch.push(parent.id);
 				}
 				break;
-			case SelectionLocation.Tag:
+			case 'class':
 				if (parent.name) {
 					toMatch.push(parent.name);
 				}
 				break;
-			case SelectionLocation.Class:
+			case 'tag':
 				if (parent.class) {
 					toMatch.push(parent.class);
 				}
@@ -29,9 +25,9 @@ export function matches(node: ParsedNode, rule: SelectionRule): boolean {
 	});
 	if (toMatch.length == 0) return false;
 	switch (rule.op) {
-		case SelectionOperator.Is:
+		case 'is':
 			return toMatch.includes(rule.value);
-		case SelectionOperator.Includes:
+		case 'includes':
 			return toMatch.some((el) => el.includes(rule.value));
 	}
 }

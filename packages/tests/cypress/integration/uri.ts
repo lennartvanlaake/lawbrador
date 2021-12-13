@@ -1,7 +1,7 @@
 import { buildUrl, extractUrlVariables } from '@legalthingy/shared/utils';
-import { UriConfig } from '@legalthingy/shared/schemas/rules';
+import { UrlConfig } from '@legalthingy/shared/schemas/rules';
 
-const config: UriConfig = {
+const config: UrlConfig = {
 	base: 'http://text.com',
 	pathComponents: [
 		{ value: 'static', static: true },

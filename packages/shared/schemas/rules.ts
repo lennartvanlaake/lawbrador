@@ -1,23 +1,20 @@
 import { Static, Type } from '@sinclair/typebox';
 
-export enum SelectionOperator {
-	Is,
-	Includes,
-}
+export const selectionOperator = Type.Union(
+	[Type.Literal('is'), Type.Literal('includes')],
+	{
+		$id: 'selectionOperator',
+	},
+);
 
-export const selectionOperator = Type.Enum(SelectionOperator, {
-	$id: 'selectionOperator',
-});
+export type SelectionOperator = Static<typeof selectionOperator>;
 
-export enum SelectionLocation {
-	Tag,
-	Class,
-	Id,
-}
+export const selectionLocation = Type.Union(
+	[Type.Literal('tag'), Type.Literal('class'), Type.Literal('id')],
+	{ $id: 'selectionLocation' },
+);
 
-export const selectionLocation = Type.Enum(SelectionLocation, {
-	$id: 'selectionLocation',
-});
+export type SelectionLocation = Static<typeof selectionLocation>;
 
 export const selectionRule = Type.Object(
 	{
@@ -39,6 +36,8 @@ export const documentRuleSet = Type.Object({
 export type DocumentRuleSet = Static<typeof documentRuleSet>;
 
 export const htmlSearchRuleSet = Type.Object({
+	pageVariable: Type.String(),
+	queryVariable: Type.String(),
 	resultListRule: Type.Ref(selectionRule),
 	resultLinkRule: Type.Ref(selectionRule),
 	resultRule: Type.Ref(selectionRule),

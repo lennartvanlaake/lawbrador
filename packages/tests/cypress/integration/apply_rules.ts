@@ -1,11 +1,6 @@
 import { applyRuleSet } from '@legalthingy/parse/src/rule_applyer';
 import { parse } from '@legalthingy/parse/src/scraper';
-import {
-	SelectionLocation,
-	SelectionOperator,
-	SourceSiteConfig,
-	DocumentRuleSet,
-} from '@legalthingy/shared/schemas/rules';
+import { DocumentRuleSet } from '@legalthingy/shared/schemas/rules';
 
 describe('Restructuring HTML with empty ruleset', () => {
 	const ruleSet: DocumentRuleSet = {
@@ -49,8 +44,8 @@ describe('Restructuring HTML with body rule', () => {
 		id: '1',
 		conditionRules: [],
 		bodyRule: {
-			op: SelectionOperator.Is,
-			location: SelectionLocation.Id,
+			op: 'is',
+			location: 'id',
 			value: 'root',
 		},
 	};
