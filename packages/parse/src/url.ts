@@ -1,8 +1,7 @@
 import { UrlConfig } from '@legalthingy/shared/schemas/rules';
-import * as sha1 from 'js-sha1';
-
+import { Md5 } from 'md5-typescript';
 function hash(str: string): string {
-	return sha1.hex(str);
+	return Md5.init(str);
 }
 
 export function hashObject(obj: any) {

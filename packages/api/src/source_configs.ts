@@ -33,6 +33,10 @@ const eurlexDemoConfig: SourceSiteConfig = {
 				value: 'quick',
 				static: true,
 			},
+			page: {
+				value: 'page',
+				static: false,
+			},
 		},
 	},
 	documentUrlConfig: {

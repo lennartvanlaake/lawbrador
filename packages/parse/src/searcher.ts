@@ -14,6 +14,7 @@ export async function search(
 	config: SourceSiteConfig,
 ): Promise<SearchResult[]> {
 	const url = buildUrl(searchInput, config.searchUrlConfig);
+	console.log(`URL :${url}`);
 	const scrapeResult = await scrape(url);
 	return parseSearchResults(scrapeResult, config);
 }

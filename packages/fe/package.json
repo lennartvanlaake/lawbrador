@@ -14,7 +14,8 @@
   "type": "module",
   "dependencies": {
     "axios": "^0.24.0",
-    "marked": "^4.0.4"
+    "marked": "^4.0.4",
+    "svelte-infinite-scroll": "^2.0.0"
   },
   "devDependencies": {
     "@types/marked": "^4.0.1"
