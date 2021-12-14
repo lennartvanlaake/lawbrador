@@ -13,29 +13,24 @@ const eurlexDemoConfig: SourceSiteConfig = {
 		pathComponents: [
 			{
 				value: 'search.html',
-				static: true,
 			},
 		],
 		queryComponents: {
 			scope: {
 				value: 'EURLEX',
-				static: true,
 			},
 			text: {
-				value: 'query',
-				static: false,
+				variableName: 'query',
 			},
-			lang: {
-				value: 'en',
-				static: true,
+			DTS_SUBDOM: {
+				variableName: 'domain',
+				possibleValues: ['LEGISLATION', 'EU_CASE_LAW'],
 			},
 			type: {
 				value: 'quick',
-				static: true,
 			},
 			page: {
-				value: 'page',
-				static: false,
+				variableName: 'page',
 			},
 		},
 	},
@@ -44,17 +39,14 @@ const eurlexDemoConfig: SourceSiteConfig = {
 		pathComponents: [
 			{
 				value: 'legal-content',
-				static: true,
 			},
 			{
 				value: 'AUTO',
-				static: true,
 			},
 		],
 		queryComponents: {
 			uri: {
-				value: 'id',
-				static: false,
+				variableName: 'celex',
 			},
 		},
 	},

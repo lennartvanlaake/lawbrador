@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { getSourceConfig } from "./store";
 	import { scrape } from '$lib/api';
 	import type { SearchResult } from '@legalthingy/shared/schemas/search';
+	import type { SourceSiteConfig } from '@legalthingy/shared/schemas/rules';
 	import { createEventDispatcher } from "svelte";
 	export let data: SearchResult;
+	export let sourceConfig: SourceSiteConfig;
 	const dispatch = createEventDispatcher();
 	let hasDocument = !!data.document?.id;
 	let link = hasDocument ?  `/document/${data.document.id}` : "#";
@@ -11,7 +12,7 @@
 		dispatch("searchResultClicked");
 		if (!hasDocument) {
 			try {
-				const result = await scrape({ url: data.href, sourceConfigId: getSourceConfig().id });
+				const result = await scrape({ url: data.href, sourceConfigId: sourceConfig.id });
 				document.location.replace(`/document/${result.id}`);
 			} catch (e) {
 				alert("scraping failed");	

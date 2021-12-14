@@ -13,15 +13,15 @@ export function hashUrlVariables(variables: any, config: UrlConfig) {
 export function buildUrl(variables: Record<string, string>, config: UrlConfig) {
 	const renderedPath = config.pathComponents.reduce((acc, curr) => {
 		const separator = acc.length == 0 ? '' : '/';
-		if (curr.static) {
+		if (curr.value) {
 			return `${acc}${separator}${curr.value}`;
-		} else if (!variables[curr.value]) {
+		} else if (!variables[curr.variableName]) {
 			throw new Error(
-				`required path varaible ${curr.value} not provided`,
+				`required path varaible ${curr.variableName} not provided`,
 			);
 		} else {
 			return `${acc}${separator}${encodeURIComponent(
-				variables[curr.value],
+				variables[curr.variableName],
 			)}`;
 		}
 	}, '');
@@ -30,14 +30,14 @@ export function buildUrl(variables: Record<string, string>, config: UrlConfig) {
 		(acc, key) => {
 			const separator = acc.length == 0 ? '' : '&';
 			const component = config.queryComponents[key];
-			if (component.static) {
+			if (component.value) {
 				return `${acc}${separator}${key}=${component.value}`;
-			} else if (!variables[component.value]) {
+			} else if (!variables[component.variableName]) {
 				// skip empty query params
 				return acc;
 			} else {
 				return `${acc}${separator}${key}=${encodeURIComponent(
-					variables[component.value],
+					variables[component.variableName],
 				)}`;
 			}
 		},
@@ -56,16 +56,16 @@ export function extractUrlVariables(url: string, config: UrlConfig): any {
 		.filter((it) => it.length > 0)
 		.map((it) => decodeURIComponent(it));
 	config.pathComponents.forEach((component, i) => {
-		if (!component.static) {
-			output[component.value] = pathArray[i];
+		if (!component.value) {
+			output[component.variableName] = pathArray[i];
 		}
 	});
 	Object.keys(config.queryComponents).forEach((key) => {
 		const component = config.queryComponents[key];
-		if (!component.static) {
+		if (!component.value) {
 			const variableValue = parsedUrl.searchParams.get(key);
 			if (variableValue) {
-				output[component.value] = variableValue;
+				output[component.variableName] = variableValue;
 			}
 		}
 	});

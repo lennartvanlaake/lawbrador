@@ -5,7 +5,7 @@
 	export let document: RestructuredDocument;
 </script>
 {#if document }
-	<h1>URL: { document.name }</h1>
+	<h1>URL: { document.url }</h1>
 	{#each document.nodes as node}
 		<NodeView node={node} />	
 	{/each}

@@ -3,14 +3,11 @@ import { UrlConfig } from '@legalthingy/shared/schemas/rules';
 
 const config: UrlConfig = {
 	base: 'http://text.com',
-	pathComponents: [
-		{ value: 'static', static: true },
-		{ value: 'var1', static: false },
-	],
+	pathComponents: [{ value: 'static' }, { variableName: 'var1' }],
 	queryComponents: {
-		static: { value: 'x', static: true },
-		dynamic: { value: 'var2', static: false },
-		empty: { value: 'var3', static: false },
+		static: { value: 'x' },
+		dynamic: { variableName: 'var2' },
+		empty: { variableName: 'var3' },
 	},
 };
 

@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
 	import type { Load } from "@sveltejs/kit";
-	import DocumentView from '$lib/DocumentView.svelte';	
+	import DocumentView from '$lib/components/view/DocumentView.svelte';	
 	import { getDocument } from '$lib/api';	
 	import type { RestructuredDocument } from '@legalthingy/shared/schemas/document_version';
 	export const load: Load = async ({ page, fetch }) => {

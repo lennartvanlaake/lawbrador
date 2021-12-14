@@ -48,8 +48,9 @@ export type HtmlSearchRuleSet = Static<typeof htmlSearchRuleSet>;
 
 export const urlComponent = Type.Object(
 	{
-		value: Type.String(),
-		static: Type.Boolean(),
+		value: Type.Optional(Type.String()),
+		variableName: Type.Optional(Type.String()),
+		possibleValues: Type.Optional(Type.Array(Type.String())),
 	},
 	{ $id: 'urlComponent' },
 );
