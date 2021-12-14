@@ -38,8 +38,13 @@
 	}
 	
 	function addToHistory() {
-		//TODO make this dynamic, currently broken
-		const url = `?sourceConfigId=${sourceConfig.id}&query=${searchParams}`;
+		let url = `?sourceConfigId=${sourceConfig.id}`;
+		Object.values(sourceConfig.searchUrlConfig.queryComponents).forEach((component) => { 
+			const paramValue = searchParams[component.variableName];
+			if (paramValue) {
+				url = url + `&${component.variableName}=${paramValue}`
+			}
+		})
 		window.history.pushState({}, "Home", url)
 	}
 </script>
@@ -47,7 +52,7 @@
 
 <div id='results'>
 {#each searchResults as result }
-	<SearchResultComponent data={result} sourceConfig={sourceConfig} on:searchResultClicked/>	
+	<SearchResultComponent data={result} sourceConfig={sourceConfig} on:searchResultClicked={addToHistory}/>	
 	<InfiniteScroll threshold={scrollThreshold} on:loadMore={getNextPage} /> 	
 {/each }
 </div>

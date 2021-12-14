@@ -24,8 +24,18 @@ const eurlexDemoConfig: SourceSiteConfig = {
 			},
 			DTS_SUBDOM: {
 				variableName: 'domain',
-				possibleValues: ['LEGISLATION', 'EU_CASE_LAW'],
+				possibleValues: [
+					{
+						value: 'LEGISLATION',
+						displayName: 'Legislation',
+					},
+					{
+						value: 'EU_CASE_LAW',
+						displayName: 'EU case law',
+					},
+				],
 			},
+
 			type: {
 				value: 'quick',
 			},

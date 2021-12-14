@@ -7,8 +7,9 @@
 <strong>{ option.variableName }</strong>
 { #if option.possibleValues } 
 	<select bind:value="{value}">
+		<option value=""></option>
 		{ #each option.possibleValues as possibleValue }
-			<option value={possibleValue}>{possibleValue}</option>
+			<option value={possibleValue.value}>{possibleValue.displayName ?? possibleValue.value}</option>
 		{ /each } 
 	</select>
 { :else }

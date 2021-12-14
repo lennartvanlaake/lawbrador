@@ -26,7 +26,16 @@
 	let sourceConfig: SourceSiteConfig;
 	let searchResults: SearchResult[] = [];	
 	let searchParams = {};
-
+        $: setFirstSearchParams(sourceConfig);
+	function setFirstSearchParams(sourceConfig: SourceSiteConfig) {
+		searchParams = Object.values(sourceConfig?.searchUrlConfig.queryComponents ?? {}).reduce((acc, cur) => {
+			const queryValue = query.get(cur.variableName);
+			if (queryValue) {
+				acc[cur.variableName] = queryValue;
+			}
+			return acc;
+		}, {})
+	}
 </script>
 
 

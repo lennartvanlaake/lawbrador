@@ -46,11 +46,18 @@ export const htmlSearchRuleSet = Type.Object({
 
 export type HtmlSearchRuleSet = Static<typeof htmlSearchRuleSet>;
 
+export const valueWithDisplayName = Type.Object({
+	value: Type.String(),
+	displayName: Type.Optional(Type.String()),
+});
+
 export const urlComponent = Type.Object(
 	{
 		value: Type.Optional(Type.String()),
 		variableName: Type.Optional(Type.String()),
-		possibleValues: Type.Optional(Type.Array(Type.String())),
+		possibleValues: Type.Optional(
+			Type.Array(Type.Ref(valueWithDisplayName)),
+		),
 	},
 	{ $id: 'urlComponent' },
 );

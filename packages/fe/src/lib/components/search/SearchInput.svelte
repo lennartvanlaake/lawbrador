@@ -10,7 +10,6 @@
 	$: pageVariable = sourceConfig?.htmlSearchRuleSet.pageVariable;
 
 	async function submitIfEnter(event: KeyboardEvent) {
-		console.log(event);
 		if (event.key == "Enter") {
 			await submitQuery();
 		}
