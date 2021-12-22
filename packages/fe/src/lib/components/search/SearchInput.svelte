@@ -23,10 +23,22 @@
 			if (searchResults.length == 0) {
 				alert("search completed, no results");
 			}
+			addToHistory();
 		} catch (e) {
 			console.error(e);
 			alert(`Search went boom: ${e.message}`)
 		}
+	}
+	
+	function addToHistory() {
+		let url = `?sourceConfigId=${sourceConfig.id}`;
+		Object.values(sourceConfig.searchUrlConfig.queryComponents).forEach((component) => { 
+			const paramValue = searchParams[component.variableName];
+			if (component.variableName != sourceConfig.htmlSearchRuleSet.pageVariable && paramValue) {
+				url = url + `&${component.variableName}=${paramValue}`
+			}
+		})
+		window.history.pushState({}, "Home", url)
 	}
 </script>
 

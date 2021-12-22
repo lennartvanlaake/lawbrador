@@ -20,13 +20,7 @@ export type SearchResult = Static<typeof searchResult>;
 
 export const searchRequest = Type.Object({
 	sourceConfigId: Type.String(),
-	searchParams: Type.Intersect([
-		Type.Record(Type.String(), Type.String()),
-		Type.Object({
-			query: Type.Optional(Type.String()),
-			page: Type.Optional(Type.String()),
-		}),
-	]),
+	searchParams: Type.Record(Type.String(), Type.String()),
 });
 
 export type SearchRequest = Static<typeof searchRequest>;

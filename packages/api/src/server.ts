@@ -11,7 +11,8 @@ fastify.register(clearRoutes);
 fastify.register(scrapeRoutes);
 fastify.register(sourceConfigRoutes);
 fastify.register(searchRoutes);
-const url = 'mongodb://admin:admin@localhost:27017';
+const url =
+	'mongodb://localhost:27017?replicaSet=rs0&readPreference=primary&ssl=false';
 
 declare module 'fastify' {
 	interface FastifyInstance {

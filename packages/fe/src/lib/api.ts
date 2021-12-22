@@ -37,7 +37,7 @@ export async function getDocument(
 	return await get(`scrape/${id}`, fetchParam);
 }
 
-export async function getSourceConfigs(fetchParam: any = false): Promise<SourceSiteConfig> {
+export async function getSourceConfigs(fetchParam: any = false): Promise<SourceSiteConfig[]> {
 	return await get('sources', fetchParam);
 }
 

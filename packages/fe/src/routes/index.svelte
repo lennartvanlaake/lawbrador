@@ -1,6 +1,7 @@
 <script context="module" lang="ts">
 	// use for debugging
-	export const ssr = false;
+	/*export const ssr = false;*/
+	import { search } from '$lib/api';	
 	import type { SourceSiteConfig } from '@legalthingy/shared/schemas/rules';
 	import type {  SearchResult } from '@legalthingy/shared/schemas/search';
 	import type { Load } from "@sveltejs/kit";
@@ -10,11 +11,28 @@
 	import SourceConfigSelector from '$lib/components/search/SourceConfigSelector.svelte';
 	
 	export const load: Load = async ({ page, fetch}) => {
-		const sources  =  await getSourceConfigs(fetch);
+		const sources: SourceSiteConfig[] = await getSourceConfigs(fetch);
+		const sourceConfig = sources.find(s => s.id == page.query.get("sourceConfigId")) ?? sources[0];
+		const searchParams: any = Object.values(sourceConfig.searchUrlConfig.queryComponents ?? {}).reduce((acc, cur) => {
+			const queryValue = page.query.get(cur.variableName);
+			if (cur.variableName != sourceConfig.htmlSearchRuleSet.pageVariable && queryValue) {
+				acc[cur.variableName] = queryValue;
+			}
+			return acc;
+		}, {});
+		let searchResults: SearchResult[];
+		if (page.query.get(sourceConfig.htmlSearchRuleSet.queryVariable)) {
+			searchResults = await search({ sourceConfigId: sourceConfig.id, searchParams: searchParams });
+		} else {
+			searchResults = [];
+		}
 		return { 
 			props: {
 				query: page.query,
 				sourceConfigs: sources,
+				sourceConfig: sourceConfig,
+				searchParams: searchParams,
+				searchResults: searchResults,
 			}
 		};
 	}
@@ -23,19 +41,9 @@
 <script lang="ts">
 	export let sourceConfigs: SourceSiteConfig[];
 	export let query: URLSearchParams;
-	let sourceConfig: SourceSiteConfig;
-	let searchResults: SearchResult[] = [];	
-	let searchParams = {};
-        $: setFirstSearchParams(sourceConfig);
-	function setFirstSearchParams(sourceConfig: SourceSiteConfig) {
-		searchParams = Object.values(sourceConfig?.searchUrlConfig.queryComponents ?? {}).reduce((acc, cur) => {
-			const queryValue = query.get(cur.variableName);
-			if (queryValue) {
-				acc[cur.variableName] = queryValue;
-			}
-			return acc;
-		}, {})
-	}
+	export let searchParams: Record<string, string>;
+	export let sourceConfig: SourceSiteConfig;
+	export let searchResults: SearchResult[];	
 </script>
 
 

@@ -37,22 +37,12 @@
 		}
 	}
 	
-	function addToHistory() {
-		let url = `?sourceConfigId=${sourceConfig.id}`;
-		Object.values(sourceConfig.searchUrlConfig.queryComponents).forEach((component) => { 
-			const paramValue = searchParams[component.variableName];
-			if (paramValue) {
-				url = url + `&${component.variableName}=${paramValue}`
-			}
-		})
-		window.history.pushState({}, "Home", url)
-	}
 </script>
 
 
 <div id='results'>
 {#each searchResults as result }
-	<SearchResultComponent data={result} sourceConfig={sourceConfig} on:searchResultClicked={addToHistory}/>	
+	<SearchResultComponent data={result} sourceConfig={sourceConfig} />	
 	<InfiniteScroll threshold={scrollThreshold} on:loadMore={getNextPage} /> 	
 {/each }
 </div>

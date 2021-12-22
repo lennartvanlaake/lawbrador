@@ -1,7 +1,7 @@
 version: '2'
 services:
   mongo:
-    image: mongo:4.4
+    image: davybello/mongo-replica-set:4.4.8
     ports:
       - "27017:27017"
     environment:
