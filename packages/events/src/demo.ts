@@ -46,6 +46,7 @@ export class ProcessorRegistry {
 			try {
 				await f(session);
 				console.log('processing worked');
+				await session.commitTransaction();
 			} catch (e) {
 				console.log(e);
 				error = e;
@@ -54,6 +55,7 @@ export class ProcessorRegistry {
 				await session.endSession();
 				console.log('session ended');
 				if (error) {
+					debugger;
 					throw error;
 				}
 			}
