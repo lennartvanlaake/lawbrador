@@ -2,10 +2,10 @@
 <script lang="ts">
 	import SearchResultComponent from '$lib/components/search/SearchResult.svelte';
 	import InfiniteScroll from "svelte-infinite-scroll";
-	import { incrementPageNumber } from '@legalthingy/parse/src/searcher';
+	import { incrementPageNumber } from '@lawbrador/parse/src/searcher';
 	import { search } from '$lib/api';	
-	import type {  SearchResult } from '@legalthingy/shared/schemas/search';
-	import type { SourceSiteConfig } from '@legalthingy/shared/schemas/rules';
+	import type {  SearchResult } from '@lawbrador/shared/src/schemas/search';
+	import type { SourceSiteConfig } from '@lawbrador/shared/src/schemas/rules';
 	
 	export let sourceConfig: SourceSiteConfig;
 	export let searchResults: SearchResult[] = [];

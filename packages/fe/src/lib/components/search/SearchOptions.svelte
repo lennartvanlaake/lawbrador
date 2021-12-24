@@ -1,5 +1,5 @@
 <script lang="ts"> 
-	import type { SourceSiteConfig } from '@legalthingy/shared/schemas/rules';
+	import type { SourceSiteConfig } from '@lawbrador/shared/src/schemas/rules';
 	import SearchOptionInput from './SearchOptionInput.svelte';
 	export let searchParams: Record<string, string>;
 	export let sourceConfig: SourceSiteConfig;

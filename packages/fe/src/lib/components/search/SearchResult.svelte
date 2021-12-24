@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { scrape } from '$lib/api';
-	import type { SearchResult } from '@legalthingy/shared/schemas/search';
-	import type { SourceSiteConfig } from '@legalthingy/shared/schemas/rules';
+	import type { SearchResult } from '@lawbrador/shared/src/schemas/search';
+	import type { SourceSiteConfig } from '@lawbrador/shared/src/schemas/rules';
 	import { createEventDispatcher } from "svelte";
 	export let data: SearchResult;
 	export let sourceConfig: SourceSiteConfig;

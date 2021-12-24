@@ -1,10 +1,10 @@
-import type { SourceSiteConfig } from '@legalthingy/shared/schemas/rules';
+import type { SourceSiteConfig } from '@lawbrador/shared/src/schemas/rules';
 import type {
 	RestructuredDocument,
 	ScrapeRequest
-} from '@legalthingy/shared/schemas/document_version';
-import type { SearchRequest, SearchResult } from '@legalthingy/shared/schemas/search';
-import type { Identity } from '@legalthingy/shared/schemas/generic';
+} from '@lawbrador/shared/src/schemas/document_version';
+import type { SearchRequest, SearchResult } from '@lawbrador/shared/src/schemas/search';
+import type { Identity } from '@lawbrador/shared/src/schemas/generic';
 
 const baseUrl = 'http://localhost:8080/api';
 

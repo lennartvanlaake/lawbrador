@@ -1,6 +1,6 @@
 
 <script lang="ts">
-	import type { RestructuredDocument } from '@legalthingy/shared/schemas/document_version';
+	import type { RestructuredDocument } from '@lawbrador/shared/src/schemas/document_version';
 	import NodeView from './NodeView.svelte';
 	export let document: RestructuredDocument;
 </script>

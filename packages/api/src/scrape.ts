@@ -1,15 +1,15 @@
 import type { FastifyPluginAsync } from 'fastify';
-import * as scraper from '@legalthingy/parse/src/scraper';
-import { applyConfig } from '@legalthingy/parse/src/rule_applyer';
+import * as scraper from '@lawbrador/shared/src/scraper';
+import { applyConfig } from '@lawbrador/shared/src/rule_applyer';
 import { getCollection } from './utils';
 import { getSourceConfigById } from './source_configs';
 import {
 	ScrapeEvent,
 	ScrapeRequest,
 	RestructuredDocument,
-} from '@legalthingy/shared/schemas/document_version';
-import { Identity } from '@legalthingy/shared/schemas/generic';
-import { hashObject, extractUrlVariables } from '@legalthingy/parse/src/url';
+} from '@lawbrador/shared/src/schemas/document_version';
+import { Identity } from '@lawbrador/shared/src/schemas/generic';
+import { hashObject, extractUrlVariables } from '@lawbrador/shared/src/url';
 import { v4 } from 'uuid';
 
 export const scrapeRoutes: FastifyPluginAsync = async (fastify) => {

@@ -2,8 +2,8 @@
 	// use for debugging
 	/*export const ssr = false;*/
 	import { search } from '$lib/api';	
-	import type { SourceSiteConfig } from '@legalthingy/shared/schemas/rules';
-	import type {  SearchResult } from '@legalthingy/shared/schemas/search';
+	import type { SourceSiteConfig } from '@lawbrador/shared/src/schemas/rules';
+	import type {  SearchResult } from '@lawbrador/shared/src/schemas/search';
 	import type { Load } from "@sveltejs/kit";
 	import { getSourceConfigs } from "$lib/api";
 	import SearchResultList from '$lib/components/search/SearchResultList.svelte';

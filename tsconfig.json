@@ -9,7 +9,6 @@
 		"jsx": "preserve",
 		"module": "esnext",
 		"moduleResolution": "node",
-		"noEmit": true,
 		"preserveConstEnums": true,
 		"removeComments": false,
 		"resolveJsonModule": true,

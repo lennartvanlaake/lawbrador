@@ -1,5 +1,5 @@
 <script lang="ts"> 
-	import type { UrlComponent } from '@legalthingy/shared/schemas/rules';
+	import type { UrlComponent } from '@lawbrador/shared/src/schemas/rules';
 	export let option: UrlComponent;
 	export let value: string;	
 </script>

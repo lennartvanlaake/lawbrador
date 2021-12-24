@@ -2,6 +2,12 @@
 	"extends": "../../tsconfig.json",
 	"include": ["src/**/*.ts"],
 	"compilerOptions": {
-		"module": "commonjs"
-	}
+		"module": "commonjs",
+		"outDir": "dist"
+	},
+	"references": [
+		{
+			"path": "../shared"
+		}
+	]
 }

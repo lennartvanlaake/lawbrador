@@ -1,4 +1,4 @@
-import { SourceSiteConfig } from '@legalthingy/shared/schemas/rules';
+import { SourceSiteConfig } from '@lawbrador/shared/src/schemas/rules';
 import type { FastifyPluginAsync } from 'fastify';
 
 export function getSourceConfigById(id: string): SourceSiteConfig {

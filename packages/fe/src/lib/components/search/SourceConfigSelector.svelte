@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { SourceSiteConfig } from '@legalthingy/shared/schemas/rules';
+	import type { SourceSiteConfig } from '@lawbrador/shared/src/schemas/rules';
 	import { onMount } from 'svelte';
 	export let sourceConfigList: SourceSiteConfig[]
 	export let sourceConfigId: string | undefined;

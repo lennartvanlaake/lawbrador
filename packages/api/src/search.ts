@@ -1,7 +1,7 @@
 import type { FastifyPluginAsync } from 'fastify';
-import { search } from '@legalthingy/parse/src/searcher';
-import { hashObject } from '@legalthingy/parse/src/url';
-import { SearchRequest } from '@legalthingy/shared/schemas/search';
+import { search } from '@lawbrador/shared/src/searcher';
+import { hashObject } from '@lawbrador/shared/src/url';
+import { SearchRequest } from '@lawbrador/shared/src/schemas/search';
 import { getSourceConfigById } from './source_configs';
 import { getCollection } from './utils';
 
