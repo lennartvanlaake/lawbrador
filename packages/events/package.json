@@ -2,13 +2,12 @@
 	"name": "@lawbrador/events",
 	"type": "module",
 	"version": "1.0.0",
-	"license": "MIT",
+	"license": "AGPL-3.0-only",
 	"scripts": {
-		"test": "ts-mocha -p tsconfig.json src/**/*.spec.ts",
-		"test:debug": "ts-mocha -p tsconfig.json src/**/*.spec.ts --inspect-brk",
-		"test:watch": "ts-mocha -p tsconfig.json --watch --watch-files src/**/*.spec.ts src/**/*.spec.ts",
-		"go": "node --experimental-specifier-resolution=node --loader ts-node/esm src/demo.ts",
-		"go-debug": "node --experimental-specifier-resolution=node --loader ts-node/esm --inspect-brk src/demo.ts"
+		"docker": "yarn --cwd ../.. docker -d",
+		"test": "yarn docker && ts-mocha -p tsconfig.json src/**/*.spec.ts",
+		"test:debug": "yarn docker && ts-mocha -p tsconfig.json src/**/*.spec.ts --inspect-brk",
+		"test:watch": "yarn docker && ts-mocha -p tsconfig.json --watch --watch-files src/**/*.spec.ts src/**/*.spec.ts"
 	},
 	"dependencies": {
 		"@sinclair/typebox": "^0.23.1",

@@ -1,5 +1,6 @@
-import { buildUrl, extractUrlVariables } from '@lawbrador/parse/src/url';
-import { UrlConfig } from '@lawbrador/shared/src/schemas/rules';
+import { UrlConfig } from './schemas/rules';
+import { buildUrl, extractUrlVariables } from './url';
+import { expect } from 'chai';
 
 const config: UrlConfig = {
 	base: 'http://text.com',

@@ -1,4 +1,5 @@
-import { parse } from '@lawbrador/parse/src/scraper';
+import { parse } from './scraper';
+import { expect } from 'chai';
 const inputOne = `
 	<div id='useful'>
 		<div id='useless'>
@@ -7,7 +8,7 @@ const inputOne = `
 	</div>
 `;
 
-describe('Test parseing', () => {
+describe('Test basic parseing', () => {
 	it('Recognizes text inside a link', () => {
 		const result = parse(inputOne);
 		expect(result.data[0].text).to.eq('doek');

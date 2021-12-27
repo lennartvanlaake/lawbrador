@@ -1,6 +1,7 @@
-import { applyRuleSet } from '@lawbrador/parse/src/rule_applyer';
-import { parse } from '@lawbrador/parse/src/scraper';
-import { DocumentRuleSet } from '@lawbrador/shared/src/schemas/rules';
+import { applyRuleSet, selectRuleSet } from './rule_applyer';
+import { parse } from './scraper';
+import { DocumentRuleSet, SourceSiteConfig } from './schemas/rules';
+import { expect } from 'chai';
 
 describe('Restructuring HTML with empty ruleset', () => {
 	const ruleSet: DocumentRuleSet = {
@@ -39,6 +40,7 @@ describe('Restructuring HTML with empty ruleset', () => {
 		);
 	});
 });
+
 describe('Restructuring HTML with body rule', () => {
 	const ruleSet: DocumentRuleSet = {
 		id: '1',
@@ -60,5 +62,90 @@ describe('Restructuring HTML with body rule', () => {
 		expect(restructured.every((n) => n.name == 'p')).to.be.true;
 		expect(restructured.every((n) => n.children[0].text == 'bla'))
 			.to.be.true;
+	});
+});
+
+const sourceConfig: SourceSiteConfig = {
+	id: '1',
+	name: 'test',
+	searchUrlConfig: {
+		base: 'http://x.nl',
+		pathComponents: [],
+		queryComponents: {},
+	},
+	documentUrlConfig: {
+		base: 'http://x.nl',
+		pathComponents: [],
+		queryComponents: {},
+	},
+	documentRuleSets: [
+		{
+			id: '1',
+			conditionRules: [
+				{
+					op: 'is',
+					location: 'class',
+					value: 'specific',
+				},
+			],
+			bodyRule: {
+				op: 'is',
+				location: 'id',
+				value: 'important',
+			},
+		},
+		{
+			id: '2',
+			conditionRules: [],
+			bodyRule: {
+				op: 'is',
+				location: 'id',
+				value: 'important',
+			},
+		},
+		{
+			id: '3',
+			conditionRules: [],
+		},
+	],
+	// irrelevant to this test
+	htmlSearchRuleSet: {
+		pageVariable: '',
+		queryVariable: '',
+		resultListRule: {
+			op: 'is',
+			location: 'class',
+			value: '',
+		},
+		resultRule: {
+			op: 'is',
+			location: 'class',
+			value: '',
+		},
+		resultLinkRule: {
+			op: 'is',
+			location: 'tag',
+			value: '',
+		},
+	},
+};
+describe('Selecting documentRuleSets', () => {
+	it('selects the ruleset if both body and specific rule match', () => {
+		const html = `<div id='important'><p class='specific'>bla</p></div>`;
+		const parsed = parse(html);
+		const ruleSet = selectRuleSet(parsed, sourceConfig);
+		expect(ruleSet.id).to.eq('1');
+	});
+	it('selects the ruleset if only body matches', () => {
+		const html = `<div id='important'><p>bla</p></div>`;
+		const parsed = parse(html);
+		const ruleSet = selectRuleSet(parsed, sourceConfig);
+		expect(ruleSet.id).to.eq('2');
+	});
+	it('selects the default empty ruleset', () => {
+		const html = `<div><p>bla</p></div>`;
+		const parsed = parse(html);
+		const ruleSet = selectRuleSet(parsed, sourceConfig);
+		expect(ruleSet.id).to.eq('3');
 	});
 });

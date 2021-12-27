@@ -8,6 +8,7 @@
 	"scripts": {
 		"docker-down": "docker-compose -f docker-dev/docker-compose.yml down",
 		"docker": "docker-compose -f docker-dev/docker-compose.yml up",
+		"test": "lerna run test --stream || killall node",
 		"dev": "yarn docker -d && lerna run dev --stream || killall node",
 		"debug": "yarn docker -d && lerna run debug --stream || killall node",
 		"run-it": "lerna run run-it"

@@ -2,12 +2,12 @@ import {
 	SourceSiteConfig,
 	UrlConfig,
 	HtmlSearchRuleSet,
-} from 'packages/shared/src/schemas/rules';
-import { ParsedNode } from 'packages/shared/src/schemas/document_version';
-import { SearchResult } from 'packages/shared/src/schemas/search';
+} from './schemas/rules';
+import { ParsedNode } from './schemas/document_version';
+import { SearchResult } from './schemas/search';
 import { getFirstMatching, getAllMatching } from './matcher';
 import { scrape } from './scraper';
-import { buildUrl, hashUrlVariables } from 'packages/shared/src/url';
+import { buildUrl, hashUrlVariables } from './url';
 
 export async function search(
 	searchInput: Record<string, string>,

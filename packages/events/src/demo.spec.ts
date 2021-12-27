@@ -30,6 +30,9 @@ describe('Testing sync event processing', () => {
 		eventCollection = db.collection('events');
 		helloCollection = db.collection('hello');
 	});
+	after(async () => {
+		await registry.close();	
+	})
 	beforeEach(async () => {
 		console.log('Before each');
 		await eventCollection.deleteMany({});

@@ -1,13 +1,7 @@
-import { parse } from '@lawbrador/parse/src/scraper';
-import {
-	SelectionRule,
-	SelectionLocation,
-	SelectionOperator,
-} from '@lawbrador/shared/src/schemas/rules';
-import {
-	getFirstMatching,
-	getAllMatching,
-} from '@lawbrador/parse/src/matcher';
+import { expect } from 'chai';
+import { parse } from './scraper';
+import { SelectionRule } from './schemas/rules';
+import { getFirstMatching, getAllMatching } from './matcher';
 
 const inputOne = `
 	<div id='useless'>
@@ -29,8 +23,8 @@ describe('Test matching first element', () => {
 	const parsed = parse(inputOne);
 	it('Matches first element based on exact id match', () => {
 		const rule: SelectionRule = {
-			op: SelectionOperator.Is,
-			location: SelectionLocation.Id,
+			op: 'is',
+			location: 'id',
 			value: 'usefull',
 		};
 		const firstMatched = getFirstMatching(parsed, rule);
@@ -38,8 +32,8 @@ describe('Test matching first element', () => {
 	});
 	it('Matches first element based on id includes', () => {
 		const rule: SelectionRule = {
-			op: SelectionOperator.Includes,
-			location: SelectionLocation.Id,
+			op: 'includes',
+			location: 'id',
 			value: 'full',
 		};
 		const firstMatched = getFirstMatching(parsed, rule);
@@ -47,8 +41,8 @@ describe('Test matching first element', () => {
 	});
 	it('Matches first element based on class', () => {
 		const rule: SelectionRule = {
-			op: SelectionOperator.Is,
-			location: SelectionLocation.Class,
+			op: 'is',
+			location: 'class',
 			value: 'content',
 		};
 		const firstMatched = getFirstMatching(parsed, rule);
@@ -56,8 +50,8 @@ describe('Test matching first element', () => {
 	});
 	it('Matches first element based on tag', () => {
 		const rule: SelectionRule = {
-			op: SelectionOperator.Is,
-			location: SelectionLocation.Tag,
+			op: 'is',
+			location: 'tag',
 			value: 'ul',
 		};
 		const firstMatched = getFirstMatching(parsed, rule);
@@ -69,8 +63,8 @@ describe('Test matching all elements', () => {
 	const parsed = parse(inputOne);
 	it('Matches all leaf node elements', () => {
 		const rule: SelectionRule = {
-			op: SelectionOperator.Is,
-			location: SelectionLocation.Class,
+			op: 'is',
+			location: 'class',
 			value: 'text',
 		};
 		const matched = getAllMatching(parsed, rule);
@@ -78,12 +72,11 @@ describe('Test matching all elements', () => {
 	});
 	it('Matches all organisation nodes', () => {
 		const rule: SelectionRule = {
-			op: SelectionOperator.Is,
-			location: SelectionLocation.Class,
+			op: 'is',
+			location: 'class',
 			value: 'content',
 		};
 		const matched = getAllMatching(parsed, rule);
 		expect(matched.length).to.eq(2);
 	});
-	console.log('x');
 });
