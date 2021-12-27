@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { search } from '$lib/api';	
+	import { search } from '../../api';
 	import SearchOptions from './SearchOptions.svelte';
 	import type { SourceSiteConfig } from '@lawbrador/shared/src/schemas/rules';
-	import type {  SearchResult } from '@lawbrador/shared/src/schemas/search';
+	import type { SearchResult } from '@lawbrador/shared/src/schemas/search';
 	export let sourceConfig: SourceSiteConfig;
 	export let searchResults: SearchResult[] = [];
 	export let searchParams: Record<string, string>;
@@ -10,7 +10,7 @@
 	$: pageVariable = sourceConfig?.htmlSearchRuleSet.pageVariable;
 
 	async function submitIfEnter(event: KeyboardEvent) {
-		if (event.key == "Enter") {
+		if (event.key == 'Enter') {
 			await submitQuery();
 		}
 	}
@@ -21,29 +21,29 @@
 		try {
 			searchResults = await search({ sourceConfigId: sourceConfig.id, searchParams: searchParams });
 			if (searchResults.length == 0) {
-				alert("search completed, no results");
+				alert('search completed, no results');
 			}
 			addToHistory();
 		} catch (e) {
 			console.error(e);
-			alert(`Search went boom: ${e.message}`)
+			alert(`Search went boom: ${e.message}`);
 		}
 	}
-	
+
 	function addToHistory() {
 		let url = `?sourceConfigId=${sourceConfig.id}`;
-		Object.values(sourceConfig.searchUrlConfig.queryComponents).forEach((component) => { 
+		Object.values(sourceConfig.searchUrlConfig.queryComponents).forEach((component) => {
 			const paramValue = searchParams[component.variableName];
 			if (component.variableName != sourceConfig.htmlSearchRuleSet.pageVariable && paramValue) {
-				url = url + `&${component.variableName}=${paramValue}`
+				url = url + `&${component.variableName}=${paramValue}`;
 			}
-		})
-		window.history.pushState({}, "Home", url)
+		});
+		window.history.pushState({}, 'Home', url);
 	}
 </script>
 
 <h1>Search here</h1>
 <input type="text" id="text-field" bind:value={searchParams[queryVariable]} />
-<SearchOptions bind:searchParams={searchParams} sourceConfig={sourceConfig} />
+<SearchOptions bind:searchParams {sourceConfig} />
 <button on:click={submitQuery}>search</button>
-<svelte:window on:keypress={submitIfEnter}/>
+<svelte:window on:keypress={submitIfEnter} />
