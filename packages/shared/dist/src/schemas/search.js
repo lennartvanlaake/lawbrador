@@ -1,15 +1,18 @@
-import { Type } from '@sinclair/typebox';
-export const documentSummary = Type.Object({
-    id: Type.String(),
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.searchRequest = exports.searchResult = exports.documentSummary = void 0;
+const typebox_1 = require("@sinclair/typebox");
+exports.documentSummary = typebox_1.Type.Object({
+    id: typebox_1.Type.String(),
 }, { $id: 'searchDocumentSummary' });
-export const searchResult = Type.Object({
-    text: Type.String(),
-    href: Type.String(),
-    hash: Type.String(),
-    document: Type.Optional(Type.Ref(documentSummary)),
+exports.searchResult = typebox_1.Type.Object({
+    text: typebox_1.Type.String(),
+    href: typebox_1.Type.String(),
+    hash: typebox_1.Type.String(),
+    document: typebox_1.Type.Optional(typebox_1.Type.Ref(exports.documentSummary)),
 });
-export const searchRequest = Type.Object({
-    sourceConfigId: Type.String(),
-    searchParams: Type.Record(Type.String(), Type.String()),
+exports.searchRequest = typebox_1.Type.Object({
+    sourceConfigId: typebox_1.Type.String(),
+    searchParams: typebox_1.Type.Record(typebox_1.Type.String(), typebox_1.Type.String()),
 });
 //# sourceMappingURL=search.js.map

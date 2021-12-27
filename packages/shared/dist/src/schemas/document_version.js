@@ -1,45 +1,48 @@
-import { Type } from '@sinclair/typebox';
-export const parsedNodeData = Type.Object({
-    href: Type.Optional(Type.String()),
-    text: Type.Optional(Type.String()),
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.restructuredDocument = exports.restructuredNode = exports.scrapeRequest = exports.scrapeEvent = exports.parsedNode = exports.parsedNodeProperties = exports.parsedNodeData = void 0;
+const typebox_1 = require("@sinclair/typebox");
+exports.parsedNodeData = typebox_1.Type.Object({
+    href: typebox_1.Type.Optional(typebox_1.Type.String()),
+    text: typebox_1.Type.Optional(typebox_1.Type.String()),
 });
-export const parsedNodeProperties = Type.Object({
-    name: Type.Optional(Type.String()),
-    id: Type.Optional(Type.String()),
-    class: Type.Optional(Type.String()),
+exports.parsedNodeProperties = typebox_1.Type.Object({
+    name: typebox_1.Type.Optional(typebox_1.Type.String()),
+    id: typebox_1.Type.Optional(typebox_1.Type.String()),
+    class: typebox_1.Type.Optional(typebox_1.Type.String()),
 });
-export const parsedNode = Type.Rec((Self) => Type.Object({
-    meta: Type.Any(),
-    chain: Type.Array(Type.Ref(parsedNodeProperties)),
-    data: Type.Array(Type.Ref(parsedNodeData)),
-    children: Type.Optional(Type.Array(Self)),
+exports.parsedNode = typebox_1.Type.Rec((Self) => typebox_1.Type.Object({
+    meta: typebox_1.Type.Any(),
+    chain: typebox_1.Type.Array(typebox_1.Type.Ref(exports.parsedNodeProperties)),
+    data: typebox_1.Type.Array(typebox_1.Type.Ref(exports.parsedNodeData)),
+    children: typebox_1.Type.Optional(typebox_1.Type.Array(Self)),
 }), { $id: 'parsedNode' });
-export const scrapeEvent = Type.Object({
-    id: Type.String(),
-    url: Type.String(),
-    hash: Type.String(),
-    type: Type.Literal('scrape'),
-    timestamp: Type.Number(),
-    bodyNode: Type.Ref(parsedNode),
-    sourceConfigId: Type.String(),
+exports.scrapeEvent = typebox_1.Type.Object({
+    id: typebox_1.Type.String(),
+    url: typebox_1.Type.String(),
+    hash: typebox_1.Type.String(),
+    type: typebox_1.Type.Literal('scrape'),
+    timestamp: typebox_1.Type.Number(),
+    bodyNode: typebox_1.Type.Ref(exports.parsedNode),
+    sourceConfigId: typebox_1.Type.String(),
 }, { $id: 'scrapeEvent' });
-export const scrapeRequest = Type.Object({
-    url: Type.String(),
-    sourceConfigId: Type.String(),
+exports.scrapeRequest = typebox_1.Type.Object({
+    url: typebox_1.Type.String(),
+    sourceConfigId: typebox_1.Type.String(),
 });
 // output after all mutations have been applied
-export const restructuredNode = Type.Rec((Self) => Type.Object({
-    name: Type.Optional(Type.String()),
-    href: Type.Optional(Type.String()),
-    text: Type.Optional(Type.String()),
-    children: Type.Optional(Type.Array(Self)),
+exports.restructuredNode = typebox_1.Type.Rec((Self) => typebox_1.Type.Object({
+    name: typebox_1.Type.Optional(typebox_1.Type.String()),
+    href: typebox_1.Type.Optional(typebox_1.Type.String()),
+    text: typebox_1.Type.Optional(typebox_1.Type.String()),
+    children: typebox_1.Type.Optional(typebox_1.Type.Array(Self)),
 }), { $id: 'restructuredNode' });
-export const restructuredDocument = Type.Object({
-    id: Type.String(),
-    hash: Type.String(),
-    scrapeId: Type.String(),
-    url: Type.String(),
-    timestamp: Type.Number(),
-    nodes: Type.Array(Type.Ref(restructuredNode)),
+exports.restructuredDocument = typebox_1.Type.Object({
+    id: typebox_1.Type.String(),
+    hash: typebox_1.Type.String(),
+    scrapeId: typebox_1.Type.String(),
+    url: typebox_1.Type.String(),
+    timestamp: typebox_1.Type.Number(),
+    nodes: typebox_1.Type.Array(typebox_1.Type.Ref(exports.restructuredNode)),
 });
 //# sourceMappingURL=document_version.js.map

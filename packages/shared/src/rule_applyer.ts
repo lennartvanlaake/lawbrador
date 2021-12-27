@@ -24,10 +24,11 @@ export function selectRuleSet(
 	let applicableRuleset: DocumentRuleSet;
 	for (let i = 0; i < config.documentRuleSets.length; i++) {
 		const ruleSet = config.documentRuleSets[i];
-		const matches =
-			ruleSet.conditionRules.every((rs) => {
-				return getFirstMatching(root, rs);
-			}) && getFirstMatching(root, ruleSet.bodyRule);
+		const matches: Boolean =
+			//@ts-ignore - this somehow breaks a recursivity-check in TS
+			ruleSet.conditionRules.every((rs) =>
+				getFirstMatching(root, rs),
+			) && new Boolean(getFirstMatching(root, ruleSet.bodyRule));
 		if (matches) {
 			applicableRuleset = ruleSet;
 			break;

@@ -1,14 +1,19 @@
-import { Md5 } from 'md5-typescript';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.extractUrlVariables = exports.buildUrl = exports.hashUrlVariables = exports.hashObject = void 0;
+const md5_typescript_1 = require("md5-typescript");
 function hash(str) {
-    return Md5.init(str);
+    return md5_typescript_1.Md5.init(str);
 }
-export function hashObject(obj) {
+function hashObject(obj) {
     return hash(JSON.stringify(obj));
 }
-export function hashUrlVariables(variables, config) {
+exports.hashObject = hashObject;
+function hashUrlVariables(variables, config) {
     return hashObject(extractUrlVariables(variables, config));
 }
-export function buildUrl(variables, config) {
+exports.hashUrlVariables = hashUrlVariables;
+function buildUrl(variables, config) {
     const renderedPath = config.pathComponents.reduce((acc, curr) => {
         const separator = acc.length == 0 ? '' : '/';
         if (curr.value) {
@@ -39,7 +44,8 @@ export function buildUrl(variables, config) {
     const querySeparator = renderedQueryString.length > 0 ? '?' : '';
     return `${config.base}${pathSeparator}${renderedPath}${querySeparator}${renderedQueryString}`;
 }
-export function extractUrlVariables(url, config) {
+exports.buildUrl = buildUrl;
+function extractUrlVariables(url, config) {
     const output = {};
     const parsedUrl = new URL(url);
     const pathArray = parsedUrl.pathname
@@ -62,4 +68,5 @@ export function extractUrlVariables(url, config) {
     });
     return output;
 }
+exports.extractUrlVariables = extractUrlVariables;
 //# sourceMappingURL=url.js.map

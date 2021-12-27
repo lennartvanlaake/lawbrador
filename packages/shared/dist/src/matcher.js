@@ -1,4 +1,7 @@
-export function matches(node, rule) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getAllMatching = exports.getFirstMatching = exports.matches = void 0;
+function matches(node, rule) {
     if (!node)
         return false;
     let toMatch = [];
@@ -30,7 +33,8 @@ export function matches(node, rule) {
             return toMatch.some((el) => el.includes(rule.value));
     }
 }
-export function getFirstMatching(node, rule) {
+exports.matches = matches;
+function getFirstMatching(node, rule) {
     if (!rule || matches(node, rule)) {
         return node;
     }
@@ -45,7 +49,8 @@ export function getFirstMatching(node, rule) {
         }
     }
 }
-export function getAllMatching(node, rule) {
+exports.getFirstMatching = getFirstMatching;
+function getAllMatching(node, rule) {
     let result = [];
     if (matches(node, rule)) {
         result.push(node);
@@ -56,4 +61,5 @@ export function getAllMatching(node, rule) {
     }
     return result;
 }
+exports.getAllMatching = getAllMatching;
 //# sourceMappingURL=matcher.js.map

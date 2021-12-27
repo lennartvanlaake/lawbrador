@@ -1,15 +1,19 @@
-import { getFirstMatching } from './matcher';
-export function applyConfig(root, config) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.applyRuleSet = exports.selectRuleSet = exports.applyConfig = void 0;
+const matcher_1 = require("./matcher");
+function applyConfig(root, config) {
     const ruleSet = selectRuleSet(root, config);
     return applyRuleSet(root, ruleSet);
 }
-export function selectRuleSet(root, config) {
+exports.applyConfig = applyConfig;
+function selectRuleSet(root, config) {
     let applicableRuleset;
     for (let i = 0; i < config.documentRuleSets.length; i++) {
         const ruleSet = config.documentRuleSets[i];
-        const matches = ruleSet.conditionRules.every((rs) => {
-            return getFirstMatching(root, rs);
-        }) && getFirstMatching(root, ruleSet.bodyRule);
+        const matches = 
+        //@ts-ignore
+        ruleSet.conditionRules.every((rs) => (0, matcher_1.getFirstMatching)(root, rs)) && new Boolean((0, matcher_1.getFirstMatching)(root, ruleSet.bodyRule));
         if (matches) {
             applicableRuleset = ruleSet;
             break;
@@ -17,16 +21,18 @@ export function selectRuleSet(root, config) {
     }
     return applicableRuleset;
 }
-export function applyRuleSet(root, rules) {
+exports.selectRuleSet = selectRuleSet;
+function applyRuleSet(root, rules) {
     if (!rules) {
         return restructure(root);
     }
     let result = root;
     if (rules.bodyRule) {
-        result = getFirstMatching(root, rules.bodyRule);
+        result = (0, matcher_1.getFirstMatching)(root, rules.bodyRule);
     }
     return restructure(result);
 }
+exports.applyRuleSet = applyRuleSet;
 function restructure(root) {
     return root.children.map((c) => restructureRecursive(c));
 }

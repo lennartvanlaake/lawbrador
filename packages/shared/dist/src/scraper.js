@@ -1,5 +1,11 @@
-import cheerio from 'cheerio';
-import axios from 'axios';
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.scrape = exports.parse = void 0;
+const cheerio_1 = __importDefault(require("cheerio"));
+const axios_1 = __importDefault(require("axios"));
 function extractDataRecursive(node, $, output) {
     var _a;
     // get the full text of a link, ignoring further sub-elements
@@ -65,12 +71,14 @@ function getTextNodes(node, $) {
         return null;
     return output;
 }
-export function parse(html) {
-    const $ = cheerio.load(html);
+function parse(html) {
+    const $ = cheerio_1.default.load(html);
     return getTextNodes($('body')[0], $);
 }
-export async function scrape(url) {
-    const body = await axios.get(url);
+exports.parse = parse;
+async function scrape(url) {
+    const body = await axios_1.default.get(url);
     return parse(body.data);
 }
+exports.scrape = scrape;
 //# sourceMappingURL=scraper.js.map
