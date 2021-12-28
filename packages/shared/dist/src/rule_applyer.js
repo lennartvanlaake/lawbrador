@@ -12,7 +12,7 @@ function selectRuleSet(root, config) {
     for (let i = 0; i < config.documentRuleSets.length; i++) {
         const ruleSet = config.documentRuleSets[i];
         const matches = 
-        //@ts-ignore
+        //@ts-ignore - this somehow breaks a recursivity-check in TS
         ruleSet.conditionRules.every((rs) => (0, matcher_1.getFirstMatching)(root, rs)) && new Boolean((0, matcher_1.getFirstMatching)(root, ruleSet.bodyRule));
         if (matches) {
             applicableRuleset = ruleSet;

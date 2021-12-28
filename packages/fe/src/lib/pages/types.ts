@@ -8,3 +8,8 @@ export interface IndexProps {
 	sourceConfig: SourceSiteConfig;
 	searchResults: SearchResult[];
 }
+
+export interface SourceConfigEditorProps {
+	sourceConfigs: SourceSiteConfig[];
+	sourceConfig: SourceSiteConfig | undefined;
+}

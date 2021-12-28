@@ -1,20 +1,24 @@
 import { Static, Type } from '@sinclair/typebox';
 
+export const ALL_SELECTION_OPERATORS = ['is', 'includes'] as const;
+
 export const selectionOperator = Type.Union(
-	[Type.Literal('is'), Type.Literal('includes')],
+	ALL_SELECTION_OPERATORS.map((op) => Type.Literal(op)),
 	{
 		$id: 'selectionOperator',
 	},
 );
 
-export type SelectionOperator = Static<typeof selectionOperator>;
+export type SelectionOperator = typeof ALL_SELECTION_OPERATORS[number];
+
+export const ALL_SELECTION_LOCATIONS = ['tag', 'class', 'id'] as const;
 
 export const selectionLocation = Type.Union(
-	[Type.Literal('tag'), Type.Literal('class'), Type.Literal('id')],
+	ALL_SELECTION_LOCATIONS.map((loc) => Type.Literal(loc)),
 	{ $id: 'selectionLocation' },
 );
 
-export type SelectionLocation = Static<typeof selectionLocation>;
+export type SelectionLocation = typeof ALL_SELECTION_LOCATIONS[number];
 
 export const selectionRule = Type.Object(
 	{

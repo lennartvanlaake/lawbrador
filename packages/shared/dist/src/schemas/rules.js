@@ -1,11 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sourceSiteConfig = exports.urlConfig = exports.urlComponent = exports.valueWithDisplayName = exports.htmlSearchRuleSet = exports.documentRuleSet = exports.selectionRule = exports.selectionLocation = exports.selectionOperator = void 0;
+exports.sourceSiteConfig = exports.urlConfig = exports.urlComponent = exports.valueWithDisplayName = exports.htmlSearchRuleSet = exports.documentRuleSet = exports.selectionRule = exports.selectionLocation = exports.ALL_SELECTION_LOCATIONS = exports.selectionOperator = exports.ALL_SELECTION_OPERATORS = void 0;
 const typebox_1 = require("@sinclair/typebox");
-exports.selectionOperator = typebox_1.Type.Union([typebox_1.Type.Literal('is'), typebox_1.Type.Literal('includes')], {
+exports.ALL_SELECTION_OPERATORS = ['is', 'includes'];
+exports.selectionOperator = typebox_1.Type.Union(exports.ALL_SELECTION_OPERATORS.map((op) => typebox_1.Type.Literal(op)), {
     $id: 'selectionOperator',
 });
-exports.selectionLocation = typebox_1.Type.Union([typebox_1.Type.Literal('tag'), typebox_1.Type.Literal('class'), typebox_1.Type.Literal('id')], { $id: 'selectionLocation' });
+exports.ALL_SELECTION_LOCATIONS = ['tag', 'class', 'id'];
+exports.selectionLocation = typebox_1.Type.Union(exports.ALL_SELECTION_LOCATIONS.map((loc) => typebox_1.Type.Literal(loc)), { $id: 'selectionLocation' });
 exports.selectionRule = typebox_1.Type.Object({
     op: typebox_1.Type.Ref(exports.selectionOperator),
     location: typebox_1.Type.Ref(exports.selectionLocation),

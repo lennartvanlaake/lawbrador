@@ -1,24 +1,26 @@
 import { Static } from '@sinclair/typebox';
-export declare const selectionOperator: import("@sinclair/typebox").TUnion<[import("@sinclair/typebox").TLiteral<"is">, import("@sinclair/typebox").TLiteral<"includes">]>;
-export declare type SelectionOperator = Static<typeof selectionOperator>;
-export declare const selectionLocation: import("@sinclair/typebox").TUnion<[import("@sinclair/typebox").TLiteral<"tag">, import("@sinclair/typebox").TLiteral<"class">, import("@sinclair/typebox").TLiteral<"id">]>;
-export declare type SelectionLocation = Static<typeof selectionLocation>;
+export declare const ALL_SELECTION_OPERATORS: readonly ["is", "includes"];
+export declare const selectionOperator: import("@sinclair/typebox").TUnion<import("@sinclair/typebox").TLiteral<"is" | "includes">[]>;
+export declare type SelectionOperator = typeof ALL_SELECTION_OPERATORS[number];
+export declare const ALL_SELECTION_LOCATIONS: readonly ["tag", "class", "id"];
+export declare const selectionLocation: import("@sinclair/typebox").TUnion<import("@sinclair/typebox").TLiteral<"id" | "class" | "tag">[]>;
+export declare type SelectionLocation = typeof ALL_SELECTION_LOCATIONS[number];
 export declare const selectionRule: import("@sinclair/typebox").TObject<{
-    op: import("@sinclair/typebox").TUnion<[import("@sinclair/typebox").TLiteral<"is">, import("@sinclair/typebox").TLiteral<"includes">]>;
-    location: import("@sinclair/typebox").TUnion<[import("@sinclair/typebox").TLiteral<"tag">, import("@sinclair/typebox").TLiteral<"class">, import("@sinclair/typebox").TLiteral<"id">]>;
+    op: import("@sinclair/typebox").TUnion<import("@sinclair/typebox").TLiteral<"is" | "includes">[]>;
+    location: import("@sinclair/typebox").TUnion<import("@sinclair/typebox").TLiteral<"id" | "class" | "tag">[]>;
     value: import("@sinclair/typebox").TString;
 }>;
 export declare type SelectionRule = Static<typeof selectionRule>;
 export declare const documentRuleSet: import("@sinclair/typebox").TObject<{
     id: import("@sinclair/typebox").TString;
     conditionRules: import("@sinclair/typebox").TArray<import("@sinclair/typebox").TObject<{
-        op: import("@sinclair/typebox").TUnion<[import("@sinclair/typebox").TLiteral<"is">, import("@sinclair/typebox").TLiteral<"includes">]>;
-        location: import("@sinclair/typebox").TUnion<[import("@sinclair/typebox").TLiteral<"tag">, import("@sinclair/typebox").TLiteral<"class">, import("@sinclair/typebox").TLiteral<"id">]>;
+        op: import("@sinclair/typebox").TUnion<import("@sinclair/typebox").TLiteral<"is" | "includes">[]>;
+        location: import("@sinclair/typebox").TUnion<import("@sinclair/typebox").TLiteral<"id" | "class" | "tag">[]>;
         value: import("@sinclair/typebox").TString;
     }>>;
     bodyRule: import("@sinclair/typebox").TOptional<import("@sinclair/typebox").TObject<{
-        op: import("@sinclair/typebox").TUnion<[import("@sinclair/typebox").TLiteral<"is">, import("@sinclair/typebox").TLiteral<"includes">]>;
-        location: import("@sinclair/typebox").TUnion<[import("@sinclair/typebox").TLiteral<"tag">, import("@sinclair/typebox").TLiteral<"class">, import("@sinclair/typebox").TLiteral<"id">]>;
+        op: import("@sinclair/typebox").TUnion<import("@sinclair/typebox").TLiteral<"is" | "includes">[]>;
+        location: import("@sinclair/typebox").TUnion<import("@sinclair/typebox").TLiteral<"id" | "class" | "tag">[]>;
         value: import("@sinclair/typebox").TString;
     }>>;
 }>;
@@ -27,23 +29,23 @@ export declare const htmlSearchRuleSet: import("@sinclair/typebox").TObject<{
     pageVariable: import("@sinclair/typebox").TString;
     queryVariable: import("@sinclair/typebox").TString;
     resultListRule: import("@sinclair/typebox").TObject<{
-        op: import("@sinclair/typebox").TUnion<[import("@sinclair/typebox").TLiteral<"is">, import("@sinclair/typebox").TLiteral<"includes">]>;
-        location: import("@sinclair/typebox").TUnion<[import("@sinclair/typebox").TLiteral<"tag">, import("@sinclair/typebox").TLiteral<"class">, import("@sinclair/typebox").TLiteral<"id">]>;
+        op: import("@sinclair/typebox").TUnion<import("@sinclair/typebox").TLiteral<"is" | "includes">[]>;
+        location: import("@sinclair/typebox").TUnion<import("@sinclair/typebox").TLiteral<"id" | "class" | "tag">[]>;
         value: import("@sinclair/typebox").TString;
     }>;
     resultLinkRule: import("@sinclair/typebox").TObject<{
-        op: import("@sinclair/typebox").TUnion<[import("@sinclair/typebox").TLiteral<"is">, import("@sinclair/typebox").TLiteral<"includes">]>;
-        location: import("@sinclair/typebox").TUnion<[import("@sinclair/typebox").TLiteral<"tag">, import("@sinclair/typebox").TLiteral<"class">, import("@sinclair/typebox").TLiteral<"id">]>;
+        op: import("@sinclair/typebox").TUnion<import("@sinclair/typebox").TLiteral<"is" | "includes">[]>;
+        location: import("@sinclair/typebox").TUnion<import("@sinclair/typebox").TLiteral<"id" | "class" | "tag">[]>;
         value: import("@sinclair/typebox").TString;
     }>;
     resultRule: import("@sinclair/typebox").TObject<{
-        op: import("@sinclair/typebox").TUnion<[import("@sinclair/typebox").TLiteral<"is">, import("@sinclair/typebox").TLiteral<"includes">]>;
-        location: import("@sinclair/typebox").TUnion<[import("@sinclair/typebox").TLiteral<"tag">, import("@sinclair/typebox").TLiteral<"class">, import("@sinclair/typebox").TLiteral<"id">]>;
+        op: import("@sinclair/typebox").TUnion<import("@sinclair/typebox").TLiteral<"is" | "includes">[]>;
+        location: import("@sinclair/typebox").TUnion<import("@sinclair/typebox").TLiteral<"id" | "class" | "tag">[]>;
         value: import("@sinclair/typebox").TString;
     }>;
     resultDescriptionRule: import("@sinclair/typebox").TOptional<import("@sinclair/typebox").TObject<{
-        op: import("@sinclair/typebox").TUnion<[import("@sinclair/typebox").TLiteral<"is">, import("@sinclair/typebox").TLiteral<"includes">]>;
-        location: import("@sinclair/typebox").TUnion<[import("@sinclair/typebox").TLiteral<"tag">, import("@sinclair/typebox").TLiteral<"class">, import("@sinclair/typebox").TLiteral<"id">]>;
+        op: import("@sinclair/typebox").TUnion<import("@sinclair/typebox").TLiteral<"is" | "includes">[]>;
+        location: import("@sinclair/typebox").TUnion<import("@sinclair/typebox").TLiteral<"id" | "class" | "tag">[]>;
         value: import("@sinclair/typebox").TString;
     }>>;
 }>;
@@ -125,13 +127,13 @@ export declare const sourceSiteConfig: import("@sinclair/typebox").TObject<{
     documentRuleSets: import("@sinclair/typebox").TArray<import("@sinclair/typebox").TObject<{
         id: import("@sinclair/typebox").TString;
         conditionRules: import("@sinclair/typebox").TArray<import("@sinclair/typebox").TObject<{
-            op: import("@sinclair/typebox").TUnion<[import("@sinclair/typebox").TLiteral<"is">, import("@sinclair/typebox").TLiteral<"includes">]>;
-            location: import("@sinclair/typebox").TUnion<[import("@sinclair/typebox").TLiteral<"tag">, import("@sinclair/typebox").TLiteral<"class">, import("@sinclair/typebox").TLiteral<"id">]>;
+            op: import("@sinclair/typebox").TUnion<import("@sinclair/typebox").TLiteral<"is" | "includes">[]>;
+            location: import("@sinclair/typebox").TUnion<import("@sinclair/typebox").TLiteral<"id" | "class" | "tag">[]>;
             value: import("@sinclair/typebox").TString;
         }>>;
         bodyRule: import("@sinclair/typebox").TOptional<import("@sinclair/typebox").TObject<{
-            op: import("@sinclair/typebox").TUnion<[import("@sinclair/typebox").TLiteral<"is">, import("@sinclair/typebox").TLiteral<"includes">]>;
-            location: import("@sinclair/typebox").TUnion<[import("@sinclair/typebox").TLiteral<"tag">, import("@sinclair/typebox").TLiteral<"class">, import("@sinclair/typebox").TLiteral<"id">]>;
+            op: import("@sinclair/typebox").TUnion<import("@sinclair/typebox").TLiteral<"is" | "includes">[]>;
+            location: import("@sinclair/typebox").TUnion<import("@sinclair/typebox").TLiteral<"id" | "class" | "tag">[]>;
             value: import("@sinclair/typebox").TString;
         }>>;
     }>>;
@@ -139,23 +141,23 @@ export declare const sourceSiteConfig: import("@sinclair/typebox").TObject<{
         pageVariable: import("@sinclair/typebox").TString;
         queryVariable: import("@sinclair/typebox").TString;
         resultListRule: import("@sinclair/typebox").TObject<{
-            op: import("@sinclair/typebox").TUnion<[import("@sinclair/typebox").TLiteral<"is">, import("@sinclair/typebox").TLiteral<"includes">]>;
-            location: import("@sinclair/typebox").TUnion<[import("@sinclair/typebox").TLiteral<"tag">, import("@sinclair/typebox").TLiteral<"class">, import("@sinclair/typebox").TLiteral<"id">]>;
+            op: import("@sinclair/typebox").TUnion<import("@sinclair/typebox").TLiteral<"is" | "includes">[]>;
+            location: import("@sinclair/typebox").TUnion<import("@sinclair/typebox").TLiteral<"id" | "class" | "tag">[]>;
             value: import("@sinclair/typebox").TString;
         }>;
         resultLinkRule: import("@sinclair/typebox").TObject<{
-            op: import("@sinclair/typebox").TUnion<[import("@sinclair/typebox").TLiteral<"is">, import("@sinclair/typebox").TLiteral<"includes">]>;
-            location: import("@sinclair/typebox").TUnion<[import("@sinclair/typebox").TLiteral<"tag">, import("@sinclair/typebox").TLiteral<"class">, import("@sinclair/typebox").TLiteral<"id">]>;
+            op: import("@sinclair/typebox").TUnion<import("@sinclair/typebox").TLiteral<"is" | "includes">[]>;
+            location: import("@sinclair/typebox").TUnion<import("@sinclair/typebox").TLiteral<"id" | "class" | "tag">[]>;
             value: import("@sinclair/typebox").TString;
         }>;
         resultRule: import("@sinclair/typebox").TObject<{
-            op: import("@sinclair/typebox").TUnion<[import("@sinclair/typebox").TLiteral<"is">, import("@sinclair/typebox").TLiteral<"includes">]>;
-            location: import("@sinclair/typebox").TUnion<[import("@sinclair/typebox").TLiteral<"tag">, import("@sinclair/typebox").TLiteral<"class">, import("@sinclair/typebox").TLiteral<"id">]>;
+            op: import("@sinclair/typebox").TUnion<import("@sinclair/typebox").TLiteral<"is" | "includes">[]>;
+            location: import("@sinclair/typebox").TUnion<import("@sinclair/typebox").TLiteral<"id" | "class" | "tag">[]>;
             value: import("@sinclair/typebox").TString;
         }>;
         resultDescriptionRule: import("@sinclair/typebox").TOptional<import("@sinclair/typebox").TObject<{
-            op: import("@sinclair/typebox").TUnion<[import("@sinclair/typebox").TLiteral<"is">, import("@sinclair/typebox").TLiteral<"includes">]>;
-            location: import("@sinclair/typebox").TUnion<[import("@sinclair/typebox").TLiteral<"tag">, import("@sinclair/typebox").TLiteral<"class">, import("@sinclair/typebox").TLiteral<"id">]>;
+            op: import("@sinclair/typebox").TUnion<import("@sinclair/typebox").TLiteral<"is" | "includes">[]>;
+            location: import("@sinclair/typebox").TUnion<import("@sinclair/typebox").TLiteral<"id" | "class" | "tag">[]>;
             value: import("@sinclair/typebox").TString;
         }>>;
     }>;
