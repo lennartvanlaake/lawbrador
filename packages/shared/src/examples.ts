@@ -1,5 +1,18 @@
-import { SourceSiteConfig } from './schemas/rules';
-
+import {
+	DocumentRuleSet,
+	SelectionRule,
+	SourceSiteConfig,
+} from './schemas/rules';
+import { v4 } from 'uuid';
+export const DEFAULT_EMPTY_CONFIG: SelectionRule = {
+	op: 'is',
+	location: 'id',
+	value: '',
+};
+export const newEmptyRuleSet: () => DocumentRuleSet = () => ({
+	id: v4(),
+	conditionRules: [],
+});
 // hard coded for now
 export const eurlexConfig: SourceSiteConfig = {
 	id: '1',

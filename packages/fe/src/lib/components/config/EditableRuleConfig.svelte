@@ -1,21 +1,19 @@
 <script lang="ts">
 import type { SelectionRule } from "@lawbrador/shared/src/schemas/rules";
 import { ALL_SELECTION_OPERATORS, ALL_SELECTION_LOCATIONS } from "@lawbrador/shared/src/schemas/rules";
+import { DEFAULT_EMPTY_CONFIG } from "@lawbrador/shared/src/examples";
+ 
 import Select, { Option } from '@smui/select';
 import TextField from '@smui/textfield';
 import Button, { Label } from '@smui/button';
 
 export let ruleConfig: SelectionRule | undefined; 
-export let title: string;
-export let optional: boolean;
-const DEFAULT_EMPTY_CONFIG: SelectionRule = {
-			op: "is",
-			location: "id",
-			value: ""
-		}
+export let title: string | null;
+export let optional: Boolean;
 </script>
-
+{#if title } 
 <h3>{title}</h3>
+{/if }
 {#if ruleConfig }
 
 <Select bind:value={ruleConfig.op} label="Selection operator">
@@ -32,7 +30,7 @@ const DEFAULT_EMPTY_CONFIG: SelectionRule = {
 
 <TextField bind:value={ruleConfig.value} label="Selector value" />
 {#if optional }
-<Button on:click={() => ruleConfig = undefined}>
+<Button on:click={() => ruleConfig = null}>
 	<Label>Remove</Label>
 </Button>
 {/if }
