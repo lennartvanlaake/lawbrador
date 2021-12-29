@@ -33,9 +33,7 @@ import { newEmptyRuleSet } from "@lawbrador/shared/src/examples";
 	<Title>Document rule sets</Title>
 	<Content>
 	{#each sourceConfig.documentRuleSets as ruleSet }
-		{#if ruleSet }
 			<EditableDocumentRuleSet bind:ruleSet={ruleSet} />		
-		{/if }
 	{/each}
 	</Content>
 	<Button on:click={() => sourceConfig.documentRuleSets = [ ...sourceConfig.documentRuleSets, newEmptyRuleSet()]}>
