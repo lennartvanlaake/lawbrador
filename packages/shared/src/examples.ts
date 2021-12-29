@@ -3,7 +3,7 @@ import {
 	SelectionRule,
 	SourceSiteConfig,
 } from './schemas/rules';
-export const DEFAULT_EMPTY_CONFIG: SelectionRule = {
+export const DEFAULT_EMPTY_SELECTION_RULE: SelectionRule = {
 	op: 'is',
 	location: 'id',
 	value: '',

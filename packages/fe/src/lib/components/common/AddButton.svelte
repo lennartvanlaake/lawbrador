@@ -1,20 +1,21 @@
 <script lang="ts">
 import Button, { Label } from '@smui/button';
-export let toAdd: Array<any> | any;
+export let value: Array<any> | any;
 export let empty: any;
-const isArray = Array.isArray(toAdd);
+export let text: string = "Add";
+const isArray = Array.isArray(value);
 
 function fillProp() {
 	if (isArray) {
-		toAdd = [ ...toAdd, empty ]
+		value = [ ...value, { ...empty } ]
 	} else {
-		toAdd = { ...empty }
+		value = { ...empty }
 	}
 }
 </script>
-{#if isArray || !toAdd }
+{#if isArray || !value }
 <Button on:click={fillProp}>
-	<Label>Add</Label>
+	<Label>{text}</Label>
 </Button>
 {/if }
 
