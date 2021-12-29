@@ -3,16 +3,14 @@ import {
 	SelectionRule,
 	SourceSiteConfig,
 } from './schemas/rules';
-import { v4 } from 'uuid';
 export const DEFAULT_EMPTY_CONFIG: SelectionRule = {
 	op: 'is',
 	location: 'id',
 	value: '',
 };
-export const newEmptyRuleSet: () => DocumentRuleSet = () => ({
-	id: v4(),
+export const DEFAULT_EMPTY_RULESET: DocumentRuleSet = {
 	conditionRules: [],
-});
+};
 // hard coded for now
 export const eurlexConfig: SourceSiteConfig = {
 	id: '1',
@@ -72,7 +70,6 @@ export const eurlexConfig: SourceSiteConfig = {
 
 	documentRuleSets: [
 		{
-			id: '1',
 			conditionRules: [],
 			bodyRule: {
 				op: 'is',
@@ -82,7 +79,6 @@ export const eurlexConfig: SourceSiteConfig = {
 		},
 
 		{
-			id: '2',
 			conditionRules: [],
 			bodyRule: {
 				op: 'is',

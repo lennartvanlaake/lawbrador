@@ -6,7 +6,10 @@ import { DEFAULT_EMPTY_CONFIG } from "@lawbrador/shared/src/examples";
 import Select, { Option } from '@smui/select';
 import TextField from '@smui/textfield';
 import Button, { Label } from '@smui/button';
+import AddButton from "$lib/components/common/AddButton.svelte";
+import RemoveButton from "$lib/components/common/RemoveButton.svelte";
 
+export let ruleList: Array<SelectionRule> | null = null;
 export let ruleConfig: SelectionRule | undefined; 
 export let title: string | null;
 export let optional: Boolean;
@@ -30,13 +33,9 @@ export let optional: Boolean;
 
 <TextField bind:value={ruleConfig.value} label="Selector value" />
 {#if optional }
-<Button on:click={() => ruleConfig = null}>
-	<Label>Remove</Label>
-</Button>
+	<RemoveButton bind:toRemove={ruleConfig} bind:list={ruleList}/>
 {/if }
 
 {:else }
-	<Button on:click={() => ruleConfig = { ...DEFAULT_EMPTY_CONFIG } }>
-	<Label>Add</Label>
-</Button>
+<AddButton bind:toAdd={ruleConfig} empty={DEFAULT_EMPTY_CONFIG} />
 {/if }

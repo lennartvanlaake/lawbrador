@@ -17,7 +17,7 @@ TextOnly.args = {
 export const Paragraph = Template.bind({});
 Paragraph.args = {
 	name: 'p',
-	children: [{ text: 'bla' }]
+	children: [{ text: 'bla bla' }]
 };
 export const Div = Template.bind({});
 Div.args = {

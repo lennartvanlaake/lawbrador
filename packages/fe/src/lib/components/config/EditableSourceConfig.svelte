@@ -5,8 +5,10 @@ import TextField from '@smui/textfield';
 import EditableRuleConfig from './EditableRuleConfig.svelte'
 import EditableDocumentRuleSet from './EditableDocumentRuleSet.svelte'
 import Paper, { Title, Content } from '@smui/paper';
+import {DEFAULT_EMPTY_RULESET } from "@lawbrador/shared/src/examples";
+import AddButton from '../common/AddButton.svelte';
+
 export let sourceConfig: SourceSiteConfig;
-import { newEmptyRuleSet } from "@lawbrador/shared/src/examples";
 </script>
 
 <Paper>
@@ -33,12 +35,10 @@ import { newEmptyRuleSet } from "@lawbrador/shared/src/examples";
 	<Title>Document rule sets</Title>
 	<Content>
 	{#each sourceConfig.documentRuleSets as ruleSet }
-			<EditableDocumentRuleSet bind:ruleSet={ruleSet} />		
+		<EditableDocumentRuleSet bind:ruleSet={ruleSet} bind:ruleSetList={sourceConfig.documentRuleSets} />		
 	{/each}
+	<AddButton bind:toAdd={sourceConfig.documentRuleSets} empty={ DEFAULT_EMPTY_RULESET } />
 	</Content>
-	<Button on:click={() => sourceConfig.documentRuleSets = [ ...sourceConfig.documentRuleSets, newEmptyRuleSet()]}>
-		<Label>Add</Label>
-	</Button>
 </Paper>
 
 
