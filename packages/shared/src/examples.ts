@@ -2,7 +2,19 @@ import {
 	DocumentRuleSet,
 	SelectionRule,
 	SourceSiteConfig,
+	UrlComponent,
+	ValueWithDisplayName,
 } from './schemas/rules';
+
+export const EMPTY_URL_COMPONENT: UrlComponent = {
+	value: '',
+	variableName: null,
+	possibleValues: [],
+};
+export const EMPTY_VALUE_WITH_DISPLAY_NAME: ValueWithDisplayName = {
+	value: '',
+	displayName: null,
+};
 export const DEFAULT_EMPTY_SELECTION_RULE: SelectionRule = {
 	op: 'is',
 	location: 'id',
@@ -25,11 +37,14 @@ export const eurlexConfig: SourceSiteConfig = {
 		queryComponents: {
 			scope: {
 				value: 'EURLEX',
+				variableName: null,
 			},
 			text: {
 				variableName: 'query',
+				value: null,
 			},
 			DTS_SUBDOM: {
+				value: null,
 				variableName: 'domain',
 				possibleValues: [
 					{
@@ -45,9 +60,11 @@ export const eurlexConfig: SourceSiteConfig = {
 
 			type: {
 				value: 'quick',
+				variableName: null,
 			},
 			page: {
 				variableName: 'page',
+				value: null,
 			},
 		},
 	},
@@ -56,14 +73,17 @@ export const eurlexConfig: SourceSiteConfig = {
 		pathComponents: [
 			{
 				value: 'legal-content',
+				variableName: null,
 			},
 			{
 				value: 'AUTO',
+				variableName: null,
 			},
 		],
 		queryComponents: {
 			uri: {
 				variableName: 'celex',
+				value: null,
 			},
 		},
 	},

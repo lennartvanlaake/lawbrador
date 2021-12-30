@@ -1789,6 +1789,15 @@
     "@smui/ripple" "^6.0.0-beta.9"
     svelte2tsx "^0.4.11"
 
+"@smui/common@^6.0.0-beta.11":
+  version "6.0.0-beta.11"
+  resolved "https://registry.yarnpkg.com/@smui/common/-/common-6.0.0-beta.11.tgz#8d0ac6f5b956056ad4d00047eb215f13f7c24df0"
+  integrity sha512-WVn2DTixXtHWJz7oNrGy4r2Pq7nzHniJZUQRm2j5Vk0hzoZQn8LXhIJPYfubLeLN1wYbSCQseH8gnBgi68YsQQ==
+  dependencies:
+    "@material/dom" "^13.0.0"
+    "@tsconfig/svelte" "^2.0.1"
+    svelte2tsx "^0.4.11"
+
 "@smui/common@^6.0.0-beta.9":
   version "6.0.0-beta.9"
   resolved "https://registry.yarnpkg.com/@smui/common/-/common-6.0.0-beta.9.tgz#c7a51677d6d1cc46c3e1b5d7cf447ccafc7bbf56"
@@ -1814,6 +1823,18 @@
   dependencies:
     "@material/line-ripple" "^13.0.0"
     "@smui/common" "^6.0.0-beta.9"
+    svelte2tsx "^0.4.11"
+
+"@smui/list@^6.0.0-beta.11":
+  version "6.0.0-beta.11"
+  resolved "https://registry.yarnpkg.com/@smui/list/-/list-6.0.0-beta.11.tgz#5c86dd071cfb34428b920463acab8467bbf2c814"
+  integrity sha512-1QFgOqic1qGGliZyKBfRgfQrT2++OLpIzglCaaJNlBh10m8xAaPbZ18knaic4fHG1iO+uCshps5zMo5WhQ3BnA==
+  dependencies:
+    "@material/dom" "^13.0.0"
+    "@material/feature-targeting" "^13.0.0"
+    "@material/list" "^13.0.0"
+    "@smui/common" "^6.0.0-beta.11"
+    "@smui/ripple" "^6.0.0-beta.11"
     svelte2tsx "^0.4.11"
 
 "@smui/list@^6.0.0-beta.9":
@@ -1871,6 +1892,16 @@
     "@material/theme" "^13.0.0"
     "@material/typography" "^13.0.0"
     "@smui/common" "^6.0.0-beta.9"
+    svelte2tsx "^0.4.11"
+
+"@smui/ripple@^6.0.0-beta.11":
+  version "6.0.0-beta.11"
+  resolved "https://registry.yarnpkg.com/@smui/ripple/-/ripple-6.0.0-beta.11.tgz#82b8bd1f36a41e1c6a044cc2d6822841bc3b6e82"
+  integrity sha512-PVhAxKmuittcp6TiNb8qeHfatFpNXLirqXZgLYelCc5b87DmgqxYkcBPtIaGfw4kvXopuPMH4+j5XOCOYw4ZNg==
+  dependencies:
+    "@material/dom" "^13.0.0"
+    "@material/ripple" "^13.0.0"
+    "@smui/common" "^6.0.0-beta.11"
     svelte2tsx "^0.4.11"
 
 "@smui/ripple@^6.0.0-beta.9":
@@ -11767,6 +11798,11 @@ sveltedoc-parser@^4.1.0:
   dependencies:
     "@smui/button" "^6.0.0-beta.9"
     "@smui/paper" "^6.0.0-beta.9"
+    "@storybook/addon-actions" "^6.4.9"
+    "@storybook/addon-essentials" "^6.4.9"
+    "@storybook/addon-links" "^6.4.9"
+    "@storybook/addon-svelte-csf" "^1.1.0"
+    "@storybook/svelte" "^6.4.9"
     axios "^0.24.0"
     cheerio "^1.0.0-rc.10"
     marked "^4.0.4"

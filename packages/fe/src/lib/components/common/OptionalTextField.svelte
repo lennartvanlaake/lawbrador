@@ -1,15 +1,19 @@
 <script lang="ts">
+import { createEventDispatcher } from 'svelte';
 import TextField from '@smui/textfield';
 import AddButton from "./AddButton.svelte";
 import RemoveButton from "./RemoveButton.svelte";
 export let value: string | null = null;
 export let label: string;
+const dispatch = createEventDispatcher();
+
+$: disabled = value === null;
+$: disabled ? dispatch('disabled') : dispatch('enabled');
 </script>
 
-{#if value === null }
-<TextField label={label} bind:value />
-<RemoveButton bind:value />
+<TextField label={label} bind:value disabled={disabled} />
+{#if disabled }
+<AddButton bind:value empty={""} />
 {:else }
-<TextField label={label} bind:value />
-<AddButton bind:value empty="" />
+<RemoveButton bind:value />
 {/if }

@@ -54,6 +54,8 @@ export const valueWithDisplayName = Type.Object({
 	displayName: Type.Optional(Type.String()),
 });
 
+export type ValueWithDisplayName = Static<typeof valueWithDisplayName>;
+
 export const urlComponent = Type.Object(
 	{
 		value: Type.Optional(Type.String()),

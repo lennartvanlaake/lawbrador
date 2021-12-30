@@ -2,12 +2,19 @@ import OptionalTextField from '../lib/components/common/OptionalTextField.svelte
 
 export default {
 	title: 'OptionalTextField',
-	component: OptionalTextField
+	component: OptionalTextField,
+	argTypes: {
+		value: {
+			control: {
+				type: 'text'
+			}
+		}
+	}
 };
 
 const Template = ({ ...args }) => ({
 	Component: OptionalTextField,
-	props: { ...args }
+	props: { label: 'Label', ...args }
 });
 
 export const Filled = Template.bind({});

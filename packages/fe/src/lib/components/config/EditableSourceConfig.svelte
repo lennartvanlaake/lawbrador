@@ -7,6 +7,7 @@ import EditableDocumentRuleSet from './EditableDocumentRuleSet.svelte'
 import Paper, { Title, Content } from '@smui/paper';
 import {DEFAULT_EMPTY_RULESET} from "@lawbrador/shared/src/examples";
 import AddButton from '../common/AddButton.svelte';
+import EditableUrlConfig from "./EditableUrlConfig.svelte";
 
 export let sourceConfig: SourceSiteConfig;
 </script>
@@ -41,4 +42,18 @@ export let sourceConfig: SourceSiteConfig;
 	</Content>
 </Paper>
 
+
+<Paper>
+	<Title>Search url config</Title>
+		<Content>
+			<EditableUrlConfig bind:urlConfig={sourceConfig.searchUrlConfig} />	
+		</Content>
+</Paper>
+
+<Paper>
+	<Title>Document url config</Title>
+		<Content>
+			<EditableUrlConfig bind:urlConfig={sourceConfig.documentUrlConfig} />	
+		</Content>
+</Paper>
 
