@@ -6,7 +6,6 @@ import RemoveButton from "./RemoveButton.svelte";
 export let value: string | null = null;
 export let label: string;
 const dispatch = createEventDispatcher();
-
 $: disabled = value === null;
 $: disabled ? dispatch('disabled') : dispatch('enabled');
 </script>

@@ -4,5 +4,6 @@ node_modules
 /src/stories/assets
 /build
 /.svelte-kit
+/static/*.css
 /package
 .env

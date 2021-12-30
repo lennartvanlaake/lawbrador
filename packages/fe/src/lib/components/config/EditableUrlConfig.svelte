@@ -7,6 +7,7 @@ import { EMPTY_URL_COMPONENT } from "@lawbrador/shared/src/examples";
 import OptionalValue from '../common/OptionalValue.svelte';
 import AddButton from '../common/AddButton.svelte';
 export let urlConfig: UrlConfig;
+const EMTPY_QUERY_COMPONENT = { key: "", value:EMPTY_URL_COMPONENT };
 let { pathComponents, queryComponents } = urlConfig;
 let queryComponentsEntries = Object.entries(queryComponents).map(e => ({"key": e[0], "value": e[1] }));
 </script>
@@ -39,5 +40,6 @@ let queryComponentsEntries = Object.entries(queryComponents).map(e => ({"key": e
 				</Content>
 			</Paper>
 	{/each}
+	<AddButton bind:value={queryComponentsEntries} empty={EMTPY_QUERY_COMPONENT} /> 
 	</Content>
 </Paper>
