@@ -56,14 +56,27 @@ export const valueWithDisplayName = Type.Object({
 
 export type ValueWithDisplayName = Static<typeof valueWithDisplayName>;
 
-export const urlComponent = Type.Object(
+export const staticUrlComponent = Type.Object(
+	{ value: Type.String() },
+	{ $id: 'staticUrlComponent' },
+);
+
+export type StaticUrlComponent = Static<typeof staticUrlComponent>;
+
+export const variableUrlComponent = Type.Object(
 	{
-		value: Type.Optional(Type.String()),
-		variableName: Type.Optional(Type.String()),
+		variableName: Type.String(),
 		possibleValues: Type.Optional(
 			Type.Array(Type.Ref(valueWithDisplayName)),
 		),
 	},
+	{ $id: 'variableUrlComponent' },
+);
+
+export type VariableUrlComponent = Static<typeof variableUrlComponent>;
+
+export const urlComponent = Type.Union(
+	[Type.Ref(staticUrlComponent), Type.Ref(variableUrlComponent)],
 	{ $id: 'urlComponent' },
 );
 
@@ -78,7 +91,7 @@ export const urlConfig = Type.Object({
 export type UrlConfig = Static<typeof urlConfig>;
 
 export const sourceSiteConfig = Type.Object({
-	id: Type.String(),
+	_id: Type.Optional(Type.String()),
 	name: Type.String(),
 	searchUrlConfig: Type.Ref(urlConfig),
 	documentUrlConfig: Type.Ref(urlConfig),

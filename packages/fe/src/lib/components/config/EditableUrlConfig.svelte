@@ -13,7 +13,7 @@ let queryComponentsEntries = Object.entries(queryComponents).map(e => ({"key": e
 </script>
 
 
-<TextField bind:value={urlConfig.base} label="Base url" />
+<TextField bind:value={urlConfig.base} label="Base url" required={true} />
 
 <Paper>
 	<Title>Path components</Title>

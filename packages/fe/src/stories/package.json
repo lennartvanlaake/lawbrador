@@ -1,1 +1,6 @@
-{}
+{
+  "dependencies": {
+    "json-schema-yup-transformer": "^1.6.0",
+    "yup": "^0.32.11"
+  }
+}

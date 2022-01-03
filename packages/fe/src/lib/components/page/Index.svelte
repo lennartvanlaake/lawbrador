@@ -1,7 +1,7 @@
 <script lang="ts">
-	import SearchInput from '../components/search/SearchInput.svelte';
-	import SearchResultList from '../components/search/SearchResultList.svelte';
-	import SourceConfigSelector from '../components/search/SourceConfigSelector.svelte';
+	import SearchInput from '$lib/components/search/SearchInput.svelte';
+	import SearchResultList from '$lib/components/search/SearchResultList.svelte';
+	import SourceConfigSelector from '$lib/components/search/SourceConfigSelector.svelte';
 	import type { IndexProps } from './types';
 	export let indexProps: IndexProps;
 </script>

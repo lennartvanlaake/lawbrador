@@ -11,20 +11,18 @@ import EditableUrlConfig from "./EditableUrlConfig.svelte";
 
 export let sourceConfig: SourceSiteConfig;
 </script>
-
 <Paper>
 	<Title>General</Title>
 	<Content>
-	<TextField label="Id" disabled value={sourceConfig.id} />
-	<TextField label="Name" bind:value={sourceConfig.name} />
+		<TextField label="Name" bind:value={sourceConfig.name} required={true} />
 	</Content>
 </Paper>
 
 <Paper>
 	<Title>Search</Title>
 	<Content>
-		<TextField label="Query variable" bind:value={sourceConfig.htmlSearchRuleSet.queryVariable} />
-		<TextField label="Page variable" bind:value={sourceConfig.htmlSearchRuleSet.pageVariable} />
+		<TextField label="Query variable" bind:value={sourceConfig.htmlSearchRuleSet.queryVariable} required={true} />
+		<TextField label="Page variable" bind:value={sourceConfig.htmlSearchRuleSet.pageVariable} required={true}/>
 		<EditableRuleConfig bind:ruleConfig={sourceConfig.htmlSearchRuleSet.resultListRule} title="Result list rule" /> 
 		<EditableRuleConfig bind:ruleConfig={sourceConfig.htmlSearchRuleSet.resultLinkRule} title="Result link rule" /> 
 		<EditableRuleConfig bind:ruleConfig={sourceConfig.htmlSearchRuleSet.resultRule} title="Result rule" /> 
@@ -56,4 +54,3 @@ export let sourceConfig: SourceSiteConfig;
 			<EditableUrlConfig bind:urlConfig={sourceConfig.documentUrlConfig} />	
 		</Content>
 </Paper>
-

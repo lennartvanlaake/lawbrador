@@ -22,4 +22,4 @@ export let title: string | null;
 {/each}
 </Select>
 
-<TextField bind:value={ruleConfig.value} label="Selector value" />
+<TextField bind:value={ruleConfig.value} label="Selector value" required={true} />

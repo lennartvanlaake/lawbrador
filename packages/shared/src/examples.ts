@@ -23,9 +23,37 @@ export const DEFAULT_EMPTY_SELECTION_RULE: SelectionRule = {
 export const DEFAULT_EMPTY_RULESET: DocumentRuleSet = {
 	conditionRules: [],
 };
+export const EMPTY_SOURCE_CONFIG: SourceSiteConfig = {
+	name: '',
+	searchUrlConfig: {
+		base: 'https://',
+		pathComponents: [],
+		queryComponents: {},
+	},
+	documentUrlConfig: {
+		base: 'https://',
+		pathComponents: [],
+		queryComponents: {},
+	},
+
+	documentRuleSets: [],
+	htmlSearchRuleSet: {
+		queryVariable: 'query',
+		pageVariable: 'page',
+		resultListRule: {
+			...DEFAULT_EMPTY_SELECTION_RULE,
+		},
+		resultRule: {
+			...DEFAULT_EMPTY_SELECTION_RULE,
+		},
+		resultLinkRule: {
+			...DEFAULT_EMPTY_SELECTION_RULE,
+		},
+	},
+};
+
 // hard coded for now
 export const eurlexConfig: SourceSiteConfig = {
-	id: '1',
 	name: 'eurlex-test-config',
 	searchUrlConfig: {
 		base: 'https://eur-lex.europa.eu',
@@ -37,14 +65,11 @@ export const eurlexConfig: SourceSiteConfig = {
 		queryComponents: {
 			scope: {
 				value: 'EURLEX',
-				variableName: null,
 			},
 			text: {
 				variableName: 'query',
-				value: null,
 			},
 			DTS_SUBDOM: {
-				value: null,
 				variableName: 'domain',
 				possibleValues: [
 					{
@@ -60,11 +85,9 @@ export const eurlexConfig: SourceSiteConfig = {
 
 			type: {
 				value: 'quick',
-				variableName: null,
 			},
 			page: {
 				variableName: 'page',
-				value: null,
 			},
 		},
 	},
@@ -73,17 +96,14 @@ export const eurlexConfig: SourceSiteConfig = {
 		pathComponents: [
 			{
 				value: 'legal-content',
-				variableName: null,
 			},
 			{
 				value: 'AUTO',
-				variableName: null,
 			},
 		],
 		queryComponents: {
 			uri: {
 				variableName: 'celex',
-				value: null,
 			},
 		},
 	},

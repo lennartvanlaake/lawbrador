@@ -1,4 +1,4 @@
-import Index from '../lib/pages/Index.svelte';
+import Index from '../lib/components/page/Index.svelte';
 
 export default {
 	title: 'Index',

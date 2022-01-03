@@ -1,11 +1,12 @@
 <script lang="ts">
 	import type { SourceSiteConfig } from '@lawbrador/shared/src/schemas/rules';
 	import { onMount } from 'svelte';
+	import Select, { Option } from '@smui/select';
 	export let sourceConfigList: SourceSiteConfig[];
 	export let sourceConfig: SourceSiteConfig | null;
 	export let sourceConfigId: string | null = null;
 	const sourceConfigMap: Record<string, SourceSiteConfig> = sourceConfigList.reduce((map, conf) => {
-		map[conf.id] = conf;
+		map[conf._id] = conf;
 		return map;
 	}, {});
 
@@ -14,15 +15,15 @@
 			sourceConfig = sourceConfigMap[sourceConfigId];
 		} else {
 			sourceConfig = sourceConfigList[0];
-			sourceConfigId = sourceConfig.id;
+			sourceConfigId = sourceConfig?._id;
 		}
 	});
 	$: sourceConfig = sourceConfigMap[sourceConfigId];
 	$: console.log(sourceConfig);
 </script>
 
-<select bind:value={sourceConfigId}>
+<Select bind:value={sourceConfigId}>
 	{#each sourceConfigList as config}
-		<option value={config.id}>{config.name}</option>
+		<Option value={config._id}>{config.name}</Option>
 	{/each}
-</select>
+</Select>
