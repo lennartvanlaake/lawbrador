@@ -6,7 +6,8 @@ const ajv = new Ajv();
 
 interface ValidatorResult {
 	isValid: Boolean;
-	errors?: ErrorObject<any>[] | null;
+	errorList?: ErrorObject<any>[] | null;
+	errorMap?: Record<String, ErrorObject<any>[]>;
 }
 
 export class Validator {
@@ -18,7 +19,16 @@ export class Validator {
 		let isValid = this.validator(value);
 		return {
 			isValid: isValid,
-			errors: this.validator.errors
+			errorList: this.validator.errors,
+			errorMap: this.validator.errors?.reduce((a, e) => {
+				let propName = e.instancePath.substring(1);
+				if (a[propName]) {
+					a[propName] = [...a[propName], e];
+				} else {
+					a[propName] = [e];
+				}
+				return a;
+			}, {})
 		};
 	}
 }
