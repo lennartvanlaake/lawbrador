@@ -2,7 +2,7 @@
 	import SearchResultComponent from '../search/SearchResult.svelte';
 	import InfiniteScroll from 'svelte-infinite-scroll';
 	import { incrementPageNumber } from '@lawbrador/shared/src/searcher';
-	import { search } from '../../api';
+	import { search } from '$lib/ts/api';
 	import type { SearchResult } from '@lawbrador/shared/src/schemas/search';
 	import type { SourceSiteConfig } from '@lawbrador/shared/src/schemas/rules';
 

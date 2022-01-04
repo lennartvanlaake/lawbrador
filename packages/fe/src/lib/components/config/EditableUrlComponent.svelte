@@ -1,7 +1,7 @@
 <script lang="ts">
 import type {UrlComponent, VariableUrlComponent} from "@lawbrador/shared/src/schemas/rules";
 import TextField from '@smui/textfield';
-import Paper, { Title, Content } from '@smui/paper';
+import Paper, { Content } from '@smui/paper';
 import List, { Item } from '@smui/list';
 import Button, { Label } from '@smui/button';
 import OptionalValue from "../common/OptionalValue.svelte";
@@ -46,7 +46,7 @@ $: possibleValuesText = isPossibleValuesEnabled ? DISABLE_TEXT : ENABLE_TEXT;
 		<Label>{ buttonText }</Label>
 	</Button> 	
 	{#if isVariable(config) }
-		<h3>Variable values</h3>
+		<h3>Options</h3>
 		<Button on:click={switchPossibleValues}>
 			<Label>{ possibleValuesText }</Label>
 		</Button> 	

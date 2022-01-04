@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { search } from '../../api';
+	import { search } from '$lib/ts/api'
 	import SearchOptions from './SearchOptions.svelte';
 	import type { SourceSiteConfig } from '@lawbrador/shared/src/schemas/rules';
 	import type { SearchResult } from '@lawbrador/shared/src/schemas/search';

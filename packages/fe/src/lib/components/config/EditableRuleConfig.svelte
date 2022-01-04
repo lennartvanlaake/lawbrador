@@ -1,14 +1,17 @@
 <script lang="ts">
 import type { SelectionRule } from "@lawbrador/shared/src/schemas/rules";
+import { selectionRule } from "@lawbrador/shared/src/schemas/rules";
 import { ALL_SELECTION_OPERATORS, ALL_SELECTION_LOCATIONS } from "@lawbrador/shared/src/schemas/rules";
 import Select, { Option } from '@smui/select';
 import TextField from '@smui/textfield';
+import { createEventDispatcher } from "svelte";
+import ValidatedForm from "../common/ValidatedForm.svelte";
+
 export let ruleConfig: SelectionRule | undefined; 
 export let title: string | null;
+$: console.log(ruleConfig);
 </script>
-{#if title } 
-<h3>{title}</h3>
-{/if }
+<ValidatedForm value={ruleConfig} schema={selectionRule} {title} let:errors={errors} let:isValid={isValid}>
 
 <Select bind:value={ruleConfig.op} label="Selection operator">
 {#each ALL_SELECTION_OPERATORS as op }
@@ -23,3 +26,6 @@ export let title: string | null;
 </Select>
 
 <TextField bind:value={ruleConfig.value} label="Selector value" required={true} />
+	{@debug errors }
+	{@debug isValid }
+</ValidatedForm>

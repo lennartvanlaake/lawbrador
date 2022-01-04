@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { scrape } from '../../api';
+	import { scrape } from '$lib/ts/api';
 	import type { SearchResult } from '@lawbrador/shared/src/schemas/search';
 	import type { SourceSiteConfig } from '@lawbrador/shared/src/schemas/rules';
 	import { createEventDispatcher } from 'svelte';

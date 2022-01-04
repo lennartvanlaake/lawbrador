@@ -22,13 +22,12 @@ export type SelectionLocation = typeof ALL_SELECTION_LOCATIONS[number];
 
 export const selectionRule = Type.Object(
 	{
-		op: Type.Ref(selectionOperator),
-		location: Type.Ref(selectionLocation),
+		op: selectionOperator,
+		location: selectionLocation,
 		value: Type.String(),
-	},
-	{ $id: 'selectionRule' },
+	}
 );
-
+selectionRule.properties.value.minLength = 1;
 export type SelectionRule = Static<typeof selectionRule>;
 
 export const documentRuleSet = Type.Object({

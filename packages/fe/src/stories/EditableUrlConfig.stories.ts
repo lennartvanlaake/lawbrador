@@ -8,7 +8,7 @@ export default {
 
 const Template = ({ ...args }) => ({
 	Component: EditableUrlConfig,
-	props: { config: { ...args } }
+	props: { ...args }
 });
 
 export const EurLex = Template.bind({});
