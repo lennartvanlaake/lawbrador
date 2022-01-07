@@ -13,7 +13,7 @@ export function hashUrlVariables(variables: any, config: UrlConfig) {
 export function buildUrl(variables: Record<string, string>, config: UrlConfig) {
 	const renderedPath = config.pathComponents.reduce((acc, curr) => {
 		const separator = acc.length == 0 ? '' : '/';
-		if (curr.value) {
+		if ("value" in curr) {
 			return `${acc}${separator}${curr.value}`;
 		} else if (!variables[curr.variableName]) {
 			throw new Error(
@@ -26,11 +26,11 @@ export function buildUrl(variables: Record<string, string>, config: UrlConfig) {
 		}
 	}, '');
 
-	const renderedQueryString = Object.keys(config.queryComponents).reduce(
-		(acc, key) => {
+	const renderedQueryString = config.queryComponents.reduce((acc, param) => {
+			const key = param.name;
+			const component = param.urlComponent;
 			const separator = acc.length == 0 ? '' : '&';
-			const component = config.queryComponents[key];
-			if (component.value) {
+			if ("value" in component) {
 				return `${acc}${separator}${key}=${component.value}`;
 			} else if (!variables[component.variableName]) {
 				// skip empty query params
@@ -56,7 +56,7 @@ export function extractUrlVariables(url: string, config: UrlConfig): any {
 		.filter((it) => it.length > 0)
 		.map((it) => decodeURIComponent(it));
 	config.pathComponents.forEach((component, i) => {
-		if (!component.value) {
+		if ("variableName" in component) {
 			output[component.variableName] = pathArray[i];
 		}
 	});

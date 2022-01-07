@@ -1,0 +1,16 @@
+<script lang="ts">
+	import { View } from 'svench';
+	import NodeView from '$lib/components/view/NodeView.svelte';
+	let nameOnly = { text: "bla" };
+	let wrappedNameOnly = { name: "p", children: [nameOnly] };
+	let twoNameOnlies = { name: "div", children: [wrappedNameOnly, wrappedNameOnly] };
+</script>
+<View name="name only node" knobs={{ text: "bla" }} let:knobs={{text}}>
+	<NodeView node={({ text:  text })} />
+</View>
+<View name="name only node in paragraph">
+	<NodeView node={wrappedNameOnly} />
+</View>
+<View name="two named only nodes">
+	<NodeView node={twoNameOnlies} />
+</View>

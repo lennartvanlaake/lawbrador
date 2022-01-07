@@ -19,7 +19,7 @@
 		searchParams[pageVariable] = '1';
 		console.log(sourceConfig);
 		try {
-			searchResults = await search({ sourceConfigId: sourceConfig.id, searchParams: searchParams });
+			searchResults = await search({ sourceConfigId: sourceConfig._id!!, searchParams: searchParams });
 			if (searchResults.length == 0) {
 				alert('search completed, no results');
 			}
@@ -31,11 +31,13 @@
 	}
 
 	function addToHistory() {
-		let url = `?sourceConfigId=${sourceConfig.id}`;
+		let url = `?sourceConfigId=${sourceConfig._id!!}`;
 		Object.values(sourceConfig.searchUrlConfig.queryComponents).forEach((component) => {
-			const paramValue = searchParams[component.variableName];
-			if (component.variableName != sourceConfig.htmlSearchRuleSet.pageVariable && paramValue) {
-				url = url + `&${component.variableName}=${paramValue}`;
+			if ("variableName" in component) {
+				const paramValue = searchParams[component.variableName];
+				if (component.variableName != sourceConfig.htmlSearchRuleSet.pageVariable && paramValue) {
+					url = url + `&${component.variableName}=${paramValue}`;
+				}
 			}
 		});
 		window.history.pushState({}, 'Home', url);

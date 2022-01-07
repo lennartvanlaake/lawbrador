@@ -1,32 +1,32 @@
 <script lang="ts">
+import { getImprovedErrorMessages, Validator } from "$lib/ts/validate";
+import ValidatedTextField  from "$lib/components/common/ValidatedTextField.svelte";
 import type { SourceSiteConfig } from "@lawbrador/shared/src/schemas/rules";
-import TextField from '@smui/textfield';
-import EditableRuleConfig from './EditableRuleConfig.svelte'
-import OptionalEditableRuleConfig from './OptionalEditableRuleConfig.svelte'
+import { unsavedSourceSiteConfig as schema } from "@lawbrador/shared/src/schemas/rules";
 import EditableDocumentRuleSet from './EditableDocumentRuleSet.svelte'
 import Paper, { Title, Content } from '@smui/paper';
 import {DEFAULT_EMPTY_RULESET} from "@lawbrador/shared/src/examples";
 import AddButton from '../common/AddButton.svelte';
 import EditableUrlConfig from "./EditableUrlConfig.svelte";
+import EditableSearchConfig from "./EditableSearchConfig.svelte";
+import WarningBox from "../common/WarningBox.svelte";
 
-export let sourceConfig: SourceSiteConfig;
+export let sourceConfig: Omit<SourceSiteConfig, "_id">;
+const validator = new Validator(schema);
+$: errors  = validator.validate(sourceConfig);
+$: console.log(errors);
 </script>
 <Paper>
 	<Title>General</Title>
 	<Content>
-		<TextField label="Name" bind:value={sourceConfig.name} required={true} />
+		<ValidatedTextField label="Name" bind:value={sourceConfig.name} errors={errors?.name} />
 	</Content>
 </Paper>
 
 <Paper>
 	<Title>Search</Title>
-	<Content>
-		<TextField label="Query variable" bind:value={sourceConfig.htmlSearchRuleSet.queryVariable} required={true} />
-		<TextField label="Page variable" bind:value={sourceConfig.htmlSearchRuleSet.pageVariable} required={true}/>
-		<EditableRuleConfig bind:ruleConfig={sourceConfig.htmlSearchRuleSet.resultListRule} title="Result list rule" /> 
-		<EditableRuleConfig bind:ruleConfig={sourceConfig.htmlSearchRuleSet.resultLinkRule} title="Result link rule" /> 
-		<EditableRuleConfig bind:ruleConfig={sourceConfig.htmlSearchRuleSet.resultRule} title="Result rule" /> 
-		<OptionalEditableRuleConfig bind:ruleConfig={sourceConfig.htmlSearchRuleSet.resultDescriptionRule} title="Result description rule"/>
+		<Content>
+			<EditableSearchConfig bind:config={sourceConfig.htmlSearchRuleSet} />
 	</Content>
 </Paper>
 
@@ -54,3 +54,6 @@ export let sourceConfig: SourceSiteConfig;
 			<EditableUrlConfig bind:urlConfig={sourceConfig.documentUrlConfig} />	
 		</Content>
 </Paper>
+
+<WarningBox messages={getImprovedErrorMessages(errors?.all)} />
+

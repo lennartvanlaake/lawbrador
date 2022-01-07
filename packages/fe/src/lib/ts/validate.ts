@@ -1,34 +1,73 @@
+import addFormats from 'ajv-formats';
 import Ajv, { ErrorObject, ValidateFunction } from 'ajv';
 import { Type } from '@sinclair/typebox';
-import type { TObject } from '@sinclair/typebox';
+import type { TObject, TUnion } from '@sinclair/typebox';
 
-const ajv = new Ajv();
-
-interface ValidatorResult {
-	isValid: Boolean;
-	errorList?: ErrorObject<any>[] | null;
-	errorMap?: Record<String, ErrorObject<any>[]>;
-}
+const ajv = addFormats(new Ajv({ allErrors: true }), [
+	'date-time',
+	'time',
+	'date',
+	'email',
+	'hostname',
+	'ipv4',
+	'ipv6',
+	'uri',
+	'uri-reference',
+	'uuid',
+	'uri-template',
+	'json-pointer',
+	'relative-json-pointer',
+	'regex'
+])
+	.addKeyword('kind')
+	.addKeyword('modifier');
 
 export class Validator {
 	validator: ValidateFunction;
-	constructor(schema: TObject<any>) {
-		this.validator = ajv.compile(Type.Strict(schema));
+	constructor(schema: TObject<any> | TUnion<any>) {
+		this.validator = ajv.compile(schema);
 	}
-	validate(value: any): ValidatorResult {
-		let isValid = this.validator(value);
-		return {
-			isValid: isValid,
-			errorList: this.validator.errors,
-			errorMap: this.validator.errors?.reduce((a, e) => {
-				let propName = e.instancePath.substring(1);
-				if (a[propName]) {
-					a[propName] = [...a[propName], e];
+	validate(value: any): Record<string, ErrorObject[]> | undefined {
+		this.validator(value);
+		const map = this.validator.errors?.reduce((a, e) => {
+			let propName = e.instancePath.split('/')[1];
+			if (propName && a[propName]) {
+				a[propName] = [...a[propName], e];
+			} else {
+				a[propName] = [e];
+			}
+			return a;
+		}, {} as Record<string, ErrorObject[]>);
+		if (this.validator.errors && map) {
+			map.all = this.validator.errors;
+		}
+		return map;
+	}
+}
+
+export function getImprovedErrorMessages(
+	errors: ErrorObject[] | undefined,
+	level: number = 1,
+	label: String = ""
+): string[] | undefined {
+	if (!errors) return errors;
+	return [
+		...new Set(
+			errors.map((e) => {
+				const path = e.instancePath.split('/');
+				const isChildError = path.length > level 
+				if (isChildError) {
+					console.log(path);
+					let childNumber = parseInt(path[level]) + 1;
+					if (childNumber) {
+						return `Value number ${childNumber} is invalid`;
+					} else {
+						return `Property ${path[level]} is invalid`;
+					}
 				} else {
-					a[propName] = [e];
+					return `${label} ${e.message}`;
 				}
-				return a;
-			}, {})
-		};
-	}
+			})
+		)
+	];
 }

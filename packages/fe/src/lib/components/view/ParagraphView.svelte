@@ -3,9 +3,10 @@
 	import NodeView from './NodeView.svelte';
 	export let node: RestructuredNode;
 </script>
-
+{#if node.children }
 <p>
 	{#each node.children as child}
 		<NodeView node={child} />
 	{/each}
 </p>
+{/if }

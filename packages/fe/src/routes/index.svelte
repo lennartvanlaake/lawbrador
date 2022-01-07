@@ -5,8 +5,8 @@
 	import type { SourceSiteConfig } from '@lawbrador/shared/src/schemas/rules';
 	import type { SearchResult } from '@lawbrador/shared/src/schemas/search';
 	import type { Load } from '@sveltejs/kit';
-	import { getSourceConfigs } from '$lib/api';
-	import type { IndexProps } from '$lib/pages/types';
+	import { getSourceConfigs } from '$lib/ts/api';
+	import type { IndexProps } from '$lib/components/page/types';
 
 	export const load: Load = async ({ page, fetch }) => {
 		const sources: SourceSiteConfig[] = await getSourceConfigs(fetch);
