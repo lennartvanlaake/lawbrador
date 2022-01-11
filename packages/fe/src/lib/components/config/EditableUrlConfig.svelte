@@ -44,7 +44,7 @@
 				empty={EMPTY_QUERY_PARAM}
 			>
 				{#each urlConfig.queryComponents as param}
-					<Paper color="secondary" variant="outlined">
+					<Paper >
 						<Content>
 							<OptionalValue bind:value={param} bind:list={urlConfig.queryComponents}>
 								<EditableQueryParam bind:param />

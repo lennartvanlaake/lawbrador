@@ -7,6 +7,8 @@ export let ruleList: Array<SelectionRule> | null = null;
 export let ruleConfig: SelectionRule | undefined; 
 export let empty: SelectionRule = DEFAULT_EMPTY_SELECTION_RULE;
 export let title: string | null;
+$: if (!ruleConfig) ruleConfig = undefined;
+console.log(ruleConfig);
 </script>
 {#if title }
 <OptionalValue bind:value={ruleConfig} bind:list={ruleList} empty={empty}>

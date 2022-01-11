@@ -1,7 +1,16 @@
 import { Static, Type } from '@sinclair/typebox';
+import type { ObjectId } from 'mongodb';
 
 export interface Identity {
-	id: string;
+	_id: string;
+}
+
+export interface MongoIdentity {
+	_id: string | ObjectId;
+}
+export interface LawbradorEvent<T> extends Identity {
+	type: string;
+	data: T;
 }
 
 export enum ResponseStatus {

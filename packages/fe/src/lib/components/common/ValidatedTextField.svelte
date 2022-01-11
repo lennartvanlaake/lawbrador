@@ -6,7 +6,7 @@ export let value: string;
 export let label: string;
 export let errors: ErrorObject[] | undefined;
 </script>
-<TextField bind:value {label} invalid={!!errors}>
+<TextField bind:value {label} invalid={!!errors} required>
 	<HelperText validationMsg slot="helper">
 	{#each errors ?? [] as error }
 		{label} { error.message }	

@@ -8,10 +8,9 @@ export default {
 		sourceMap: true
 	}),
 	kit: {
-		target: '#svelte',
 		vite: {
 			ssr: {
-				noExternal: [/^@material\//, /^@smui(?:-extra)?\//]
+				noExternal: [/^@smui(?:-extra)?\//]
 			}
 		}
 	}

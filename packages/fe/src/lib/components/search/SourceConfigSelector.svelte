@@ -18,8 +18,7 @@
 			sourceConfigId = sourceConfig?._id;
 		}
 	});
-	$: sourceConfig = sourceConfigMap[sourceConfigId];
-	$: console.log(sourceConfig);
+	$: sourceConfig = sourceConfigId ? sourceConfigMap[sourceConfigId] : null;
 </script>
 
 <Select bind:value={sourceConfigId}>

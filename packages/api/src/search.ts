@@ -9,7 +9,7 @@ export const searchRoutes: FastifyPluginAsync = async (fastify) => {
 	const documentCollection = getCollection(fastify, 'documents');
 	const searchColleciton = getCollection(fastify, 'search');
 	fastify.post<{ Body: SearchRequest }>('/api/search', async (req) => {
-		const config = getSourceConfigById(req.body.sourceConfigId);
+		const config = await getSourceConfigById(req.body.sourceConfigId, fastify);
 		const queryParamsHash = hashObject({
 			params: req.body.searchParams,
 			config: config,

@@ -15,6 +15,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@sveltejs/kit": "1.0.0-next.218",
 		"ajv": "^8.8.2",
 		"ajv-formats": "^2.1.1",
 		"axios": "^0.24.0",

@@ -11,5 +11,5 @@ export interface IndexProps {
 
 export interface SourceConfigEditorProps {
 	sourceConfigs: SourceSiteConfig[];
-	sourceConfig: SourceSiteConfig | undefined;
+	sourceConfig: Omit<SourceSiteConfig, '_id'> | undefined;
 }

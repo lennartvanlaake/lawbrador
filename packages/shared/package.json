@@ -9,12 +9,11 @@
 		"test:watch": "ts-mocha -p tsconfig.json --watch --watch-files src/**/*.spec.ts src/**/*.spec.ts"
 	},
 	"dependencies": {
+		"@sinclair/typebox": "^0.20.5",
 		"@types/expect": "^24.3.0",
 		"@types/mocha": "^9.0.0",
-		"@sinclair/typebox": "^0.20.5",
 		"chai": "^4.3.4",
 		"mongodb": "^4.1.4",
-		"mongoose": "6.0.5",
 		"ts-mocha": "^8.0.0",
 		"ts-node": "^10.4.0"
 	},

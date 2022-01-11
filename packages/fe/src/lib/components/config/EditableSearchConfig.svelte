@@ -24,6 +24,7 @@
 <EditableRuleConfig bind:ruleConfig={config.resultListRule} title="Result list rule" />
 <EditableRuleConfig bind:ruleConfig={config.resultLinkRule} title="Result link rule" />
 <EditableRuleConfig bind:ruleConfig={config.resultRule} title="Result rule" />
+
 <OptionalEditableRuleConfig
 	bind:ruleConfig={config.resultDescriptionRule}
 	title="Result description rule"

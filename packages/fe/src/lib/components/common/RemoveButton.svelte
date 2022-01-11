@@ -4,7 +4,7 @@ export let value: any;
 export let list: Array<any> | null;
 export let text: string = "Remove";
 export let remove = () => {
-	value = null;
+	value = undefined;
 	if (list) {
 		list = list.filter(el => el); 
 	}

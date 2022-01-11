@@ -19,8 +19,8 @@ export const scrapeRoutes: FastifyPluginAsync = async (fastify) => {
 		'/api/scrape',
 		async (req): Promise<Identity> => {
 			const url = req.body.url;
-			const config = getSourceConfigById(
-				req.body.sourceConfigId,
+			const config = await getSourceConfigById(
+				req.body.sourceConfigId, fastify
 			);
 			const urlVariables = extractUrlVariables(
 				url,
