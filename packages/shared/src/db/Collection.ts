@@ -3,13 +3,11 @@ import { DB_NAME }  from './constants';
 import type { MongoIdentity, Identity } from '../schemas/generic';
 
 function objectIdToString<T extends MongoIdentity>(obj: T): T & Identity {
-	obj._id = (obj._id as ObjectId).toString();
-	return obj as T & Identity;
+	return { ...obj, _id: obj._id.toString() };
 }
 
-function stringToObjectId<T extends MongoIdentity>(obj: T): T & MongoIdentity {
-	obj._id = new ObjectId((obj._id as string));
-	return obj as T & MongoIdentity;
+function stringToObjectId<T extends Identity>(obj: T): T & MongoIdentity {
+	return { ...obj, _id: new ObjectId(obj._id) } 
 }
 
 export class TypedCollection<T> {	
@@ -46,7 +44,7 @@ export class TypedCollection<T> {
 	async all(): Promise<T[]> {
 		return await(this.find({}));
 	}
-	async insert(newObject: T & MongoIdentity, session: ClientSession | null = null): Promise<String> {
+	async insert(newObject: T & Identity, session: ClientSession | null = null): Promise<String> {
 		this.checkConnected();
 		let result: InsertOneResult;
 		if (session) {
@@ -56,10 +54,10 @@ export class TypedCollection<T> {
 		}
 		return result.insertedId.toString();
 	}
-	async update(toUpdate: T & MongoIdentity, session: ClientSession) {
+	async replace(toUpdate: T & Identity, session: ClientSession) {
 		this.checkConnected();
 		toUpdate = stringToObjectId(toUpdate);
-		await this.raw!!.updateOne({ _id: toUpdate._id }, toUpdate as Document, { session: session });
+		await this.raw!!.replaceOne({ _id: toUpdate._id }, toUpdate as Document, { session: session });
 	}
 
 }

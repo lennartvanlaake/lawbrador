@@ -21,7 +21,7 @@ const UPDATE_SOURCE_CONFIG_PROCESSOR =
   new EventProcessor<SourceConfigUpdated>(
     SOURCE_CONFIG_UPDATED,
     async (e, registry, session) => {
-      await registry.collections.sourceConfigs.update( 
+      await registry.collections.sourceConfigs.replace( 
         e.data.sourceConfig,
         session
       );

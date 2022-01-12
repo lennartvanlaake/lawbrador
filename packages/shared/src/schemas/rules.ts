@@ -90,5 +90,8 @@ export const sourceSiteConfig = Type.Object({
   htmlSearchRuleSet: htmlSearchRuleSet,
 });
 
-export const unsavedSourceSiteConfig = Type.Omit(sourceSiteConfig, ['_id'])
+export const sourceSiteConfigs = Type.Array(sourceSiteConfig);
+
 export type SourceSiteConfig = Static<typeof sourceSiteConfig>;
+
+export const unsavedSourceSiteConfig = Type.Omit(sourceSiteConfig, ['_id'])

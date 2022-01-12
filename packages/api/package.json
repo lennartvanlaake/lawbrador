@@ -13,6 +13,7 @@
 		"cheerio": "^1.0.0-rc.10",
 		"fastify": "^3.24.0",
 		"fastify-mongodb": "^4.1.1",
+		"fastify-swagger": "^4.13.1",
 		"nodemon": "^2.0.14",
 		"ts-node": "^10.4.0"
 	},
