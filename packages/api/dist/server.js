@@ -1,19 +1,18 @@
 import Fastify from 'fastify';
 import { clearRoutes } from './clear';
 import { sourceConfigRoutes } from './source_configs';
-import { scrapeRoutes } from './scrape';
-import { searchRoutes } from './search';
-import { MongoClient } from 'mongodb';
+//import { scrapeRoutes } from './scrape';
+//import { searchRoutes } from './search';
+import { LAWBRADOR_CLIENT } from '@lawbrador/shared/src/db/constants';
 const fastify = Fastify({ logger: true });
 fastify.register(clearRoutes);
-fastify.register(scrapeRoutes);
+//fastify.register(scrapeRoutes);
+//fastify.register(searchRoutes);
 fastify.register(sourceConfigRoutes);
-fastify.register(searchRoutes);
-const url = 'mongodb://localhost:27017?replicaSet=rs0&readPreference=primary&ssl=false';
 const start = async () => {
     try {
-        const client = await MongoClient.connect(url);
-        fastify.decorate('db', client.db('db'));
+        await LAWBRADOR_CLIENT.connect();
+        fastify.decorate('client', LAWBRADOR_CLIENT);
         await fastify.listen(5000);
     }
     catch (err) {

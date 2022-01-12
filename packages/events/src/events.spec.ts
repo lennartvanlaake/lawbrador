@@ -1,14 +1,14 @@
 import { expect } from "chai";
-import { MongoClient } from "mongodb";
 import ProcessorRegistry from "./processorRegistry";
 import EventProcessor from "./eventProcessor";
 import { EVENT_COLLECTION } from "@lawbrador/shared/src/db/collections";
 import { TypedCollection } from "@lawbrador/shared/src/db/Collection";
-import { id } from "@lawbrador/shared/src/db/utils";
+import { clean, id } from "@lawbrador/shared/src/db/utils";
 import {
   Identity,
   LawbradorEvent,
 } from "@lawbrador/shared/src/schemas/generic";
+import {LAWBRADOR_CLIENT as client } from "@lawbrador/shared/src/db/constants";
 
 const DEMO_EVENT = "DemoEvent";
 interface DemoData extends Identity {
@@ -16,16 +16,12 @@ interface DemoData extends Identity {
 }
 
 describe("Testing sync event processing", () => {
-  const url =
-    "mongodb://localhost:27017?replicaSet=rs0&readPreference=primary&ssl=false";
   const WORLD = "world";
-  let client: MongoClient;
   let eventCollection = EVENT_COLLECTION;
   let helloCollection = new TypedCollection<DemoData>("hello");
   let registry: ProcessorRegistry;
   const helloId = id();
   const demoEvent: LawbradorEvent<DemoData> = {
-    _id: id(),
     type: DEMO_EVENT,
     data: {
       _id: helloId,
@@ -34,7 +30,7 @@ describe("Testing sync event processing", () => {
   };
   before(async () => {
     console.log("Before");
-    client = await MongoClient.connect(url);
+    await client.connect();
     eventCollection.connect(client);
     helloCollection.connect(client);
   });
@@ -43,15 +39,15 @@ describe("Testing sync event processing", () => {
   });
   beforeEach(async () => {
     console.log("Before each");
-    await eventCollection.raw.deleteMany({});
-    await helloCollection.raw.deleteMany({});
+    await clean(client);
   });
   it("Testing happy flow", async () => {
     console.log("Start happy");
-    registry = new ProcessorRegistry(client);
+    registry = new ProcessorRegistry();
+    registry.connect(client);
     const helloProcessor = new EventProcessor<DemoData>(
       DEMO_EVENT,
-      async (e, session) => {
+      async (e, _, session) => {
         await helloCollection.insert(e.data, session);
       }
     );
@@ -66,7 +62,8 @@ describe("Testing sync event processing", () => {
   });
   it("Event should not be committed if sync processing fails", async () => {
     console.log("Start error");
-    registry = new ProcessorRegistry(client);
+    registry = new ProcessorRegistry();
+    registry.connect(client);
     const helloProcessor = new EventProcessor<DemoData>(DEMO_EVENT, () => {
       console.log("GOING BOOM");
       throw new Error("BOOM");
@@ -84,7 +81,8 @@ describe("Testing sync event processing", () => {
     expect(events).to.be.empty;
   });
   it("Happy flow async", async () => {
-    registry = new ProcessorRegistry(client);
+    registry = new ProcessorRegistry();
+    registry.connect(client);
     const helloProcessor = new EventProcessor<DemoData>(
       DEMO_EVENT,
       async (e) => {

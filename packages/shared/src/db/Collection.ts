@@ -1,5 +1,5 @@
 import {Collection, MongoClient, ObjectId, Document, ClientSession, InsertOneResult} from "mongodb";
-import { DB_NAME }  from './types';
+import { DB_NAME }  from './constants';
 import type { MongoIdentity, Identity } from '../schemas/generic';
 
 function objectIdToString<T extends MongoIdentity>(obj: T): T & Identity {
@@ -16,8 +16,8 @@ export class TypedCollection<T> {
 	constructor(name: string) {
 		this.name = name;
 	}
-	async connect(client: MongoClient) {
-		this.raw = (await client.connect()).db(DB_NAME).collection(this.name);
+	connect(client: MongoClient) {
+		this.raw = client.db(DB_NAME).collection(this.name);
 	}
 	name: string;
 	raw: Collection | null = null;
@@ -30,12 +30,12 @@ export class TypedCollection<T> {
 		this.checkConnected();
 		const result = await this.raw!!.findOne(query) as T & MongoIdentity;
 		if (result) {
+			debugger;
 			return objectIdToString(result);
 		}
 		return result;
 	}
 	async get(id: string): Promise<T | null> {
-		debugger;
 		return await this.findOne({ _id: new ObjectId(id) });
 	}
 	async find(query: Document): Promise<T[]> {

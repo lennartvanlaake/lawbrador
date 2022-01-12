@@ -8,7 +8,7 @@ export interface Identity {
 export interface MongoIdentity {
 	_id: string | ObjectId;
 }
-export interface LawbradorEvent<T> extends Identity {
+export interface LawbradorEvent<T> {
 	type: string;
 	data: T;
 }

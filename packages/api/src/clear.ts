@@ -1,11 +1,9 @@
 import type { FastifyPluginAsync } from 'fastify';
+import { clean } from '@lawbrador/shared/src/db/utils';
 
 export const clearRoutes: FastifyPluginAsync = async (fastify, _options) => {
 	fastify.delete('/api/all', {}, async () => {
-		const collections = await fastify.db.collections();
-		collections.forEach(async (c) => {
-			await c.deleteMany({});
-		});
+		await clean(fastify.client);
 		return { status: 'success' };
 	});
 };

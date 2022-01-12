@@ -3,11 +3,12 @@
 	"type": "module",
 	"version": "1.0.0",
 	"license": "AGPL-3.0-only",
+	"main": "src/index.ts",
 	"scripts": {
 		"docker": "yarn --cwd ../.. docker -d",
-		"test": "yarn docker && ts-mocha -p tsconfig.json src/**/*.spec.ts",
-		"test:debug": "yarn docker && ts-mocha -p tsconfig.json src/**/*.spec.ts --inspect-brk",
-		"test:watch": "yarn docker && ts-mocha -p tsconfig.json --watch --watch-files src/**/*.spec.ts src/**/*.spec.ts"
+		"test": "yarn docker && ts-mocha -p tsconfig.json --require src/testconfig.ts src/**/*.spec.ts",
+		"test:debug": "yarn docker && ts-mocha -p tsconfig.json --require src/testconfig.ts src/**/*.spec.ts --inspect-brk",
+		"test:watch": "yarn docker && ts-mocha -p tsconfig.json --require src/testconfig.ts --watch --watch-files src/**/*.spec.ts src/**/*.spec.ts"
 	},
 	"dependencies": {
 		"@sinclair/typebox": "^0.23.1",

@@ -52,6 +52,24 @@ const f /* files */ = [
     "headings": []
   },
   { // f[3]
+    path: "/svench/config/UrlConfig",
+    import: () => import("/home/lennart/lawbrador/packages/fe/src/svench/config/UrlConfig.svench"),
+    "id": "1zk3ce",
+    "ext": ".svench",
+    "dir": "svench/config",
+    "segment": "UrlConfig",
+    "sortKey": "UrlConfig",
+    "title": "UrlConfig",
+    "canonical": "/svench/config/UrlConfig",
+    "options": {},
+    "views": [
+      "Empty",
+      "Eurlex search",
+      "Eurlex search with invalid url"
+    ],
+    "headings": []
+  },
+  { // f[4]
     path: "/svench/config/UrlComponent",
     import: () => import("/home/lennart/lawbrador/packages/fe/src/svench/config/UrlComponent.svench"),
     "id": "1n005mr",
@@ -69,24 +87,6 @@ const f /* files */ = [
       "empty static",
       "empty variable",
       "variable with empty options"
-    ],
-    "headings": []
-  },
-  { // f[4]
-    path: "/svench/config/UrlConfig",
-    import: () => import("/home/lennart/lawbrador/packages/fe/src/svench/config/UrlConfig.svench"),
-    "id": "1zk3ce",
-    "ext": ".svench",
-    "dir": "svench/config",
-    "segment": "UrlConfig",
-    "sortKey": "UrlConfig",
-    "title": "UrlConfig",
-    "canonical": "/svench/config/UrlConfig",
-    "options": {},
-    "views": [
-      "Empty",
-      "Eurlex search",
-      "Eurlex search with invalid url"
     ],
     "headings": []
   },
@@ -154,7 +154,7 @@ const d /* dirs */ = [
     "sortKey": "config",
     "title": "config",
     "canonical": "/svench/config",
-    children: () => [f[0], f[1], f[2], f[3], f[4]]
+    children: () => [f[0], f[1], f[2], f[4], f[3]]
   },
   { // d[1]
     path: "/svench/page",
