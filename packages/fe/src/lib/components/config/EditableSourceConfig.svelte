@@ -35,8 +35,8 @@
 
 <Paper>
 	<Title>Document rule sets</Title>
-	<Content>
-		{#each sourceConfig.documentRuleSets as ruleSet}
+		<Content>
+		{#each sourceConfig.documentRuleSets ?? [] as ruleSet}
 			<EditableDocumentRuleSet bind:ruleSet bind:ruleSetList={sourceConfig.documentRuleSets} />
 		{/each}
 		<AddButton bind:value={sourceConfig.documentRuleSets} empty={DEFAULT_EMPTY_RULESET} />

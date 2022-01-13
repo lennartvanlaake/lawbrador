@@ -1,10 +1,7 @@
-import { DB_NAME } from 'packages/shared/src/db/constants';
+import { clean } from '@lawbrador/shared/src/db/utils';
 export const clearRoutes = async (fastify, _options) => {
-    fastify.delete('/api/all', {}, async () => {
-        const collections = await fastify.client.db(DB_NAME).collections();
-        collections.forEach(async (c) => {
-            await c.deleteMany({});
-        });
+    fastify.delete('all', {}, async () => {
+        await clean(fastify.client);
         return { status: 'success' };
     });
 };

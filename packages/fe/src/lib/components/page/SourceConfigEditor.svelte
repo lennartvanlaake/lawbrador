@@ -3,20 +3,36 @@ import EditableSourceConfig from "$lib/components/config/EditableSourceConfig.sv
 import SourceConfigSelector from "$lib/components/search/SourceConfigSelector.svelte";
 import type { SourceConfigEditorProps } from "./types";
 import { EMPTY_SOURCE_CONFIG } from "@lawbrador/shared/src/examples"
-import type { SourceSiteConfig } from "@lawbrador/shared/src/schemas/rules";
 import Button, { Label } from '@smui/button';
+import type { SourceSiteConfig } from "@lawbrador/shared/src/schemas/rules";
+import * as Api from "$lib/ts/api";
 export let properties: SourceConfigEditorProps;
-const selectNewConfig = (evt: CustomEvent<SourceSiteConfig>) => { 
-	properties.sourceConfig = evt.detail;
-};
+
 let isValid: boolean = false;
-console.log(properties);
+function setSourceConfig(e: CustomEvent<SourceSiteConfig>) {
+	properties = { ...properties, sourceConfig: e.detail};
+	console.log(properties);
+}
+async function submit() {
+	if (!properties.sourceConfig || !isValid) return;
+	let id: string;
+	if ("_id" in properties.sourceConfig) {
+		await Api.updateSourceConfig(properties.sourceConfig);
+		id = properties.sourceConfig._id;
+	} else {
+		const result = await Api.newSourceConfig(properties.sourceConfig);
+		id = result._id;
+	}
+	properties.sourceConfigs = await Api.getSourceConfigs();
+	properties.sourceConfig = properties.sourceConfigs.filter(c => c._id == id)[0];
+}
+$: console.log(properties);
 </script>
-<SourceConfigSelector sourceConfigList={properties.sourceConfigs} />
+<SourceConfigSelector sourceConfigList={properties.sourceConfigs} on:configSelected={setSourceConfig}/>
 <Button on:click={() => properties.sourceConfig = EMPTY_SOURCE_CONFIG}>
 	<Label>New</Label>
 </Button>
-<Button disabled={!isValid} >
+<Button disabled={!isValid} on:click={submit} >
 	<Label>Submit</Label>
 </Button>
 {#if properties.sourceConfig }

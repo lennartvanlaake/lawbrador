@@ -1,25 +1,26 @@
 <script context="module" lang="ts">
+	export const ssr = false;
 	import type { Load } from '@sveltejs/kit';
 	import type { SourceConfigEditorProps } from '$lib/components/page/types';
 	import SourceConfigEditor from '$lib/components/page/SourceConfigEditor.svelte';
 	import type { SourceSiteConfig } from '@lawbrador/shared/src/schemas/rules';
 	import { getSourceConfigs } from '$lib/ts/api';
-	import { EMPTY_SOURCE_CONFIG } from '@lawbrador/shared/src/examples';
-	export const load: Load = async ({ page, fetch }) => {
+	export const load: Load = async ({ fetch }) => {
 		const sources: SourceSiteConfig[] = await getSourceConfigs(fetch);
-		const source = sources?.length > 1 ? sources[0] : EMPTY_SOURCE_CONFIG;
-		const props: SourceConfigEditorProps = {
+		const editorProps: SourceConfigEditorProps = {
 			sourceConfigs: sources,
-			sourceConfig: source
+			sourceConfig: null 
 		};
 		return {
-			properties: props
+			props: {
+				editorProps: editorProps
+			}
 		};
 	};
 </script>
 
 <script lang="ts">
-	export let properties: SourceConfigEditorProps;
+	export let editorProps: SourceConfigEditorProps;
 </script>
 
-<SourceConfigEditor {properties} />
+<SourceConfigEditor bind:properties={editorProps} />

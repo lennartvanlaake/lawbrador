@@ -12,7 +12,7 @@ export const sourceConfigRoutes: FastifyPluginAsync = async (
   _options
 ) => {
   fastify.get(
-    "/api/sources",
+    SOURCES_ENDPOINT,
     routeConfig(RuleSchema.sourceSiteConfigs),
     async () => {
       return await fastify.collections.sourceConfigs.all();
