@@ -10,6 +10,9 @@ export let title: string | null;
 const validator = new Validator(selectionRule);
 $: errors  = validator.validate(ruleConfig);
 </script>
+{#if title }
+	<h3>{ title }</h3>
+{/if }
 <div class="columns margins">
 <Select bind:value={ruleConfig.op} label="Selection operator">
 {#each ALL_SELECTION_OPERATORS as op }
