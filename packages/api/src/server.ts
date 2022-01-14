@@ -1,6 +1,6 @@
 import Fastify from 'fastify';
-import { clearRoutes } from './clear';
-import { sourceConfigRoutes } from './source_configs';
+import clearRoutes from './clear';
+import sourceConfigRoutes from './source_configs';
 //import { scrapeRoutes } from './scrape';
 //import { searchRoutes } from './search';
 import fastifySwagger from 'fastify-swagger';

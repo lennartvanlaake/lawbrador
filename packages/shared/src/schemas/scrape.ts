@@ -28,20 +28,13 @@ export interface ParsedNode extends Static<typeof parsedNode> {
 	children?: ParsedNode[];
 }
 
-export const scrapeEvent = Type.Object(
-	{
-		id: Type.String(),
-		url: Type.String(),
-		hash: Type.String(),
-		type: Type.Literal('scrape'),
-		timestamp: Type.Number(),
-		bodyNode: Type.Ref(parsedNode),
-		sourceConfigId: Type.String(),
-	},
-	{ $id: 'scrapeEvent' },
-);
+export const scrapeResult = Type.Object({
+	url: Type.String(),
+	hash: Type.String(),
+	body: parsedNode,
+});
 
-export type ScrapeEvent = Static<typeof scrapeEvent>;
+export type ScrapeResult = Static<typeof scrapeResult>;
 
 export const scrapeRequest = Type.Object({
 	url: Type.String(),
@@ -65,12 +58,9 @@ export const restructuredNode = Type.Rec(
 export type RestructuredNode = Static<typeof restructuredNode>;
 
 export const restructuredDocument = Type.Object({
-	id: Type.String(),
 	hash: Type.String(),
-	scrapeId: Type.String(),
 	url: Type.String(),
-	timestamp: Type.Number(),
-	nodes: Type.Array(Type.Ref(restructuredNode)),
+	body: restructuredNode,
 });
 
 export type RestructuredDocument = Static<typeof restructuredDocument>;

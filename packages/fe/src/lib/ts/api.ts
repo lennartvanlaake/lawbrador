@@ -1,6 +1,6 @@
 import type { SourceSiteConfig } from '@lawbrador/shared/src/schemas/rules';
 import type {
-	RestructuredDocument,
+	ScrapeResult,
 	ScrapeRequest
 } from '@lawbrador/shared/src/schemas/document_version';
 import type { SearchRequest, SearchResult } from '@lawbrador/shared/src/schemas/search';
@@ -42,7 +42,7 @@ async function put(path: string, body: any) {
 export async function getDocument(
 	id: string,
 	fetchParam: any = false
-): Promise<RestructuredDocument> {
+): Promise<ScrapeResult> {
 	throw new Error("not implemented");
 	//return await get(`scrape/${id}`, fetchParam);
 }

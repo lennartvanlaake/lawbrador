@@ -2,15 +2,13 @@ import * as RuleSchema from "@lawbrador/shared/src/schemas/rules";
 import * as GenericSchema from "@lawbrador/shared/src/schemas/generic";
 import { SourceSiteConfig } from "@lawbrador/shared/src/schemas/rules";
 import EventFactory from "@lawbrador/events/src/eventFactory";
-import type { FastifyPluginAsync } from "fastify";
+import type { FastifyInstance } from "fastify";
 import { id } from "@lawbrador/shared/src/db/utils";
 import { toIdentity } from "@lawbrador/shared/src/utils";
 import { SOURCES_ENDPOINT } from "@lawbrador/shared/src/endpoints";
 import { routeConfig } from "./utils";
-export const sourceConfigRoutes: FastifyPluginAsync = async (
-  fastify,
-  _options
-) => {
+
+export default async (fastify: FastifyInstance) => {
   fastify.get(
     SOURCES_ENDPOINT,
     routeConfig(RuleSchema.sourceSiteConfigs),

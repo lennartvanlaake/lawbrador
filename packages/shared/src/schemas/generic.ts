@@ -15,6 +15,12 @@ export interface LawbradorEvent<T> {
 	data: T;
 }
 
+export const hashed = Type.Object({
+	hash: Type.String()
+})
+
+export type Hashed = Static<typeof hashed>;
+
 export enum ResponseStatus {
 	success,
 	failed,

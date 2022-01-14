@@ -2,7 +2,9 @@ import {
 	ParsedNode,
 	ParsedNodeData,
 	RestructuredNode,
-} from 'packages/shared/src/schemas/document_version';
+	RestructuredDocument,
+	ScrapeResult
+} from '@lawbrador/shared/src/schemas/scrape';
 import {
 	DocumentRuleSet,
 	SourceSiteConfig,
@@ -10,11 +12,16 @@ import {
 import { getFirstMatching } from './matcher';
 
 export function applyConfig(
-	root: ParsedNode,
-	config: SourceSiteConfig,
-): RestructuredNode[] {
-	const ruleSet = selectRuleSet(root, config);
-	return applyRuleSet(root, ruleSet);
+	scrapeResult: ScrapeResult,
+	config: SourceSiteConfig
+): RestructuredDocument {
+	const ruleSet = selectRuleSet(scrapeResult.body, config);
+	const body = applyRuleSet(scrapeResult.body, ruleSet);
+	return {
+		url: scrapeResult.url,
+		hash: scrapeResult.hash,
+		body: body
+	}
 }
 
 export function selectRuleSet(
@@ -40,19 +47,12 @@ export function selectRuleSet(
 export function applyRuleSet(
 	root: ParsedNode,
 	rules: DocumentRuleSet,
-): RestructuredNode[] {
-	if (!rules) {
-		return restructure(root);
+): RestructuredNode {
+	if (!rules?.bodyRule) {
+		return restructureRecursive(root);
 	}
-	let result = root;
-	if (rules.bodyRule) {
-		result = getFirstMatching(root, rules.bodyRule);
-	}
-	return restructure(result);
-}
-
-function restructure(root: ParsedNode): RestructuredNode[] {
-	return root.children.map((c) => restructureRecursive(c));
+	const body = getFirstMatching(root, rules.bodyRule);
+	return restructureRecursive(body);
 }
 
 function restructureRecursive(node: ParsedNode): RestructuredNode {

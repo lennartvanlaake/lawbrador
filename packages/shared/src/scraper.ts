@@ -1,6 +1,7 @@
 import cheerio, { Node, CheerioAPI } from 'cheerio';
 import axios from 'axios';
 import { ParsedNode } from 'packages/shared/src/schemas/document_version';
+import {ScrapeResult} from './schemas/scrape';
 
 interface NodeAttributes {
 	id?: string;
@@ -96,7 +97,11 @@ export function parse(html: string): ParsedNode {
 	return getTextNodes($('body')[0], $);
 }
 
-export async function scrape(url: string): Promise<ParsedNode> {
+export async function scrape(url: string, hash: string): Promise<ScrapeResult> {
 	const body = await axios.get(url);
-	return parse(body.data);
+	return {
+		url: url,
+		hash: hash,
+		body: parse(body.data)
+	};
 }
