@@ -13,7 +13,7 @@
 		const sources: SourceSiteConfig[] = await getSourceConfigs(fetch);
 		const sourceConfig =
 			sources.find((s) => s._id == query.get('sourceConfigId')) ?? sources[0];
-		const searchParams: any = sourceConfig.searchUrlConfig.queryComponents.reduce((acc, cur) => {
+		const searchParams: any = sourceConfig?.searchUrlConfig?.queryComponents?.reduce((acc, cur) => {
 			const queryValue = query.get('variableName');
 			if ("variableName" in cur.urlComponent) {
 				if (cur.urlComponent.variableName != sourceConfig.htmlSearchRuleSet.pageVariable && queryValue) {
@@ -21,9 +21,9 @@
 				}
 			}
 			return acc;
-		}, {});
+		}, {}) ?? {};
 		let searchResults: SearchResult[] = [];
-		if (query.get(sourceConfig.htmlSearchRuleSet.queryVariable)) {
+		if (query.get(sourceConfig?.htmlSearchRuleSet?.queryVariable)) {
 			searchResults = [];
 		}
 		const indexProps: IndexProps = {

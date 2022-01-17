@@ -2,7 +2,7 @@ import type { SourceSiteConfig } from '@lawbrador/shared/src/schemas/rules';
 import type {
 	ScrapeResult,
 	ScrapeRequest
-} from '@lawbrador/shared/src/schemas/document_version';
+} from '@lawbrador/shared/src/schemas/scrape';
 import type { SearchRequest, SearchResult } from '@lawbrador/shared/src/schemas/search';
 import type { Identity } from '@lawbrador/shared/src/schemas/generic';
 import * as Endpoints from '@lawbrador/shared/src/endpoints';
@@ -66,8 +66,6 @@ export async function scrape(request: ScrapeRequest, fetchParam: any = false): P
 
 export async function search(
 	body: SearchRequest,
-	fetchParam: any = false
 ): Promise<SearchResult[]> {
-	throw new Error("not implemented");
-	//return await post('search', body, fetchParam);
+	return await post(Endpoints.SEARCH_ENDPOINT, body);
 }

@@ -3,21 +3,10 @@ import {
 	UrlConfig,
 	HtmlSearchRuleSet,
 } from './schemas/rules';
-import { ParsedNode } from './schemas/document_version';
+import { ParsedNode } from './schemas/scrape';
 import { SearchResult } from './schemas/search';
 import { getFirstMatching, getAllMatching } from './matcher';
-import { scrape } from './scraper';
-import { buildUrl, hashUrlVariables } from './url';
-
-export async function search(
-	searchInput: Record<string, string>,
-	config: SourceSiteConfig,
-): Promise<SearchResult[]> {
-	const url = buildUrl(searchInput, config.searchUrlConfig);
-	console.log(`URL :${url}`);
-	const scrapeResult = await scrape(url);
-	return parseSearchResults(scrapeResult, config);
-}
+import { hashUrlVariables } from './url';
 
 export function incrementPageNumber(
 	searchInput: Record<string, string>,
@@ -72,10 +61,6 @@ export function parseSearchResults(
 			return {
 				text: el.data[0].text,
 				href: url,
-				hash: hashUrlVariables(
-					url,
-					config.documentUrlConfig,
-				),
 			};
 		});
 	return links;

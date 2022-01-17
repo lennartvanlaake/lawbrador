@@ -3,10 +3,11 @@ import { DB_NAME }  from './constants';
 import type { MongoIdentity, Identity } from '../schemas/generic';
 
 function objectIdToString<T extends MongoIdentity>(obj: T): T & Identity {
+
 	return { ...obj, _id: obj._id.toString() };
 }
 
-function stringToObjectId<T>(obj: T | T & Identity): T {
+function stringToObjectId<T>(obj: T | T & Identity): T | T & MongoIdentity {
 	if ('_id' in obj) {
 		return { ...obj, _id: new ObjectId(obj._id) } 
 	}
@@ -53,10 +54,11 @@ export class TypedCollection<T> {
 		let result = await this.raw!!.insertOne(stringToObjectId(newObject), options);
 		return result.insertedId.toString();
 	}
-	async replace(toUpdate: T & Identity, session: ClientSession | null = null) {
+	async replace(input: T & Identity, session: ClientSession | null = null) {
 		this.checkConnected();
+		const toReplace = stringToObjectId(input) as T & MongoIdentity;
 		const options = session ? { session: session } : {};
-		await this.raw!!.replaceOne(stringToObjectId(toUpdate), options);
+		await this.raw!!.replaceOne({ _id: toReplace._id }, toReplace, options);
 	}
 
 }

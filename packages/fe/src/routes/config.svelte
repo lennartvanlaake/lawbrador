@@ -6,7 +6,7 @@
 	import type { SourceSiteConfig } from '@lawbrador/shared/src/schemas/rules';
 	import { getSourceConfigs } from '$lib/ts/api';
 	export const load: Load = async ({ fetch }) => {
-		const sources: SourceSiteConfig[] = await getSourceConfigs(fetch);
+		const sources: SourceSiteConfig[] = await getSourceConfigs(fetch) ?? [];
 		const editorProps: SourceConfigEditorProps = {
 			sourceConfigs: sources,
 			sourceConfig: null 

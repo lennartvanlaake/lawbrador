@@ -1,4 +1,4 @@
-import { ParsedNode } from 'packages/shared/src/schemas/document_version';
+import { ParsedNode } from 'packages/shared/src/schemas/scrape';
 import { SelectionRule } from 'packages/shared/src/schemas/rules';
 
 export function matches(node: ParsedNode, rule: SelectionRule): boolean {

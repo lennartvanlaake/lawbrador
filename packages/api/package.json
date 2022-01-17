@@ -11,6 +11,7 @@
 		"debug": "nodemon --watch './**/*.ts' --exec 'node --experimental-specifier-resolution=node --loader ts-node/esm --inspect' src/server.ts"
 	},
 	"dependencies": {
+		"@fastify/type-provider-typebox": "^0.1.0-beta.0",
 		"cheerio": "^1.0.0-rc.10",
 		"fastify": "^3.24.0",
 		"fastify-mongodb": "^4.1.1",

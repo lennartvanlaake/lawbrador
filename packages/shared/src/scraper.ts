@@ -1,6 +1,6 @@
 import cheerio, { Node, CheerioAPI } from 'cheerio';
 import axios from 'axios';
-import { ParsedNode } from 'packages/shared/src/schemas/document_version';
+import { ParsedNode } from 'packages/shared/src/schemas/scrape';
 import {ScrapeResult} from './schemas/scrape';
 
 interface NodeAttributes {

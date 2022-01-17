@@ -1,5 +1,7 @@
 import { TSchema } from '@sinclair/typebox';
 import { RouteShorthandOptions } from 'fastify';
+import {SourceSiteConfig} from '@lawbrador/shared/src/schemas/rules';
+import { hashObject } from "@lawbrador/shared/src/url";
 
 export function routeConfig(response: TSchema, request: TSchema = null): RouteShorthandOptions {
 	const options: RouteShorthandOptions = { schema: {} };
@@ -8,4 +10,11 @@ export function routeConfig(response: TSchema, request: TSchema = null): RouteSh
 	}
 	options.schema.response = { 200: response };
 	return options;
+}
+
+export function createHash(searchParams: Record<string, string>, config: SourceSiteConfig): string {
+	return hashObject({
+		...searchParams,
+		configId: config._id
+	})
 }

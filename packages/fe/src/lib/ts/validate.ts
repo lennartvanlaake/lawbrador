@@ -1,26 +1,6 @@
-import addFormats from 'ajv-formats';
-import Ajv, { ErrorObject, ValidateFunction } from 'ajv';
-import { Type } from '@sinclair/typebox';
+import type { ErrorObject, ValidateFunction } from 'ajv';
 import type { TObject, TUnion } from '@sinclair/typebox';
-
-const ajv = addFormats(new Ajv({ allErrors: true }), [
-	'date-time',
-	'time',
-	'date',
-	'email',
-	'hostname',
-	'ipv4',
-	'ipv6',
-	'uri',
-	'uri-reference',
-	'uuid',
-	'uri-template',
-	'json-pointer',
-	'relative-json-pointer',
-	'regex'
-])
-	.addKeyword('kind')
-	.addKeyword('modifier');
+import ajv from '@lawbrador/shared/src/ajv'
 
 export class Validator {
 	validator: ValidateFunction;
