@@ -18,7 +18,7 @@
 		"downlevelIteration": true,
 		"lib": ["dom", "es2017"],
 		"paths": {
-			"@project/sveltekit": ["../sveltekit/src"],
+			"@project/fe": ["../sveltekit/src"],
 			"@project/shared": ["../shared/src"],
 			"@project/api": ["../api/src"]
 		}
