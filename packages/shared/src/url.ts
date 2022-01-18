@@ -61,10 +61,10 @@ export function extractUrlVariables(url: string, config: UrlConfig): any {
 			output[component.variableName] = pathArray[i];
 		}
 	});
-	Object.keys(config.queryComponents).forEach((key) => {
-		const component = config.queryComponents[key];
-		if (!component.value) {
-			const variableValue = parsedUrl.searchParams.get(key);
+	config.queryComponents.forEach((param) => {
+		const component = param.urlComponent;
+		if ("variableName" in component) {
+			const variableValue = parsedUrl.searchParams.get(param.name);
 			if (variableValue) {
 				output[component.variableName] = variableValue;
 			}
