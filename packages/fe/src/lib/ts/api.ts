@@ -3,7 +3,7 @@ import type {
 	ScrapeResult,
 	ScrapeRequest
 } from '@lawbrador/shared/src/schemas/scrape';
-import type { SearchRequest, SearchResult } from '@lawbrador/shared/src/schemas/search';
+import type { SearchRequest, SearchResponse } from '@lawbrador/shared/src/schemas/search';
 import type { Identity } from '@lawbrador/shared/src/schemas/generic';
 import * as Endpoints from '@lawbrador/shared/src/endpoints';
 
@@ -11,9 +11,9 @@ const baseUrl = 'http://localhost:8080';
 
 async function get(path: string, fetchParam: any) {
 	if (fetchParam) {
-		return await (await fetchParam(`${baseUrl}/${path}`)).json();
+		return await (await fetchParam(`${baseUrl}${path}`)).json();
 	} else {
-		return await (await fetch(`${baseUrl}/${path}`)).json();
+		return await (await fetch(`${baseUrl}${path}`)).json();
 	}
 }
 
@@ -25,7 +25,7 @@ async function post(path: string, body: any) {
 		},
 		body: JSON.stringify(body)
 	};
-	return await (await fetch(`${baseUrl}/${path}`, req)).json();
+	return await (await fetch(`${baseUrl}${path}`, req)).json();
 }
 
 async function put(path: string, body: any) {
@@ -36,15 +36,15 @@ async function put(path: string, body: any) {
 		},
 		body: JSON.stringify(body)
 	};
-	return await (await fetch(`${baseUrl}/${path}`, req)).json();
+	return await (await fetch(`${baseUrl}${path}`, req)).json();
 }
 
 export async function getDocument(
-	id: string,
+	url: string,
+	sourceConfigId: string,
 	fetchParam: any = false
 ): Promise<ScrapeResult> {
-	throw new Error("not implemented");
-	//return await get(`scrape/${id}`, fetchParam);
+	return await get(`${Endpoints.GET_OR_SCRAPE_DOCUMENT}?url=${encodeURIComponent(url)}&sourceConfigId=${sourceConfigId}`, fetchParam);
 }
 
 export async function getSourceConfigs(fetchParam: any = false): Promise<SourceSiteConfig[]> {
@@ -66,6 +66,6 @@ export async function scrape(request: ScrapeRequest, fetchParam: any = false): P
 
 export async function search(
 	body: SearchRequest,
-): Promise<SearchResult[]> {
+): Promise<SearchResponse> {
 	return await post(Endpoints.SEARCH_ENDPOINT, body);
 }

@@ -1,6 +1,7 @@
 import { clean } from '@lawbrador/shared/src/db/utils';
-export const clearRoutes = async (fastify, _options) => {
-    fastify.delete('all', {}, async () => {
+import { ALL_ENDPOINT } from '@lawbrador/shared/src/endpoints';
+export default async (fastify) => {
+    fastify.delete(ALL_ENDPOINT, {}, async () => {
         await clean(fastify.client);
         return { status: 'success' };
     });

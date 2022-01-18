@@ -1,40 +1,18 @@
-export {};
-//export const searchRoutes: FastifyPluginAsync = async (fastify) => {
-//const documentCollection = getCollection(fastify, 'documents');
-//const searchColleciton = getCollection(fastify, 'search');
-//fastify.post<{ Body: SearchRequest }>('/api/search', async (req) => {
-//const config = await getSourceConfigById(req.body.sourceConfigId, fastify);
-//const queryParamsHash = hashObject({
-//params: req.body.searchParams,
-//config: config,
-//});
-//const cachedResults = await searchColleciton.findOne({
-//hash: queryParamsHash,
-//});
-//let results;
-//if (cachedResults) {
-//results = cachedResults.list;
-//} else {
-//results = await search(req.body.searchParams, config);
-//searchColleciton.insertOne({
-//hash: queryParamsHash,
-//list: results,
-//});
-//}
-//const resultHashes = results.map((r) => r.hash);
-//const documents = await documentCollection
-//.find({
-//hash: { $in: resultHashes },
-//})
-//.toArray();
-//const documentMap = documents.reduce((result, doc) => {
-//result[doc.hash] = { id: doc.id };
-//return result;
-//}, {});
-//return results.map((res) => {
-//res.document = documentMap[res.hash];
-//return res;
-//});
-//});
-//};
+import { searchRequest, searchResponse, } from "@lawbrador/shared/src/schemas/search";
+import { createHash, routeConfig } from "./utils";
+import { buildUrl } from "@lawbrador/shared/src/url";
+import { scrape } from "@lawbrador/shared/src/scraper";
+import { parseSearchResults } from "@lawbrador/shared/src/searcher";
+import { SEARCH_ENDPOINT } from "@lawbrador/shared/src/endpoints";
+export default async (fastify) => {
+    fastify.post(SEARCH_ENDPOINT, routeConfig(searchResponse, searchRequest), async (req) => {
+        const config = await fastify.collections.sourceConfigs.get(req.body.sourceConfigId);
+        const queryParamsHash = createHash(req.body.searchParams, config);
+        const searchUrl = buildUrl(req.body.searchParams, config.searchUrlConfig);
+        const rawSearchResult = await fastify.collections.searchCache.cachedOrCreated({
+            hash: queryParamsHash,
+        }, async () => await scrape(searchUrl, queryParamsHash));
+        return parseSearchResults(rawSearchResult.body, config);
+    });
+};
 //# sourceMappingURL=search.js.map

@@ -2,6 +2,7 @@ import type { FastifyInstance } from "fastify";
 import {
   SearchRequest,
   searchRequest,
+  SearchResponse,
   searchResponse,
 } from "@lawbrador/shared/src/schemas/search";
 import { createHash, routeConfig } from "./utils";
@@ -11,7 +12,7 @@ import { parseSearchResults } from "@lawbrador/shared/src/searcher";
 import { SEARCH_ENDPOINT } from "@lawbrador/shared/src/endpoints";
 
 export default async (fastify: FastifyInstance) => {
-  fastify.post<{ Body: SearchRequest }>(
+  fastify.post<{ Body: SearchRequest, Response: SearchResponse }>(
     SEARCH_ENDPOINT,
     routeConfig(searchResponse, searchRequest),
     async (req) => {
@@ -27,7 +28,7 @@ export default async (fastify: FastifyInstance) => {
           },
           async () => await scrape(searchUrl, queryParamsHash)
         );
-      return parseSearchResults(rawSearchResult.body, config);
+      return { results: parseSearchResults(rawSearchResult.body, config) };
     }
   );
 };

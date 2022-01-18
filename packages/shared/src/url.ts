@@ -1,4 +1,4 @@
-import { UrlConfig } from 'packages/shared/src/schemas/rules';
+import { UrlComponent, UrlConfig } from 'packages/shared/src/schemas/rules';
 import { Md5 } from 'md5-typescript';
 function hash(str: string): string {
 	return Md5.init(str);
@@ -11,7 +11,8 @@ export function hashUrlVariables(variables: any, config: UrlConfig) {
 	return hashObject(extractUrlVariables(variables, config));
 }
 export function buildUrl(variables: Record<string, string>, config: UrlConfig) {
-	const renderedPath = config.pathComponents.reduce((acc, curr) => {
+	//@ts-ignore
+	const renderedPath = config.pathComponents.reduce((acc, curr: UrlComponent): string => {
 		const separator = acc.length == 0 ? '' : '/';
 		if ("value" in curr) {
 			return `${acc}${separator}${curr.value}`;

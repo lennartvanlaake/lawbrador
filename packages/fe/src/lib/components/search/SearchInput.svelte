@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { search } from '$lib/ts/api'
+	import { search } from '$lib/ts/api';
 	import SearchOptions from './SearchOptions.svelte';
 	import type { SourceSiteConfig } from '@lawbrador/shared/src/schemas/rules';
 	import type { SearchResult } from '@lawbrador/shared/src/schemas/search';
@@ -19,7 +19,9 @@
 		searchParams[pageVariable] = '1';
 		console.log(sourceConfig);
 		try {
-			searchResults = await search({ sourceConfigId: sourceConfig._id!!, searchParams: searchParams });
+			searchResults = (
+				await search({ sourceConfigId: sourceConfig._id!!, searchParams: searchParams })
+			).results;
 			if (searchResults.length == 0) {
 				alert('search completed, no results');
 			}
@@ -32,8 +34,9 @@
 
 	function addToHistory() {
 		let url = `?sourceConfigId=${sourceConfig._id!!}`;
-		Object.values(sourceConfig.searchUrlConfig.queryComponents).forEach((component) => {
-			if ("variableName" in component) {
+		sourceConfig.searchUrlConfig.queryComponents.forEach((queryParam) => {
+			const component = queryParam.urlComponent;
+			if ('variableName' in component) {
 				const paramValue = searchParams[component.variableName];
 				if (component.variableName != sourceConfig.htmlSearchRuleSet.pageVariable && paramValue) {
 					url = url + `&${component.variableName}=${paramValue}`;
@@ -44,8 +47,9 @@
 	}
 </script>
 
-<h1>Search here</h1>
 <input type="text" id="text-field" bind:value={searchParams[queryVariable]} />
 <SearchOptions bind:searchParams {sourceConfig} />
+<div>
 <button on:click={submitQuery}>search</button>
+</div>
 <svelte:window on:keypress={submitIfEnter} />

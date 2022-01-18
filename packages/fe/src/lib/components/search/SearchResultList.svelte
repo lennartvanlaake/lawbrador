@@ -19,14 +19,15 @@
 		try {
 			isSearching = true;
 			incrementPageNumber(searchParams, sourceConfig.htmlSearchRuleSet);
-			const nextPage = await search({
-				sourceConfigId: sourceConfig.id,
+			const nextPage = (await search({
+				sourceConfigId: sourceConfig._id,
 				searchParams: searchParams
-			});
+			})).results;
 			if (nextPage.length < firstSearchResultLength) {
 				scrollThreshold = 0;
 			}
 			// all the results are the same
+			// TODO re-instate the hash
 			if (nextPage.every((n) => searchResults.some((o) => n.hash == o.hash))) {
 				scrollThreshold = 0;
 				return;
@@ -41,7 +42,7 @@
 </script>
 
 <div id="results">
-	{#each searchResults as result}
+	{#each searchResults ?? [] as result}
 		<SearchResultComponent data={result} {sourceConfig} />
 		<InfiniteScroll threshold={scrollThreshold} on:loadMore={getNextPage} />
 	{/each}
@@ -49,8 +50,8 @@
 
 <style>
 	#results {
-		width: 800px;
-		max-height: 400px;
+		width: 90vw;
+		max-height: 80vh;
 		overflow-x: scroll;
 	}
 </style>

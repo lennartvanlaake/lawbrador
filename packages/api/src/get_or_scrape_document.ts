@@ -9,16 +9,23 @@ import { GET_OR_SCRAPE_DOCUMENT } from "@lawbrador/shared/src/endpoints";
 import { FastifyInstance } from "fastify";
 import { scrape } from "@lawbrador/shared/src/scraper";
 import { extractUrlVariables } from "@lawbrador/shared/src/url";
-import {createHash, routeConfig} from "./utils";
+import {createHash} from "./utils";
 
 export default async (fastify: FastifyInstance) => {
-  fastify.get<{ Params: ScrapeRequest }>(
-    GET_OR_SCRAPE_DOCUMENT,  
-    routeConfig(restructuredDocument, scrapeRequest),
+  fastify.get<{ Querystring: ScrapeRequest }>(
+    GET_OR_SCRAPE_DOCUMENT, 
+    {
+	schema: {
+		querystring: scrapeRequest,
+		response: {
+			200:restructuredDocument 
+		}
+	}
+    },
     async (req): Promise<RestructuredDocument> => {
-      const url = req.params.url;
-      const config = await fastify.collections.sourceConfigs.get(
-        req.params.sourceConfigId
+      const url = req.query.url;
+      const config = await fastify.collections.sourceConfigs.getOrThrow(
+        req.query.sourceConfigId
       );
       const hash = createHash(
         extractUrlVariables(url, config.documentUrlConfig),

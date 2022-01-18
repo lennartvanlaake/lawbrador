@@ -12,16 +12,18 @@
 	}, {});
 
 	function selectSourceConfig(sourceConfigId: string | null) {
-		sourceConfig = sourceConfigId ? sourceConfigMap[sourceConfigId] : null;
+		sourceConfig = sourceConfigId ? sourceConfigMap[sourceConfigId] : sourceConfig;
+		console.log(sourceConfig);
 		if (sourceConfig) {
 			dispatch("configSelected", sourceConfig);
 		}
 	}
 	$: selectSourceConfig(sourceConfigId);
 </script>
-
+<div>
 <Select bind:value={sourceConfigId}>
 	{#each sourceConfigList as config}
 		<Option value={config._id}>{config.name}</Option>
 	{/each}
 </Select>
+</div>

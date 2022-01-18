@@ -7,21 +7,20 @@
 	export let indexProps: IndexProps;
 	function setSourceConfig(e: CustomEvent<SourceSiteConfig>) {
 		indexProps = { ...indexProps, sourceConfig: e.detail };
-		console.log(e.detail);
-		console.log(indexProps);
 	}
 </script>
 
+<h1>Search here</h1>
+<SourceConfigSelector
+	sourceConfig={indexProps.sourceConfig}
+	sourceConfigList={indexProps.sourceConfigs}
+	sourceConfigId={indexProps.sourceConfig ? indexProps.sourceConfig._id : indexProps.query.get('sourceConfigId')}
+	on:configSelected={setSourceConfig}
+/>
 <SearchInput
 	bind:searchResults={indexProps.searchResults}
 	sourceConfig={indexProps.sourceConfig}
 	bind:searchParams={indexProps.searchParams}
-/>
-<SourceConfigSelector
-	sourceConfig={indexProps.sourceConfig}
-	sourceConfigList={indexProps.sourceConfigs}
-	sourceConfigId={indexProps.query.get('sourceConfigId')}
-	on:configSelected={setSourceConfig}
 />
 <SearchResultList
 	bind:searchResults={indexProps.searchResults}

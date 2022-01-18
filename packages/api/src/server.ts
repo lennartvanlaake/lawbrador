@@ -19,7 +19,12 @@ declare module "fastify" {
 }
 
 const fastify = Fastify({
-  logger: true
+  logger: {
+    prettyPrint: {
+      colorize: true,
+      ignore: "pid,hostname",
+    },
+  },
 });
 fastify.register(fastifySwagger, {
   routePrefix: "/api/swagger",
@@ -29,6 +34,7 @@ fastify.register(clearRoutes);
 fastify.register(getOrScrapeDocumentRoutes);
 fastify.register(searchRoutes);
 fastify.register(sourceConfigRoutes);
+
 
 const start = async () => {
   try {

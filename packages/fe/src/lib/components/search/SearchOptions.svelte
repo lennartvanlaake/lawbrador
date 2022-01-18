@@ -1,15 +1,19 @@
 <script lang="ts">
-	import type { SourceSiteConfig } from '@lawbrador/shared/src/schemas/rules';
+	import type { SourceSiteConfig, VariableUrlComponent } from '@lawbrador/shared/src/schemas/rules';
 	import SearchOptionInput from './SearchOptionInput.svelte';
 	export let searchParams: Record<string, string>;
 	export let sourceConfig: SourceSiteConfig;
 	$: queryVariable = sourceConfig?.htmlSearchRuleSet.queryVariable;
 	$: pageVariable = sourceConfig?.htmlSearchRuleSet.pageVariable;
-	$: options = Object.values(sourceConfig?.searchUrlConfig.queryComponents ?? []).filter(
-		(c) => !c.value && c.variableName != queryVariable && c.variableName != pageVariable
-	);
+	$: options = sourceConfig?.searchUrlConfig?.queryComponents
+		.filter(
+			(c) =>  'variableName' in c.urlComponent && 
+				c.urlComponent.variableName != pageVariable &&
+				c.urlComponent.variableName != queryVariable
+		).map(c => c.urlComponent as VariableUrlComponent);
+	console.log(options);
 </script>
 
-{#each options as option}
+{#each options ?? [] as option}
 	<SearchOptionInput {option} bind:value={searchParams[option.variableName]} />
 {/each}

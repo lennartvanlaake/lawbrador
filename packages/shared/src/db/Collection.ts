@@ -3,7 +3,6 @@ import { DB_NAME }  from './constants';
 import type { MongoIdentity, Identity } from '../schemas/generic';
 
 function objectIdToString<T extends MongoIdentity>(obj: T): T & Identity {
-
 	return { ...obj, _id: obj._id.toString() };
 }
 
@@ -40,6 +39,13 @@ export class TypedCollection<T> {
 	async get(id: string): Promise<T | null> {
 		return await this.findOne({ _id: new ObjectId(id) });
 	}
+	async getOrThrow(id: string): Promise<T> {
+		const result = await this.findOne({ _id: new ObjectId(id) });
+		if (!result) {
+			throw Error(`query result for id ${id} was null`);
+		}
+		return result;
+	}
 	async find(query: Document): Promise<T[]> {
 		this.checkConnected();
 		const result = await this.raw!!.find(query).toArray() as Array<T & MongoIdentity>;
@@ -56,7 +62,7 @@ export class TypedCollection<T> {
 	}
 	async replace(input: T & Identity, session: ClientSession | null = null) {
 		this.checkConnected();
-		const toReplace = stringToObjectId(input) as T & MongoIdentity;
+		const toReplace = stringToObjectId<T>(input) as T & MongoIdentity;
 		const options = session ? { session: session } : {};
 		await this.raw!!.replaceOne({ _id: toReplace._id }, toReplace, options);
 	}

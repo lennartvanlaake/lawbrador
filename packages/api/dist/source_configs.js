@@ -5,8 +5,8 @@ import { id } from "@lawbrador/shared/src/db/utils";
 import { toIdentity } from "@lawbrador/shared/src/utils";
 import { SOURCES_ENDPOINT } from "@lawbrador/shared/src/endpoints";
 import { routeConfig } from "./utils";
-export const sourceConfigRoutes = async (fastify, _options) => {
-    fastify.get("/api/sources", routeConfig(RuleSchema.sourceSiteConfigs), async () => {
+export default async (fastify) => {
+    fastify.get(SOURCES_ENDPOINT, routeConfig(RuleSchema.sourceSiteConfigs), async () => {
         return await fastify.collections.sourceConfigs.all();
     });
     fastify.post(SOURCES_ENDPOINT, routeConfig(GenericSchema.identity, RuleSchema.unsavedSourceSiteConfig), async (req) => {

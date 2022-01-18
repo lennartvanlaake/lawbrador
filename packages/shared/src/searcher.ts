@@ -63,7 +63,7 @@ export function parseSearchResults(
 				href: url,
 			};
 		});
-	return links;
+	return links ?? [];
 }
 
 function makeLinkAbsolute(link: string, config: UrlConfig) {

@@ -1,13 +1,10 @@
 import { DB_NAME, LAWBRADOR_CLIENT } from "@lawbrador/shared/src/db/constants";
 import { Umzug, MongoDBStorage } from "umzug";
-
-(async () => {
-  await LAWBRADOR_CLIENT.connect();
-})();
+import { ALL_COLLECTIONS } from '@lawbrador/shared/src/db/collections';
 
 export const migrator = new Umzug({
   migrations: {
-    glob: ["migrations/*.ts", { cwd: "." }],
+    glob: ["src/migrations/*.ts", { cwd: "." }],
     resolve: (params) => {
       if (params.path.endsWith(".ts")) {
         const getModule = () =>
@@ -27,9 +24,18 @@ export const migrator = new Umzug({
     },
   },
   storage: new MongoDBStorage({
-    collection: LAWBRADOR_CLIENT.db(DB_NAME).collection("migraitons"),
+    collection: LAWBRADOR_CLIENT.db(DB_NAME).collection("migrations"),
   }),
   logger: console,
+});
+
+
+migrator.on('beforeCommand', async () => {
+	await LAWBRADOR_CLIENT.connect();
+	Object.values(ALL_COLLECTIONS).forEach(c => c.connect(LAWBRADOR_CLIENT));
+});
+migrator.on('afterCommand', async () => {
+	await LAWBRADOR_CLIENT.close();
 });
 
 export type Migration = typeof migrator._types.migration;
