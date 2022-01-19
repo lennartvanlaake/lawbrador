@@ -5,8 +5,9 @@
 	"type": "module",
 	"scripts": {
 		"test": "ts-mocha -p tsconfig.json src/**/*.spec.ts",
+		"test:build": "tsc --noEmit",
 		"test:debug": "ts-mocha -p tsconfig.json src/**/*.spec.ts --inspect-brk",
-		"test:watch": "ts-mocha -p tsconfig.json --watch --watch-files src/**/*.spec.ts src/**/*.spec.ts",
+		"test:watch": "ts-mocha -p tsconfig.json --reporter min --watch --watch-files src/**/*.spec.ts src/**/*.spec.ts",
 		"build": "tsc --build"
 	},
 	"dependencies": {
@@ -17,8 +18,7 @@
 		"ajv-formats": "^2.1.1",
 		"chai": "^4.3.4",
 		"mongodb": "^4.1.4",
-		"ts-mocha": "^8.0.0",
-		"ts-node": "^10.4.0"
+		"ts-mocha": "^8.0.0"
 	},
 	"devDependencies": {
 		"@types/chai": "^4.3.0",

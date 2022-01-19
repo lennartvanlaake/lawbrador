@@ -21,6 +21,7 @@ export default async (fastify: FastifyInstance) => {
       );
       const queryParamsHash = createHash(req.body.searchParams, config);
       const searchUrl = buildUrl(req.body.searchParams, config.searchUrlConfig);
+      console.log(`url: ${searchUrl}`);
       const rawSearchResult =
         await fastify.collections.searchCache.cachedOrCreated(
           {
@@ -28,6 +29,7 @@ export default async (fastify: FastifyInstance) => {
           },
           async () => await scrape(searchUrl, queryParamsHash)
         );
+      console.log(JSON.stringify(rawSearchResult));
       return { results: parseSearchResults(rawSearchResult.body, config) };
     }
   );

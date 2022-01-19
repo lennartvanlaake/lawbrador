@@ -45,6 +45,7 @@ export function parseSearchResults(
 		base,
 		config.htmlSearchRuleSet.resultRule,
 	);
+	debugger;
 	const links = searchResult
 		.map((el) =>
 			getFirstMatching(

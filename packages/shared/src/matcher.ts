@@ -35,7 +35,7 @@ export function matches(node: ParsedNode, rule: SelectionRule): boolean {
 export function getFirstMatching(
 	node: ParsedNode,
 	rule: SelectionRule,
-): ParsedNode {
+): ParsedNode | null {
 	if (!rule || matches(node, rule)) {
 		return node;
 	}

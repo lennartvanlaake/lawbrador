@@ -12,7 +12,7 @@ export class Validator {
 		const map = this.validator.errors?.reduce((a, e) => {
 			let propName = e.instancePath.split('/')[1];
 			if (propName && a[propName]) {
-				a[propName] = [...a[propName], e];
+				a[propName] = [...a[propName] ?? [], e];
 			} else {
 				a[propName] = [e];
 			}
@@ -30,7 +30,7 @@ export function getImprovedErrorMessages(
 	level: number = 1,
 	label: String = ""
 ): string[] | undefined {
-	if (!errors) return errors;
+	if (!errors) return undefined;
 	return [
 		...new Set(
 			errors.map((e) => {

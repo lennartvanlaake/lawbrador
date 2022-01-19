@@ -1,6 +1,5 @@
 <script lang="ts">
 import List from '@smui/list';
-import Paper, { Title, Content } from '@smui/paper';
 import type { ErrorObject } from 'ajv';
 import AddButton from './AddButton.svelte';
 import { getImprovedErrorMessages } from '$lib/ts/validate';
@@ -13,5 +12,5 @@ $: messages = getImprovedErrorMessages(errors, 2, "List");
 <List>
 	<slot />
 </List>
-<AddButton bind:value={list} {empty} />
+<AddButton bind:value={list} empty={empty} />
 <WarningBox {messages} />

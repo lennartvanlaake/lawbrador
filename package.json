@@ -10,10 +10,12 @@
 	"scripts": {
 		"docker-down": "docker-compose -f docker-dev/docker-compose.yml down",
 		"docker": "docker-compose -f docker-dev/docker-compose.yml up",
-		"test": "lerna run test --stream || killall node",
+		"test": "yarn test:build && lerna run test --stream || killall node",
+		"test:build": "tsc --noEmit",
 		"dev": "yarn docker -d && lerna run dev --stream || killall node",
 		"debug": "yarn docker -d && lerna run debug --stream || killall node",
-		"run-it": "lerna run run-it"
+		"run-it": "lerna run run-it",
+		"prepare": "husky install"
 	},
 	"devDependencies": {
 		"@typescript-eslint/eslint-plugin": "^4.31.1",
@@ -21,6 +23,7 @@
 		"eslint": "^7.32.0",
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-plugin-svelte3": "^3.2.1",
+		"husky": "^7.0.4",
 		"prettier": "^2.4.1",
 		"prettier-plugin-svelte": "^2.4.0",
 		"svelte": "^3.42.6",
@@ -33,12 +36,11 @@
 		"@sveltejs/kit": "1.0.0-next.218",
 		"svelte": "3.44.3",
 		"svelte-preprocess": "4.10.1",
-		"tslib": "2.1.0",
 		"typescript": "4.5.4",
 		"@sveltejs/vite-plugin-svelte": "1.0.0-next.33",
 		"vite": "2.7.10",
 		"fast-json-stringify": "2.7.13",
-		"ts-node": "10.4.0",
+		"ts-node": "^7.0.0",
 		"mongodb": "4.1.4",
 		"@sinclair/typebox": "0.23.1"
 	}

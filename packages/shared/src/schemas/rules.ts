@@ -24,6 +24,7 @@ export const selectionRule = Type.Object({
 export type SelectionRule = Static<typeof selectionRule>;
 
 export const documentRuleSet = Type.Object({
+  name: Type.Optional(Type.String()),
   conditionRules: Type.Optional(Type.Array(selectionRule)),
   bodyRule: Type.Optional(selectionRule),
 });

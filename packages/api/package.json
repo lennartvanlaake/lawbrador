@@ -8,6 +8,7 @@
 	"scripts": {
 		"watch-compile": "tsc --watch --noEmit",
 		"build": "tsc --build",
+		"test:build": "tsc --noEmit",
 		"dev": "nodemon --watch './**/*.ts' --exec 'node --experimental-specifier-resolution=node --loader ts-node/esm' src/server.ts",
 		"debug": "nodemon --watch './**/*.ts' --exec 'node --experimental-specifier-resolution=node --loader ts-node/esm --inspect' src/server.ts"
 	},

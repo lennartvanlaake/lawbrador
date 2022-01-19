@@ -5,26 +5,25 @@ import { expect } from 'chai';
 
 describe('Restructuring HTML with empty ruleset', () => {
 	const ruleSet: DocumentRuleSet = {
-		id: '1',
 		conditionRules: [],
 	};
 	it('Restructuring two paragraphs', () => {
 		const html = `<p>bla</p><p>bla</p>`;
 		const parsed = parse(html);
 		const restructured = applyRuleSet(parsed, ruleSet);
-		expect(restructured.length).to.eq(2);
-		expect(restructured.every((n) => n.name == 'p')).to.be.true;
-		expect(restructured.every((n) => n.children[0].text == 'bla'))
+		expect(restructured.children.length).to.eq(2);
+		expect(restructured.children.every((n) => n.name == 'p')).to.be.true;
+		expect(restructured.children.every((n) => n.children[0].text == 'bla'))
 			.to.be.true;
 	});
 	it('Restructuring paragraphs with link', () => {
 		const html = `<p><a href='somewhere'>bla<a></p><p>bla</p>`;
 		const parsed = parse(html);
 		const restructured = applyRuleSet(parsed, ruleSet);
-		expect(restructured.every((n) => n.children[0].text == 'bla'))
+		expect(restructured.children.every((n) => n.children[0].text == 'bla'))
 			.to.be.true;
-		expect(restructured[0].children[0].name).to.eq('a');
-		expect(restructured[0].children[0].href).to.eq('somewhere');
+		expect(restructured.children[0].children[0].name).to.eq('a');
+		expect(restructured.children[0].children[0].href).to.eq('somewhere');
 	});
 	it('Restructuring two divs with two paragraphs each', () => {
 		const html = `
@@ -33,9 +32,9 @@ describe('Restructuring HTML with empty ruleset', () => {
 		`;
 		const parsed = parse(html);
 		const restructured = applyRuleSet(parsed, ruleSet);
-		expect(restructured[0].name).to.eq('div');
-		expect(restructured[0].children[0].name).to.eq('p');
-		expect(restructured[0].children[0].children[0].text).to.eq(
+		expect(restructured.children[0].name).to.eq('div');
+		expect(restructured.children[0].children[0].name).to.eq('p');
+		expect(restructured.children[0].children[0].children[0].text).to.eq(
 			'bla',
 		);
 	});
@@ -43,7 +42,6 @@ describe('Restructuring HTML with empty ruleset', () => {
 
 describe('Restructuring HTML with body rule', () => {
 	const ruleSet: DocumentRuleSet = {
-		id: '1',
 		conditionRules: [],
 		bodyRule: {
 			op: 'is',
@@ -58,29 +56,29 @@ describe('Restructuring HTML with body rule', () => {
 		`;
 		const parsed = parse(html);
 		const restructured = applyRuleSet(parsed, ruleSet);
-		expect(restructured.length).to.eq(2);
-		expect(restructured.every((n) => n.name == 'p')).to.be.true;
-		expect(restructured.every((n) => n.children[0].text == 'bla'))
+		expect(restructured.children.length).to.eq(2);
+		expect(restructured.children.every((n) => n.name == 'p')).to.be.true;
+		expect(restructured.children.every((n) => n.children[0].text == 'bla'))
 			.to.be.true;
 	});
 });
 
 const sourceConfig: SourceSiteConfig = {
-	id: '1',
+	_id: '1',
 	name: 'test',
 	searchUrlConfig: {
 		base: 'http://x.nl',
 		pathComponents: [],
-		queryComponents: {},
+		queryComponents: [],
 	},
 	documentUrlConfig: {
 		base: 'http://x.nl',
 		pathComponents: [],
-		queryComponents: {},
+		queryComponents: [],
 	},
 	documentRuleSets: [
 		{
-			id: '1',
+			name: "1",
 			conditionRules: [
 				{
 					op: 'is',
@@ -95,7 +93,7 @@ const sourceConfig: SourceSiteConfig = {
 			},
 		},
 		{
-			id: '2',
+			name: "2",
 			conditionRules: [],
 			bodyRule: {
 				op: 'is',
@@ -104,8 +102,7 @@ const sourceConfig: SourceSiteConfig = {
 			},
 		},
 		{
-			id: '3',
-			conditionRules: [],
+			name: "3"
 		},
 	],
 	// irrelevant to this test
@@ -134,18 +131,18 @@ describe('Selecting documentRuleSets', () => {
 		const html = `<div id='important'><p class='specific'>bla</p></div>`;
 		const parsed = parse(html);
 		const ruleSet = selectRuleSet(parsed, sourceConfig);
-		expect(ruleSet.id).to.eq('1');
+		expect(ruleSet.name).to.eq('1');
 	});
 	it('selects the ruleset if only body matches', () => {
 		const html = `<div id='important'><p>bla</p></div>`;
 		const parsed = parse(html);
 		const ruleSet = selectRuleSet(parsed, sourceConfig);
-		expect(ruleSet.id).to.eq('2');
+		expect(ruleSet.name).to.eq('2');
 	});
 	it('selects the default empty ruleset', () => {
 		const html = `<div><p>bla</p></div>`;
 		const parsed = parse(html);
 		const ruleSet = selectRuleSet(parsed, sourceConfig);
-		expect(ruleSet.id).to.eq('3');
+		expect(ruleSet.name).to.eq('3');
 	});
 });

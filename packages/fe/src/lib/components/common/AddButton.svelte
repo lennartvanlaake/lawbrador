@@ -8,7 +8,7 @@
 	const dispatch = createEventDispatcher();
 	const isArray = Array.isArray(value);
 	function newEmpty() {
-		return typeof empty == 'object' ? { ...empty } : empty;
+		return typeof empty == 'string' ?  empty : { ...empty };
 	}
 	function fillProp() {
 		if (isArray) {
