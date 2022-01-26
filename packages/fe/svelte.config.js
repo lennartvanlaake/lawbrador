@@ -12,7 +12,7 @@ export default {
 			ssr: {
 				noExternal: [/^@smui(?:-extra)?\//]
 			},
-			adapter: adapter()
 		},
+		adapter: adapter()
 	}
 };
