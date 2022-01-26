@@ -1,7 +1,7 @@
 import preprocess from 'svelte-preprocess';
+import adapter from '@sveltejs/adapter-node';
+
 export default {
-	// Consult https://github.com/sveltejs/svelte-preprocess
-	// for more information about preprocessors
 	disableDependencyReinclusion: ['svench'],
 	preprocess: preprocess({
 		typescript: true,
@@ -12,6 +12,7 @@ export default {
 			ssr: {
 				noExternal: [/^@smui(?:-extra)?\//]
 			}
-		}
+		},
+		adapter: adapter({ out: 'dist' })
 	}
 };
