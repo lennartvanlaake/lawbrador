@@ -1,5 +1,5 @@
 import preprocess from 'svelte-preprocess';
-import adapter from '@sveltejs/adapter-node';
+import adapter from '@sveltejs/adapter-auto';
 
 export default {
 	disableDependencyReinclusion: ['svench'],
@@ -11,8 +11,8 @@ export default {
 		vite: {
 			ssr: {
 				noExternal: [/^@smui(?:-extra)?\//]
-			}
+			},
+			adapter: adapter()
 		},
-		adapter: adapter({ out: 'dist' })
 	}
 };
