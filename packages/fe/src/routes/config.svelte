@@ -1,5 +1,4 @@
 <script context="module" lang="ts">
-	export const ssr = false;
 	import type { Load } from '@sveltejs/kit';
 	import type { SourceConfigEditorProps } from '$lib/components/page/types';
 	import SourceConfigEditor from '$lib/components/page/SourceConfigEditor.svelte';

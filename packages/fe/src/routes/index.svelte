@@ -1,6 +1,4 @@
 <script context="module" lang="ts">
-	// use for debugging
-	/*export const ssr = false;*/
 	import Index from '$lib/components/page/Index.svelte';
 	import type { SourceSiteConfig } from '@lawbrador/shared/src/schemas/rules';
 	import type { SearchResult } from '@lawbrador/shared/src/schemas/search';

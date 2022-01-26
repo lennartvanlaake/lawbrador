@@ -1,5 +1,4 @@
 <script context="module" lang="ts">
-	export const ssr = false;
 	import type { Load } from '@sveltejs/kit';
 	import DocumentView from '$lib/components/view/DocumentView.svelte';
 	import { getDocument } from '$lib/ts/api';

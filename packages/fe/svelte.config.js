@@ -1,5 +1,5 @@
 import preprocess from 'svelte-preprocess';
-import adapter from '@sveltejs/adapter-vercel';
+import adapter from '@sveltejs/adapter-node';
 
 export default {
 	disableDependencyReinclusion: ['svench'],
@@ -13,6 +13,6 @@ export default {
 				noExternal: [/^@smui(?:-extra)?\//]
 			},
 		},
-		adapter: adapter()
+		adapter: adapter({ out: 'dist' })
 	}
 };

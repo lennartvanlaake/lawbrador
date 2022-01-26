@@ -24,20 +24,10 @@
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-plugin-svelte3": "^3.2.1",
 		"husky": "^7.0.4",
-		"prettier": "^2.4.1",
-		"prettier-plugin-svelte": "^2.4.0",
-		"svelte": "^3.42.6",
-		"svelte-check": "^2.2.6",
-		"svelte-preprocess": "^4.9.4",
-		"typescript": "^4.4.3"
+		"prettier": "^2.4.1"
 	},
 	"resolutions": {
-		"@sveltejs/kit": "1.0.0-next.218",
-		"svelte": "3.44.3",
-		"svelte-preprocess": "4.10.1",
 		"typescript": "4.5.4",
-		"@sveltejs/vite-plugin-svelte": "1.0.0-next.33",
-		"vite": "2.7.10",
 		"fast-json-stringify": "2.7.13",
 		"mongodb": "4.1.4",
 		"@sinclair/typebox": "0.23.1"
