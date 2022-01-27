@@ -1,0 +1,9 @@
+FROM node:16-alpine as build
+WORKDIR /usr/src/
+COPY yarn.lock package.json tsconfig.json ./
+COPY packages/fe /usr/src/packages/fe
+COPY packages/shared /usr/src/packages/shared
+WORKDIR /usr/src/packages/fe
+RUN yarn install --no-cache
+RUN yarn build 
+RUN yarn start

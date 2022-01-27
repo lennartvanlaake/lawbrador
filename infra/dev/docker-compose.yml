@@ -8,7 +8,6 @@ services:
       MONGODB_REPLICA_SET_MODE: "primary" 
       MONGODB_ADVERTISED_HOSTNAME: "localhost"
       MONGODB_ROOT_PASSWORD: "password"
-      MONGODB_REPLICA_SET_KEY: "replicas"   
   nginx:
       build:
         context: nginx

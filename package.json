@@ -8,8 +8,8 @@
 	],
 	"private": true,
 	"scripts": {
-		"docker-down": "docker-compose -f docker/dev/docker-compose.yml down",
-		"docker": "docker-compose -f docker/dev/docker-compose.yml up",
+		"docker-down": "docker-compose -f infra/dev/docker-compose.yml down",
+		"docker": "docker-compose -f infra/dev/docker-compose.yml up",
 		"test": "yarn test:build && lerna run test --stream || killall node",
 		"test:build": "tsc --noEmit",
 		"dev": "yarn docker -d && lerna run dev --stream || killall node",
