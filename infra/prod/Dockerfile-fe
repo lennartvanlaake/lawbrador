@@ -6,4 +6,4 @@ COPY packages/shared /usr/src/packages/shared
 WORKDIR /usr/src/packages/fe
 RUN yarn install --no-cache
 RUN yarn build 
-RUN yarn start
+CMD ["yarn", "start"]
