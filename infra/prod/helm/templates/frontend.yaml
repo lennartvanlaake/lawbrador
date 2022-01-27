@@ -27,6 +27,6 @@ spec:
     spec:
       containers:
         - name: fe
-          image: {{ tuple "fe" . | werf_image }} 
+          image: {{ .Values.werf.image.fe }} 
           ports:
             - containerPort: 3000
