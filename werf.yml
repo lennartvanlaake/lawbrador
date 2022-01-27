@@ -5,3 +5,6 @@ deploy:
 ---
 image: fe
 dockerfile: ./infra/prod/Dockerfile-fe
+---
+image: api
+dockerfile: ./infra/prod/Dockerfile-api

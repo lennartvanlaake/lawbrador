@@ -8,7 +8,12 @@ import { LAWBRADOR_CLIENT } from "@lawbrador/shared/src/db/constants";
 import { ALL_COLLECTIONS } from "@lawbrador/shared/src/db/collections";
 import { LAWBRADOR_REGISTRY } from "@lawbrador/events";
 const fastify = Fastify({
-    logger: true
+    logger: {
+        prettyPrint: {
+            colorize: true,
+            ignore: "pid,hostname",
+        },
+    },
 });
 fastify.register(fastifySwagger, {
     routePrefix: "/api/swagger",

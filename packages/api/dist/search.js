@@ -9,10 +9,12 @@ export default async (fastify) => {
         const config = await fastify.collections.sourceConfigs.get(req.body.sourceConfigId);
         const queryParamsHash = createHash(req.body.searchParams, config);
         const searchUrl = buildUrl(req.body.searchParams, config.searchUrlConfig);
+        console.log(`url: ${searchUrl}`);
         const rawSearchResult = await fastify.collections.searchCache.cachedOrCreated({
             hash: queryParamsHash,
         }, async () => await scrape(searchUrl, queryParamsHash));
-        return parseSearchResults(rawSearchResult.body, config);
+        console.log(JSON.stringify(rawSearchResult));
+        return { results: parseSearchResults(rawSearchResult.body, config) };
     });
 };
 //# sourceMappingURL=search.js.map
