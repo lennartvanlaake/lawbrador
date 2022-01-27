@@ -1,5 +1,8 @@
 project: lawbrador
 configVersion: 1
----
+deploy: 
+  helmChartDir: helm 
+  ---
 image: fe
 dockerfile: ./Dockerfile-fe
+context: ../..
