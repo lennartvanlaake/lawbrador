@@ -10,3 +10,4 @@ dist/
 /backend/public/*
 /frontend/dist/*
 *.mp4
+.env
