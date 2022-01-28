@@ -23,4 +23,4 @@ jobs:
           env: prod 
           kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
         env:
-          WERF_SET_VITE_URL: "VITE_URL=xanto.lawbrador.nl"
+          WERF_SET_URL: "url=xanto.lawbrador.nl"
