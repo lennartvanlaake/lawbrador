@@ -123,6 +123,13 @@ spec:
       labels:
         app: mongo 
     spec:
+      initContainers:
+        - name: mongo-permission-fix
+          image: busybox
+          command: ["/bin/chmod","-R","777", "/data"]
+          volumeMounts:
+          - name: mongo-volume
+            mountPath: /data
       containers:
         - name: mongo 
           image: bitnami/mongodb:4.4 
