@@ -2,9 +2,9 @@ project: lawbrador
 configVersion: 1
 deploy: 
   helmChartDir: ./infra/prod/helm 
-#---
-#image: fe
-#dockerfile: ./infra/prod/Dockerfile-fe
+---
+image: fe
+dockerfile: ./infra/prod/Dockerfile-fe
 ---
 image: api
 dockerfile: ./infra/prod/Dockerfile-api

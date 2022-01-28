@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -75,11 +76,11 @@ spec:
           image: {{ .Values.werf.image.api }} 
           ports:
             - containerPort: 5000
-        envFrom:
-        - configMapRef:
-            name: config
-        - secretRef:
-            name: db-secret 
+          envFrom:
+          - configMapRef:
+              name: config
+          - secretRef:
+              name: db-secret 
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
