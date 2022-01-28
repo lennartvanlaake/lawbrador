@@ -5,9 +5,6 @@ dist/
 /build
 .DS_Store
 .env
-/kube/secrets/*
-/volumes
-/backend/public/*
-/frontend/dist/*
+/infra/prod/secrets/*
 *.mp4
 .env

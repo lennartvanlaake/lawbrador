@@ -7,7 +7,7 @@ import type { SearchRequest, SearchResponse } from '@lawbrador/shared/src/schema
 import type { Identity } from '@lawbrador/shared/src/schemas/generic';
 import * as Endpoints from '@lawbrador/shared/src/endpoints';
 
-const baseUrl = 'http://localhost:8080';
+const baseUrl = import.meta.env.VITE_URL;
 
 async function get(path: string, fetchParam: any) {
 	if (fetchParam) {
