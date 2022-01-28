@@ -14,7 +14,6 @@
 		"start": "node --experimental-specifier-resolution=node --loader ts-node/esm dist/server.js"
 	},
 	"dependencies": {
-		"@fastify/type-provider-typebox": "^0.1.0-beta.0",
 		"axios": "^0.25.0",
 		"cheerio": "^1.0.0-rc.10",
 		"dotenv": "^14.3.2",
@@ -22,6 +21,8 @@
 		"fastify-mongodb": "^4.1.1",
 		"fastify-swagger": "^4.13.1",
 		"md5-typescript": "^1.0.5",
+		"ajv": "^8.8.2",
+		"ajv-formats": "^2.1.1",
 		"nodemon": "^2.0.14",
 		"ts-node": "^10.4.0"
 	},
