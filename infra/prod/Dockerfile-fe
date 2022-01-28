@@ -1,9 +1,10 @@
 FROM node:16-alpine
 WORKDIR /usr/src/
 COPY yarn.lock package.json tsconfig.json ./
-COPY packages/fe /usr/src/packages/fe
-COPY packages/shared /usr/src/packages/shared
+COPY packages/fe/package.json /usr/src/packages/fe/package.json
 WORKDIR /usr/src/packages/fe
 RUN yarn install --no-cache
+COPY packages/fe /usr/src/packages/fe
+COPY packages/shared /usr/src/packages/shared
 RUN yarn build 
 CMD ["yarn", "start"]
