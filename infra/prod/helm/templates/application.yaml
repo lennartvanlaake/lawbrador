@@ -147,3 +147,27 @@ spec:
         - name: mongo-volume 
           persistentVolumeClaim:
             claimName: mongo-pv-claim
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: "ingress"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: fe-service
+            port:
+              number: 80
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: api-service
+            port:
+              number: 5000
