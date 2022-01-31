@@ -37,7 +37,7 @@ spec:
     spec:
       containers:
         - name: lawbrador-fe-{{ .Values.werf.env }}
-          image: {{ .Values.werf.image.lawbrador-fe-{{ .Values.werf.env }} }} 
+          image: {{ .Values.werf.image.fe }} 
           envFrom:
           - configMapRef:
               name: lawbrador-config-{{ .Values.werf.env }}
@@ -137,7 +137,7 @@ spec:
             - containerPort: 27017
           envFrom:
           - configMapRef:
-              name: lawbrador-config-{{ .Values.werf.image.api }}
+              name: lawbrador-config-{{ .Values.werf.env }}
           - secretRef:
               name: db-secret 
           volumeMounts:
