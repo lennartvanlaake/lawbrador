@@ -160,8 +160,8 @@ spec:
         - configMapRef:
             name: lawbrador-config-{{ .Values.werf.env }}
         - secretRef:
-            name: db-secret 
-        command: ["yarn",  "start", "up"]
+            name: db-secret
+        command: ["yarn", "start", "up"] 
       restartPolicy: Never
 ---
 kind: Ingress
