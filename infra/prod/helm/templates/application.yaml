@@ -153,6 +153,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: lawbrador-ingress-{{ .Values.werf.env }}
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
 spec:
   rules:
     - host: {{ .Values.url }} 
