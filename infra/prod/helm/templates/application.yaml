@@ -166,7 +166,7 @@ spec:
             service:
               name: lawbrador-fe-{{ .Values.werf.env }}-service
               port:
-                number: 80
+                number: 3000
         - path: /api
           pathType: Prefix
           backend:
