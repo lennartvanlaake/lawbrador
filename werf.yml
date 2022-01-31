@@ -2,6 +2,7 @@ project: lawbrador
 configVersion: 1
 deploy: 
   helmChartDir: ./infra/prod/helm 
+  namespace: default
 ---
 image: fe
 dockerfile: ./infra/prod/Dockerfile-fe
