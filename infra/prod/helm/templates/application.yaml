@@ -78,7 +78,7 @@ spec:
             - containerPort: 5000
           envFrom:
           - configMapRef:
-              name: config
+              name: lawbrador-config-{{ .Values.werf.env }}
           - secretRef:
               name: db-secret 
 ---
