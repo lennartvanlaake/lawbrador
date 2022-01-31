@@ -1,9 +1,0 @@
-
-apiVersion: v1
-kind: Secret
-metadata:
-  name: db
-type: Opaque
-stringData:
-  DB_PASS: INSERT_MONGO_PASSWORD_HERE
-  DB_USER: INSERT_MONGO_USER_HERE
