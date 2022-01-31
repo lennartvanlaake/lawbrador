@@ -7,7 +7,8 @@ import type { SearchRequest, SearchResponse } from '@lawbrador/shared/src/schema
 import type { Identity } from '@lawbrador/shared/src/schemas/generic';
 import * as Endpoints from '@lawbrador/shared/src/endpoints';
 
-const baseUrl = import.meta.env.VITE_URL;
+// baseUrl should only be set in development, default to root when running on a server
+const baseUrl = import.meta.env.VITE_URL ?? "";
 
 async function get(path: string, fetchParam: any) {
 	console.log(`fetching base ${baseUrl} path ${path}`) 

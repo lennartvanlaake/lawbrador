@@ -6,7 +6,6 @@ metadata:
 data:
   MONGODB_PORT: "27017"
   MONGODB_HOST: lawbrador-mongo-{{ .Values.werf.env }}-service
-  VITE_URL: {{ .Values.url }} 
 ---
 apiVersion: v1
 kind: Service
@@ -38,9 +37,6 @@ spec:
       containers:
         - name: lawbrador-fe-{{ .Values.werf.env }}
           image: {{ .Values.werf.image.fe }} 
-          envFrom:
-          - configMapRef:
-              name: lawbrador-config-{{ .Values.werf.env }}
           ports:
             - containerPort: 3000
 ---
