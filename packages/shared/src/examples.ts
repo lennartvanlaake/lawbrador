@@ -63,7 +63,7 @@ export const EMPTY_SOURCE_CONFIG: Omit<SourceSiteConfig, "_id"> = {
 // hard coded for now
 export const eurlexConfig: SourceSiteConfig = {
   _id: "61de9dc2a2dd97b823d99aea",
-  name: "eurlex-test-config",
+  name: "Eurlex",
   searchUrlConfig: {
     base: "https://eur-lex.europa.eu",
     pathComponents: [
