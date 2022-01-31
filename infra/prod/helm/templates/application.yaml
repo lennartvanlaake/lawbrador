@@ -2,77 +2,77 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: config
+  name: lawbrador-config-{{ .Values.werf.env }}
 data:
   MONGODB_PORT: "27017"
-  MONGODB_HOST: mongo-service
+  MONGODB_HOST: lawbrador-mongo-{{ .Values.werf.env }}-service
   VITE_URL: {{ .Values.url }} 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: fe-service
+  name: lawbrador-fe-{{ .Values.werf.env }}-service
   labels:
-    app: fe
+    app: lawbrador-fe-{{ .Values.werf.env }}
 spec:
   ports:
     - port: 3000
   selector:
-    app: fe
+    app: lawbrador-fe-{{ .Values.werf.env }}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fe-deployment
+  name: lawbrador-fe-{{ .Values.werf.env }}-deployment
   labels:
-    app: fe
+    app: lawbrador-fe-{{ .Values.werf.env }}
 spec:
   selector:
     matchLabels:
-      app: fe
+      app: lawbrador-fe-{{ .Values.werf.env }}
   template:
     metadata:
       labels:
-        app: fe
+        app: lawbrador-fe-{{ .Values.werf.env }}
     spec:
       containers:
-        - name: fe
-          image: {{ .Values.werf.image.fe }} 
+        - name: lawbrador-fe-{{ .Values.werf.env }}
+          image: {{ .Values.werf.image.lawbrador-fe-{{ .Values.werf.env }} }} 
           envFrom:
           - configMapRef:
-              name: config
+              name: lawbrador-config-{{ .Values.werf.env }}
           ports:
             - containerPort: 3000
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: api-service
+  name: lawbrador-api-{{ .Values.werf.env }}-service
   labels:
-    app: api 
+    app: lawbrador-api-{{ .Values.werf.env }} 
 spec:
   ports:
     - port: 5000 
   selector:
-    app: api 
+    app: lawbrador-api-{{ .Values.werf.env }} 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api-deployment
+  name: lawbrador-api-{{ .Values.werf.env }}-deployment
   labels:
-    app: api 
+    app: lawbrador-api-{{ .Values.werf.env }} 
 spec:
   selector:
     matchLabels:
-      app: api 
+      app: lawbrador-api-{{ .Values.werf.env }} 
   template:
     metadata:
       labels:
-        app: api 
+        app: lawbrador-api-{{ .Values.werf.env }} 
     spec:
       containers:
-        - name: api 
+        - name: lawbrador-api-{{ .Values.werf.env }} 
           image: {{ .Values.werf.image.api }} 
           ports:
             - containerPort: 5000
@@ -85,9 +85,9 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mongo-pv-claim
+  name: lawbrador-mongo-{{ .Values.werf.env }}-pv-claim
   labels:
-    app: mongo 
+    app: lawbrador-mongo-{{ .Values.werf.env }} 
 spec:
   storageClassName: "do-block-storage"
   accessModes:
@@ -99,75 +99,75 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mongo-service
+  name: lawbrador-mongo-{{ .Values.werf.env }}-service
   labels:
-    app: mongo 
+    app: lawbrador-mongo-{{ .Values.werf.env }} 
 spec:
   ports:
     - port: 27017 
   selector:
-    app: mongo 
+    app: lawbrador-mongo-{{ .Values.werf.env }} 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mongo-deployment
+  name: lawbrador-mongo-{{ .Values.werf.env }}-deployment
   labels:
-    app: mongo 
+    app: lawbrador-mongo-{{ .Values.werf.env }} 
 spec:
   selector:
     matchLabels:
-      app: mongo 
+      app: lawbrador-mongo-{{ .Values.werf.env }} 
   template:
     metadata:
       labels:
-        app: mongo 
+        app: lawbrador-mongo-{{ .Values.werf.env }} 
     spec:
       initContainers:
-        - name: mongo-permission-fix
+        - name: lawbrador-mongo-{{ .Values.werf.env }}-permission-fix
           image: busybox
           command: ["/bin/chmod","-R","777", "/data"]
           volumeMounts:
-          - name: mongo-volume
+          - name: lawbrador-mongo-{{ .Values.werf.env }}-volume
             mountPath: /data
       containers:
-        - name: mongo 
+        - name: lawbrador-mongo-{{ .Values.werf.env }} 
           image: bitnami/mongodb:4.4 
           ports:
             - containerPort: 27017
           envFrom:
           - configMapRef:
-              name: config
+              name: lawbrador-config-{{ .Values.werf.image.api }}
           - secretRef:
               name: db-secret 
           volumeMounts:
               - mountPath: /bitnami/mongodb
-                name: mongo-volume 
+                name: lawbrador-mongo-{{ .Values.werf.env }}-volume 
       volumes:
-        - name: mongo-volume 
+        - name: lawbrador-mongo-{{ .Values.werf.env }}-volume 
           persistentVolumeClaim:
-            claimName: mongo-pv-claim
----
-kind: Ingress
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: "ingress"
-spec:
-  rules:
-  - http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: fe-service
-            port:
-              number: 80
-      - path: /api
-        pathType: Prefix
-        backend:
-          service:
-            name: api-service
-            port:
-              number: 5000
+            claimName: lawbrador-mongo-{{ .Values.werf.env }}-pv-claim
+#---
+#kind: Ingress
+#apiVersion: networking.k8s.io/v1
+#kind: Ingress
+#metadata:
+  #name: "ingress"
+#spec:
+  #rules:
+  #- http:
+      #paths:
+      #- path: /
+        #pathType: Prefix
+        #backend:
+          #service:
+            #name: lawbrador-fe-{{ .Values.werf.env }}-service
+            #port:
+              #number: 80
+      #- path: /api
+        #pathType: Prefix
+        #backend:
+          #service:
+            #name: lawbrador-api-{{ .Values.werf.env }}-service
+            #port:
+              #number: 5000
