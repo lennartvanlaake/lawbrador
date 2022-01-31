@@ -43,7 +43,7 @@ const start = async () => {
     fastify.decorate("collections", ALL_COLLECTIONS);
     fastify.decorate("events", LAWBRADOR_REGISTRY);
     LAWBRADOR_REGISTRY.connect(LAWBRADOR_CLIENT);
-    await fastify.listen(5000);
+    await fastify.listen(5000, '0.0.0.0');
     fastify.swagger();
   } catch (err) {
     fastify.log.error(err);
