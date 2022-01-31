@@ -10,6 +10,7 @@
     "start": "node --experimental-specifier-resolution=node --loader ts-node/esm src/migrate.ts"
   },
   "dependencies": {
-    "umzug": "^3.0.0"
+    "umzug": "^3.0.0",
+    "ts-node": "^10.4.0"
   }
 }
