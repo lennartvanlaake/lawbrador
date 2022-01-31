@@ -9,3 +9,6 @@ dockerfile: ./infra/prod/Dockerfile-fe
 ---
 image: api
 dockerfile: ./infra/prod/Dockerfile-api
+---
+image: migrations 
+dockerfile: ./infra/prod/Dockerfile-migrations

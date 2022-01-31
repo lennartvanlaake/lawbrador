@@ -147,15 +147,15 @@ spec:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: lawbrador-migration-job-{{ .Values.werf.env }}
+  name: lawbrador-migrations-job-{{ .Values.werf.env }}
   annotations:
     "helm.sh/hook": post-install,post-upgrade
 spec:
   template:
     spec:
       containers:
-      - name: lawbrador-migration-{{ .Values.werf.env }}
-        image: {{ .Values.werf.image.api }} 
+      - name: lawbrador-migrations-{{ .Values.werf.env }}
+        image: {{ .Values.werf.image.migrations }} 
         envFrom:
         - configMapRef:
             name: lawbrador-config-{{ .Values.werf.env }}
