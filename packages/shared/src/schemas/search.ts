@@ -3,6 +3,7 @@ import { Static, Type } from '@sinclair/typebox';
 export const searchResult = Type.Object({
 	text: Type.String(),
 	href: Type.String(),
+	hash: Type.String()
 });
 
 export type SearchResult = Static<typeof searchResult>;

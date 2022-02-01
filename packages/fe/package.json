@@ -22,7 +22,8 @@
 		"axios": "^0.24.0",
 		"cheerio": "^1.0.0-rc.10",
 		"md5-typescript": "^1.0.5",
-		"pino-pretty": "^7.3.0"
+		"pino-pretty": "^7.3.0",
+		"underscore": "^1.13.2"
 	},
 	"devDependencies": {
 		"@smui/button": "^6.0.0-beta.9",

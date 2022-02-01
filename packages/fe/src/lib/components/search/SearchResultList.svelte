@@ -5,6 +5,7 @@
 	import { search } from '$lib/ts/api';
 	import type { SearchResult } from '@lawbrador/shared/src/schemas/search';
 	import type { SourceSiteConfig } from '@lawbrador/shared/src/schemas/rules';
+ 	import _ from 'underscore';	
 
 	export let sourceConfig: SourceSiteConfig;
 	export let searchResults: SearchResult[] = [];
@@ -13,6 +14,7 @@
 	let isSearching = false;
 	let firstSearchResultLength: number;
 	async function getNextPage() {
+		console.log("getting next");
 		if (isSearching) {
 			return;
 		}
@@ -27,8 +29,9 @@
 				scrollThreshold = 0;
 			}
 			// all the results are the same
-			// TODO re-instate the hash
-			if (nextPage.every((n) => searchResults.some((o) => n.hash == o.hash))) {
+			const nextPageHashes = nextPage.map((r) => r.hash);
+			const searchResultHashes = searchResults.map((r) => r.hash); 
+			if (nextPageHashes.every((r) => searchResultHashes.includes(r))) {
 				scrollThreshold = 0;
 				return;
 			}

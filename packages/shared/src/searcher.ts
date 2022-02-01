@@ -62,6 +62,7 @@ export function parseSearchResults(
 			return {
 				text: el.data[0].text,
 				href: url,
+				hash: hashUrlVariables(url, config.documentUrlConfig)
 			};
 		});
 	return links ?? [];
