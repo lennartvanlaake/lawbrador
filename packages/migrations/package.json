@@ -7,7 +7,8 @@
   "scripts": {
     "build": "tsc --build",
     "test:build": "tsc --noEmit",
-    "start": "node --experimental-specifier-resolution=node --loader ts-node/esm src/migrate.ts"
+    "start": "node --experimental-specifier-resolution=node --loader ts-node/esm src/migrate.ts",
+    "dev": "node --experimental-specifier-resolution=node --loader ts-node/esm src/migrate.ts up"
   },
   "dependencies": {
     "umzug": "^3.0.0",

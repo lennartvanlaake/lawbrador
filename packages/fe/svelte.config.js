@@ -12,6 +12,9 @@ export default {
 			ssr: {
 				noExternal: [/^@smui(?:-extra)?\//]
 			},
+			server: {
+				host: '0.0.0.0'
+			}
 		},
 		adapter: adapter({ out: 'dist' })
 	}

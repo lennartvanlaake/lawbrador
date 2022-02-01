@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"license": "AGPL-3.0-only",
 	"scripts": {
-		"dev": "svelte-kit dev",
+		"dev": "echo starting && svelte-kit dev",
 		"debug": "svelte-kit dev",
 		"build": "svelte-kit build",
 		"preview": "svelte-kit preview",

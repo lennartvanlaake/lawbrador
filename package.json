@@ -3,17 +3,15 @@
 	"version": "1.0.0",
 	"author": "Lennart van Laake",
 	"license": "AGPL-3.0-only",
-	"workspaces": [
-		"packages/*"
-	],
+	"workspaces": ["packages/*"],
 	"private": true,
 	"scripts": {
 		"docker-down": "docker-compose -f infra/dev/docker-compose.yml down",
 		"docker": "docker-compose -f infra/dev/docker-compose.yml up",
-		"test": "yarn test:build && lerna run test --stream || killall node",
+		"test": "yarn test:build && lerna run test --parallel || killall node",
 		"test:build": "tsc --noEmit",
-		"dev": "yarn docker -d && lerna run dev --stream || killall node",
-		"debug": "yarn docker -d && lerna run debug --stream || killall node",
+		"dev": "yarn docker -d && lerna run dev --parallel || killall node",
+		"debug": "yarn docker -d && lerna run debug --parallel || killall node",
 		"run-it": "lerna run run-it",
 		"prepare": "husky install"
 	},
