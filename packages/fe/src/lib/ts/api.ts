@@ -11,7 +11,6 @@ import * as Endpoints from '@lawbrador/shared/src/endpoints';
 const baseUrl = import.meta.env.VITE_URL ?? "";
 
 async function get(path: string, fetchParam: any) {
-	console.log(`fetching base ${baseUrl} path ${path}`) 
 	if (fetchParam) {
 		return await (await fetchParam(`${baseUrl}${path}`)).json();
 	} else {

@@ -1,4 +1,6 @@
 <script context="module" lang="ts">
+		export const hydrate = true;
+
 	import Index from '$lib/components/page/Index.svelte';
 	import type { SourceSiteConfig } from '@lawbrador/shared/src/schemas/rules';
 	import type { SearchResult } from '@lawbrador/shared/src/schemas/search';
@@ -6,9 +8,11 @@
 	import { getSourceConfigs } from '$lib/ts/api';
 	import type { IndexProps } from '$lib/components/page/types';
 
+	const baseUrl = import.meta.env.VITE_URL ?? "";
+	import * as Endpoints from '@lawbrador/shared/src/endpoints';
 	export const load: Load = async ({ url, fetch }) => {
 		const query = url.searchParams;
-		const sources: SourceSiteConfig[] = await getSourceConfigs(fetch);
+		const sources: SourceSiteConfig[] = await (await fetch(`${baseUrl}${Endpoints.SOURCES_ENDPOINT}`)).json();
 		const sourceConfig =
 			sources.find((s) => s._id == query.get('sourceConfigId')) ?? sources[0];
 		const searchParams: any = sourceConfig?.searchUrlConfig?.queryComponents?.reduce((acc, cur) => {

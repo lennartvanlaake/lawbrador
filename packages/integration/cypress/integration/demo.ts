@@ -1,17 +1,17 @@
-import { clearDB } from '../support/index';
+//import { clearDB } from '../support/index';
 
 describe('Test if it creates a new page', () => {
 	before(() => {
-		clearDB();
+		//clearDB();
+
 	});
 
 	it('Access index page', () => {
-		const TEXT = 'doekmans';
+		const TEXT = 'loos';
 		cy.visit('/');
+		cy.contains('Eurlex').should('be.visible');
 		cy.get('#text-field').type(TEXT);
 		cy.get('button').trigger('click');
-		cy.contains(TEXT).click();
-		cy.url().should('include', 'text');
-		cy.get('p').should('contain.text', TEXT);
+		cy.contains('Gend').click();
 	});
 });

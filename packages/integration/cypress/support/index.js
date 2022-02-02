@@ -15,7 +15,7 @@
 
 // Import commands.js using ES2015 syntax:
 export function clearDB() {
-	cy.request('DELETE', 'http://localhost:8080/api/all');
+	cy.request('DELETE', 'https://workspace.lawbrador.nl/api/all');
 	cy.log('cleared DB');
 }
 

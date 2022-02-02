@@ -1,4 +1,5 @@
 {
-	"baseUrl": "http://localhost:8080",
-	"pluginsFile": false
+	"baseUrl": "https://workspace.lawbrador.nl",
+	"pluginsFile": false,
+	"defaultCommandTimeout": 30000
 }
