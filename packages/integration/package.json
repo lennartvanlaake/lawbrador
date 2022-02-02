@@ -8,6 +8,7 @@
 	},
 	"scripts": {
 		"run-it": "cypress run",
-		"open-it": "cypress open && watch rsync -a workspace:~/lawbrador/packages/integration /home/lennart/lawbrador/integration &"
+	        "sync": "watch 'rsync -a workspace:~/lawbrador/packages/integration /home/lennart/lawbrador/packages' &>/dev/null &",  
+                 "open-it": "yarn sync && cypress open"
 	}
 }
