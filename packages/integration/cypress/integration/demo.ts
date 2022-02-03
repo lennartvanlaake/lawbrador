@@ -4,6 +4,7 @@ describe('Test if it creates a new page', () => {
 	before(() => {
 		//clearDB();
 
+
 	});
 
 	it('Access index page', () => {

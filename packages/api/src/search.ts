@@ -29,7 +29,7 @@ export default async (fastify: FastifyInstance) => {
           },
           async () => await scrape(searchUrl, queryParamsHash)
         );
-      console.log(JSON.stringify(rawSearchResult));
+      //console.log(JSON.stringify(rawSearchResult));
       return { results: parseSearchResults(rawSearchResult.body, config) };
     }
   );

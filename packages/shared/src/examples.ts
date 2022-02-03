@@ -147,6 +147,14 @@ export const eurlexConfig: SourceSiteConfig = {
         location: "id",
         value: "textTabContent",
       },
+      markupRules: [{
+	notation: "h1",
+	filter: {
+	op: "includes",
+	location: "class",
+	value: "Titre1"
+	}
+      }]
     },
   ],
   htmlSearchRuleSet: {

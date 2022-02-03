@@ -23,9 +23,25 @@ export const selectionRule = Type.Object({
 });
 export type SelectionRule = Static<typeof selectionRule>;
 
+export const ALL_MARKUP_NOTATIONS = ["h1", "h2", "h3"] as const;
+
+export const markupNotation = Type.Union(
+  ALL_MARKUP_NOTATIONS.map((it) => Type.Literal(it)),
+);
+
+export type MarkupNotation = typeof ALL_MARKUP_NOTATIONS[number];
+
+export const markupRule = Type.Object({
+	notation: markupNotation,
+	filter: selectionRule
+})
+
+export type MarkupRule = Static<typeof markupRule>;
+
 export const documentRuleSet = Type.Object({
   name: Type.Optional(Type.String()),
   conditionRules: Type.Optional(Type.Array(selectionRule)),
+  markupRules: Type.Optional(Type.Array(markupRule)),
   bodyRule: Type.Optional(selectionRule),
 });
 

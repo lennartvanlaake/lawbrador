@@ -7,9 +7,11 @@ import {
 } from "@lawbrador/shared/src/schemas/scrape";
 import {
   DocumentRuleSet,
+  MarkupNotation,
+  MarkupRule,
   SourceSiteConfig,
 } from "packages/shared/src/schemas/rules";
-import { getFirstMatching } from "./matcher";
+import { getFirstMatching, matches } from "./matcher";
 
 export function applyConfig(
   scrapeResult: ScrapeResult,
@@ -47,26 +49,37 @@ export function applyRuleSet(
   rules: DocumentRuleSet | null
 ): RestructuredNode {
   if (!rules?.bodyRule) {
-    return restructureRecursive(root);
+    return restructureRecursive(root, rules.markupRules ?? []);
   }
   const body = getFirstMatching(root, rules.bodyRule);
-  return restructureRecursive(body);
+  return restructureRecursive(body, rules.markupRules ?? []);
 }
 
-function restructureRecursive(node: ParsedNode): RestructuredNode {
+function restructureRecursive(node: ParsedNode, markupRules: MarkupRule[]): RestructuredNode {
+  const name = getMarkdownNotation(node, markupRules); 
   if (!node.children || node.children.length == 0) {
     return {
-      name: "p",
+      name: name ?? "p",
       children: node.data.map((c) => restructureNodeData(c)),
     };
   } else if (node.children.length == 1) {
-    return restructureRecursive(node.children[0]);
+    return restructureRecursive(node.children[0], markupRules);
   } else {
     return {
-      name: "div",
-      children: node.children.map((c) => restructureRecursive(c)),
+      name: name ?? "div",
+      children: node.children.map((c) => restructureRecursive(c, markupRules)),
     };
   }
+}
+
+function getMarkdownNotation(node: ParsedNode, markupRules: MarkupRule[]): MarkupNotation | null {
+	for (let i = 0; i < markupRules.length; i ++) {
+		const rule = markupRules[i];
+		if (matches(node, rule.filter)) {
+			return rule.notation
+		}
+	}
+	return null
 }
 
 function restructureNodeData(data: ParsedNodeData): RestructuredNode {
