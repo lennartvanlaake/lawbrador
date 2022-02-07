@@ -1,4 +1,5 @@
 import { Static, Type } from "@sinclair/typebox";
+import {markupNotation} from "./tags";
 
 export const ALL_SELECTION_OPERATORS = ["is", "includes"] as const;
 
@@ -22,14 +23,6 @@ export const selectionRule = Type.Object({
   value: Type.String({ minLength: 1 }),
 });
 export type SelectionRule = Static<typeof selectionRule>;
-
-export const ALL_MARKUP_NOTATIONS = ["h1", "h2", "h3"] as const;
-
-export const markupNotation = Type.Union(
-  ALL_MARKUP_NOTATIONS.map((it) => Type.Literal(it)),
-);
-
-export type MarkupNotation = typeof ALL_MARKUP_NOTATIONS[number];
 
 export const markupRule = Type.Object({
 	notation: markupNotation,
