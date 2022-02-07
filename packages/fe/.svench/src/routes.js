@@ -1,18 +1,18 @@
 const f /* files */ = [
   { // f[0]
-    path: "/svench/config/RuleConfig",
-    import: () => import("/home/lennart/lawbrador/packages/fe/src/svench/config/RuleConfig.svench"),
-    "id": "r24b87",
+    path: "/svench/common/Toggled",
+    import: () => import("/home/lennart/lawbrador/packages/fe/src/svench/common/Toggled.svench"),
+    "id": "8gm1ry",
     "ext": ".svench",
-    "dir": "svench/config",
-    "segment": "RuleConfig",
-    "sortKey": "RuleConfig",
-    "title": "RuleConfig",
-    "canonical": "/svench/config/RuleConfig",
+    "dir": "svench/common",
+    "segment": "Toggled",
+    "sortKey": "Toggled",
+    "title": "Toggled",
+    "canonical": "/svench/common/Toggled",
     "options": {},
     "views": [
-      "empty",
-      "filled"
+      "Basic string",
+      "With bound data"
     ],
     "headings": []
   },
@@ -35,6 +35,23 @@ const f /* files */ = [
     "headings": []
   },
   { // f[2]
+    path: "/svench/config/RuleConfig",
+    import: () => import("/home/lennart/lawbrador/packages/fe/src/svench/config/RuleConfig.svench"),
+    "id": "r24b87",
+    "ext": ".svench",
+    "dir": "svench/config",
+    "segment": "RuleConfig",
+    "sortKey": "RuleConfig",
+    "title": "RuleConfig",
+    "canonical": "/svench/config/RuleConfig",
+    "options": {},
+    "views": [
+      "empty",
+      "filled"
+    ],
+    "headings": []
+  },
+  { // f[3]
     path: "/svench/config/SourceConfig",
     import: () => import("/home/lennart/lawbrador/packages/fe/src/svench/config/SourceConfig.svench"),
     "id": "tzhrfk",
@@ -51,7 +68,7 @@ const f /* files */ = [
     ],
     "headings": []
   },
-  { // f[3]
+  { // f[4]
     path: "/svench/config/UrlComponent",
     import: () => import("/home/lennart/lawbrador/packages/fe/src/svench/config/UrlComponent.svench"),
     "id": "1n005mr",
@@ -72,7 +89,7 @@ const f /* files */ = [
     ],
     "headings": []
   },
-  { // f[4]
+  { // f[5]
     path: "/svench/config/UrlConfig",
     import: () => import("/home/lennart/lawbrador/packages/fe/src/svench/config/UrlConfig.svench"),
     "id": "1zk3ce",
@@ -90,7 +107,7 @@ const f /* files */ = [
     ],
     "headings": []
   },
-  { // f[5]
+  { // f[6]
     path: "/svench/page/SourceConfigEditor",
     import: () => import("/home/lennart/lawbrador/packages/fe/src/svench/page/SourceConfigEditor.svench"),
     "id": "b83lhq",
@@ -104,26 +121,6 @@ const f /* files */ = [
     "views": [
       "Empty",
       "Eurlex"
-    ],
-    "headings": []
-  },
-  { // f[6]
-    path: "/svench/view/NodeView",
-    import: () => import("/home/lennart/lawbrador/packages/fe/src/svench/view/NodeView.svench"),
-    "id": "1ue88xr",
-    "ext": ".svench",
-    "dir": "svench/view",
-    "segment": "NodeView",
-    "sortKey": "NodeView",
-    "title": "NodeView",
-    "canonical": "/svench/view/NodeView",
-    "options": {},
-    "views": [
-      "name only node",
-      "two name only nodes",
-      "h1 view",
-      "h2 view",
-      "h3 view"
     ],
     "headings": []
   },
@@ -143,11 +140,42 @@ const f /* files */ = [
       "filled"
     ],
     "headings": []
+  },
+  { // f[8]
+    path: "/svench/view/NodeView",
+    import: () => import("/home/lennart/lawbrador/packages/fe/src/svench/view/NodeView.svench"),
+    "id": "1ue88xr",
+    "ext": ".svench",
+    "dir": "svench/view",
+    "segment": "NodeView",
+    "sortKey": "NodeView",
+    "title": "NodeView",
+    "canonical": "/svench/view/NodeView",
+    "options": {},
+    "views": [
+      "name only node",
+      "two name only nodes",
+      "h1 view",
+      "h2 view",
+      "h3 view"
+    ],
+    "headings": []
   }
 ]
 
 const d /* dirs */ = [
   { // d[0]
+    path: "/svench/common",
+    "id": "1uww9hr",
+    "ext": undefined,
+    "dir": "svench",
+    "segment": "common",
+    "sortKey": "common",
+    "title": "common",
+    "canonical": "/svench/common",
+    children: () => [f[0]]
+  },
+  { // d[1]
     path: "/svench/config",
     "id": "2omlb0",
     "ext": undefined,
@@ -156,9 +184,9 @@ const d /* dirs */ = [
     "sortKey": "config",
     "title": "config",
     "canonical": "/svench/config",
-    children: () => [f[1], f[0], f[2], f[3], f[4]]
+    children: () => [f[1], f[2], f[3], f[4], f[5]]
   },
-  { // d[1]
+  { // d[2]
     path: "/svench/page",
     "id": "15mmdjh",
     "ext": undefined,
@@ -167,17 +195,6 @@ const d /* dirs */ = [
     "sortKey": "page",
     "title": "page",
     "canonical": "/svench/page",
-    children: () => [f[5]]
-  },
-  { // d[2]
-    path: "/svench/view",
-    "id": "17o9sy7",
-    "ext": undefined,
-    "dir": "svench",
-    "segment": "view",
-    "sortKey": "view",
-    "title": "view",
-    "canonical": "/svench/view",
     children: () => [f[6]]
   },
   { // d[3]
@@ -192,6 +209,17 @@ const d /* dirs */ = [
     children: () => [f[7]]
   },
   { // d[4]
+    path: "/svench/view",
+    "id": "17o9sy7",
+    "ext": undefined,
+    "dir": "svench",
+    "segment": "view",
+    "sortKey": "view",
+    "title": "view",
+    "canonical": "/svench/view",
+    children: () => [f[8]]
+  },
+  { // d[5]
     path: "/svench",
     "id": "57cs3x",
     "ext": undefined,
@@ -200,7 +228,7 @@ const d /* dirs */ = [
     "sortKey": "svench",
     "title": "svench",
     "canonical": "/svench",
-    children: () => [d[0], d[1], d[3], d[2]]
+    children: () => [d[0], d[1], d[2], d[3], d[4]]
   }
 ]
 
@@ -220,7 +248,7 @@ const tree = {
   "title": undefined,
   "canonical": undefined,
   children: [
-    d[4]
+    d[5]
   ]
 }
 

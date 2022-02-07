@@ -1,8 +1,12 @@
 import { Type } from "@sinclair/typebox";
 
-export const ALL_TAG_NAMES = ["p", "h1", "h2", "h3", "div", "text"] as const;
+export const ALL_TAG_NAMES = ["p", "h1", "h2", "h3", "div", "text", "a"] as const;
 
 export type TagName = typeof ALL_TAG_NAMES[number];
+
+export const tagName = Type.Union(
+  ALL_TAG_NAMES.map((it) => Type.Literal(it))
+);
 
 export const ALL_TAGS: readonly TagConfig[] = [
   {
@@ -32,6 +36,11 @@ export const ALL_TAGS: readonly TagConfig[] = [
   },
   {
     name: "text",
+    default: true,
+    type: "text",
+  },
+  {
+    name: "a",
     default: true,
     type: "text",
   },

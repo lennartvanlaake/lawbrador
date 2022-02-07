@@ -66,7 +66,7 @@ describe("Recognizing headers from ruleset", () => {
     conditionRules: [],
     markupRules: [
       {
-        notation: "h1",
+        tag: "h1",
         filter: {
           op: "includes",
           location: "class",

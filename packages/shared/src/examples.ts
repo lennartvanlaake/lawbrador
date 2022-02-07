@@ -1,5 +1,6 @@
 import {
   DocumentRuleSet,
+  MarkupRule,
   QueryParam,
   SelectionRule,
   SourceSiteConfig,
@@ -23,8 +24,11 @@ export const DEFAULT_EMPTY_SELECTION_RULE: SelectionRule = {
   location: "id",
   value: "",
 };
+export const EMPTY_MARKUP_RULE: MarkupRule = { 
+  tag: "h1",
+  filter: { ...DEFAULT_EMPTY_SELECTION_RULE } 
+};
 export const DEFAULT_EMPTY_RULESET: DocumentRuleSet = {
-  conditionRules: [],
 };
 export const EMPTY_URL_CONFIG: UrlConfig = {
   base: "https://",
@@ -148,7 +152,7 @@ export const eurlexConfig: SourceSiteConfig = {
         value: "textTabContent",
       },
       markupRules: [{
-	notation: "h1",
+	tag: "h1",
 	filter: {
 	op: "includes",
 	location: "class",

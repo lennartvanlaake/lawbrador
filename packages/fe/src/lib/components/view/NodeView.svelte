@@ -1,14 +1,15 @@
 <script lang="ts">
 	import type { RestructuredNode } from '@lawbrador/shared/src/schemas/scrape'
+  	import { getTagConfig } from '@lawbrador/shared/src/schemas/tags';
 	import DivView from './DivView.svelte';
 	import PargraphView from './ParagraphView.svelte';
 	export let node: RestructuredNode;
+	const tag = getTagConfig(node.name);
 </script>
-
-{#if node.name == 'div'}
+{#if tag.type == 'container'}
 	<DivView {node} />
-{:else if node.name == 'p'}
+{:else if tag.type == 'paragraph' }
 	<PargraphView {node} />
-{:else}
+{:else if tag.type == 'text' }
 	{node.text}
 {/if}

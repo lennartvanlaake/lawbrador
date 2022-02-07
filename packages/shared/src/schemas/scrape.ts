@@ -1,5 +1,5 @@
 import { Static, Type } from "@sinclair/typebox";
-import { ALL_MARKUP_NOTATIONS } from './rules';
+import {tagName} from "./tags";
 
 export const parsedNodeData = Type.Object({
   href: Type.Optional(Type.String()),
@@ -40,15 +40,10 @@ export const scrapeRequest = Type.Object({
 
 export type ScrapeRequest = Static<typeof scrapeRequest>;
 
-const ALL_SUPPORTED_TAGS = ['p', 'div'].concat(ALL_MARKUP_NOTATIONS)
-
-export const supportedTag = Type.Union(
-  ALL_SUPPORTED_TAGS.map((it) => Type.Literal(it)).concat(),
-);
 
 // output after all mutations have been applied
 export const restructuredNode = Type.Object({
-  name: Type.Optional(supportedTag),
+  name: tagName,
   href: Type.Optional(Type.String()),
   text: Type.Optional(Type.String()),
   children: Type.Optional(Type.Array(Type.Any())),

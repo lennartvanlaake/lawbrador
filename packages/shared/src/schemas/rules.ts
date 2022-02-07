@@ -25,7 +25,7 @@ export const selectionRule = Type.Object({
 export type SelectionRule = Static<typeof selectionRule>;
 
 export const markupRule = Type.Object({
-	notation: markupNotation,
+	tag: markupNotation,
 	filter: selectionRule
 })
 

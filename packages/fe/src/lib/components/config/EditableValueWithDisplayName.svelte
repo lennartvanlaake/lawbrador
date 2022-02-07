@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { valueWithDisplayName } from '@lawbrador/shared/src/schemas/rules';
 	import type { ValueWithDisplayName } from '@lawbrador/shared/src/schemas/rules';
-	import OptionalValue from '../common/OptionalValue.svelte';
+	import Removable from '../common/Removable.svelte';
 	import TextField from '@smui/textfield';
 	export let option: ValueWithDisplayName;
 	export let options: ValueWithDisplayName[];
@@ -14,9 +14,9 @@ import { Content } from '@smui/paper';
 </script>
 <Paper  square variant="unelevated">
 	<Content>
-	<OptionalValue bind:value={option} bind:list={options}>
+	<Removable bind:value={option} bind:list={options}>
 		<ValidatedTextField bind:value={option.value} errors={errors?.value} label="value" />
 		<TextField input$emptyValueUndefined bind:value={option.displayName} label="display name" />
-	</OptionalValue>
+	</Removable>
 	</Content>
 </Paper>

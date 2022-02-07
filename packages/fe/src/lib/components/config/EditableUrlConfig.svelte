@@ -4,7 +4,7 @@
 	import Paper, { Title, Content } from '@smui/paper';
 	import EditableUrlComponent from './EditableUrlComponent.svelte';
 	import { EMPTY_URL_COMPONENT, EMPTY_QUERY_PARAM } from '@lawbrador/shared/src/examples';
-	import OptionalValue from '../common/OptionalValue.svelte';
+	import Removable from '../common/Removable.svelte';
 	import { Validator } from '$lib/ts/validate';
 	import ValidatedTextField from '$lib/components/common/ValidatedTextField.svelte';
 	import ValidatedList from '$lib/components/common/ValidatedList.svelte';
@@ -28,9 +28,9 @@
 				empty={EMPTY_URL_COMPONENT}
 			>
 				{#each urlConfig.pathComponents as component}
-					<OptionalValue bind:value={component} bind:list={urlConfig.pathComponents}>
+					<Removable bind:value={component} bind:list={urlConfig.pathComponents}>
 						<EditableUrlComponent bind:config={component} />
-					</OptionalValue>
+					</Removable>
 				{/each}
 			</ValidatedList>
 		</Content>
@@ -46,9 +46,9 @@
 				{#each urlConfig.queryComponents as param}
 					<Paper >
 						<Content>
-							<OptionalValue bind:value={param} bind:list={urlConfig.queryComponents}>
+							<Removable bind:value={param} bind:list={urlConfig.queryComponents}>
 								<EditableQueryParam bind:param />
-							</OptionalValue>
+							</Removable>
 						</Content>
 					</Paper>
 				{/each}

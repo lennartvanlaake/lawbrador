@@ -1,4 +1,5 @@
 <script lang="ts">
+	import structuredClone from '@ungap/structured-clone';
 	import Button, { Label } from '@smui/button';
 	import { createEventDispatcher } from 'svelte';
 	export let value: Array<any> | any;
@@ -7,16 +8,13 @@
 	export let disabled: boolean = false;
 	const dispatch = createEventDispatcher();
 	const isArray = Array.isArray(value);
-	function newEmpty() {
-		return typeof empty == 'string' ?  empty : { ...empty };
-	}
 	function fillProp() {
 		if (isArray) {
-			const newValue = newEmpty();
+			const newValue = structuredClone(empty);
 			value = [...value, newValue];
 			dispatch('new', newValue);
 		} else {
-			value = newEmpty();
+			value = structuredClone(empty);
 			dispatch('new', value);
 		}
 	}

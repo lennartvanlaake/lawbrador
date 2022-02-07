@@ -7,11 +7,11 @@ import {
 } from "@lawbrador/shared/src/schemas/scrape";
 import {
   DocumentRuleSet,
-  MarkupNotation,
   MarkupRule,
   SourceSiteConfig,
-} from "packages/shared/src/schemas/rules";
+} from "@lawbrador/shared/src/schemas/rules";
 import { getFirstMatching, matches } from "./matcher";
+import { TagName } from "@lawbrador/shared/src/schemas/tags";
 
 export function applyConfig(
   scrapeResult: ScrapeResult,
@@ -30,7 +30,7 @@ export function selectRuleSet(
   root: ParsedNode,
   config: SourceSiteConfig
 ): DocumentRuleSet | null {
-  for (let i = 0; i < config.documentRuleSets.length; i++) { 	  
+  for (let i = 0; i < config.documentRuleSets.length; i++) {
     const ruleSet = config.documentRuleSets[i];
     debugger;
     const matchesConditions =
@@ -55,8 +55,11 @@ export function applyRuleSet(
   return restructureRecursive(body, rules.markupRules ?? []);
 }
 
-function restructureRecursive(node: ParsedNode, markupRules: MarkupRule[]): RestructuredNode {
-  const name = getMarkdownNotation(node, markupRules); 
+function restructureRecursive(
+  node: ParsedNode,
+  markupRules: MarkupRule[]
+): RestructuredNode {
+  const name = getMarkupTag(node, markupRules);
   if (!node.children || node.children.length == 0) {
     return {
       name: name ?? "p",
@@ -72,14 +75,17 @@ function restructureRecursive(node: ParsedNode, markupRules: MarkupRule[]): Rest
   }
 }
 
-function getMarkdownNotation(node: ParsedNode, markupRules: MarkupRule[]): MarkupNotation | null {
-	for (let i = 0; i < markupRules.length; i ++) {
-		const rule = markupRules[i];
-		if (matches(node, rule.filter)) {
-			return rule.notation
-		}
-	}
-	return null
+function getMarkupTag(
+  node: ParsedNode,
+  markupRules: MarkupRule[]
+): TagName | null {
+  for (let i = 0; i < markupRules.length; i++) {
+    const rule = markupRules[i];
+    if (matches(node, rule.filter)) {
+      return rule.tag;
+    }
+  }
+  return null;
 }
 
 function restructureNodeData(data: ParsedNodeData): RestructuredNode {
@@ -91,6 +97,7 @@ function restructureNodeData(data: ParsedNodeData): RestructuredNode {
     };
   } else {
     return {
+      name: "text",
       text: data.text,
     };
   }

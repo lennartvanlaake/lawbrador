@@ -1,52 +1,51 @@
 <script lang="ts">
-	import OptionalEditableRuleConfig from './OptionalEditableRuleConfig.svelte';
+	import RemovableRuleConfig from './RemovableRuleConfig.svelte';
+	import ToggledRuleConfig from './ToggledRuleConfig.svelte';
 	import Paper, { Title, Content } from '@smui/paper';
 	import type { DocumentRuleSet } from '@lawbrador/shared/src/schemas/rules';
 	import { documentRuleSet as schema } from '@lawbrador/shared/src/schemas/rules';
-	import { DEFAULT_EMPTY_SELECTION_RULE } from '@lawbrador/shared/src/examples';
-	import Button, { Label } from '@smui/button';
+	import { DEFAULT_EMPTY_SELECTION_RULE, EMPTY_MARKUP_RULE } from '@lawbrador/shared/src/examples';
 	import { Validator } from '$lib/ts/validate';
 	import ValidatedList from '$lib/components/common/ValidatedList.svelte';
-	
+	import Toggled from '../common/Toggled.svelte';
+	import EditableMarkupRule from './EditableMarkupRule.svelte';
+	import Removable from '../common/Removable.svelte';
 	export let ruleSet: DocumentRuleSet;
-	export let ruleSetList: Array<DocumentRuleSet> | null = null;
-	
-	const ENABLE_TEXT = 'Enable';
-	const DISABLE_TEXT = 'Disable';
-	$: isConditionRulesEnabled = ruleSet.conditionRules;
-	$: switchButtonText = isConditionRulesEnabled ? DISABLE_TEXT : ENABLE_TEXT;
-	function switchConditionRulesEnabled() {
-		if (ruleSet?.conditionRules) {
-			ruleSet.conditionRules = undefined;
-		} else {
-			ruleSet.conditionRules = [ { ...DEFAULT_EMPTY_SELECTION_RULE } ];
-		}
-	}
-
 	const validator = new Validator(schema);
-
 	$: errors = validator.validate(ruleSet);
-	$: console.log(errors);
 </script>
-
+<Paper>
+	<Content>
+	<ToggledRuleConfig bind:ruleConfig={ruleSet.bodyRule} title="Body rule" />
 	<Paper>
+		<Title>Condition rules</Title>
 		<Content>
-			<OptionalEditableRuleConfig title="Body rule" bind:ruleConfig={ruleSet.bodyRule} />
-			<Paper>
-				<Title>Condition rules</Title>
-				<Button on:click={switchConditionRulesEnabled}>
-					<Label>{switchButtonText}</Label>
-				</Button>
-				{#if isConditionRulesEnabled}
-					<ValidatedList bind:list={ruleSet.conditionRules} errors={errors?.conditionRules} empty={DEFAULT_EMPTY_SELECTION_RULE}>
-					{#each ruleSet.conditionRules ?? [] as rule}
-						<OptionalEditableRuleConfig
-							bind:ruleConfig={rule}
-							bind:ruleList={ruleSet.conditionRules}
-						/>
-					{/each}
-					</ValidatedList>
-				{/if}
-			</Paper>
+		<Toggled empty={[DEFAULT_EMPTY_SELECTION_RULE]} bind:value={ruleSet.conditionRules}>
+			<ValidatedList bind:list={ruleSet.conditionRules} errors={errors?.conditionRules} empty={DEFAULT_EMPTY_SELECTION_RULE}>
+				{#each ruleSet.conditionRules ?? [] as rule}
+				<RemovableRuleConfig bind:ruleConfig={rule} bind:list={ruleSet.conditionRules}/>
+				{/each}
+			</ValidatedList>
+		</Toggled>
 		</Content>
 	</Paper>
+	<Paper>
+	<Title>Markup rules</Title>
+	<Toggled empty={[EMPTY_MARKUP_RULE]} bind:value={ruleSet.markupRules}>
+		<ValidatedList bind:list={ruleSet.markupRules} errors={errors?.markupRules} empty={EMPTY_MARKUP_RULE}>
+		{#each ruleSet.markupRules ?? [] as rule}
+			<Paper>
+			<Content>
+			<Removable bind:value={rule} bind:list={ruleSet.markupRules}>
+			<EditableMarkupRule
+				bind:rule={rule}
+			/>
+			</Removable>
+			</Content>
+			</Paper>
+		{/each}
+		</ValidatedList>
+	</Toggled>
+	</Paper>
+	</Content>
+</Paper> 
