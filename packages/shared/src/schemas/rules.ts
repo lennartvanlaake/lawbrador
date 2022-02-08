@@ -1,7 +1,7 @@
 import { Static, Type } from "@sinclair/typebox";
 import {markupNotation} from "./tags";
 
-export const ALL_SELECTION_OPERATORS = ["is", "includes"] as const;
+export const ALL_SELECTION_OPERATORS = ["is", "includes", "regex"] as const;
 
 export const selectionOperator = Type.Union(
   ALL_SELECTION_OPERATORS.map((op) => Type.Literal(op)),
@@ -9,7 +9,7 @@ export const selectionOperator = Type.Union(
 
 export type SelectionOperator = typeof ALL_SELECTION_OPERATORS[number];
 
-export const ALL_SELECTION_LOCATIONS = ["tag", "class", "id"] as const;
+export const ALL_SELECTION_LOCATIONS = ["tag", "class", "id", "text"] as const;
 
 export const selectionLocation = Type.Union(
   ALL_SELECTION_LOCATIONS.map((loc) => Type.Literal(loc)),

@@ -48,6 +48,24 @@ describe('Test matching first element', () => {
 		const firstMatched = getFirstMatching(parsed, rule);
 		expect(firstMatched.chain[0].id).to.eq('usefull');
 	});
+	it('Matches first element based on text content', () => {
+		const rule: SelectionRule = {
+			op: 'is',
+			location: 'text',
+			value: 'even more text',
+		};
+		const firstMatched = getFirstMatching(parsed, rule);
+		expect(firstMatched.chain[0].name).to.eq('p');
+	});
+	it('Matches first element based on text regex', () => {
+		const rule: SelectionRule = {
+			op: 'regex',
+			location: 'text',
+			value: '.ext',
+		};
+		const firstMatched = getFirstMatching(parsed, rule);
+		expect(firstMatched.data[0].text).to.eq('text');
+	});
 	it('Matches first element based on tag', () => {
 		const rule: SelectionRule = {
 			op: 'is',

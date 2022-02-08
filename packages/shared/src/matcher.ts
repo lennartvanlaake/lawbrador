@@ -4,31 +4,39 @@ import { SelectionRule } from 'packages/shared/src/schemas/rules';
 export function matches(node: ParsedNode, rule: SelectionRule): boolean {
 	if (!node) return false;
 	let toMatch: string[] = [];
-	node.chain.forEach((parent) => {
-		switch (rule.location) {
-			case 'id':
-				if (parent.id) {
-					toMatch.push(parent.id);
-				}
-				break;
-			case 'tag':
-				if (parent.name) {
-					toMatch.push(parent.name);
-				}
-				break;
-			case 'class':
-				if (parent.class) {
-					toMatch.push(parent.class);
-				}
-				break;
-		}
-	});
+	if (rule.location == "text") {
+		toMatch.push(node.text ?? "");	
+	} else {
+		node.chain.forEach((parent) => {
+			switch (rule.location) {
+				case 'id':
+					if (parent.id) {
+						toMatch.push(parent.id);
+					}
+					break;
+				case 'tag':
+					if (parent.name) {
+						toMatch.push(parent.name);
+					}
+					break;
+				case 'class':
+					if (parent.class) {
+						toMatch.push(parent.class);
+					}
+					break;
+			}
+		});
+	}
 	if (toMatch.length == 0) return false;
+	
 	switch (rule.op) {
 		case 'is':
 			return toMatch.includes(rule.value);
 		case 'includes':
 			return toMatch.some((el) => el.includes(rule.value));
+		case 'regex':
+			const re = new RegExp(rule.value)
+			return toMatch.some(el => re.test(el));
 	}
 }
 

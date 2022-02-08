@@ -1,13 +1,6 @@
 import { Static, Type } from "@sinclair/typebox";
 import {tagName} from "./tags";
 
-export const parsedNodeData = Type.Object({
-  href: Type.Optional(Type.String()),
-  text: Type.Optional(Type.String()),
-});
-
-export type ParsedNodeData = Static<typeof parsedNodeData>;
-
 export const parsedNodeProperties = Type.Object({
   name: Type.Optional(Type.String()),
   id: Type.Optional(Type.String()),
@@ -15,9 +8,9 @@ export const parsedNodeProperties = Type.Object({
 });
 
 export const parsedNode = Type.Object({
-  meta: Type.Any(),
   chain: Type.Array(parsedNodeProperties),
-  data: Type.Array(parsedNodeData),
+  href: Type.Optional(Type.String()),
+  text: Type.Optional(Type.String()),
   children: Type.Optional(Type.Array(Type.Any())),
 });
 

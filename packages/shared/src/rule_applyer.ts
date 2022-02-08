@@ -11,7 +11,7 @@ import {
   SourceSiteConfig,
 } from "@lawbrador/shared/src/schemas/rules";
 import { getFirstMatching, matches } from "./matcher";
-import { TagName } from "@lawbrador/shared/src/schemas/tags";
+import { getTagConfig, TagName } from "@lawbrador/shared/src/schemas/tags";
 
 export function applyConfig(
   scrapeResult: ScrapeResult,
@@ -48,57 +48,86 @@ export function applyRuleSet(
   root: ParsedNode,
   rules: DocumentRuleSet | null
 ): RestructuredNode {
-  if (!rules?.bodyRule) {
-    return restructureRecursive(root, rules.markupRules ?? []);
-  }
-  const body = getFirstMatching(root, rules.bodyRule);
-  return restructureRecursive(body, rules.markupRules ?? []);
+  const body = rules?.bodyRule ? getFirstMatching(root, rules.bodyRule) : root;
+  return restructureRecursive(body, rules?.markupRules ?? []);
 }
 
 function restructureRecursive(
   node: ParsedNode,
   markupRules: MarkupRule[]
 ): RestructuredNode {
-  const name = getMarkupTag(node, markupRules);
-  if (!node.children || node.children.length == 0) {
-    return {
-      name: name ?? "p",
-      children: node.data.map((c) => restructureNodeData(c)),
-    };
-  } else if (node.children.length == 1) {
-    return restructureRecursive(node.children[0], markupRules);
-  } else {
-    return {
-      name: name ?? "div",
-      children: node.children.map((c) => restructureRecursive(c, markupRules)),
-    };
+  const modfiyingRules = markupRules.filter(it => getTagConfig(it.tag).modifies)
+  applyModifyingRules(node, modfiyingRules)
+  const children = node.children.map((c) => restructureRecursive(c, markupRules));
+  const tag: TagName = getTag(node, children, markupRules);
+  return {
+	name: tag,
+	children: children,
+	text: node.text,
+	href: node.href
   }
 }
 
-function getMarkupTag(
+function applyLiMarkerRule(node: ParsedNode, markupRule: MarkupRule) {
+	// only break up nodes when using regex on text to find li markers
+	if (markupRule.filter.location != 'text' || markupRule.filter.op != 'regex') {
+		return;
+	}
+	const re = new RegExp(markupRule.filter.value);
+	const newChildren: ParsedNodeData[] = [];
+	node.children.forEach(it => {
+		const matched = it?.text.match(re)[0]?.trim()
+		if (matched) {
+			it.text.replace(matched, "");
+			newChildren.push({ text: matched })
+		}
+	});
+	node.children = [ ...newChildren, ...node.children ] 
+}
+
+function applyModifyingRules(node: ParsedNode, markupRules: MarkupRule[]) {
+	markupRules.forEach(it => {
+		switch (it.tag) {
+			case "li-marker": 
+				applyLiMarkerRule(node, it)						
+		}
+	})
+}
+
+function getTag(
   node: ParsedNode,
+  children: RestructuredNode[] | undefined,
   markupRules: MarkupRule[]
-): TagName | null {
+): TagName {
+  // does a markup rule assign a tag directly?
   for (let i = 0; i < markupRules.length; i++) {
     const rule = markupRules[i];
     if (matches(node, rule.filter)) {
       return rule.tag;
     }
   }
-  return null;
-}
+  if (children?.length > 0) {
+	// if paragraph/article number is detected, mark as list item
+	if (children.some(it => it.name == 'li-marker')) {
+		return "li"
+	}
+	// by default set to ordered list if all children are list items 
+	if (children.every(it => it.name == 'li')) {
+		return "ol" 
+	}
+	// if there are children with text, default to paragraph
+	if (children.some(it => it.text)) {
+		return "p"
+	}
 
-function restructureNodeData(data: ParsedNodeData): RestructuredNode {
-  if (data.href) {
-    return {
-      name: "a",
-      href: data.href,
-      text: data.text,
-    };
+	// else return as div
+	return "div"
   } else {
-    return {
-      name: "text",
-      text: data.text,
-    };
+	// links are "a" by default
+	if (node.href) {
+		return "a"
+	}
+	// else return as plain text
+	return "text"
   }
 }
