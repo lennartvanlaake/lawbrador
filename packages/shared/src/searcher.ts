@@ -2,11 +2,14 @@ import {
 	SourceSiteConfig,
 	UrlConfig,
 	HtmlSearchRuleSet,
+	SelectionRule,
 } from './schemas/rules';
 import { ParsedNode } from './schemas/scrape';
 import { SearchResult } from './schemas/search';
 import { getFirstMatching, getAllMatching } from './matcher';
 import { hashUrlVariables } from './url';
+
+const LINK_RULE: SelectionRule = { op: "is", location: "tag", value: "a" };
 
 export function incrementPageNumber(
 	searchInput: Record<string, string>,
@@ -41,31 +44,32 @@ export function parseSearchResults(
 	if (!base) {
 		throw new Error('Could not find result list in html');
 	}
-	const searchResult = getAllMatching(
-		base,
-		config.htmlSearchRuleSet.resultRule,
-	);
-	debugger;
-	const links = searchResult
-		.map((el) =>
+	
+	const links = base.children 
+		.map(it =>
 			getFirstMatching(
-				el,
-				config.htmlSearchRuleSet.resultLinkRule,
+				it,
+				LINK_RULE,
+				config.htmlSearchRuleSet.resultLinkRule
 			),
 		)
-		.filter((el) => el.data && el.data?.length > 0)
-		.map((el) => {
+		.map(it => {
 			const url = makeLinkAbsolute(
-				el.data[0].href,
+				it.href,
 				config.documentUrlConfig,
 			);
 			return {
-				text: el.data[0].text,
+				text: getFullText(it),
 				href: url,
 				hash: hashUrlVariables(url, config.documentUrlConfig)
 			};
 		});
 	return links ?? [];
+}
+
+function getFullText(node: ParsedNode) {
+	const childText = node.children?.reduce((p, c) => p += getFullText(c), "");
+   	return node.text ?? "" + childText
 }
 
 function makeLinkAbsolute(link: string, config: UrlConfig) {

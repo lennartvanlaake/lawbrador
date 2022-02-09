@@ -20,10 +20,11 @@ describe("Restructuring HTML with empty ruleset", () => {
     const html = `<p><a href='somewhere'>bla<a></p><p>bla</p>`;
     const parsed = parse(html);
     const restructured = applyRuleSet(parsed, ruleSet);
+    debugger;
     expect(restructured.children.every((n) => n.children[0].text == "bla")).to
       .be.true;
-    expect(restructured.children[0].children[0].name).to.eq("a");
-    expect(restructured.children[0].children[0].href).to.eq("somewhere");
+    expect(restructured.children[0].name).to.eq("a");
+    expect(restructured.children[0].href).to.eq("somewhere");
   });
   it("Restructuring two divs with two paragraphs each", () => {
     const html = `
@@ -81,7 +82,6 @@ describe("Recognizing headers from ruleset", () => {
 		`;
     const parsed = parse(html);
     const restructured = applyRuleSet(parsed, ruleSet);
-    console.log(JSON.stringify(restructured));
     expect(restructured.name).to.eq("h1");
   });
 });
@@ -133,11 +133,6 @@ const sourceConfig: SourceSiteConfig = {
     pageVariable: "",
     queryVariable: "",
     resultListRule: {
-      op: "is",
-      location: "class",
-      value: "",
-    },
-    resultRule: {
       op: "is",
       location: "class",
       value: "",

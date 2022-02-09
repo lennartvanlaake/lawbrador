@@ -1,6 +1,6 @@
 import { Type } from "@sinclair/typebox";
 
-export const ALL_TAG_NAMES = ["p", "li", "h1", "h2", "h3", "div", "ol", "text", "a", "li-marker"] as const;
+export const ALL_TAG_NAMES = ["p", "li", "h1", "h2", "h3", "div", "ol", "text", "a", "li-marker", "hidden"] as const;
 
 export type TagName = typeof ALL_TAG_NAMES[number];
 
@@ -9,12 +9,6 @@ export const tagName = Type.Union(
 );
 
 export const ALL_TAGS: readonly TagConfig[] = [
-  {
-    name: "p",
-    default: true,
-    modifies: false,
-    type: "paragraph",
-  },
   {
     name: "p",
     default: true,
@@ -52,22 +46,28 @@ export const ALL_TAGS: readonly TagConfig[] = [
     type: "container",
   },
   {
+    name: "a",
+    default: true,
+    modifies: false,
+    type: "inline",
+  },
+  {
+    name: "li-marker",
+    default: false,
+    modifies: true,
+    type: "inline",
+  },
+  {
     name: "text",
     default: true,
     modifies: false,
     type: "text",
   },
   {
-    name: "a",
-    default: true,
-    modifies: false,
-    type: "text",
-  },
-  {
-    name: "li-marker",
+    name: "hidden",
     default: false,
-    modifies: true,
-    type: "text",
+    modifies: false,
+    type: "hidden",
   },
 ] as const;
 
@@ -86,8 +86,8 @@ export interface TagConfig {
   default: boolean;
   // if true the parseing of this tag can restructure the HTML
   modifies: boolean;
-  // paragraphs get margins, containers contain multiple paragraphs and text is displayed inline 
-  type: "paragraph" | "container" | "text" | "hide";
+  // containers group elements, paragraphs get margins, inline does not get margins
+  type: "container" | "paragraph" | "inline" | "text" | "hidden";
 }
 
 export const ALL_MARKUP_NOTATIONS = ALL_TAGS.filter((it) => !it.default).map(

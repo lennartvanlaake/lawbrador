@@ -9,7 +9,7 @@ export const selectionOperator = Type.Union(
 
 export type SelectionOperator = typeof ALL_SELECTION_OPERATORS[number];
 
-export const ALL_SELECTION_LOCATIONS = ["tag", "class", "id", "text"] as const;
+export const ALL_SELECTION_LOCATIONS = ["tag", "class", "id", "link", "text"] as const;
 
 export const selectionLocation = Type.Union(
   ALL_SELECTION_LOCATIONS.map((loc) => Type.Literal(loc)),
@@ -44,9 +44,7 @@ export const htmlSearchRuleSet = Type.Object({
   pageVariable: Type.String({ minLength: 1 }),
   queryVariable: Type.String({ minLength: 1 }),
   resultListRule: selectionRule,
-  resultLinkRule: selectionRule,
-  resultRule: selectionRule,
-  resultDescriptionRule: Type.Optional(selectionRule),
+  resultLinkRule: Type.Optional(selectionRule),
 });
 
 export type HtmlSearchRuleSet = Static<typeof htmlSearchRuleSet>;

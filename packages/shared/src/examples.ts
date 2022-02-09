@@ -55,9 +55,6 @@ export const EMPTY_SOURCE_CONFIG: Omit<SourceSiteConfig, "_id"> = {
     resultListRule: {
       ...DEFAULT_EMPTY_SELECTION_RULE,
     },
-    resultRule: {
-      ...DEFAULT_EMPTY_SELECTION_RULE,
-    },
     resultLinkRule: {
       ...DEFAULT_EMPTY_SELECTION_RULE,
     },
@@ -169,15 +166,10 @@ export const eurlexConfig: SourceSiteConfig = {
       location: "class",
       value: "EurlexContent",
     },
-    resultRule: {
-      op: "is",
-      location: "class",
-      value: "SearchResult",
-    },
     resultLinkRule: {
-      op: "is",
-      location: "tag",
-      value: "h2",
+      op: "includes",
+      location: "link",
+      value: "legal",
     },
   },
 };

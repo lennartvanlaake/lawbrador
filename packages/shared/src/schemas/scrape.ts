@@ -1,14 +1,10 @@
 import { Static, Type } from "@sinclair/typebox";
 import {tagName} from "./tags";
 
-export const parsedNodeProperties = Type.Object({
+export const parsedNode = Type.Object({
   name: Type.Optional(Type.String()),
   id: Type.Optional(Type.String()),
   class: Type.Optional(Type.String()),
-});
-
-export const parsedNode = Type.Object({
-  chain: Type.Array(parsedNodeProperties),
   href: Type.Optional(Type.String()),
   text: Type.Optional(Type.String()),
   children: Type.Optional(Type.Array(Type.Any())),

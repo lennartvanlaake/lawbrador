@@ -21,6 +21,4 @@
 	errors={errors?.pageVariable}
 />
 <EditableRuleConfig bind:ruleConfig={config.resultListRule} title="Result list rule" />
-<EditableRuleConfig bind:ruleConfig={config.resultLinkRule} title="Result link rule" />
-<EditableRuleConfig bind:ruleConfig={config.resultRule} title="Result rule" />
-<ToggledRuleConfig bind:ruleConfig={config.resultDescriptionRule} title="Result description rule" />
+<ToggledRuleConfig bind:ruleConfig={config.resultLinkRule} title="Result link rule" />

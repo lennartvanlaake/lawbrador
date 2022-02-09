@@ -34,15 +34,10 @@ describe("Test searching", () => {
         location: "class",
         value: "EurlexContent",
       },
-      resultRule: {
-        op: "is",
-        location: "class",
-        value: "SearchResult",
-      },
       resultLinkRule: {
-        op: "is",
-        location: "tag",
-        value: "h2",
+        op: "includes",
+        location: "link",
+        value: "legal",
       },
     },
   };
@@ -50,6 +45,7 @@ describe("Test searching", () => {
   it("Parsing search results works for eurlex", () => {
     const parsed = parse(demoHtml);
     const result = parseSearchResults(parsed, config);
+    debugger;
     expect(result[0].href).to.be.ok;
     expect(result[0].text).to.be.ok;
   });
@@ -60,11 +56,6 @@ describe("Incrementing the page number", () => {
     pageVariable: "page",
     queryVariable: "",
     resultListRule: {
-      op: "is",
-      location: "class",
-      value: "",
-    },
-    resultRule: {
       op: "is",
       location: "class",
       value: "",

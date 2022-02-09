@@ -3,48 +3,47 @@ import { SelectionRule } from 'packages/shared/src/schemas/rules';
 
 export function matches(node: ParsedNode, rule: SelectionRule): boolean {
 	if (!node) return false;
-	let toMatch: string[] = [];
-	if (rule.location == "text") {
-		toMatch.push(node.text ?? "");	
-	} else {
-		node.chain.forEach((parent) => {
-			switch (rule.location) {
-				case 'id':
-					if (parent.id) {
-						toMatch.push(parent.id);
-					}
-					break;
-				case 'tag':
-					if (parent.name) {
-						toMatch.push(parent.name);
-					}
-					break;
-				case 'class':
-					if (parent.class) {
-						toMatch.push(parent.class);
-					}
-					break;
-			}
-		});
+	let toMatch: string | undefined;
+	switch (rule.location) {
+		case 'id':
+			toMatch = node.id;
+		 	break;
+		case 'tag':
+			toMatch = node.name;
+		 	break;
+		case 'class':
+			toMatch = node.class;
+		 	break;
+		case 'text':
+			toMatch = node.text;
+		 	break;
+		case 'link':
+			toMatch = node.href;
+		 	break;
 	}
-	if (toMatch.length == 0) return false;
-	
+	if (!toMatch) return false;
 	switch (rule.op) {
 		case 'is':
-			return toMatch.includes(rule.value);
+			return toMatch == rule.value;
 		case 'includes':
-			return toMatch.some((el) => el.includes(rule.value));
+			return toMatch.includes(rule.value);
 		case 'regex':
 			const re = new RegExp(rule.value)
-			return toMatch.some(el => re.test(el));
+			return re.test(toMatch);
 	}
+}
+
+function matchesAll(node: ParsedNode, rules: SelectionRule[]): boolean {
+	//@ts-ignore silly too deep type thing
+	return rules.every(r => matches(node, r));
 }
 
 export function getFirstMatching(
 	node: ParsedNode,
-	rule: SelectionRule,
+	...rules: SelectionRule[]
 ): ParsedNode | null {
-	if (!rule || matches(node, rule)) {
+	rules = rules.filter(it => it);
+	if (rules.length == 0 || matchesAll(node, rules)) {
 		return node;
 	}
 	if (!node || !node.children) {
@@ -52,7 +51,7 @@ export function getFirstMatching(
 	}
 	for (let i = 0; i < node.children.length; i++) {
 		const child = node.children[i];
-		const result = getFirstMatching(child, rule);
+		const result = getFirstMatching(child, ...rules);
 		if (result) {
 			return result;
 		}
@@ -61,15 +60,16 @@ export function getFirstMatching(
 
 export function getAllMatching(
 	node: ParsedNode,
-	rule: SelectionRule,
+	...rules: SelectionRule[]
 ): ParsedNode[] {
+	rules = rules.filter(it => it);
 	let result = [];
-	if (matches(node, rule)) {
+	if (matchesAll(node, rules)) {
 		result.push(node);
 	}
 	if (node.children) {
 		const matchedChildren = node.children.flatMap((c) =>
-			getAllMatching(c, rule),
+			getAllMatching(c, ...rules),
 		);
 		result = result.concat(matchedChildren);
 	}

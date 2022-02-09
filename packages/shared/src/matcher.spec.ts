@@ -28,7 +28,7 @@ describe('Test matching first element', () => {
 			value: 'usefull',
 		};
 		const firstMatched = getFirstMatching(parsed, rule);
-		expect(firstMatched.chain[0].id).to.eq('usefull');
+		expect(firstMatched.id).to.eq('usefull');
 	});
 	it('Matches first element based on id includes', () => {
 		const rule: SelectionRule = {
@@ -37,7 +37,7 @@ describe('Test matching first element', () => {
 			value: 'full',
 		};
 		const firstMatched = getFirstMatching(parsed, rule);
-		expect(firstMatched.chain[0].id).to.eq('usefull');
+		expect(firstMatched.id).to.eq('usefull');
 	});
 	it('Matches first element based on class', () => {
 		const rule: SelectionRule = {
@@ -46,7 +46,7 @@ describe('Test matching first element', () => {
 			value: 'content',
 		};
 		const firstMatched = getFirstMatching(parsed, rule);
-		expect(firstMatched.chain[0].id).to.eq('usefull');
+		expect(firstMatched.id).to.eq('usefull');
 	});
 	it('Matches first element based on text content', () => {
 		const rule: SelectionRule = {
@@ -55,7 +55,7 @@ describe('Test matching first element', () => {
 			value: 'even more text',
 		};
 		const firstMatched = getFirstMatching(parsed, rule);
-		expect(firstMatched.chain[0].name).to.eq('p');
+		expect(firstMatched.text).to.eq('even more text');
 	});
 	it('Matches first element based on text regex', () => {
 		const rule: SelectionRule = {
@@ -64,7 +64,7 @@ describe('Test matching first element', () => {
 			value: '.ext',
 		};
 		const firstMatched = getFirstMatching(parsed, rule);
-		expect(firstMatched.data[0].text).to.eq('text');
+		expect(firstMatched.text).to.eq('text');
 	});
 	it('Matches first element based on tag', () => {
 		const rule: SelectionRule = {
@@ -73,7 +73,7 @@ describe('Test matching first element', () => {
 			value: 'ul',
 		};
 		const firstMatched = getFirstMatching(parsed, rule);
-		expect(firstMatched.chain[0].name).to.eq('ul');
+		expect(firstMatched.name).to.eq('ul');
 	});
 });
 
