@@ -2,6 +2,7 @@ import {
   ParsedNode,
   RestructuredNode,
   RestructuredDocument,
+  TextNode,
   ScrapeResult,
 } from "@lawbrador/shared/src/schemas/scrape";
 import {
@@ -10,7 +11,7 @@ import {
   SourceSiteConfig,
 } from "@lawbrador/shared/src/schemas/rules";
 import { getFirstMatching, matches } from "./matcher";
-import { getTagConfig, TagName } from "@lawbrador/shared/src/schemas/tags";
+import { TagName } from "@lawbrador/shared/src/schemas/tags";
 
 export function applyConfig(
   scrapeResult: ScrapeResult,
@@ -48,54 +49,66 @@ export function applyRuleSet(
   rules: DocumentRuleSet | null
 ): RestructuredNode {
   const body = rules?.bodyRule ? getFirstMatching(root, rules.bodyRule) : root;
-  return restructureRecursive(body, rules?.markupRules ?? []);
+  const modifyingRules = rules.markupRules ?? [].filter(it => it.modifies);
+  const pureRules = rules.markupRules ?? [].filter(it => !it.modifies);
+  modifyInput(body, modifyingRules);
+  const restructued = restructureRecursive(body, pureRules);
+  modifyOutput(restructued);
+  return restructued;
 }
 
 function restructureRecursive(
   node: ParsedNode,
-  markupRules: MarkupRule[]
+  markupRules: MarkupRule[],
 ): RestructuredNode {
-  node = modifyInput(node, markupRules);
   const children = node.children?.map((c) =>
     restructureRecursive(c, markupRules)
   );
   const tag: TagName = getTag(node, children, markupRules);
-  let output: RestructuredNode = {
+  let output = {
     name: tag,
     children: children,
     text: node.text,
-    href: node.href,
+    href: node.href 
   };
-  output = modifyOutput(output);
-  return output;
+  return output as RestructuredNode;
 }
 
-function modifyInput(node: ParsedNode, markupRules: MarkupRule[]) {
+function modifyInput(
+  node: ParsedNode,
+  markupRules: MarkupRule[],
+  parentNode: ParsedNode | null = null
+) {
   markupRules.forEach((it) => {
     switch (it.tag) {
       case "li-marker":
-        applyLiMarkerRule(node, it);
+        applyLiMarkerRule(node, it, parentNode);
         break;
     }
   });
+  node.children?.forEach(it => modifyInput(it, markupRules, node))
   return node;
 }
 
-function applyLiMarkerRule(node: ParsedNode, markupRule: MarkupRule) {
+function applyLiMarkerRule(
+  node: ParsedNode,
+  markupRule: MarkupRule,
+  parentNode: ParsedNode | null
+) {
+  if (!parentNode) {
+	return;
+  }
   // only break up nodes when using regex on text to find li markers
   if (markupRule.filter.location != "text" || markupRule.filter.op != "regex") {
     return;
   }
   const re = new RegExp(markupRule.filter.value);
-  const newChildren: ParsedNode[] = [];
-  node.children.forEach((it) => {
-    const matched = it?.text.match(re)[0]?.trim();
-    if (matched) {
-      it.text.replace(matched, "");
-      newChildren.push({ text: matched });
-    }
-  });
-  node.children = [...newChildren, ...node.children];
+  const matched = node?.text?.match(re)[0]?.trim();
+  if (matched) {
+    debugger;
+    node.text = node.text.replace(matched, "").trim();
+    parentNode.children.push({ text: matched, name: "li-marker" });
+  }
 }
 
 function getTag(
@@ -109,6 +122,9 @@ function getTag(
     if (matches(node, rule.filter)) {
       return rule.tag;
     }
+  }
+  if (node.name == "li-marker") {
+    return "li-marker";
   }
   // links are "a" by default
   if (node.href) {
@@ -124,7 +140,7 @@ function getTag(
       return "ol";
     }
     // if there are children with text, default to paragraph
-    if (children.some((it) => it.text)) {
+    if (children.some((it) => it.name == "text")) {
       return "p";
     }
     // else return as div
@@ -135,15 +151,16 @@ function getTag(
   }
 }
 
-function modifyOutput(
-  node: RestructuredNode
-): RestructuredNode {
+function modifyOutput(node: RestructuredNode): RestructuredNode {
   switch (node.name) {
     case "div":
-      if (node.children?.length == 1) return node.children[0];
+      if (node.children.length == 1) return node.children[0];
       break;
+    case "li":
+      node.marker = node.children.filter(it => it.name == "li-marker")[0] as TextNode;
+      node.children = node.children.filter(it => it.name != "li-marker")
+      break; 
   }
-  return node
+  node.children?.forEach(it => modifyOutput(it))
+  return node;
 }
-
-

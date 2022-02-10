@@ -1,5 +1,5 @@
 import { Static, Type } from "@sinclair/typebox";
-import {tagName} from "./tags";
+import {TagName, tagName} from "./tags";
 
 export const parsedNode = Type.Object({
   name: Type.Optional(Type.String()),
@@ -29,18 +29,37 @@ export const scrapeRequest = Type.Object({
 
 export type ScrapeRequest = Static<typeof scrapeRequest>;
 
-
-// output after all mutations have been applied
+// output after all mutations have been applied (limited checking because schema would get too complex)
 export const restructuredNode = Type.Object({
   name: tagName,
-  href: Type.Optional(Type.String()),
-  text: Type.Optional(Type.String()),
   children: Type.Optional(Type.Array(Type.Any())),
 });
 
-export interface RestructuredNode extends Static<typeof restructuredNode> {
-  children?: RestructuredNode[];
+export interface BaseRestructuredNode {
+  name: string 
+  children: RestructuredNode[] | undefined
 }
+
+export interface LinkNode extends BaseRestructuredNode {
+  name: "a",
+  href: string,
+} 
+
+export interface ListElementNode extends BaseRestructuredNode {
+  name: "li"
+  marker: TextNode | null
+}
+
+export interface TextNode extends BaseRestructuredNode {
+  name: "text" | "li-marker"
+  text: string
+} 
+
+export interface OtherNode extends BaseRestructuredNode {
+  name: "div" | "ol" | "p" | "h1" | "h2" | "h3" | "hidden"
+}
+
+export type RestructuredNode = LinkNode | OtherNode | ListElementNode | TextNode
 
 export const restructuredDocument = Type.Object({
   hash: Type.String(),

@@ -2,11 +2,10 @@ import { applyRuleSet, selectRuleSet } from "./rule_applyer";
 import { parse } from "./scraper";
 import { DocumentRuleSet, SourceSiteConfig } from "./schemas/rules";
 import { expect } from "chai";
+import {ListElementNode, TextNode} from "./schemas/scrape";
 
 describe("Restructuring HTML with empty ruleset", () => {
-  const ruleSet: DocumentRuleSet = {
-    conditionRules: [],
-  };
+  const ruleSet: DocumentRuleSet = {};
   it("Restructuring two paragraphs", () => {
     const html = `<p>bla</p><p>bla</p>`;
     const parsed = parse(html);
@@ -37,6 +36,15 @@ describe("Restructuring HTML with empty ruleset", () => {
     expect(restructured.children[0].children[0].name).to.eq("p");
     expect(restructured.children[0].children[0].children[0].text).to.eq("bla");
   });
+  it("Ignore divs with only one child", () => {
+    const html = `
+			<div><div><p>bla</p></div></div>
+		`;
+    const parsed = parse(html);
+    const restructured = applyRuleSet(parsed, ruleSet);
+    expect(restructured.name).to.eq("p");
+    expect(restructured.children[0].name).to.eq("text");
+  });
 });
 
 describe("Restructuring HTML with body rule", () => {
@@ -57,14 +65,13 @@ describe("Restructuring HTML with body rule", () => {
     const restructured = applyRuleSet(parsed, ruleSet);
     expect(restructured.children.length).to.eq(2);
     expect(restructured.children.every((n) => n.name == "p")).to.be.true;
-    expect(restructured.children.every((n) => n.children[0].text == "bla")).to
+    expect(restructured.children.every((n) => (n.children[0] as TextNode).text == "bla")).to
       .be.true;
   });
 });
 
-describe("Recognizing headers from ruleset", () => {
+describe("Recognizing headers", () => {
   const ruleSet: DocumentRuleSet = {
-    conditionRules: [],
     markupRules: [
       {
         tag: "h1",
@@ -83,6 +90,33 @@ describe("Recognizing headers from ruleset", () => {
     const parsed = parse(html);
     const restructured = applyRuleSet(parsed, ruleSet);
     expect(restructured.name).to.eq("h1");
+  });
+});
+
+describe("Recognizing lists", () => {
+  const ruleSet: DocumentRuleSet = {
+    markupRules: [
+      {
+        tag: "li-marker",
+        filter: {
+          op: "regex",
+          location: "text",
+          value: "\\d+",
+        },
+      },
+    ],
+  };
+  it.only("List item only", () => {
+    const html = `
+		<p>1 bla</p>
+		`;
+    const parsed = parse(html);
+    const restructured = applyRuleSet(parsed, ruleSet);
+    debugger; 
+    expect(restructured.name).to.eq("ol");
+    const listElement = restructured.children[0] as ListElementNode;
+    expect(listElement.name).to.eq("li");
+    expect(listElement.marker.text).to.eq("1");
   });
 });
 
