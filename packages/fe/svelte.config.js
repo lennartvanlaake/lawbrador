@@ -5,7 +5,6 @@ export default {
 	disableDependencyReinclusion: ['svench'],
 	preprocess: preprocess({
 		typescript: true,
-		sourceMap: true
 	}),
 	kit: {
 		vite: {

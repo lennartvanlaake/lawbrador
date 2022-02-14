@@ -4,8 +4,8 @@ import sourceConfigRoutes from "./source_configs";
 import getOrScrapeDocumentRoutes from "./get_or_scrape_document";
 import searchRoutes from "./search";
 import fastifySwagger from "fastify-swagger";
-import { MongoClient } from "mongodb";
-import { ALL_COLLECTIONS, LAWBRADOR_CLIENT } from "@lawbrador/shared";
+import type { MongoClient } from "mongodb";
+import { ALL_COLLECTIONS, LAWBRADOR_CLIENT } from "@lawbrador/db";
 import { ProcessorRegistry, LAWBRADOR_REGISTRY } from "@lawbrador/events";
 
 declare module "fastify" {

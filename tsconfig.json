@@ -21,9 +21,10 @@
     "downlevelIteration": true,
     "lib": ["dom", "es2017"],
     "paths": {
-      "@project/fe": ["../sveltekit/src"],
+      "@project/fe": ["../fe/src"],
       "@project/shared": ["../shared/src"],
-      "@project/api": ["../api/src"]
+      "@project/api": ["../api/src"],
+      "@project/db": ["../db/src"]
     }
   }
 }

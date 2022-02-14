@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/**/*.spec.ts"],
+  "compilerOptions": {
+    "module": "commonjs",
+    "composite": true,
+    "noEmit": false,
+    "noEmitOnError": false,
+    "outDir": "dist"
+  }
+}

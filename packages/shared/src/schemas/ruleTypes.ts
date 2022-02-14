@@ -1,5 +1,5 @@
-import { Static } from "@sinclair/typebox";
-import {
+import type { Static } from "@sinclair/typebox";
+import type {
   documentRuleSet,
   htmlSearchRuleSet,
   markupRule,
@@ -12,7 +12,7 @@ import {
   valueWithDisplayName,
   variableUrlComponent,
 } from "./rules";
-import {
+import type {
   ALL_SELECTION_OPERATORS,
   ALL_SELECTION_LOCATIONS,
 } from "./ruleConstants";

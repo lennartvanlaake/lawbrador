@@ -1,11 +1,11 @@
 import type { FastifyInstance } from "fastify";
 import {
-  id,
   Endpoints,
   Schemas,
   SourceSiteConfig,
   toIdentity,
 } from "@lawbrador/shared";
+import { id } from '@lawbrador/db';
 import { routeConfig } from "./utils";
 import { EventFactory } from "@lawbrador/events";
 

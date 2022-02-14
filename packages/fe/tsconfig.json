@@ -30,10 +30,5 @@
 		},
 		"outDir": "dist"
 	},
-	"references": [
-		{
-			"path": "../shared"
-		}
-	],
 	"include": ["src/**/*.d.ts", "src/**/*.js", "src/**/*.ts", "src/**/*.svelte"]
 }

@@ -1,5 +1,5 @@
 
-import { LawbradorEvent, SourceSiteConfig } from '@lawbrador/shared'
+import type { LawbradorEvent, SourceSiteConfig } from '@lawbrador/shared'
 
 export interface SourceConfigUpdated {
 	sourceConfig: SourceSiteConfig; 

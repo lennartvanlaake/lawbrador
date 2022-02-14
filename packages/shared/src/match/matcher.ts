@@ -39,10 +39,10 @@ function matchesAll(node: ParsedNode, rules: SelectionRule[]): boolean {
 
 export function getFirstMatching(
 	node: ParsedNode,
-	...rules: SelectionRule[]
+	...rules: Array<SelectionRule | undefined>
 ): ParsedNode | null {
 	rules = rules.filter(it => it);
-	if (rules.length == 0 || matchesAll(node, rules)) {
+	if (rules.length == 0 || matchesAll(node, rules as SelectionRule[])) {
 		return node;
 	}
 	if (!node || !node.children) {
@@ -60,11 +60,11 @@ export function getFirstMatching(
 
 export function getAllMatching(
 	node: ParsedNode,
-	...rules: SelectionRule[]
+	...rules: Array<SelectionRule | undefined>
 ): ParsedNode[] {
 	rules = rules.filter(it => it);
 	let result: ParsedNode[] = [];
-	if (matchesAll(node, rules)) {
+	if (matchesAll(node, rules as SelectionRule[])) {
 		result.push(node);
 	}
 	if (node.children) {

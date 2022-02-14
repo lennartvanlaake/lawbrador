@@ -1,5 +1,5 @@
-import { identity, hashed, statusResponse } from "./generic";
-import { Static } from "@sinclair/typebox";
+import type { identity, hashed, statusResponse } from "./generic";
+import type { Static } from "@sinclair/typebox";
 import type { ObjectId } from "mongodb";
 
 export type Hashed = Static<typeof hashed>;

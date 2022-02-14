@@ -1,4 +1,4 @@
-import { ALL_TAGS } from './tagConstants';
+import type { ALL_TAGS } from './tagConstants';
 
 export type TagName = typeof ALL_TAGS[number]["name"];
 export interface TagConfig {

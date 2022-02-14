@@ -3,7 +3,7 @@ import type {
   LawbradorEvent,
   ScrapeResult,
   SourceSiteConfig,
-} from "..";
+} from "@lawbrador/shared";
 import TypedCollection from "./Collection";
 import TypedCache from "./Cache";
 

@@ -1,5 +1,5 @@
-import {hashUrlVariables, getFirstMatching, ParsedNode, SearchResult, SelectionRule, SourceSiteConfig, UrlConfig} from "..";
-
+import type {ParsedNode, SearchResult, SelectionRule, SourceSiteConfig, UrlConfig} from "..";
+import { hashUrlVariables, getFirstMatching, } from "..";
 const LINK_RULE: SelectionRule = { op: "is", location: "tag", value: "a" };
 
 export function parseSearchResults(
@@ -15,14 +15,18 @@ export function parseSearchResults(
 	}
 	
 	const links = base.children 
-		.map(it =>
+		?.filter( it => it)
+		?.map(it =>
 			getFirstMatching(
 				it,
 				LINK_RULE,
-				config.htmlSearchRuleSet.resultLinkRule
+				config.htmlSearchRuleSet.resultLinkRule 
 			),
 		)
-		.map(it => {
+		?.map(it => {
+			if (!it?.href) {
+			   throw Error(`Cannot convert element without href to link`);
+			}
 			const url = makeLinkAbsolute(
 				it.href,
 				config.documentUrlConfig,

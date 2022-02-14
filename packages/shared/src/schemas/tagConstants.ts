@@ -1,4 +1,4 @@
-import { TagConfig, TagName } from "./tagTypes";
+import type { TagConfig, TagName } from "./tagTypes";
 
 export const ALL_TAGS: readonly TagConfig[] = [
   {

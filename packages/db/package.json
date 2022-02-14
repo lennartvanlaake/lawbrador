@@ -1,0 +1,22 @@
+{
+  "name": "@lawbrador/db",
+  "version": "1.0.0",
+  "description": "shared DB code for lawbrador",
+  "type": "module",
+  "author": "Lennart van Laake",	
+  "main": "src/index.ts",
+  "license": "AGPL-3.0-only",
+	"scripts": {
+		"test": "ts-mocha -p tsconfig.json src/**/*.spec.ts",
+		"test:build": "tsc --noEmit",
+		"test:debug": "ts-mocha -p tsconfig.json src/**/*.spec.ts --inspect-brk",
+		"test:watch": "ts-mocha -p tsconfig.json --reporter min --watch-files src/**/*.ts  --watch src/**/*.spec.ts",
+		"build": "tsc --build"
+	},
+	"dependencies": {
+		"mongodb": "^4.1.4"
+	},
+	"devDependencies": {
+		"typescript": "^4.5.4"
+	}
+}

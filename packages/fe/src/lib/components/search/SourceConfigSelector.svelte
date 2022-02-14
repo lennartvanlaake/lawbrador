@@ -3,7 +3,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import Select, { Option } from '@smui/select';
 	export let sourceConfigList: SourceSiteConfig[];
-	export let sourceConfig: SourceSiteConfig | null;
+	export let sourceConfig: SourceSiteConfig | null = null;
 	export let sourceConfigId: string | null = null;
 	const dispatch = createEventDispatcher<{"configSelected": SourceSiteConfig}>();
 	const sourceConfigMap: Record<string, SourceSiteConfig> = sourceConfigList.reduce((map, conf) => {

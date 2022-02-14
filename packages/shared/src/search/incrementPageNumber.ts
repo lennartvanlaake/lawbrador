@@ -1,4 +1,4 @@
-import {HtmlSearchRuleSet} from "..";
+import type {HtmlSearchRuleSet} from "..";
 
 
 export function incrementPageNumber(

@@ -1,14 +1,14 @@
-import { DB_NAME, LAWBRADOR_CLIENT } from "@lawbrador/shared";
+import { DB_NAME, LAWBRADOR_CLIENT, ALL_COLLECTIONS } from "@lawbrador/db";
 import { Umzug, MongoDBStorage } from "umzug";
-import { ALL_COLLECTIONS } from '@lawbrador/shared';
 
 export const migrator = new Umzug({
   migrations: {
     glob: ["src/migrations/*.ts", { cwd: "." }],
     resolve: (params) => {
-      if (params.path.endsWith(".ts")) {
+	
+      if (params?.path?.endsWith(".ts")) {
         const getModule = () =>
-          import(`file:///${params.path.replace(/\\/g, "/")}`);
+          import(`file:///${params?.path?.replace(/\\/g, "/")}`);
         return {
           name: params.name,
           path: params.path,
@@ -19,7 +19,7 @@ export const migrator = new Umzug({
       return {
         name: params.name,
         path: params.path,
-        ...require(params.path),
+        ...require(params.path!!),
       };
     },
   },

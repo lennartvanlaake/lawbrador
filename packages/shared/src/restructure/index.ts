@@ -1,4 +1,4 @@
-import { RestructuredDocument, ScrapeResult, SourceSiteConfig } from "..";
+import type { RestructuredDocument, ScrapeResult, SourceSiteConfig } from "..";
 import { applyRuleSet } from "./applyRuleSet";
 import { selectRuleSet } from "./selectRuleSet";
 

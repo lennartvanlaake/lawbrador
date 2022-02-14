@@ -1,9 +1,9 @@
 import { MAIN_PROCESSING_GROUP} from "./types";
 import type { LawbradorEvent } from '@lawbrador/shared'
-import {
+import type {
 	ClientSession,
 } from 'mongodb';
-import ProcessorRegistry from "./processorRegistry";
+import type ProcessorRegistry from "./processorRegistry";
 
 export default class EventProcessor<EventType> {
 	eventName: string;

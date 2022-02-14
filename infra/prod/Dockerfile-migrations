@@ -4,6 +4,9 @@ COPY yarn.lock package.json tsconfig.json ./
 COPY packages/shared/package.json /usr/src/packages/shared/package.json
 WORKDIR /usr/src/packages/shared
 RUN yarn install --no-cache
+COPY packages/db/package.json /usr/src/packages/db/package.json
+WORKDIR /usr/src/packages/db
+RUN yarn install --no-cache
 COPY packages/migrations/package.json /usr/src/packages/migrations/package.json
 WORKDIR /usr/src/packages/migrations
 RUN yarn install --no-cache

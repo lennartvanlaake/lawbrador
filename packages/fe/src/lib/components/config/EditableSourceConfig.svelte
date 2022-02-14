@@ -4,7 +4,6 @@
 	import type { SourceSiteConfig } from '@lawbrador/shared';
 	import { Schemas } from '@lawbrador/shared';
 	import EditableDocumentRuleSet from './EditableDocumentRuleSet.svelte';
-	import ToggledDocumentRuleSet from './ToggledRuleConfig.svelte';
 	import Paper, { Title, Content } from '@smui/paper';
 	import { DEFAULT_EMPTY_RULESET } from '@lawbrador/shared';
 	import AddButton from '../common/AddButton.svelte';

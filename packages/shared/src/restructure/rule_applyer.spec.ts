@@ -1,6 +1,6 @@
 import { applyRuleSet, selectRuleSet } from "./rule_applyer";
 import { parse } from "./scraper";
-import { DocumentRuleSet, SourceSiteConfig } from "./schemas/rules";
+import type { DocumentRuleSet, SourceSiteConfig } from "./schemas/rules";
 import { expect } from "chai";
 import {LinkNode, ListElementNode, TextNode} from "./schemas/scrape";
 function log(obj: any) {

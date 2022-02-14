@@ -1,5 +1,5 @@
-import { Static } from "@sinclair/typebox";
-import {
+import type { Static } from "@sinclair/typebox";
+import type {
   parsedNode,
   restructuredDocument,
   scrapeRequest,

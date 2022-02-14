@@ -1,7 +1,7 @@
 
-import { LAWBRADOR_CLIENT as client } from '@lawbrador/shared/src/db/constants';
+import { LAWBRADOR_CLIENT as client } from '@lawbrador/db';
 import { LAWBRADOR_REGISTRY as registry } from './index';
-import {clean} from '@lawbrador/shared/src/db/utils';
+import {clean} from '@lawbrador/db';
 
 export async function mochaGlobalTeardown() {
 	await registry.close();

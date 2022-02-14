@@ -27,6 +27,7 @@
 				scrollThreshold = 0;
 			}
 			// all the results are the same
+			//@ts-ignore
 			const nextPageHashes = nextPage.map((r) => r.hash);
 			const searchResultHashes = searchResults.map((r) => r.hash); 
 			if (nextPageHashes.every((r) => searchResultHashes.includes(r))) {
@@ -45,7 +46,7 @@
 <div id="results">
 	{#each searchResults ?? [] as result}
 		<SearchResultComponent data={result} {sourceConfig} />
-		<InfiniteScroll threshold={scrollThreshold} on:loadMore={getNextPage} />
+		<InfiniteScroll threshold={scrollThreshold} horizontal={false} reverse={false} window={false} hasMore={true} elementScroll={null} on:loadMore={getNextPage} />
 	{/each}
 </div>
 

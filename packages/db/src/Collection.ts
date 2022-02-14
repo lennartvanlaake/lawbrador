@@ -1,6 +1,6 @@
 import {Collection, MongoClient, ObjectId, Document, ClientSession, } from "mongodb";
-import type { Identity, MongoIdentity }  from '..';
-import { DB_NAME } from '..';
+import type { Identity, MongoIdentity }  from '@lawbrador/shared';
+import { DB_NAME } from './constants';
 
 function objectIdToString<T extends MongoIdentity>(obj: T): T & Identity {
 	return { ...obj, _id: obj._id.toString() };

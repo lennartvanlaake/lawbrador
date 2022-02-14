@@ -1,12 +1,14 @@
-import { FastifyInstance } from "fastify";
+import type { FastifyInstance } from "fastify";
+import type {
+  RestructuredDocument,
+  ScrapeRequest,
+} from "@lawbrador/shared"
 import {
   extractUrlVariables,
   Endpoints,
   Schemas,
   restructure,
-  RestructuredDocument,
   scrape,
-  ScrapeRequest,
 } from "@lawbrador/shared";
 import { createHash } from "./utils";
 

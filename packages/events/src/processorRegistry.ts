@@ -1,12 +1,8 @@
-import { MongoClient, ChangeStream, ClientSession } from "mongodb";
-import EventProcessor from "./eventProcessor";
+import type { MongoClient, ChangeStream, ClientSession } from "mongodb";
+import type EventProcessor from "./eventProcessor";
 import { MAIN_PROCESSING_GROUP } from "./types";
-import {
-  ALL_COLLECTIONS,
-  Identity,
-  LawbradorEvent,
-  id,
-} from "@lawbrador/shared";
+import type { Identity, LawbradorEvent } from "@lawbrador/shared";
+import { ALL_COLLECTIONS, id } from "@lawbrador/db";
 
 export default class ProcessorRegistry {
   connect(client: MongoClient) {
@@ -19,10 +15,9 @@ export default class ProcessorRegistry {
   async doWithTransaction(f: (session: ClientSession) => Promise<void>) {
     const session = this.client.startSession();
     await session.withTransaction(async () => {
-      let error: Error | null;
+      let error: Error | null = null;
       try {
         await f(session);
-        console.log("processing worked");
         await session.commitTransaction();
       } catch (e) {
         console.log(e);
@@ -30,7 +25,6 @@ export default class ProcessorRegistry {
         await session.abortTransaction();
       } finally {
         await session.endSession();
-        console.log("session ended");
         if (error) {
           throw error;
         }
@@ -38,7 +32,7 @@ export default class ProcessorRegistry {
     });
   }
   listenAsync(processingGroup: string = MAIN_PROCESSING_GROUP) {
-    this.changeStream = this.collections.events.raw.watch([], {
+    this.changeStream = this.collections.events.raw!!.watch([], {
       fullDocument: "updateLookup",
     });
     this.changeStream.on("change", (next) => {
@@ -57,8 +51,9 @@ export default class ProcessorRegistry {
   processorRegistry: Record<string, EventProcessor<any>[]> = {};
   registerProcessors(processors: EventProcessor<any>[]) {
     processors.forEach((p) => {
-      this.processorRegistry[p.eventName] =
-        this.processorRegistry[p.eventName] ?? [].concat(p);
+      this.processorRegistry[p.eventName] = (
+        this.processorRegistry[p.eventName] ?? []
+      ).concat(p);
     });
   }
   async processSync(event: LawbradorEvent<any>) {
