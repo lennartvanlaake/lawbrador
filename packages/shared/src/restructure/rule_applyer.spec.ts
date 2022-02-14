@@ -2,7 +2,10 @@ import { applyRuleSet, selectRuleSet } from "./rule_applyer";
 import { parse } from "./scraper";
 import { DocumentRuleSet, SourceSiteConfig } from "./schemas/rules";
 import { expect } from "chai";
-import {ListElementNode, TextNode} from "./schemas/scrape";
+import {LinkNode, ListElementNode, TextNode} from "./schemas/scrape";
+function log(obj: any) {
+  console.dir(obj, { colors: true, depth: null });
+}
 
 describe("Restructuring HTML with empty ruleset", () => {
   const ruleSet: DocumentRuleSet = {};
@@ -12,7 +15,7 @@ describe("Restructuring HTML with empty ruleset", () => {
     const restructured = applyRuleSet(parsed, ruleSet);
     expect(restructured.children.length).to.eq(2);
     expect(restructured.children.every((n) => n.name == "p")).to.be.true;
-    expect(restructured.children.every((n) => n.children[0].text == "bla")).to
+    expect(restructured.children.every((n) => (n.children[0] as TextNode).text == "bla")).to
       .be.true;
   });
   it("Restructuring paragraphs with link", () => {
@@ -20,10 +23,11 @@ describe("Restructuring HTML with empty ruleset", () => {
     const parsed = parse(html);
     const restructured = applyRuleSet(parsed, ruleSet);
     debugger;
-    expect(restructured.children.every((n) => n.children[0].text == "bla")).to
+    expect(restructured.children.every((n) => (n.children[0] as TextNode).text == "bla")).to
       .be.true;
-    expect(restructured.children[0].name).to.eq("a");
-    expect(restructured.children[0].href).to.eq("somewhere");
+    const link = restructured.children[0] as LinkNode;
+    expect(link.name).to.eq("a");
+    expect(link.href).to.eq("somewhere");
   });
   it("Restructuring two divs with two paragraphs each", () => {
     const html = `
@@ -34,7 +38,6 @@ describe("Restructuring HTML with empty ruleset", () => {
     const restructured = applyRuleSet(parsed, ruleSet);
     expect(restructured.children[0].name).to.eq("div");
     expect(restructured.children[0].children[0].name).to.eq("p");
-    expect(restructured.children[0].children[0].children[0].text).to.eq("bla");
   });
   it("Ignore divs with only one child", () => {
     const html = `
@@ -106,12 +109,24 @@ describe("Recognizing lists", () => {
       },
     ],
   };
-  it.only("List item only", () => {
+  it("Finds number inside text element", () => {
     const html = `
 		<p>1 bla</p>
 		`;
     const parsed = parse(html);
     const restructured = applyRuleSet(parsed, ruleSet);
+    expect(restructured.name).to.eq("ol");
+    const listElement = restructured.children[0] as ListElementNode;
+    expect(listElement.name).to.eq("li");
+    expect(listElement.marker.text).to.eq("1");
+  });
+  it.only("Finds number inside text element", () => {
+    const html = `
+		<table><tr><td>1</td><td>bla</td</td></tr></table>
+		`;
+    const parsed = parse(html);
+    const restructured = applyRuleSet(parsed, ruleSet);
+    log(restructured);
     debugger; 
     expect(restructured.name).to.eq("ol");
     const listElement = restructured.children[0] as ListElementNode;

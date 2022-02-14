@@ -1,6 +1,6 @@
 import type { ErrorObject, ValidateFunction } from 'ajv';
 import type { TObject, TUnion } from '@sinclair/typebox';
-import ajv from '@lawbrador/shared/src/ajv'
+import { ajv } from '@lawbrador/shared';
 
 export class Validator {
 	validator: ValidateFunction;

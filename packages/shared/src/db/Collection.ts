@@ -13,7 +13,7 @@ function stringToObjectId<T>(obj: T | T & Identity): T | T & MongoIdentity {
 	return obj;
 }
 
-export class TypedCollection<T> {	
+export default class TypedCollection<T> {	
 	constructor(name: string) {
 		this.name = name;
 	}
