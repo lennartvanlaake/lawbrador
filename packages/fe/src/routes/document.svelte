@@ -2,7 +2,7 @@
 	import type { Load } from '@sveltejs/kit';
 	import DocumentView from '$lib/components/view/DocumentView.svelte';
 	import { getDocument } from '$lib/ts/api';
-	import type { RestructuredDocument } from '@lawbrador/shared/src/schemas/scrape';
+	import type { RestructuredDocument } from '@lawbrador/shared';
 	export const load: Load = async ({ url, fetch }) => {
 		const documentUrl = url.searchParams.get("url");
 		const sourceConfigId = url.searchParams.get("sourceConfigId");

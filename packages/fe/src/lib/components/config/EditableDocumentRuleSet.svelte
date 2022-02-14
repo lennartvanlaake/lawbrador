@@ -2,16 +2,16 @@
 	import RemovableRuleConfig from './RemovableRuleConfig.svelte';
 	import ToggledRuleConfig from './ToggledRuleConfig.svelte';
 	import Paper, { Title, Content } from '@smui/paper';
-	import type { DocumentRuleSet } from '@lawbrador/shared/src/schemas/rules';
-	import { documentRuleSet as schema } from '@lawbrador/shared/src/schemas/rules';
-	import { DEFAULT_EMPTY_SELECTION_RULE, EMPTY_MARKUP_RULE } from '@lawbrador/shared/src/examples';
+	import type { DocumentRuleSet } from '@lawbrador/shared';
+	import { Schemas } from '@lawbrador/shared';
+	import { DEFAULT_EMPTY_SELECTION_RULE, EMPTY_MARKUP_RULE } from '@lawbrador/shared';
 	import { Validator } from '$lib/ts/validate';
 	import ValidatedList from '$lib/components/common/ValidatedList.svelte';
 	import Toggled from '../common/Toggled.svelte';
 	import EditableMarkupRule from './EditableMarkupRule.svelte';
 	import Removable from '../common/Removable.svelte';
 	export let ruleSet: DocumentRuleSet;
-	const validator = new Validator(schema);
+	const validator = new Validator(Schemas.documentRuleSet);
 	$: errors = validator.validate(ruleSet);
 </script>
 <Paper>

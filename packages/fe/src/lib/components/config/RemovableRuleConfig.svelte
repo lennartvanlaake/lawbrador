@@ -1,5 +1,5 @@
 <script lang="ts">
-import type { SelectionRule } from "@lawbrador/shared/src/schemas/rules";
+import type { SelectionRule } from "@lawbrador/shared";
 import Removable from "../common/Removable.svelte";
 import EditableRuleConfig from "./EditableRuleConfig.svelte";
 export let list: Array<SelectionRule> | null = null;

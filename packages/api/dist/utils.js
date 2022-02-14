@@ -1,4 +1,4 @@
-import { hashObject } from "@lawbrador/shared/src/url";
+import { hashObject } from "@lawbrador/shared";
 export function routeConfig(response, request = null) {
     const options = { schema: {} };
     if (request) {

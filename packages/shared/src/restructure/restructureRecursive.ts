@@ -1,12 +1,17 @@
-import {MarkupRule, matches, ParsedNode, RestructuredNode, TagName} from "..";
+import type {
+  MarkupRule,
+  ParsedNode,
+  RestructuredNode,
+  TagName,
+} from "..";
+import { matches } from "..";
 
 export function restructureRecursive(
   node: ParsedNode,
   markupRules: MarkupRule[],
-  parent: ParsedNode | null = null
 ): RestructuredNode {
   const children = node.children?.map((c) =>
-    restructureRecursive(c, markupRules, node)
+    restructureRecursive(c, markupRules)
   );
   const tag: TagName = getTag(node, children, markupRules);
   let output = {
@@ -17,7 +22,6 @@ export function restructureRecursive(
   };
   return output as RestructuredNode;
 }
-
 
 function getTag(
   node: ParsedNode,
@@ -31,7 +35,7 @@ function getTag(
       return rule.tag;
     }
   }
-  // apply marker assigned by applyLiMarkerRule 
+  // apply marker assigned by applyLiMarkerRule
   if (node.name == "li-marker") {
     return "li-marker";
   }
@@ -40,7 +44,7 @@ function getTag(
   if (node.href) {
     return "a";
   }
-  if (children?.length > 0) {
+  if (children && children.length > 0) {
     // if there are children with text, default to paragraph
     if (children.some((it) => it.name == "text")) {
       return "p";

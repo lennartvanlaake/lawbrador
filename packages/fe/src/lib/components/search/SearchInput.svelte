@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { search } from '$lib/ts/api';
 	import SearchOptions from './SearchOptions.svelte';
-	import type { SourceSiteConfig } from '@lawbrador/shared/src/schemas/rules';
-	import type { SearchResult } from '@lawbrador/shared/src/schemas/search';
+	import type { SourceSiteConfig, SearchResult } from '@lawbrador/shared';
 	export let sourceConfig: SourceSiteConfig;
 	export let searchResults: SearchResult[] = [];
 	export let searchParams: Record<string, string>;

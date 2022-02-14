@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { SourceSiteConfig } from '@lawbrador/shared/src/schemas/rules';
+	import type { SourceSiteConfig } from '@lawbrador/shared';
 	import { createEventDispatcher } from 'svelte';
 	import Select, { Option } from '@smui/select';
 	export let sourceConfigList: SourceSiteConfig[];

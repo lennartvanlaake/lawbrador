@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { View } from 'svench';
 	import EditableDocumentRuleSet from '$lib/components/config/EditableDocumentRuleSet.svelte';
-	import { DEFAULT_EMPTY_SELECTION_RULE, eurlexConfig } from '@lawbrador/shared/src/examples';
+	import { DEFAULT_EMPTY_SELECTION_RULE, eurlexConfig } from '@lawbrador/shared';
 	let eurlexFirst = eurlexConfig.documentRuleSets[0];
 	const empty = {};
 	let invalid = { conditionRules: [ DEFAULT_EMPTY_SELECTION_RULE ] };

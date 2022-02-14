@@ -1,9 +1,9 @@
-import {MarkupRule, ParsedNode} from "..";
+import type { MarkupRule, ParsedNode } from "..";
 
 export function modifyInput(
   node: ParsedNode,
   markupRules: MarkupRule[],
-  parentNode: ParsedNode | null = null,
+  parentNode: ParsedNode | null = null
 ) {
   markupRules.forEach((it) => {
     switch (it.tag) {
@@ -19,7 +19,7 @@ export function modifyInput(
 function applyLiMarkerRule(
   node: ParsedNode,
   markupRule: MarkupRule,
-  parentNode: ParsedNode | null,
+  parentNode: ParsedNode | null
 ) {
   if (!parentNode) {
     return;
@@ -33,13 +33,13 @@ function applyLiMarkerRule(
   if (!match || match.length == 0) {
     return;
   }
-  const matchedString = match[0]?.trim()
-  // when the entire element is a marker the grandparent is a list 
+  const matchedString = match[0]?.trim();
+  // when the entire element is a marker the grandparent is a list
   if (matchedString == node.text) {
     node.name = "li-marker";
     return;
   }
   // break marker away from actual text
-  node.text = node.text.replace(matchedString, "").trim();
-  parentNode.children.push({ text: matchedString, name: "li-marker" });
+  node.text = node.text?.replace(matchedString, "")?.trim();
+  parentNode.children?.push({ text: matchedString, name: "li-marker" });
 }

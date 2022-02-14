@@ -1,5 +1,5 @@
 import { MAIN_PROCESSING_GROUP} from "./types";
-import type { LawbradorEvent } from '@lawbrador/shared/src/schemas/generic'
+import type { LawbradorEvent } from '@lawbrador/shared'
 import {
 	ClientSession,
 } from 'mongodb';

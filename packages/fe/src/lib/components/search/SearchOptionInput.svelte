@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { VariableUrlComponent } from '@lawbrador/shared/src/schemas/rules';
+	import type { VariableUrlComponent } from '@lawbrador/shared';
 	export let option: VariableUrlComponent;
 	export let value: string;
 </script>

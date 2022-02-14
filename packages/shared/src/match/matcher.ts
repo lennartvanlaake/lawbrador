@@ -1,4 +1,4 @@
-import { ParsedNode, SelectionRule } from '..';
+import type { ParsedNode, SelectionRule } from '..';
 
 export function matches(node: ParsedNode, rule: SelectionRule): boolean {
 	if (!node) return false;
@@ -55,6 +55,7 @@ export function getFirstMatching(
 			return result;
 		}
 	}
+	return null;
 }
 
 export function getAllMatching(
@@ -62,7 +63,7 @@ export function getAllMatching(
 	...rules: SelectionRule[]
 ): ParsedNode[] {
 	rules = rules.filter(it => it);
-	let result = [];
+	let result: ParsedNode[] = [];
 	if (matchesAll(node, rules)) {
 		result.push(node);
 	}

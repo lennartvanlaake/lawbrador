@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { SourceSiteConfig, VariableUrlComponent } from '@lawbrador/shared/src/schemas/rules';
+	import type { SourceSiteConfig, VariableUrlComponent } from '@lawbrador/shared';
 	import SearchOptionInput from './SearchOptionInput.svelte';
 	export let searchParams: Record<string, string>;
 	export let sourceConfig: SourceSiteConfig;

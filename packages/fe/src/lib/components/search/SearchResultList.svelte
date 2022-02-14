@@ -1,11 +1,9 @@
 <script lang="ts">
 	import SearchResultComponent from '../search/SearchResult.svelte';
 	import InfiniteScroll from 'svelte-infinite-scroll';
-	import { incrementPageNumber } from '@lawbrador/shared/src/searcher';
+	import { incrementPageNumber } from '@lawbrador/shared';
+	import type { SearchResult, SourceSiteConfig } from '@lawbrador/shared';
 	import { search } from '$lib/ts/api';
-	import type { SearchResult } from '@lawbrador/shared/src/schemas/search';
-	import type { SourceSiteConfig } from '@lawbrador/shared/src/schemas/rules';
- 	import _ from 'underscore';	
 
 	export let sourceConfig: SourceSiteConfig;
 	export let searchResults: SearchResult[] = [];

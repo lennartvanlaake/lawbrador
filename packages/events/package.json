@@ -7,7 +7,7 @@
 	"scripts": {
 		"docker": "yarn --cwd ../.. docker -d",
 		"test": "yarn docker && ts-mocha -p tsconfig.json --require src/testconfig.ts src/**/*.spec.ts",
-		"test:build": "tsc --noEmit",
+		"build": "tsc --noEmit",
 		"test:debug": "yarn docker && ts-mocha -p tsconfig.json --require src/testconfig.ts src/**/*.spec.ts --inspect-brk",
 		"test:watch": "yarn docker && ts-mocha -p tsconfig.json --require src/testconfig.ts --watch --watch-files src/**/*.spec.ts src/**/*.spec.ts"
 	},

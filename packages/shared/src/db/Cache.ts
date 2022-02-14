@@ -1,5 +1,5 @@
 import TypedCollection from './Collection';
-import { Document } from 'mongodb';
+import type { Document } from 'mongodb';
 export default class TypedCache<T> extends TypedCollection<T> {
 
 	async cachedOrCreated(filter: Document, noHitFunction: () => Promise<T> ): Promise<T> {

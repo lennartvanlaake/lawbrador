@@ -2,7 +2,7 @@
 	import SearchInput from '$lib/components/search/SearchInput.svelte';
 	import SearchResultList from '$lib/components/search/SearchResultList.svelte';
 	import SourceConfigSelector from '$lib/components/search/SourceConfigSelector.svelte';
-	import type { SourceSiteConfig } from '@lawbrador/shared/src/schemas/rules';
+	import type { SourceSiteConfig } from '@lawbrador/shared';
 	import type { IndexProps } from './types';
 	export let indexProps: IndexProps;
 	function setSourceConfig(e: CustomEvent<SourceSiteConfig>) {

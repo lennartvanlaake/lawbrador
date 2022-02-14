@@ -2,14 +2,14 @@
 		export const hydrate = true;
 
 	import Index from '$lib/components/page/Index.svelte';
-	import type { SourceSiteConfig } from '@lawbrador/shared/src/schemas/rules';
-	import type { SearchResult } from '@lawbrador/shared/src/schemas/search';
+	import type { SourceSiteConfig } from '@lawbrador/shared';
+	import type { SearchResult } from '@lawbrador/shared';
 	import type { Load } from '@sveltejs/kit';
 	import { getSourceConfigs } from '$lib/ts/api';
 	import type { IndexProps } from '$lib/components/page/types';
 
 	const baseUrl = import.meta.env.VITE_URL ?? "";
-	import * as Endpoints from '@lawbrador/shared/src/endpoints';
+	import * as Endpoints from '@lawbrador/shared';
 	export const load: Load = async ({ url, fetch }) => {
 		const query = url.searchParams;
 		const sources: SourceSiteConfig[] = await (await fetch(`${baseUrl}${Endpoints.SOURCES_ENDPOINT}`)).json();

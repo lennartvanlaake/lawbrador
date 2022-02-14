@@ -1,6 +1,5 @@
 
-import { SourceSiteConfig } from '@lawbrador/shared/src/schemas/rules'
-import type { LawbradorEvent } from '@lawbrador/shared/src/schemas/generic'
+import { LawbradorEvent, SourceSiteConfig } from '@lawbrador/shared'
 
 export interface SourceConfigUpdated {
 	sourceConfig: SourceSiteConfig; 

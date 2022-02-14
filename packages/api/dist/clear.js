@@ -1,7 +1,6 @@
-import { clean } from '@lawbrador/shared/src/db/utils';
-import { ALL_ENDPOINT } from '@lawbrador/shared/src/endpoints';
+import { Endpoints, clean } from '@lawbrador/shared';
 export default async (fastify) => {
-    fastify.delete(ALL_ENDPOINT, {}, async () => {
+    fastify.delete(Endpoints.ALL, {}, async () => {
         await clean(fastify.client);
         return { status: 'success' };
     });

@@ -1,6 +1,5 @@
 <script lang="ts">
-	import type { SearchResult } from '@lawbrador/shared/src/schemas/search';
-	import type { SourceSiteConfig } from '@lawbrador/shared/src/schemas/rules';
+	import type { SearchResult, SourceSiteConfig } from '@lawbrador/shared';
 	import { createEventDispatcher } from 'svelte';
 	export let data: SearchResult;
 	export let sourceConfig: SourceSiteConfig;

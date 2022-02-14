@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { UrlConfig } from '@lawbrador/shared/src/schemas/rules';
-	import { urlConfig as urlConfigSchema } from '@lawbrador/shared/src/schemas/rules';
+	import type { UrlConfig } from '@lawbrador/shared';
+	import { Schemas } from '@lawbrador/shared';
 	import Paper, { Title, Content } from '@smui/paper';
 	import EditableUrlComponent from './EditableUrlComponent.svelte';
-	import { EMPTY_URL_COMPONENT, EMPTY_QUERY_PARAM } from '@lawbrador/shared/src/examples';
+	import { EMPTY_URL_COMPONENT, EMPTY_QUERY_PARAM } from '@lawbrador/shared';
 	import Removable from '../common/Removable.svelte';
 	import { Validator } from '$lib/ts/validate';
 	import ValidatedTextField from '$lib/components/common/ValidatedTextField.svelte';
@@ -11,7 +11,7 @@
 	import EditableQueryParam from './EditableQueryParam.svelte';
 
 	export let urlConfig: UrlConfig;
-	const validator = new Validator(urlConfigSchema);
+	const validator = new Validator(Schemas.urlConfig);
 
 	$: errors = validator.validate(urlConfig);
 	$: console.log(errors);

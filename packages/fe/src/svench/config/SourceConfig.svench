@@ -2,7 +2,7 @@
 <script lang="ts">
 	import { View } from 'svench';
 	import EditableSourceConfig from '$lib/components/config/EditableSourceConfig.svelte';
-	import { EMPTY_SOURCE_CONFIG, eurlexConfig } from '@lawbrador/shared/src/examples';
+	import { EMPTY_SOURCE_CONFIG, eurlexConfig } from '@lawbrador/shared';
 </script>
 
 <View name="Empty">

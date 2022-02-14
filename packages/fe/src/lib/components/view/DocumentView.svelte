@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { RestructuredDocument } from '@lawbrador/shared/src/schemas/scrape';
+	import type { RestructuredDocument } from '@lawbrador/shared';
 	import NodeView from './NodeView.svelte';
 	export let document: RestructuredDocument;
 </script>

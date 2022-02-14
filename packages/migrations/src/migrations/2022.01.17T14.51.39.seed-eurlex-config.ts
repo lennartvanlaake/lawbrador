@@ -1,6 +1,6 @@
 import { MigrationFn } from 'umzug';
-import { eurlexConfig } from '@lawbrador/shared/src/examples';
-import { SOURCE_CONFIG_COLLECTION } from '@lawbrador/shared/src/db/collections';
+import { eurlexConfig } from '@lawbrador/shared';
+import { SOURCE_CONFIG_COLLECTION } from '@lawbrador/shared';
 
 export const up: MigrationFn = async () => {
 	await SOURCE_CONFIG_COLLECTION.insert(eurlexConfig);

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import SourceConfigSelector from '$lib/components/search/SourceConfigSelector.svelte';
 	import { View } from 'svench';
-	import { eurlexConfig } from '@lawbrador/shared/src/examples';
+	import { eurlexConfig } from '@lawbrador/shared';
 	const configList = [ eurlexConfig ];
 </script>
 <View name="empty">

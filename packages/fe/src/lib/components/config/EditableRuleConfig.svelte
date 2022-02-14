@@ -1,13 +1,12 @@
 <script lang="ts">
 import { Validator } from "$lib/ts/validate";
 import ValidatedTextField  from "$lib/components/common/ValidatedTextField.svelte";
-import type { SelectionRule } from "@lawbrador/shared/src/schemas/rules";
-import { selectionRule } from "@lawbrador/shared/src/schemas/rules";
-import { ALL_SELECTION_OPERATORS, ALL_SELECTION_LOCATIONS } from "@lawbrador/shared/src/schemas/rules";
+import type { SelectionRule } from "@lawbrador/shared";
+import { Schemas, ALL_SELECTION_OPERATORS, ALL_SELECTION_LOCATIONS  } from "@lawbrador/shared";
 import Select, { Option } from '@smui/select';
 export let ruleConfig: SelectionRule | undefined; 
 export let title: string | null = null;
-const validator = new Validator(selectionRule);
+const validator = new Validator(Schemas.selectionRule);
 $: errors  = validator.validate(ruleConfig);
 </script>
 {#if ruleConfig }

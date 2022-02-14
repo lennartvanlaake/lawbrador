@@ -1,5 +1,6 @@
-import { MongoClient, ObjectId } from 'mongodb';
-import {DB_NAME} from './constants';
+import type { MongoClient } from 'mongodb';
+import { ObjectId } from 'mongodb';
+import { DB_NAME } from './constants';
 
 export function id() {
 	return new ObjectId().toString();

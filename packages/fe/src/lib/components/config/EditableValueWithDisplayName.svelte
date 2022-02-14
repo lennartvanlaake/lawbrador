@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { valueWithDisplayName } from '@lawbrador/shared/src/schemas/rules';
-	import type { ValueWithDisplayName } from '@lawbrador/shared/src/schemas/rules';
+	import { Schemas } from '@lawbrador/shared';
+	import type { ValueWithDisplayName } from '@lawbrador/shared';
 	import Removable from '../common/Removable.svelte';
 	import TextField from '@smui/textfield';
 	export let option: ValueWithDisplayName;
@@ -9,7 +9,7 @@
 	import ValidatedTextField from '../common/ValidatedTextField.svelte';
 import Paper from '@smui/paper/src/Paper.svelte';
 import { Content } from '@smui/paper';
-	const validator = new Validator(valueWithDisplayName);
+	const validator = new Validator(Schemas.valueWithDisplayName);
 	$: errors = validator.validate(option);
 </script>
 <Paper  square variant="unelevated">

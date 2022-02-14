@@ -1,5 +1,6 @@
 import {Collection, MongoClient, ObjectId, Document, ClientSession, } from "mongodb";
-import { DB_NAME, Identity, MongoIdentity }  from '..';
+import type { Identity, MongoIdentity }  from '..';
+import { DB_NAME } from '..';
 
 function objectIdToString<T extends MongoIdentity>(obj: T): T & Identity {
 	return { ...obj, _id: obj._id.toString() };

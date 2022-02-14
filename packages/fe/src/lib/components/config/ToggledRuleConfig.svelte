@@ -1,7 +1,7 @@
 
 <script lang="ts">
-import type { SelectionRule } from "@lawbrador/shared/src/schemas/rules";
-import { DEFAULT_EMPTY_SELECTION_RULE } from '@lawbrador/shared/src/examples';
+import type { SelectionRule } from "@lawbrador/shared";
+import { DEFAULT_EMPTY_SELECTION_RULE } from '@lawbrador/shared';
 import Toggled from "../common/Toggled.svelte";
 import EditableRuleConfig from "./EditableRuleConfig.svelte";
 export let ruleConfig: SelectionRule | undefined; 

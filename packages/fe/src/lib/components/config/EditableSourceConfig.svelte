@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { getImprovedErrorMessages, Validator } from '$lib/ts/validate';
 	import ValidatedTextField from '$lib/components/common/ValidatedTextField.svelte';
-	import type { SourceSiteConfig } from '@lawbrador/shared/src/schemas/rules';
-	import { unsavedSourceSiteConfig as schema } from '@lawbrador/shared/src/schemas/rules';
+	import type { SourceSiteConfig } from '@lawbrador/shared';
+	import { Schemas } from '@lawbrador/shared';
 	import EditableDocumentRuleSet from './EditableDocumentRuleSet.svelte';
 	import ToggledDocumentRuleSet from './ToggledRuleConfig.svelte';
 	import Paper, { Title, Content } from '@smui/paper';
-	import { DEFAULT_EMPTY_RULESET } from '@lawbrador/shared/src/examples';
+	import { DEFAULT_EMPTY_RULESET } from '@lawbrador/shared';
 	import AddButton from '../common/AddButton.svelte';
 	import EditableUrlConfig from './EditableUrlConfig.svelte';
 	import EditableSearchConfig from './EditableSearchConfig.svelte';
@@ -14,8 +14,8 @@
 import Removable from '../common/Removable.svelte';
 
 	export let sourceConfig: Omit<SourceSiteConfig, '_id'>;
-	export let isValid: boolean = false;
-	const validator = new Validator(schema);
+	export let isValid = false;
+	const validator = new Validator(Schemas.sourceSiteConfig);
 	$: errors = validator.validate(sourceConfig);
 	$: isValid = !errors;
 	$: console.log(sourceConfig);

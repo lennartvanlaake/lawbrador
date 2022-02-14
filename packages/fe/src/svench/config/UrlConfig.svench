@@ -2,7 +2,7 @@
 <script lang="ts">
 	import { View } from 'svench';
 	import EditableUrlConfig from '$lib/components/config/EditableUrlConfig.svelte';
-	import { eurlexConfig, EMPTY_URL_CONFIG } from '@lawbrador/shared/src/examples';
+	import { eurlexConfig, EMPTY_URL_CONFIG } from '@lawbrador/shared';
 	let eurlexSearch = eurlexConfig.searchUrlConfig;
 	let invalidUrl = { ...eurlexSearch };
 	invalidUrl.base = "bla";

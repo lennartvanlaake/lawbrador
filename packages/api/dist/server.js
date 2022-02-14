@@ -4,8 +4,7 @@ import sourceConfigRoutes from "./source_configs";
 import getOrScrapeDocumentRoutes from "./get_or_scrape_document";
 import searchRoutes from "./search";
 import fastifySwagger from "fastify-swagger";
-import { LAWBRADOR_CLIENT } from "@lawbrador/shared/src/db/constants";
-import { ALL_COLLECTIONS } from "@lawbrador/shared/src/db/collections";
+import { ALL_COLLECTIONS, LAWBRADOR_CLIENT } from "@lawbrador/shared";
 import { LAWBRADOR_REGISTRY } from "@lawbrador/events";
 const fastify = Fastify({
     logger: {
@@ -30,7 +29,7 @@ const start = async () => {
         fastify.decorate("collections", ALL_COLLECTIONS);
         fastify.decorate("events", LAWBRADOR_REGISTRY);
         LAWBRADOR_REGISTRY.connect(LAWBRADOR_CLIENT);
-        await fastify.listen(5000);
+        await fastify.listen(5000, '0.0.0.0');
         fastify.swagger();
     }
     catch (err) {

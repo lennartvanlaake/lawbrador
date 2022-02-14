@@ -1,5 +1,4 @@
-import type { SourceSiteConfig } from '@lawbrador/shared/src/schemas/rules';
-import type { SearchResult } from '@lawbrador/shared/src/schemas/search';
+import type { SourceSiteConfig, SearchResult } from '@lawbrador/shared';
 
 export interface IndexProps {
 	sourceConfigs: SourceSiteConfig[];

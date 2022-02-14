@@ -1,19 +1,18 @@
 <script lang="ts">
-	import type { UrlComponent, VariableUrlComponent } from '@lawbrador/shared/src/schemas/rules';
-	import { variableUrlComponent, staticUrlComponent } from '@lawbrador/shared/src/schemas/rules';
+	import type { UrlComponent, VariableUrlComponent } from '@lawbrador/shared';
+	import { Schemas } from '@lawbrador/shared';
 	import Paper, { Content } from '@smui/paper';
-	import { Item } from '@smui/list';
 	import Button, { Label } from '@smui/button';
 	import { Validator } from '$lib/ts/validate';
 	import ValidatedTextField from '$lib/components/common/ValidatedTextField.svelte';
 	import ValidatedList from '$lib/components/common/ValidatedList.svelte';
-	import { EMPTY_VALUE_WITH_DISPLAY_NAME } from '@lawbrador/shared/src/examples';
+	import { EMPTY_VALUE_WITH_DISPLAY_NAME } from '@lawbrador/shared';
 	import EditableValueWithDisplayName from './EditableValueWithDisplayName.svelte';
 
 	export let config: UrlComponent;
 
-	const staticValidator = new Validator(staticUrlComponent);
-	const variableValidator = new Validator(variableUrlComponent);
+	const staticValidator = new Validator(Schemas.staticUrlComponent);
+	const variableValidator = new Validator(Schemas.variableUrlComponent);
 
 	const STATIC_TEXT = 'Make variable';
 	const VARIABLE_TEXT = 'Make static';

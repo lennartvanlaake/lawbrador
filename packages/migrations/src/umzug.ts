@@ -1,6 +1,6 @@
-import { DB_NAME, LAWBRADOR_CLIENT } from "@lawbrador/shared/src/db/constants";
+import { DB_NAME, LAWBRADOR_CLIENT } from "@lawbrador/shared";
 import { Umzug, MongoDBStorage } from "umzug";
-import { ALL_COLLECTIONS } from '@lawbrador/shared/src/db/collections';
+import { ALL_COLLECTIONS } from '@lawbrador/shared';
 
 export const migrator = new Umzug({
   migrations: {

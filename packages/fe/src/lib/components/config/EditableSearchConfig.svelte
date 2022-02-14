@@ -1,12 +1,12 @@
 <script lang="ts">
-	import type { HtmlSearchRuleSet } from '@lawbrador/shared/src/schemas/rules';
+	import type { HtmlSearchRuleSet } from '@lawbrador/shared';
 	import ValidatedTextField from '../common/ValidatedTextField.svelte';
 	import EditableRuleConfig from './EditableRuleConfig.svelte';
 	import ToggledRuleConfig from './ToggledRuleConfig.svelte';
 	import { Validator } from '$lib/ts/validate';
-	import { htmlSearchRuleSet as schema } from '@lawbrador/shared/src/schemas/rules';
+	import { Schemas } from '@lawbrador/shared';
 	export let config: HtmlSearchRuleSet;
-	const validator = new Validator(schema);
+	const validator = new Validator(Schemas.htmlSearchRuleSet);
 	$: errors = validator.validate(config);
 </script>
 

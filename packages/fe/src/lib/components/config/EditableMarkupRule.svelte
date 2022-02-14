@@ -1,6 +1,6 @@
 <script lang="ts">
-import type { MarkupRule } from "@lawbrador/shared/src/schemas/rules";
-import { ALL_MARKUP_NOTATIONS } from '@lawbrador/shared/src/schemas/tags';
+import type { MarkupRule } from "@lawbrador/shared";
+import { ALL_MARKUP_NOTATIONS } from '@lawbrador/shared';
 import EditableRuleConfig from "./EditableRuleConfig.svelte";
 import Select, { Option } from '@smui/select';
 export let rule: MarkupRule

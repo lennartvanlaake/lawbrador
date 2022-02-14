@@ -1,7 +1,6 @@
 import cheerio, { Node, CheerioAPI } from "cheerio";
 import axios from "axios";
-import { ParsedNode } from "@lawbrador/shared";
-import { ScrapeResult } from "@lawbrador/shared";
+import type { ParsedNode, ScrapeResult } from "@lawbrador/shared";
 
 interface NodeAttributes {
   id?: string;
@@ -18,7 +17,7 @@ declare module "cheerio" {
   }
 }
 
-function parseNode(node: Node, $: CheerioAPI): ParsedNode {
+function parseNode(node: Node, $: CheerioAPI): ParsedNode | null {
   let output: ParsedNode = {
     name: node.name,
     id: node.attribs?.id,
@@ -29,7 +28,7 @@ function parseNode(node: Node, $: CheerioAPI): ParsedNode {
 
   // apply recursively to children
   output.children = node.children
-    ?.map((child) => parseNode(child, $))
+    ?.map((child) => parseNode(child, $) as ParsedNode)
     .filter((it) => it);
 
   // if there is neither non-whitespace text nor children then ignore the node
@@ -40,7 +39,11 @@ function parseNode(node: Node, $: CheerioAPI): ParsedNode {
 
 export function parse(html: string): ParsedNode {
   const $ = cheerio.load(html);
-  return parseNode($("body")[0], $);
+  const body = parseNode($("body")[0], $);
+  if (!body) {
+	throw new Error("Could not find body in HTML");
+  }
+  return body; 
 }
 
 export async function scrape(url: string, hash: string): Promise<ScrapeResult> {

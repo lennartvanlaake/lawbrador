@@ -1,7 +1,7 @@
 <script lang="ts">
 	import EditableRuleConfig from '$lib/components/config/EditableRuleConfig.svelte';
 	import { View } from 'svench';
-	import { DEFAULT_EMPTY_SELECTION_RULE } from '@lawbrador/shared/src/examples';
+	import { DEFAULT_EMPTY_SELECTION_RULE } from '@lawbrador/shared';
 	const filled = { ...DEFAULT_EMPTY_SELECTION_RULE, value: "bla" };
 </script>
 <View name="empty">
