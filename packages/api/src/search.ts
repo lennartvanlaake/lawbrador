@@ -1,27 +1,25 @@
 import type { FastifyInstance } from "fastify";
-import {
-  SearchRequest,
-  searchRequest,
-  SearchResponse,
-  searchResponse,
-} from "@lawbrador/shared/src/schemas/search";
 import { createHash, routeConfig } from "./utils";
-import { buildUrl } from "@lawbrador/shared/src/url";
-import { scrape } from "@lawbrador/shared/src/scraper";
-import { parseSearchResults } from "@lawbrador/shared/src/searcher";
-import { SEARCH_ENDPOINT } from "@lawbrador/shared/src/endpoints";
+import {
+  buildUrl,
+  Endpoints,
+  Schemas,
+  parseSearchResults,
+  scrape,
+  SearchRequest,
+  SearchResponse,
+} from "@lawbrador/shared";
 
 export default async (fastify: FastifyInstance) => {
-  fastify.post<{ Body: SearchRequest, Response: SearchResponse }>(
-    SEARCH_ENDPOINT,
-    routeConfig(searchResponse, searchRequest),
+  fastify.post<{ Body: SearchRequest; Response: SearchResponse }>(
+    Endpoints.SEARCH,
+    routeConfig(Schemas.searchResponse, Schemas.searchRequest),
     async (req) => {
       const config = await fastify.collections.sourceConfigs.get(
         req.body.sourceConfigId
       );
       const queryParamsHash = createHash(req.body.searchParams, config);
       const searchUrl = buildUrl(req.body.searchParams, config.searchUrlConfig);
-      console.log(`url: ${searchUrl}`);
       const rawSearchResult =
         await fastify.collections.searchCache.cachedOrCreated(
           {
@@ -29,7 +27,6 @@ export default async (fastify: FastifyInstance) => {
           },
           async () => await scrape(searchUrl, queryParamsHash)
         );
-      //console.log(JSON.stringify(rawSearchResult));
       return { results: parseSearchResults(rawSearchResult.body, config) };
     }
   );

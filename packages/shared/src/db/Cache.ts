@@ -1,4 +1,4 @@
-import { TypedCollection } from './Collection';
+import TypedCollection from './Collection';
 import { Document } from 'mongodb';
 export default class TypedCache<T> extends TypedCollection<T> {
 

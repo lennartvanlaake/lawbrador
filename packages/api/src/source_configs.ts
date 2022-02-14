@@ -1,24 +1,25 @@
-import * as RuleSchema from "@lawbrador/shared/src/schemas/rules";
-import * as GenericSchema from "@lawbrador/shared/src/schemas/generic";
-import { SourceSiteConfig } from "@lawbrador/shared/src/schemas/rules";
-import EventFactory from "@lawbrador/events/src/eventFactory";
 import type { FastifyInstance } from "fastify";
-import { id } from "@lawbrador/shared/src/db/utils";
-import { toIdentity } from "@lawbrador/shared/src/utils";
-import { SOURCES_ENDPOINT } from "@lawbrador/shared/src/endpoints";
+import {
+  id,
+  Endpoints,
+  Schemas,
+  SourceSiteConfig,
+  toIdentity,
+} from "@lawbrador/shared";
 import { routeConfig } from "./utils";
+import { EventFactory } from "@lawbrador/events";
 
 export default async (fastify: FastifyInstance) => {
   fastify.get(
-    SOURCES_ENDPOINT,
-    routeConfig(RuleSchema.sourceSiteConfigs),
+    Endpoints.SOURCES,
+    routeConfig(Schemas.sourceSiteConfigs),
     async () => {
       return await fastify.collections.sourceConfigs.all();
     }
   );
   fastify.post<{ Body: Omit<SourceSiteConfig, "_id"> }>(
-    SOURCES_ENDPOINT,
-    routeConfig(GenericSchema.identity, RuleSchema.unsavedSourceSiteConfig),
+    Endpoints.SOURCES,
+    routeConfig(Schemas.identity, Schemas.unsavedSourceSiteConfig),
     async (req) => {
       const newConfig: SourceSiteConfig = { ...req.body, _id: id() };
       await fastify.events.processSync(
@@ -28,8 +29,8 @@ export default async (fastify: FastifyInstance) => {
     }
   );
   fastify.put<{ Body: SourceSiteConfig }>(
-    SOURCES_ENDPOINT,
-    routeConfig(GenericSchema.identity, RuleSchema.sourceSiteConfig),
+    Endpoints.SOURCES,
+    routeConfig(Schemas.identity, Schemas.sourceSiteConfig),
     async (req) => {
       await fastify.events.processSync(
         EventFactory.SourceConfigUpdated({ sourceConfig: req.body })

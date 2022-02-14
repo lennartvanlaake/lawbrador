@@ -1,8 +1,6 @@
-import {Hashed, LawbradorEvent} from "../schemas/generic";
-import {SourceSiteConfig} from "../schemas/rules";
-import {TypedCollection} from "./Collection";
+import {Hashed, LawbradorEvent, ScrapeResult, SourceSiteConfig} from "..";
+import TypedCollection from "./Collection";
 import TypedCache from './Cache';
-import {ScrapeResult} from "../schemas/scrape";
 
 export const EVENT_COLLECTION = new TypedCollection<LawbradorEvent<any>>("events");
 export const SOURCE_CONFIG_COLLECTION = new TypedCollection<SourceSiteConfig>("sourceConfigs");

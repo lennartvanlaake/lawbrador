@@ -1,5 +1,4 @@
-import { ParsedNode } from 'packages/shared/src/schemas/scrape';
-import { SelectionRule } from 'packages/shared/src/schemas/rules';
+import { ParsedNode, SelectionRule } from '..';
 
 export function matches(node: ParsedNode, rule: SelectionRule): boolean {
 	if (!node) return false;

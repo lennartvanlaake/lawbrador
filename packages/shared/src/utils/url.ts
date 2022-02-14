@@ -1,4 +1,4 @@
-import { UrlComponent, UrlConfig } from 'packages/shared/src/schemas/rules';
+import { UrlComponent, UrlConfig } from '..';
 import { Md5 } from 'md5-typescript';
 function hash(str: string): string {
 	return Md5.init(str);

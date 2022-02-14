@@ -1,4 +1,4 @@
-export * from './constants/endpoints';
+export * as Endpoints from './constants/endpoints';
 export * from './constants/examples';
 
 export * from './db/constants';
@@ -21,9 +21,13 @@ export * from './utils/url';
 
 export * from './validate/ajv';
 
-export * from './schemas/generic';
-export * from './schemas/rules';
-export * from './schemas/scrape';
-export * from './schemas/search';
-export * from './schemas/tags';
+export * as Schemas from './schemas/schemaIndex';
+export * from './schemas/genericTypes';
+export * from './schemas/ruleTypes';
+export * from './schemas/scrapeTypes';
+export * from './schemas/tagTypes';
+export * from './schemas/searchTypes';
+export * from './schemas/ruleConstants';
+export * from './schemas/tagConstants';
+
 

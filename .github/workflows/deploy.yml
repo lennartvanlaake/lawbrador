@@ -4,8 +4,8 @@ jobs:
   converge:
     name: Converge
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
     steps:
-
       - name: Checkout code
         uses: actions/checkout@v2
         with:

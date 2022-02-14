@@ -4,11 +4,9 @@ import sourceConfigRoutes from "./source_configs";
 import getOrScrapeDocumentRoutes from "./get_or_scrape_document";
 import searchRoutes from "./search";
 import fastifySwagger from "fastify-swagger";
-import { LAWBRADOR_CLIENT } from "@lawbrador/shared/src/db/constants";
-import { ALL_COLLECTIONS } from "@lawbrador/shared/src/db/collections";
 import { MongoClient } from "mongodb";
-import ProcessorRegistry from "@lawbrador/events/src/processorRegistry";
-import { LAWBRADOR_REGISTRY } from "@lawbrador/events";
+import { ALL_COLLECTIONS, LAWBRADOR_CLIENT } from "@lawbrador/shared";
+import { ProcessorRegistry, LAWBRADOR_REGISTRY } from "@lawbrador/events";
 
 declare module "fastify" {
   interface FastifyInstance {
@@ -52,3 +50,4 @@ const start = async () => {
 };
 
 start();
+

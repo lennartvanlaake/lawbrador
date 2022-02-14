@@ -7,14 +7,14 @@ import {
   UrlComponent,
   UrlConfig,
   ValueWithDisplayName,
-} from "./schemas/rules";
+} from "..";
 
 export const EMPTY_URL_COMPONENT: UrlComponent = {
   value: "",
 };
 export const EMPTY_QUERY_PARAM: QueryParam = {
   name: "",
-  urlComponent: { ...EMPTY_URL_COMPONENT }
+  urlComponent: { ...EMPTY_URL_COMPONENT },
 };
 export const EMPTY_VALUE_WITH_DISPLAY_NAME: ValueWithDisplayName = {
   value: "",
@@ -24,12 +24,11 @@ export const DEFAULT_EMPTY_SELECTION_RULE: SelectionRule = {
   location: "id",
   value: "",
 };
-export const EMPTY_MARKUP_RULE: MarkupRule = { 
+export const EMPTY_MARKUP_RULE: MarkupRule = {
   tag: "h1",
-  filter: { ...DEFAULT_EMPTY_SELECTION_RULE } 
+  filter: { ...DEFAULT_EMPTY_SELECTION_RULE },
 };
-export const DEFAULT_EMPTY_RULESET: DocumentRuleSet = {
-};
+export const DEFAULT_EMPTY_RULESET: DocumentRuleSet = {};
 export const EMPTY_URL_CONFIG: UrlConfig = {
   base: "https://",
   pathComponents: [],
@@ -148,14 +147,16 @@ export const eurlexConfig: SourceSiteConfig = {
         location: "id",
         value: "textTabContent",
       },
-      markupRules: [{
-	tag: "h1",
-	filter: {
-	op: "includes",
-	location: "class",
-	value: "Titre1"
-	}
-      }]
+      markupRules: [
+        {
+          tag: "h1",
+          filter: {
+            op: "includes",
+            location: "class",
+            value: "Titre1",
+          },
+        },
+      ],
     },
   ],
   htmlSearchRuleSet: {
