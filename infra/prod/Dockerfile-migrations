@@ -9,6 +9,7 @@ WORKDIR /usr/src/packages/db
 RUN yarn install --no-cache
 COPY packages/migrations/package.json /usr/src/packages/migrations/package.json
 WORKDIR /usr/src/packages/migrations
-RUN yarn install --no-cache
 COPY packages/shared /usr/src/packages/shared
 COPY packages/migrations /usr/src/packages/migrations
+COPY packages/db /usr/src/packages/db
+RUN yarn install --no-cache

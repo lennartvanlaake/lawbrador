@@ -16,5 +16,6 @@ RUN yarn install --no-cache
 COPY packages/api /usr/src/packages/api
 COPY packages/events /usr/src/packages/events
 COPY packages/shared /usr/src/packages/shared
+COPY packages/db /usr/src/packages/db
 RUN yarn build 
 CMD ["yarn", "start"]
