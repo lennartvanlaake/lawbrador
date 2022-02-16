@@ -21,7 +21,7 @@ export function modifyOutput(node: RestructuredNode, parent: RestructuredNode | 
 	  }
 	}
   }
-  if (node.children?.every(it => it.name == "li")) {
+  if (node.children?.some(it => it.name == "li")) {
 	node.name = "ol";
   }
   return node;

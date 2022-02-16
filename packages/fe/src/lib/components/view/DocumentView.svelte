@@ -5,7 +5,7 @@
 </script>
 
 {#if document}
-	<h1>URL: {document.url}</h1>
+	<a href={document.url} target="_blank">original</a>
 	{#each document.body.children ?? [] as node}
 		<NodeView {node} />
 	{/each}

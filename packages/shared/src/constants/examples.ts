@@ -170,7 +170,7 @@ export const eurlexConfig: SourceSiteConfig = {
     resultLinkRule: {
       op: "includes",
       location: "link",
-      value: "legal",
+      value: "legal-content/AUTO",
     },
   },
 };
