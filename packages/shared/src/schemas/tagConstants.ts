@@ -26,6 +26,12 @@ export const ALL_TAGS: readonly TagConfig[] = [
     type: "paragraph",
   },
   {
+    name: "li",
+    default: true,
+    modifies: false,
+    type: "paragraph",
+  },
+  {
     name: "div",
     default: true,
     modifies: false,
@@ -71,6 +77,14 @@ const configMap = ALL_TAGS.reduce((p, c) => {
 export function getTagConfig(name: TagName): TagConfig {
   return configMap[name];
 }
+
+export const ALL_CONTAINER_TAGS = ALL_TAGS.filter((it) => it.type == "container").map(
+  (it) => it.name
+);
+
+export const ALL_PARAGRAPH_TAGS = ALL_TAGS.filter((it) => it.type == "paragraph").map(
+  (it) => it.name
+);
 
 export const ALL_MARKUP_NOTATIONS = ALL_TAGS.filter((it) => !it.default).map(
   (it) => it.name

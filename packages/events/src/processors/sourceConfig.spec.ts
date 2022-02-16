@@ -1,6 +1,6 @@
 import EventFactory from '../eventFactory';
 import { LAWBRADOR_REGISTRY as registry } from '../index';
-import { eurlexConfig } from '@lawbrador/shared/src/examples';
+import { eurlexConfig } from '@lawbrador/shared';
 import {expect} from 'chai';
 
 // the DB connection and the cleaning betweens tests is done automagically in the testconfig.ts script

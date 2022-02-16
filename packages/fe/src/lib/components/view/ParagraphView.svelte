@@ -2,6 +2,7 @@
 	import type { RestructuredNode } from '@lawbrador/shared';
 	import NodeView from './NodeView.svelte';
 	export let node: RestructuredNode;
+	$: console.log(node);
 </script>
 {#if node.children && node.name == "p" }
 <p>
@@ -30,4 +31,18 @@
 		<NodeView node={child} />
 	{/each}
 </h3>
+{/if }
+{#if node.children && node.name == "li" && node.marker }
+<li value={node.marker.text}>
+	{#each node.children as child}
+		<NodeView node={child} />
+	{/each}
+</li>
+{/if }
+{#if node.children && node.name == "li" && !node.marker }
+<li>
+	{#each node.children as child}
+		<NodeView node={child} />
+	{/each}
+</li>
 {/if }

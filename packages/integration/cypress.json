@@ -1,5 +1,6 @@
 {
 	"baseUrl": "https://workspace.lawbrador.nl",
 	"pluginsFile": false,
+	"port": 6666,
 	"defaultCommandTimeout": 30000
 }

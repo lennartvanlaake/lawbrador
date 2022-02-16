@@ -1,5 +1,5 @@
-import {getAllMatching, ParsedNode, SearchResult, SelectionRule, SourceSiteConfig, UrlConfig} from "..";
-import { hashUrlVariables, getFirstMatching, } from "..";
+import type { ParsedNode, SearchResult, SelectionRule, SourceSiteConfig, UrlConfig} from "..";
+import { hashUrlVariables, getFirstMatching, getAllMatching } from "..";
 const LINK_RULE: SelectionRule = { op: "is", location: "tag", value: "a" };
 
 export function parseSearchResults(

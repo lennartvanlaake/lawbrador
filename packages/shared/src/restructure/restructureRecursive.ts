@@ -36,7 +36,7 @@ function getTag(
     }
   }
   // apply marker assigned by applyLiMarkerRule
-  if (node.name == "li-marker") {
+  if (node.tags.includes("li-marker")) {
     return "li-marker";
   }
 

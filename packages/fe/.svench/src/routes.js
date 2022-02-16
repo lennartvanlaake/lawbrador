@@ -153,11 +153,12 @@ const f /* files */ = [
     "canonical": "/svench/view/NodeView",
     "options": {},
     "views": [
-      "name only node",
-      "two name only nodes",
-      "h1 view",
-      "h2 view",
-      "h3 view"
+      "View 1",
+      "View 2",
+      "View 3",
+      "View 4",
+      "View 5",
+      "View 6"
     ],
     "headings": []
   }

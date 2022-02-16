@@ -1,25 +1,31 @@
 <script lang="ts">
 	import { View } from 'svench';
 	import NodeView from '$lib/components/view/NodeView.svelte';
-	let nameOnly = { text: "bla" };
-	let wrappedNameOnly = { name: "p", children: [nameOnly] };
-	let h1Only = { name: "h1", children: [nameOnly] };
-	let h2Only = { name: "h2", children: [nameOnly] };
-	let h3Only = { name: "h3", children: [nameOnly] };
+	const tagOnly= { name: "text", children: undefined, text: "bla" };
+	const wrappedNameOnly = { name: "p", children: [tagOnly] };
+	let h1Only = { name: "h1", children: [tagOnly] };
+	let h2Only = { name: "h2", children: [tagOnly] };
+	let h3Only = { name: "h3", children: [tagOnly] };
 	let twoNameOnlies = { name: "div", children: [wrappedNameOnly, wrappedNameOnly] };
+	let li = { name: "li", marker: { name: "li-marker", "text": "1." }, children: [wrappedNameOnly] }
+	let ol = { name: "ol", children: [li] }
 </script>
-<View name="name only node" knobs={{ text: "bla" }} let:knobs={{text}}>
-	<NodeView node={({ text:  text })} />
+<View tag="name only node" >
+	<NodeView node={{ ...tagOnly  }} />
 </View>
-<View name="two name only nodes" >
+<View tag="two name only nodes" >
 	<NodeView node={twoNameOnlies} />
 </View>
-<View name="h1 view">
+<View tag="h1 view">
 	<NodeView node={h1Only} />
 </View>
-<View name="h2 view">
+<View tag="h2 view">
 	<NodeView node={h2Only} />
 </View>
-<View name="h3 view">
+<View tag="h3 view">
 	<NodeView node={h3Only} />
+</View>
+
+<View tag="ol view">
+	<NodeView node={ol} />
 </View>
