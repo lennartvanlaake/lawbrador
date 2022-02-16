@@ -1,12 +1,12 @@
 name: learn-github-actions
-on: [push]
-  branches: 
-    - main
+on:
+  push:
+    branches: 
+      - main
 jobs:
   converge:
     name: Converge
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
