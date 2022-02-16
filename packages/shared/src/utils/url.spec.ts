@@ -1,4 +1,4 @@
-import { UrlConfig } from "./schemas/rules";
+import type { UrlConfig } from "..";
 import { buildUrl, extractUrlVariables } from "./url";
 import { expect } from "chai";
 

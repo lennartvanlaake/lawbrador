@@ -3,23 +3,25 @@ import type { MarkupRule, ParsedNode } from "..";
 export function modifyInput(
   node: ParsedNode,
   markupRules: MarkupRule[],
-  parentNode: ParsedNode | null = null
-) {
+  parentNode: ParsedNode | null = null,
+  grandParentNode: ParsedNode | null = null,
+): ParsedNode {
+  node.children?.forEach((it) => modifyInput(it, markupRules, node, parentNode));
   markupRules.forEach((it) => {
     switch (it.tag) {
       case "li-marker":
-        applyLiMarkerRule(node, it, parentNode);
+        applyLiMarkerRule(node, it, parentNode, grandParentNode);
         break;
     }
   });
-  node.children?.forEach((it) => modifyInput(it, markupRules, node));
   return node;
 }
 
 function applyLiMarkerRule(
   node: ParsedNode,
   markupRule: MarkupRule,
-  parentNode: ParsedNode | null
+  parentNode: ParsedNode | null | undefined,
+  grandParentNode: ParsedNode | null,
 ) {
   if (!parentNode) {
     return;
@@ -35,11 +37,13 @@ function applyLiMarkerRule(
   }
   const matchedString = match[0]?.trim();
   // when the entire element is a marker the grandparent is a list
+  debugger;
   if (matchedString == node.text) {
-    node.name = "li-marker";
-    return;
+    node.tags.push("li-marker");
+    grandParentNode?.children?.push(node);
+    return; 
   }
   // break marker away from actual text
   node.text = node.text?.replace(matchedString, "")?.trim();
-  parentNode.children?.push({ text: matchedString, name: "li-marker" });
+  parentNode.children?.push({ text: matchedString, tags: ["li-marker"], ids: [], classes: [] });
 }

@@ -19,21 +19,31 @@ declare module "cheerio" {
 
 function parseNode(node: Node, $: CheerioAPI): ParsedNode | null {
   let output: ParsedNode = {
-    name: node.name,
-    id: node.attribs?.id,
-    class: node.attribs?.class,
+    tags: node.name ? [ node.name ] : [],
+    ids: node.attribs?.id ? [ node.attribs.id ] : [],
+    classes: node.attribs?.class ? [ node.attribs.class ] : [],
     href: node.attribs?.href,
-    text: node.data?.trim()
-  };
-
-  // apply recursively to children
-  output.children = node.children
+    text: node.data?.trim(),
+    children: node.children
     ?.map((child) => parseNode(child, $) as ParsedNode)
-    .filter((it) => it);
+    .filter((it) => it)
+  };
 
   // if there is neither non-whitespace text nor children then ignore the node
   if ((!output.children || output.children?.length == 0) && !output.text)
     return null;
+
+  // flatten if this is a tag only containing one other tag
+  if (output.children && output.children.length == 1 && !output.children[0].text) {
+     const childOutput = output.children[0];
+     if (childOutput) {
+	     childOutput.tags = childOutput.tags.concat(output.tags);
+	     childOutput.ids = childOutput.ids.concat(output.ids);
+	     childOutput.classes = childOutput.classes.concat(output.classes)
+     }
+     return childOutput;
+  }
+
   return output;
 }
 

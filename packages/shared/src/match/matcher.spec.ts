@@ -1,7 +1,6 @@
 import { expect } from 'chai';
-import { parse } from './scraper';
-import { SelectionRule } from './schemas/rules';
-import { getFirstMatching, getAllMatching } from './matcher';
+import { parse } from '../parse/scraper';
+import { SelectionRule, getFirstMatching, getAllMatching } from '@lawbrador/shared';
 
 const inputOne = `
 	<div id='useless'>
@@ -28,7 +27,7 @@ describe('Test matching first element', () => {
 			value: 'usefull',
 		};
 		const firstMatched = getFirstMatching(parsed, rule);
-		expect(firstMatched.id).to.eq('usefull');
+		expect(firstMatched.ids[0]).to.eq('usefull');
 	});
 	it('Matches first element based on id includes', () => {
 		const rule: SelectionRule = {
@@ -37,7 +36,7 @@ describe('Test matching first element', () => {
 			value: 'full',
 		};
 		const firstMatched = getFirstMatching(parsed, rule);
-		expect(firstMatched.id).to.eq('usefull');
+		expect(firstMatched.ids[0]).to.eq('usefull');
 	});
 	it('Matches first element based on class', () => {
 		const rule: SelectionRule = {
@@ -46,7 +45,7 @@ describe('Test matching first element', () => {
 			value: 'content',
 		};
 		const firstMatched = getFirstMatching(parsed, rule);
-		expect(firstMatched.id).to.eq('usefull');
+		expect(firstMatched.ids[0]).to.eq('usefull');
 	});
 	it('Matches first element based on text content', () => {
 		const rule: SelectionRule = {
@@ -73,7 +72,7 @@ describe('Test matching first element', () => {
 			value: 'ul',
 		};
 		const firstMatched = getFirstMatching(parsed, rule);
-		expect(firstMatched.name).to.eq('ul');
+		expect(firstMatched.tags[0]).to.eq('ul');
 	});
 });
 

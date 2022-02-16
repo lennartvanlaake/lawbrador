@@ -1,4 +1,4 @@
-import type {ParsedNode, SearchResult, SelectionRule, SourceSiteConfig, UrlConfig} from "..";
+import {getAllMatching, ParsedNode, SearchResult, SelectionRule, SourceSiteConfig, UrlConfig} from "..";
 import { hashUrlVariables, getFirstMatching, } from "..";
 const LINK_RULE: SelectionRule = { op: "is", location: "tag", value: "a" };
 
@@ -14,16 +14,12 @@ export function parseSearchResults(
 		throw new Error('Could not find result list in html');
 	}
 	
-	const links = base.children 
-		?.filter( it => it)
-		?.map(it =>
-			getFirstMatching(
-				it,
+	const links = getAllMatching(
+				base,
 				LINK_RULE,
 				config.htmlSearchRuleSet.resultLinkRule 
-			),
-		)
-		?.map(it => {
+			)
+		.map(it => {
 			if (!it?.href) {
 			   throw Error(`Cannot convert element without href to link`);
 			}

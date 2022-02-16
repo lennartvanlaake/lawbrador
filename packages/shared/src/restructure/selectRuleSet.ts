@@ -4,7 +4,7 @@ import {getFirstMatching, } from "..";
 export function selectRuleSet(
   root: ParsedNode,
   config: SourceSiteConfig
-): DocumentRuleSet | null {
+): DocumentRuleSet | undefined {
   for (let i = 0; i < config.documentRuleSets.length; i++) {
     const ruleSet = config.documentRuleSets[i];
     debugger;
@@ -14,6 +14,8 @@ export function selectRuleSet(
       return ruleSet;
     }
   }
-  return null;
+  // if nothing matches return the ruleset without bodyrule
+  //@ts-ignore
+  return config.documentRuleSets.filter(it => !it.bodyRule)[0];
 }
 

@@ -1,26 +1,25 @@
 import { parse } from './scraper';
 import { expect } from 'chai';
 const inputOne = `
-	<div id='id' class="class">
-		<li>doek<a href="/doek">mans</a></li>
+	<div id='id1' class="class1">
+		<div id='id2' class="class2">
+			<li>doek<a href="/doek">mans</a></li>
+		</div>
 	</div>
 `;
 
 describe('Test basic parseing', () => {
 	it('Recognizes text inside a link', () => {
 		const result = parse(inputOne);
-		debugger;
-		// cheerio uses an implicit body node for html snippets
-		expect(result.name).to.eq('body');
-		const level1 = result.children[0];
-		expect(level1.name).to.eq('div');
-		expect(level1.id).to.eq('id');
-		expect(level1.class).to.eq('class');
-		const level2 = level1.children[0];
-		expect(level2.name).to.eq('li');
-		expect(level2.children[0].text).to.eq('doek');
-		expect(level2.children[1].href).to.eq('/doek');
-		const level3 = level2.children[1];
-		expect(level3.children[0].text).to.eq('mans');
+		expect(result.classes).contains("class1");
+		expect(result.classes).contains("class2");
+		expect(result.tags).contains("div");
+		expect(result.tags).contains("li");
+		expect(result.ids).contains("id1");
+		expect(result.ids).contains("id2");
+		expect(result.children[0].text).to.eq("doek");
+		expect(result.children[1].tags).contains("a");
+		expect(result.children[1].href).to.eq("/doek");
+		expect(result.children[1].children[0].text).to.eq("mans");
 	});
 });

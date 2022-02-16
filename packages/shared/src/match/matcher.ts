@@ -2,33 +2,33 @@ import type { ParsedNode, SelectionRule } from '..';
 
 export function matches(node: ParsedNode, rule: SelectionRule): boolean {
 	if (!node) return false;
-	let toMatch: string | undefined;
+	let toMatch: Array<string>;
 	switch (rule.location) {
 		case 'id':
-			toMatch = node.id;
+			toMatch = node.ids;
 		 	break;
 		case 'tag':
-			toMatch = node.name;
+			toMatch = node.tags;
 		 	break;
 		case 'class':
-			toMatch = node.class;
+			toMatch = node.classes;
 		 	break;
 		case 'text':
-			toMatch = node.text;
+			toMatch = node.text ? [ node.text ] : [];
 		 	break;
 		case 'link':
-			toMatch = node.href;
+			toMatch = node.href ? [ node.href ] : [];
 		 	break;
 	}
 	if (!toMatch) return false;
 	switch (rule.op) {
 		case 'is':
-			return toMatch == rule.value;
-		case 'includes':
 			return toMatch.includes(rule.value);
+		case 'includes':
+			return toMatch.some(it => it.includes(rule.value));
 		case 'regex':
 			const re = new RegExp(rule.value)
-			return re.test(toMatch);
+			return toMatch.some(it => re.test(it));
 	}
 }
 
