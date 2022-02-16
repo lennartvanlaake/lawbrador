@@ -7,7 +7,7 @@
 		"cypress": "9.1.0"
 	},
 	"scripts": {
-		"test": "cypress run",
+		"it": "cypress run",
 	        "sync": "watch 'rsync -a workspace:~/lawbrador/packages/integration /home/lennart/lawbrador/packages' &>/dev/null &",  
                 "open": "yarn sync && cypress open"
 	}
