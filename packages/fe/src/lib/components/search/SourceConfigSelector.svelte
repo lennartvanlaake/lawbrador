@@ -6,6 +6,8 @@
 	export let sourceConfig: SourceSiteConfig | null = null;
 	export let sourceConfigId: string | null = null;
 	const dispatch = createEventDispatcher<{"configSelected": SourceSiteConfig}>();
+	
+	//@ts-ignore
 	const sourceConfigMap: Record<string, SourceSiteConfig> = sourceConfigList.reduce((map, conf) => {
 		map[conf._id] = conf;
 		return map;

@@ -49,8 +49,8 @@ export function buildUrl(variables: Record<string, string>, config: UrlConfig) {
 	return `${config.base}${pathSeparator}${renderedPath}${querySeparator}${renderedQueryString}`;
 }
 
-export function extractUrlVariables(url: string, config: UrlConfig): any {
-	const output: any = {};
+export function extractUrlVariables(url: string, config: UrlConfig): Record<string, string>  {
+	const output = {};
 	const parsedUrl = new URL(url);
 	const pathArray = parsedUrl.pathname
 		.split('/')

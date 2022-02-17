@@ -4,15 +4,16 @@
 	import type { SourceSiteConfig, SearchResult } from '@lawbrador/shared';
 	export let sourceConfig: SourceSiteConfig;
 	export let searchResults: SearchResult[] = [];
-	export let searchParams: Record<string, string>;
-	$: queryVariable = sourceConfig?.htmlSearchRuleSet.queryVariable;
+        export let query: URLSearchParams;
+	$: queryVariable = sourceConfig?.htmlSearchRuleSet.queryVariable ?? "";
 	$: pageVariable = sourceConfig?.htmlSearchRuleSet.pageVariable;
-
+	export let searchParams: Record<string, string> = {};
 	async function submitIfEnter(event: KeyboardEvent) {
 		if (event.key == 'Enter') {
 			await submitQuery();
 		}
 	}
+
 	async function submitQuery() {
 		searchResults = [];
 		searchParams[pageVariable] = '1';
@@ -31,6 +32,15 @@
 		}
 	}
 
+        function getInputFromSearchParams() {
+		if (sourceConfig && query?.get(sourceConfig.htmlSearchRuleSet.queryVariable)) {
+			query.forEach((value, key) => {
+				searchParams[key] = value	
+			})
+			submitQuery();
+		}
+	}
+
 	function addToHistory() {
 		let url = `?sourceConfigId=${sourceConfig._id!!}`;
 		sourceConfig.searchUrlConfig.queryComponents.forEach((queryParam) => {
@@ -44,6 +54,7 @@
 		});
 		window.history.pushState({}, 'Home', url);
 	}
+	getInputFromSearchParams();
 </script>
 
 <input type="text" id="text-field" bind:value={searchParams[queryVariable]} />

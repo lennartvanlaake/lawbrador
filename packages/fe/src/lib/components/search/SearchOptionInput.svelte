@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { VariableUrlComponent } from '@lawbrador/shared';
 	export let option: VariableUrlComponent;
-	export let value: string;
+	export let value: string = "";
 </script>
 
 <strong>{option.variableName}</strong>

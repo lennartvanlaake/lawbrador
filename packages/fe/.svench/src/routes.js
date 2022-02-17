@@ -161,6 +161,24 @@ const f /* files */ = [
       "View 6"
     ],
     "headings": []
+  },
+  { // f[9]
+    path: "/svench/search/SearchInput",
+    import: () => import("/home/lennart/lawbrador/packages/fe/src/svench/search/SearchInput.svench"),
+    "id": "d1azq9",
+    "ext": ".svench",
+    "dir": "svench/search",
+    "segment": "SearchInput",
+    "sortKey": "SearchInput",
+    "title": "SearchInput",
+    "canonical": "/svench/search/SearchInput",
+    "options": {},
+    "views": [
+      "empty",
+      "eurlex",
+      "filled query (NB: this should submit immediately and give an error message)"
+    ],
+    "headings": []
   }
 ]
 
@@ -199,17 +217,6 @@ const d /* dirs */ = [
     children: () => [f[6]]
   },
   { // d[3]
-    path: "/svench/search",
-    "id": "mugowe",
-    "ext": undefined,
-    "dir": "svench",
-    "segment": "search",
-    "sortKey": "search",
-    "title": "search",
-    "canonical": "/svench/search",
-    children: () => [f[7]]
-  },
-  { // d[4]
     path: "/svench/view",
     "id": "17o9sy7",
     "ext": undefined,
@@ -220,6 +227,17 @@ const d /* dirs */ = [
     "canonical": "/svench/view",
     children: () => [f[8]]
   },
+  { // d[4]
+    path: "/svench/search",
+    "id": "mugowe",
+    "ext": undefined,
+    "dir": "svench",
+    "segment": "search",
+    "sortKey": "search",
+    "title": "search",
+    "canonical": "/svench/search",
+    children: () => [f[9], f[7]]
+  },
   { // d[5]
     path: "/svench",
     "id": "57cs3x",
@@ -229,7 +247,7 @@ const d /* dirs */ = [
     "sortKey": "svench",
     "title": "svench",
     "canonical": "/svench",
-    children: () => [d[0], d[1], d[2], d[3], d[4]]
+    children: () => [d[0], d[1], d[2], d[4], d[3]]
   }
 ]
 

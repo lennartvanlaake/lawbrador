@@ -19,8 +19,9 @@
 />
 <SearchInput
 	bind:searchResults={indexProps.searchResults}
-	sourceConfig={indexProps.sourceConfig}
 	bind:searchParams={indexProps.searchParams}
+	sourceConfig={indexProps.sourceConfig}
+	query={indexProps.query}	
 />
 <SearchResultList
 	bind:searchResults={indexProps.searchResults}
