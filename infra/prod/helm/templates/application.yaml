@@ -7,7 +7,7 @@ data:
   MONGODB_PORT: "27017"
   MONGODB_HOST: lawbrador-mongo-{{ .Values.werf.env }}-service
   MONGODB_REPLICA_SET_MODE: "primary" 
-  MONGODB_ADVERTISED_HOSTNAME: "localhost"
+  MONGODB_ADVERTISED_HOSTNAME: lawbrador-mongo-{{ .Values.werf.env }}-service
   MONGODB_REPLICA_SET_KEY: "replicaset"
 ---
 apiVersion: v1

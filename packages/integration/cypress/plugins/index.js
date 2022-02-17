@@ -19,4 +19,8 @@
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
+  if (browser.name === "chromium") {            
+    args.push("--remote-debugging-port=9222");
+    return args;
+  }
 }
