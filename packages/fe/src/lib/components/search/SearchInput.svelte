@@ -2,6 +2,7 @@
 	import { search } from '$lib/ts/api';
 	import SearchOptions from './SearchOptions.svelte';
 	import type { SourceSiteConfig, SearchResult } from '@lawbrador/shared';
+import { onMount } from 'svelte';
 	export let sourceConfig: SourceSiteConfig;
 	export let searchResults: SearchResult[] = [];
         export let query: URLSearchParams;
@@ -54,7 +55,9 @@
 		});
 		window.history.pushState({}, 'Home', url);
 	}
-	getInputFromSearchParams();
+	onMount(() => {
+		getInputFromSearchParams();
+	})
 </script>
 
 <input type="text" id="text-field" bind:value={searchParams[queryVariable]} />

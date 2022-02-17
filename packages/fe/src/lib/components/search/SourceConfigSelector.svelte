@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { SourceSiteConfig } from '@lawbrador/shared';
 	import { createEventDispatcher } from 'svelte';
-	import Select, { Option } from '@smui/select';
 	export let sourceConfigList: SourceSiteConfig[];
 	export let sourceConfig: SourceSiteConfig | null = null;
 	export let sourceConfigId: string | null = null;
@@ -23,9 +22,9 @@
 	$: selectSourceConfig(sourceConfigId);
 </script>
 <div>
-<Select bind:value={sourceConfigId}>
+<select bind:value={sourceConfigId}>
 	{#each sourceConfigList as config}
-		<Option value={config._id}>{config.name}</Option>
+		<option value={config._id}>{config.name}</option>
 	{/each}
-</Select>
+</select>
 </div>
