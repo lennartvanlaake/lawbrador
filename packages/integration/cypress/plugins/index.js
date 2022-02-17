@@ -17,10 +17,11 @@
  */
 // eslint-disable-next-line no-unused-vars
 module.exports = (on, config) => {
-  // `on` is used to hook into various events Cypress emits
-  // `config` is the resolved Cypress config
-  if (browser.name === "chromium") {            
-    args.push("--remote-debugging-port=9222");
-    return args;
-  }
+  on('before:browser:launch', (browser = {}, launchOptions) => {
+    launchOptions.args.push("--remote-debugging-port=9222");
+
+    launchOptions.args.push('--disable-gpu');
+    launchOptions.args.push("--headless");
+    return launchOptions
+  })
 }
