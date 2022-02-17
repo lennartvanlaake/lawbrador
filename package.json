@@ -1,33 +1,41 @@
 {
-	"name": "lawbrador",
-	"version": "1.0.0",
-	"author": "Lennart van Laake",
-	"license": "AGPL-3.0-only",
-	"workspaces": ["packages/*"],
-	"private": true,
-	"scripts": {
-		"docker-down": "docker-compose -f infra/dev/docker-compose.yml down",
-		"docker": "docker-compose -f infra/dev/docker-compose.yml up",
-		"test": "yarn test:build && lerna run test --parallel || killall node",
-		"test:build": "tsc --noEmit",
-		"dev": "yarn docker -d && lerna run dev --parallel || killall node",
-		"debug": "yarn docker -d && lerna run debug --parallel || killall node",
-		"run-it": "lerna run run-it",
-		"prepare": "husky install"
-	},
-	"devDependencies": {
-		"@typescript-eslint/eslint-plugin": "^4.31.1",
-		"@typescript-eslint/parser": "^4.31.1",
-		"eslint": "^7.32.0",
-		"eslint-config-prettier": "^8.3.0",
-		"eslint-plugin-svelte3": "^3.2.1",
-		"husky": "^7.0.4",
-		"prettier": "^2.4.1"
-	},
-	"resolutions": {
-		"typescript": "4.5.4",
-		"fast-json-stringify": "2.7.13",
-		"mongodb": "4.1.4",
-		"@sinclair/typebox": "0.23.1"
-	}
+  "name": "lawbrador",
+  "version": "1.0.0",
+  "author": "Lennart van Laake",
+  "license": "AGPL-3.0-only",
+  "workspaces": [
+    "packages/api",
+    "packages/db",
+    "packages/fe",
+    "packages/events",
+    "packages/integration",
+    "packages/migrations",
+    "packages/shared"
+  ],
+  "private": true,
+  "scripts": {
+    "docker-down": "docker-compose -f infra/dev/docker-compose.yml down",
+    "docker": "docker-compose -f infra/dev/docker-compose.yml up",
+    "test": "yarn test:build && lerna run test --parallel || killall node",
+    "test:build": "tsc --noEmit",
+    "dev": "yarn docker -d && lerna run dev --parallel || killall node",
+    "debug": "yarn docker -d && lerna run debug --parallel || killall node",
+    "run-it": "lerna run run-it",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.31.1",
+    "@typescript-eslint/parser": "^4.31.1",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-svelte3": "^3.2.1",
+    "husky": "^7.0.4",
+    "prettier": "^2.4.1"
+  },
+  "resolutions": {
+    "typescript": "4.5.4",
+    "fast-json-stringify": "2.7.13",
+    "mongodb": "4.1.4",
+    "@sinclair/typebox": "0.23.1"
+  }
 }

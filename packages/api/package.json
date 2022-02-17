@@ -14,11 +14,9 @@
 		"start": "node --experimental-specifier-resolution=node --loader ts-node/esm dist/server.js"
 	},
 	"dependencies": {
-		"@sinclair/typebox": "^0.20.5",
-		"ajv": "^8.8.2",
-		"ajv-formats": "^2.1.1",
-		"axios": "^0.25.0",
-		"cheerio": "^1.0.0-rc.10",
+		"@lawbrador/shared": "^1.0.0",
+		"@lawbrador/db": "^1.0.0",
+		"@lawbrador/events": "^1.0.0",
 		"dotenv": "^14.3.2",
 		"fastify": "^3.24.0",
 		"fastify-mongodb": "^4.1.1",

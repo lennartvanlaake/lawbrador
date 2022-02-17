@@ -16,16 +16,15 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@sveltejs/kit": "1.0.0-next.239",
 		"@ungap/structured-clone": "^0.3.4",
-		"ajv": "^8.8.2",
-		"ajv-formats": "^2.1.1",
+		"@lawbrador/shared": "^1.0.0",
 		"axios": "^0.24.0",
-		"cheerio": "^1.0.0-rc.10",
-		"md5-typescript": "^1.0.5",
-		"pino-pretty": "^7.3.0"
+		"pino-pretty": "^7.3.0",
+		"@sveltejs/kit": "1.0.0-next.239"
 	},
 	"devDependencies": {
+		"ajv": "^8.8.2",
+		"ajv-formats": "^2.1.1",
 		"@smui/button": "^6.0.0-beta.9",
 		"@smui/form-field": "^6.0.0-beta.11",
 		"@smui/list": "^6.0.0-beta.11",

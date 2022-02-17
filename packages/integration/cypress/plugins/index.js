@@ -17,11 +17,11 @@
  */
 // eslint-disable-next-line no-unused-vars
 module.exports = (on, config) => {
-  on('before:browser:launch', (browser = {}, launchOptions) => {
-    launchOptions.args.push("--remote-debugging-port=9222");
+  //on('before:browser:launch', (browser = {}, launchOptions) => {
+    //launchOptions.args.push("--remote-debugging-port=9222");
 
-    launchOptions.args.push('--disable-gpu');
-    launchOptions.args.push("--headless");
-    return launchOptions
-  })
+    //launchOptions.args.push('--disable-gpu');
+    //launchOptions.args.push("--headless");
+    //return launchOptions
+  //})
 }

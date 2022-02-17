@@ -1,21 +1,17 @@
 FROM node:16-alpine
 WORKDIR /usr/src/
 COPY yarn.lock package.json tsconfig.json ./
+
 COPY packages/shared/package.json /usr/src/packages/shared/package.json
-WORKDIR /usr/src/packages/shared
-RUN yarn install --no-cache
 COPY packages/db/package.json /usr/src/packages/db/package.json
-WORKDIR /usr/src/packages/db
-RUN yarn install --no-cache
 COPY packages/events/package.json /usr/src/packages/events/package.json
-WORKDIR /usr/src/packages/events
-RUN yarn install --no-cache
 COPY packages/api/package.json /usr/src/packages/api/package.json
+
 WORKDIR /usr/src/packages/api
-RUN yarn install --no-cache
-COPY packages/api /usr/src/packages/api
+RUN yarn install --no-cache --production
 COPY packages/events /usr/src/packages/events
 COPY packages/shared /usr/src/packages/shared
 COPY packages/db /usr/src/packages/db
+COPY packages/api /usr/src/packages/api
 RUN yarn build 
 CMD ["yarn", "start"]
