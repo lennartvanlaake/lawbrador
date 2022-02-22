@@ -37,7 +37,7 @@ export default async (fastify: FastifyInstance) => {
           { hash: hash },
           async () => await scrape(url, hash)
         );
-      return restructure(documentScrape, config);
+      return restructure(documentScrape, config, url);
     }
   );
 };

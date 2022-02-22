@@ -1,4 +1,4 @@
-import type { UrlConfig } from "..";
+import { makeLinkAbsolute, UrlConfig } from "..";
 import { buildUrl, extractUrlVariables } from "./url";
 import { expect } from "chai";
 
@@ -38,3 +38,25 @@ describe("Test if extracting variables from URL worls", () => {
     expect(output).to.eql({ var1: "1", var2: "2 3" });
   });
 });
+
+describe("Test making links absolute", () => {
+ const base = "http://base.base";  
+ const path = "bla";
+ it("works with a relative link with ./", () => {
+   const link = `./${path}`;
+   expect(makeLinkAbsolute(link, base)).to.eql(`${base}/${path}`);
+ })
+ it("works with a relative link with lots of ../../..", () => {
+   const link = `../../../../${path}`;
+   expect(makeLinkAbsolute(link, base)).to.eql(`${base}/${path}`);
+ })
+ it("works with a relative link with no ./", () => {
+   const link = `${path}`;
+   expect(makeLinkAbsolute(link, base)).to.eql(`${base}/${path}`);
+ })
+ it("works with a absolute link", () => {
+   const link = `${base}/${path}`;
+   expect(makeLinkAbsolute(link, base)).to.eql(`${base}/${path}`);
+ })
+})
+

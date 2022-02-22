@@ -1,4 +1,5 @@
-import { Endpoints, clean } from '@lawbrador/shared';
+import { Endpoints } from '@lawbrador/shared';
+import { clean } from '@lawbrador/db';
 export default async (fastify) => {
     fastify.delete(Endpoints.ALL, {}, async () => {
         await clean(fastify.client);

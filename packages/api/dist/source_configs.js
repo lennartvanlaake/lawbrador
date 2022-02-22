@@ -1,4 +1,5 @@
-import { id, Endpoints, Schemas, toIdentity, } from "@lawbrador/shared";
+import { Endpoints, Schemas, toIdentity, } from "@lawbrador/shared";
+import { id } from '@lawbrador/db';
 import { routeConfig } from "./utils";
 import { EventFactory } from "@lawbrador/events";
 export default async (fastify) => {

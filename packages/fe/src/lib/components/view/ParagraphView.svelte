@@ -2,7 +2,6 @@
 	import type { RestructuredNode } from '@lawbrador/shared';
 	import NodeView from './NodeView.svelte';
 	export let node: RestructuredNode;
-	$: console.log(node);
 </script>
 {#if node.children && node.name == "p" }
 <p>

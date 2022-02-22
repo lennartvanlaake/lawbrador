@@ -45,7 +45,7 @@ describe("Test searching", () => {
   it("Parsing search results works for eurlex", () => {
     const parsed = parse(demoHtml);
     const result = parseSearchResults(parsed, config);
-    debugger;
+
     expect(result[0].href).to.be.ok;
     expect(result[0].text).to.be.ok;
   });

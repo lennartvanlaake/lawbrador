@@ -125,6 +125,24 @@ const f /* files */ = [
     "headings": []
   },
   { // f[7]
+    path: "/svench/search/SearchInput",
+    import: () => import("/home/lennart/lawbrador/packages/fe/src/svench/search/SearchInput.svench"),
+    "id": "d1azq9",
+    "ext": ".svench",
+    "dir": "svench/search",
+    "segment": "SearchInput",
+    "sortKey": "SearchInput",
+    "title": "SearchInput",
+    "canonical": "/svench/search/SearchInput",
+    "options": {},
+    "views": [
+      "empty",
+      "eurlex",
+      "filled query (NB: this should submit immediately and give an error message)"
+    ],
+    "headings": []
+  },
+  { // f[8]
     path: "/svench/search/SourceConfigSelector",
     import: () => import("/home/lennart/lawbrador/packages/fe/src/svench/search/SourceConfigSelector.svench"),
     "id": "1213v37",
@@ -141,7 +159,7 @@ const f /* files */ = [
     ],
     "headings": []
   },
-  { // f[8]
+  { // f[9]
     path: "/svench/view/NodeView",
     import: () => import("/home/lennart/lawbrador/packages/fe/src/svench/view/NodeView.svench"),
     "id": "1ue88xr",
@@ -153,30 +171,13 @@ const f /* files */ = [
     "canonical": "/svench/view/NodeView",
     "options": {},
     "views": [
-      "View 1",
-      "View 2",
-      "View 3",
-      "View 4",
-      "View 5",
-      "View 6"
-    ],
-    "headings": []
-  },
-  { // f[9]
-    path: "/svench/search/SearchInput",
-    import: () => import("/home/lennart/lawbrador/packages/fe/src/svench/search/SearchInput.svench"),
-    "id": "d1azq9",
-    "ext": ".svench",
-    "dir": "svench/search",
-    "segment": "SearchInput",
-    "sortKey": "SearchInput",
-    "title": "SearchInput",
-    "canonical": "/svench/search/SearchInput",
-    "options": {},
-    "views": [
-      "empty",
-      "eurlex",
-      "filled query (NB: this should submit immediately and give an error message)"
+      "name only node",
+      "two name only nodes",
+      "h1 view",
+      "h2 view",
+      "h3 view",
+      "ol view",
+      "link view"
     ],
     "headings": []
   }
@@ -217,17 +218,6 @@ const d /* dirs */ = [
     children: () => [f[6]]
   },
   { // d[3]
-    path: "/svench/view",
-    "id": "17o9sy7",
-    "ext": undefined,
-    "dir": "svench",
-    "segment": "view",
-    "sortKey": "view",
-    "title": "view",
-    "canonical": "/svench/view",
-    children: () => [f[8]]
-  },
-  { // d[4]
     path: "/svench/search",
     "id": "mugowe",
     "ext": undefined,
@@ -236,7 +226,18 @@ const d /* dirs */ = [
     "sortKey": "search",
     "title": "search",
     "canonical": "/svench/search",
-    children: () => [f[9], f[7]]
+    children: () => [f[7], f[8]]
+  },
+  { // d[4]
+    path: "/svench/view",
+    "id": "17o9sy7",
+    "ext": undefined,
+    "dir": "svench",
+    "segment": "view",
+    "sortKey": "view",
+    "title": "view",
+    "canonical": "/svench/view",
+    children: () => [f[9]]
   },
   { // d[5]
     path: "/svench",
@@ -247,7 +248,7 @@ const d /* dirs */ = [
     "sortKey": "svench",
     "title": "svench",
     "canonical": "/svench",
-    children: () => [d[0], d[1], d[2], d[4], d[3]]
+    children: () => [d[0], d[1], d[2], d[3], d[4]]
   }
 ]
 

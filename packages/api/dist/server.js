@@ -4,7 +4,7 @@ import sourceConfigRoutes from "./source_configs";
 import getOrScrapeDocumentRoutes from "./get_or_scrape_document";
 import searchRoutes from "./search";
 import fastifySwagger from "fastify-swagger";
-import { ALL_COLLECTIONS, LAWBRADOR_CLIENT } from "@lawbrador/shared";
+import { ALL_COLLECTIONS, LAWBRADOR_CLIENT } from "@lawbrador/db";
 import { LAWBRADOR_REGISTRY } from "@lawbrador/events";
 const fastify = Fastify({
     logger: {

@@ -3,12 +3,15 @@
   	import { ALL_CONTAINER_TAGS, ALL_PARAGRAPH_TAGS } from '@lawbrador/shared';
 	import DivView from './DivView.svelte';
 	import PargraphView from './ParagraphView.svelte';
+	import LinkView from './LinkView.svelte';
 	export let node: RestructuredNode;
 </script>
 {#if ALL_CONTAINER_TAGS.includes(node.name) }
 	<DivView {node} />
 {:else if ALL_PARAGRAPH_TAGS.includes(node.name) }
 	<PargraphView {node} />
+{:else if node.name == "a" } 
+	<LinkView {node} />
 {:else if "text" in node }
 	{node.text}
 {/if}

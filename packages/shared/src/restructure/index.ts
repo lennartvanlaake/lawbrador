@@ -4,10 +4,11 @@ import { selectRuleSet } from "./selectRuleSet";
 
 export function restructure(
   scrapeResult: ScrapeResult,
-  config: SourceSiteConfig
+  config: SourceSiteConfig,
+  sourceUrl: string
 ): RestructuredDocument {
   const ruleSet = selectRuleSet(scrapeResult.body, config);
-  const body = applyRuleSet(scrapeResult.body, ruleSet);
+  const body = applyRuleSet(scrapeResult.body, ruleSet, config, sourceUrl);
   return {
     url: scrapeResult.url,
     hash: scrapeResult.hash,

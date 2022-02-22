@@ -3,6 +3,9 @@ import { buildUrl, Endpoints, Schemas, parseSearchResults, scrape, } from "@lawb
 export default async (fastify) => {
     fastify.post(Endpoints.SEARCH, routeConfig(Schemas.searchResponse, Schemas.searchRequest), async (req) => {
         const config = await fastify.collections.sourceConfigs.get(req.body.sourceConfigId);
+        if (!config) {
+            throw new Error(`no config found with id ${req.body.sourceConfigId}`);
+        }
         const queryParamsHash = createHash(req.body.searchParams, config);
         const searchUrl = buildUrl(req.body.searchParams, config.searchUrlConfig);
         const rawSearchResult = await fastify.collections.searchCache.cachedOrCreated({

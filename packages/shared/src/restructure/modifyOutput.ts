@@ -1,12 +1,12 @@
 
-import type { RestructuredNode, TextNode } from "..";
+import { makeLinkAbsolute, RestructuredNode, SourceSiteConfig, TextNode } from "..";
 
-export function modifyOutput(node: RestructuredNode, parent: RestructuredNode | null): RestructuredNode {
-  debugger;
+export function modifyOutput(node: RestructuredNode, sourceConfig: SourceSiteConfig, sourceUrl: string, parent: RestructuredNode | null): RestructuredNode {
   if (!node.children) {
 	return node;
   }
-  node.children = node.children.map((it) => modifyOutput(it, node));
+  node.children = node.children.map((it) => modifyOutput(it, sourceConfig, sourceUrl, node));
+  ;
   if (node.children.some(it => it.name == "li-marker")) {
    	node = {
            name: "li",
@@ -23,6 +23,10 @@ export function modifyOutput(node: RestructuredNode, parent: RestructuredNode | 
   }
   if (node.children?.some(it => it.name == "li")) {
 	node.name = "ol";
+  }
+  if (node.name == "a") {
+	node.href = `./document?url=${encodeURIComponent(makeLinkAbsolute(node.href, sourceUrl))}&sourceConfigId=${sourceConfig._id}`;
+  	console.log(node.href);
   }
   return node;
 }

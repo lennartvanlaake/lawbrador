@@ -37,7 +37,7 @@ function applyLiMarkerRule(
   }
   const matchedString = match[0]?.trim();
   // when the entire element is a marker the grandparent is a list
-  debugger;
+  ;
   if (matchedString == node.text) {
     node.tags.push("li-marker");
     grandParentNode?.children?.push(node);

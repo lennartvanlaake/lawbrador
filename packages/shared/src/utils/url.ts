@@ -72,3 +72,13 @@ export function extractUrlVariables(url: string, config: UrlConfig): Record<stri
 	});
 	return output;
 }
+
+
+export function makeLinkAbsolute(link: string, base: string) {
+	if (link.indexOf('http://') === 0 || link.indexOf('https://') === 0) {
+		return link;
+        } else {
+		let url = new URL(link, base); 
+		return url.toString();
+	}
+}
