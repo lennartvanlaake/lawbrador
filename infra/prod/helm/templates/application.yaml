@@ -29,6 +29,7 @@ metadata:
   labels:
     app: lawbrador-fe-{{ .Values.werf.env }}
 spec:
+  replicas: 2
   selector:
     matchLabels:
       app: lawbrador-fe-{{ .Values.werf.env }}
@@ -62,6 +63,7 @@ metadata:
   labels:
     app: lawbrador-api-{{ .Values.werf.env }} 
 spec:
+  replicas: 2
   selector:
     matchLabels:
       app: lawbrador-api-{{ .Values.werf.env }} 
