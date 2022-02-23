@@ -1,0 +1,7 @@
+<script lang="ts">
+	import { View } from 'svench';
+	import GoToOriginalModal from '$lib/components/view/GoToOriginalModal.svelte';
+</script>
+<View name="Go to google" >
+	<GoToOriginalModal link={"https://google.com"} open={true} />
+</View>

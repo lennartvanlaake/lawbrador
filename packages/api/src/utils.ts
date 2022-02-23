@@ -3,7 +3,7 @@ import type { RouteShorthandOptions } from 'fastify';
 import type { SourceSiteConfig } from "@lawbrador/shared";
 import { hashObject } from "@lawbrador/shared";
 
-export function routeConfig(response: TSchema, request: TSchema | null = null): RouteShorthandOptions {
+export function routeConfig(response: any, request: any | null = null): RouteShorthandOptions {
 	const options: RouteShorthandOptions = { schema: {} };
 	if (request) {
 		options.schema!!.body = request;	

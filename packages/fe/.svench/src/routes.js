@@ -160,6 +160,22 @@ const f /* files */ = [
     "headings": []
   },
   { // f[9]
+    path: "/svench/view/GoToOriginalModal",
+    import: () => import("/home/lennart/lawbrador/packages/fe/src/svench/view/GoToOriginalModal.svench"),
+    "id": "8qxjp",
+    "ext": ".svench",
+    "dir": "svench/view",
+    "segment": "GoToOriginalModal",
+    "sortKey": "GoToOriginalModal",
+    "title": "GoToOriginalModal",
+    "canonical": "/svench/view/GoToOriginalModal",
+    "options": {},
+    "views": [
+      "Go to google"
+    ],
+    "headings": []
+  },
+  { // f[10]
     path: "/svench/view/NodeView",
     import: () => import("/home/lennart/lawbrador/packages/fe/src/svench/view/NodeView.svench"),
     "id": "1ue88xr",
@@ -237,7 +253,7 @@ const d /* dirs */ = [
     "sortKey": "view",
     "title": "view",
     "canonical": "/svench/view",
-    children: () => [f[9]]
+    children: () => [f[9], f[10]]
   },
   { // d[5]
     path: "/svench",

@@ -6,11 +6,9 @@ export const searchResult = Type.Object({
 	hash: Type.String()
 });
 
-
 export const searchResponse = Type.Object({
 	results: Type.Array(searchResult),
 })
-
 
 export const searchRequest = Type.Object({
 	sourceConfigId: Type.String(),

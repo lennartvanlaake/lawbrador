@@ -2,7 +2,8 @@ import type { FastifyInstance } from "fastify";
 import type {
   RestructuredDocument,
   ScrapeRequest,
-} from "@lawbrador/shared"
+  ErrorResponse,
+} from "@lawbrador/shared";
 import {
   extractUrlVariables,
   Endpoints,
@@ -32,12 +33,16 @@ export default async (fastify: FastifyInstance) => {
         extractUrlVariables(url, config.documentUrlConfig),
         config
       );
-      const documentScrape =
-        await fastify.collections.documentScrapeCache.cachedOrCreated(
-          { hash: hash },
-          async () => await scrape(url, hash)
-        );
-      return restructure(documentScrape, config, url);
+      try {
+        const documentScrape =
+          await fastify.collections.documentScrapeCache.cachedOrCreated(
+            { hash: hash },
+            async () => await scrape(url, hash)
+          );
+        return restructure(documentScrape, config, url);
+      } catch (e) {
+        throw { statusCode: 500, message: e.message };
+      }
     }
   );
 };

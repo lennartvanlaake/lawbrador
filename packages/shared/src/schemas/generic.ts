@@ -8,12 +8,7 @@ export const hashed = Type.Object({
 	hash: Type.String()
 })
 
-export enum ResponseStatus {
-	success,
-	failed,
-}
-
-export const statusResponse = Type.Object({
-	status: Type.Enum(ResponseStatus),
+export const errorResponse = Type.Object({
+	message: Type.String(),
 });
 

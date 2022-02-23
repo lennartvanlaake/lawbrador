@@ -1,4 +1,11 @@
-import type { SearchRequest, Identity, SourceSiteConfig, SearchResponse, ScrapeResult } from '@lawbrador/shared';
+import type {
+	SearchRequest,
+	Identity,
+	SourceSiteConfig,
+	SearchResponse,
+	ScrapeResult,
+	ErrorResponse
+} from '@lawbrador/shared';
 import { Endpoints } from '@lawbrador/shared';
 
 // baseUrl should only be set in development, default to root when running on a server
@@ -39,12 +46,17 @@ export async function getDocument(
 	sourceConfigId: string,
 	fetchParam: any = false
 ): Promise<ScrapeResult> {
-	return await get(
+	const result: ScrapeResult | ErrorResponse = await get(
 		`${Endpoints.GET_OR_SCRAPE_DOCUMENT}?url=${encodeURIComponent(
 			url
 		)}&sourceConfigId=${sourceConfigId}`,
 		fetchParam
 	);
+	if ('message' in result) {
+		throw new Error(result.message);
+	} else {
+		return result;
+	}
 }
 
 export async function getSourceConfigs(fetchParam: any = false): Promise<SourceSiteConfig[]> {

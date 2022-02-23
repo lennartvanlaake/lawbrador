@@ -1,8 +1,8 @@
 import cheerio, { Node, CheerioAPI } from "cheerio";
 import axios from "axios";
-import type { ParsedNode, ScrapeResult } from "@lawbrador/shared";
+import { Errors, ParsedNode, ScrapeResult } from "@lawbrador/shared";
 
-const ignoredNodes = ["script", "style", "iframe"]
+const ignoredNodes = ["script", "style", "iframe"];
 
 interface NodeAttributes {
   id?: string;
@@ -64,10 +64,15 @@ export function parse(html: string): ParsedNode {
 }
 
 export async function scrape(url: string, hash: string): Promise<ScrapeResult> {
-  const body = await axios.get(url);
-  return {
-    url: url,
-    hash: hash,
-    body: parse(body.data),
-  };
+  try {
+    const body = await axios.get(url);
+    return {
+      url: url,
+      hash: hash,
+      body: parse(body.data),
+    };
+  } catch (e) {
+    console.error(e);
+    throw new Error(Errors.SCRAPE_ERROR);
+  }
 }

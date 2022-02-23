@@ -1,5 +1,5 @@
-import type {DocumentRuleSet, ParsedNode, SourceSiteConfig} from '..';
-import {getFirstMatching, } from "..";
+import type { DocumentRuleSet, ParsedNode, SourceSiteConfig } from "..";
+import { getFirstMatching, Errors } from "..";
 
 export function selectRuleSet(
   root: ParsedNode,
@@ -7,15 +7,22 @@ export function selectRuleSet(
 ): DocumentRuleSet | undefined {
   for (let i = 0; i < config.documentRuleSets.length; i++) {
     const ruleSet = config.documentRuleSets[i];
-    ;
-    const matchesConditions = getFirstMatching(root, ...(ruleSet.conditionRules ?? []));
-    const matchesBody = ruleSet.bodyRule && getFirstMatching(root, ruleSet.bodyRule!!);
+    const matchesConditions = getFirstMatching(
+      root,
+      ...(ruleSet.conditionRules ?? [])
+    );
+    const matchesBody =
+      ruleSet.bodyRule && getFirstMatching(root, ruleSet.bodyRule!!);
     if (matchesConditions && matchesBody) {
       return ruleSet;
     }
   }
-  // if nothing matches return the ruleset without bodyrule
-  //@ts-ignore
-  return config.documentRuleSets.filter(it => !it.bodyRule)[0];
+  const emptyRuleSet = config.documentRuleSets.filter(
+    (it) =>
+      !it.bodyRule && (!it.conditionRules || it.conditionRules.length == 0)
+  )[0];
+  if (emptyRuleSet) {
+    return emptyRuleSet;
+  }
+  throw new Error(Errors.NO_RULESET_MATCHED);
 }
-

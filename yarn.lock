@@ -179,6 +179,27 @@
   dependencies:
     tslib "^2.1.0"
 
+"@material/dialog@^13.0.0":
+  version "13.0.0"
+  resolved "https://registry.yarnpkg.com/@material/dialog/-/dialog-13.0.0.tgz#59b8b7295bfdfea9ea72af9afa7c99efb7744d55"
+  integrity sha512-1Ggo9Bid94F1ttZJKSjIcgMvkVQtKsqwbqLs5cWlleaiwtAcwUE12XA2B1MNj8xM9ajU3BJm4GigupBOK1jGHQ==
+  dependencies:
+    "@material/animation" "^13.0.0"
+    "@material/base" "^13.0.0"
+    "@material/button" "^13.0.0"
+    "@material/dom" "^13.0.0"
+    "@material/elevation" "^13.0.0"
+    "@material/feature-targeting" "^13.0.0"
+    "@material/icon-button" "^13.0.0"
+    "@material/ripple" "^13.0.0"
+    "@material/rtl" "^13.0.0"
+    "@material/shape" "^13.0.0"
+    "@material/theme" "^13.0.0"
+    "@material/tokens" "^13.0.0"
+    "@material/touch-target" "^13.0.0"
+    "@material/typography" "^13.0.0"
+    tslib "^2.1.0"
+
 "@material/dom@^13.0.0":
   version "13.0.0"
   resolved "https://registry.yarnpkg.com/@material/dom/-/dom-13.0.0.tgz#3f3cc935f6e59fa99e3dafe118d3e48091118c0e"
@@ -231,6 +252,21 @@
     "@material/rtl" "^13.0.0"
     "@material/theme" "^13.0.0"
     "@material/typography" "^13.0.0"
+    tslib "^2.1.0"
+
+"@material/icon-button@^13.0.0":
+  version "13.0.0"
+  resolved "https://registry.yarnpkg.com/@material/icon-button/-/icon-button-13.0.0.tgz#e2d3fb5dcd2b944883f8241420b82f0f3ce2ebf2"
+  integrity sha512-SdxFytWvbfN0fj7jHFq3DqK5/Zoms+Ipuv6fI8AzwgDFe7mXJ2euPahN+3XcmJ3BaSMyfYsdbcYdCWs8bgHW1w==
+  dependencies:
+    "@material/base" "^13.0.0"
+    "@material/density" "^13.0.0"
+    "@material/elevation" "^13.0.0"
+    "@material/feature-targeting" "^13.0.0"
+    "@material/ripple" "^13.0.0"
+    "@material/rtl" "^13.0.0"
+    "@material/theme" "^13.0.0"
+    "@material/touch-target" "^13.0.0"
     tslib "^2.1.0"
 
 "@material/line-ripple@^13.0.0":
@@ -507,7 +543,12 @@
     colors "~1.2.1"
     string-argv "~0.3.1"
 
-"@sinclair/typebox@0.23.1", "@sinclair/typebox@^0.20.5", "@sinclair/typebox@^0.23.1":
+"@sinclair/typebox@^0.20.5":
+  version "0.20.6"
+  resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.20.6.tgz#98b08aafb4556b85e9ba78d5075aed23cf04eca1"
+  integrity sha512-8/y8a2Xerrfym1W0lNtFe2+1OsWSao5S7A3b2375+vcAIh0pdf6Sgz4FH2dwpVnH9bJeIiq+RvT5pbEgM9Q28Q==
+
+"@sinclair/typebox@^0.23.1":
   version "0.23.1"
   resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.23.1.tgz#14a945aa26a41a875a219db00b293c0bbe4fb804"
   integrity sha512-XsmyWfps86gFmZhK97HDesbCe/pR+8qf/VveZaADI6oCk0cHGq6WeKdUHM/a8NeSetv/vpUf19ubwU34C2PVWw==
@@ -538,6 +579,17 @@
   dependencies:
     "@material/dom" "^13.0.0"
     "@tsconfig/svelte" "^3.0.0"
+    svelte2tsx "^0.4.14"
+
+"@smui/dialog@^6.0.0-beta.14":
+  version "6.0.0-beta.14"
+  resolved "https://registry.yarnpkg.com/@smui/dialog/-/dialog-6.0.0-beta.14.tgz#70e34885a795bdf1e797c84f9a372e54816d095f"
+  integrity sha512-6Gypyv6WH9oEMnemoG+FRB8+oxqWpkYRqKkl1X8a7PLM/YXAW7hlPCRAtSO3I0QQ2g57YcUPVz245TaMk6EtlA==
+  dependencies:
+    "@material/button" "^13.0.0"
+    "@material/dialog" "^13.0.0"
+    "@material/dom" "^13.0.0"
+    "@smui/common" "^6.0.0-beta.14"
     svelte2tsx "^0.4.14"
 
 "@smui/floating-label@^6.0.0-beta.14":
@@ -2485,7 +2537,7 @@ fast-json-stable-stringify@^2.0.0:
   resolved "https://registry.yarnpkg.com/fast-json-stable-stringify/-/fast-json-stable-stringify-2.1.0.tgz#874bf69c6f404c2b5d99c481341399fd55892633"
   integrity sha512-lhd/wF+Lk98HZoTCtlVraHtfh5XYijIjalXck7saUtuanSDyLMxnHhSXEDJqHxD7msR8D0uCmqlkwjCV8xvwHw==
 
-fast-json-stringify@2.7.13, fast-json-stringify@^2.5.2:
+fast-json-stringify@^2.5.2:
   version "2.7.13"
   resolved "https://registry.yarnpkg.com/fast-json-stringify/-/fast-json-stringify-2.7.13.tgz#277aa86c2acba4d9851bd6108ed657aa327ed8c0"
   integrity sha512-ar+hQ4+OIurUGjSJD1anvYSDcUflywhKjfxnsW4TBTD7+u0tJufv6DKRWoQk3vI6YBOWMoz0TQtfbe7dxbQmvA==
@@ -3667,7 +3719,7 @@ mongodb-connection-string-url@^2.1.0:
     "@types/whatwg-url" "^8.2.1"
     whatwg-url "^11.0.0"
 
-mongodb@4.1.4, mongodb@^4.0.1, mongodb@^4.1.4:
+mongodb@^4.0.1, mongodb@^4.1.4:
   version "4.1.4"
   resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-4.1.4.tgz#ba8062c7c67e7a22db5a059dbac1e3044b48453b"
   integrity sha512-Cv/sk8on/tpvvqbEvR1h03mdyNdyvvO+WhtFlL4jrZ+DSsN/oSQHVqmJQI/sBCqqbOArFcYCAYDfyzqFwV4GSQ==
@@ -5219,7 +5271,7 @@ typedarray-to-buffer@^3.1.5:
   dependencies:
     is-typedarray "^1.0.0"
 
-typescript@*, typescript@4.5.4, typescript@^4.5.4:
+typescript@*, typescript@^4.5.4:
   version "4.5.4"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.5.4.tgz#a17d3a0263bf5c8723b9c52f43c5084edf13c2e8"
   integrity sha512-VgYs2A2QIRuGphtzFV7aQJduJ2gyfTljngLzjpfW9FoYZF6xuw1W0vW9ghCKLfcWrCFxK81CSGRAvS1pn4fIUg==

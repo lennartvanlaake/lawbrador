@@ -4,9 +4,7 @@
 	export let document: RestructuredDocument;
 </script>
 
-{#if document}
-	<a href={document.url} target="_blank">original</a>
-	{#each document.body.children ?? [] as node}
-		<NodeView {node} />
-	{/each}
-{/if}
+<a href={document.url} target="_blank">original</a>
+{#each document.body.children ?? [] as node}
+	<NodeView {node} />
+{/each}

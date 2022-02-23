@@ -1,5 +1,6 @@
 export * as Endpoints from './constants/endpoints';
 export * from './constants/examples';
+export * as Errors from './constants/errors';
 
 export * from './match/matcher';
 

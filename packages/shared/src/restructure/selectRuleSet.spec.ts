@@ -1,7 +1,8 @@
-import type {SourceSiteConfig} from '..';
+import type { SourceSiteConfig } from "..";
 import { expect } from "chai";
-import {parse} from '../parse/scraper';
-import {selectRuleSet} from './selectRuleSet';
+import { parse } from "../parse/scraper";
+import { selectRuleSet } from "./selectRuleSet";
+import { sourceSiteConfig } from "../schemas/rules";
 
 const sourceConfig: SourceSiteConfig = {
   _id: "1",
@@ -75,10 +76,21 @@ describe("Selecting documentRuleSets", () => {
     const ruleSet = selectRuleSet(parsed, sourceConfig);
     expect(ruleSet.name).to.eq("2");
   });
-  it("selects the default empty ruleset", () => {
+  it("selects the empty ruleset if nothing else matches", () => {
     const html = `<div><p>bla</p></div>`;
     const parsed = parse(html);
     const ruleSet = selectRuleSet(parsed, sourceConfig);
     expect(ruleSet.name).to.eq("3");
+  });
+  it("throws if no ruleset matches", () => {
+    const sourceConfigWithoutEmpty = {
+      ...sourceConfig,
+      documentRuleSets: sourceConfig.documentRuleSets.filter(
+        (it) => it.name != "3"
+      ),
+    };
+    const html = `<div><p>bla</p></div>`;
+    const parsed = parse(html);
+    expect(() => selectRuleSet(parsed, sourceConfigWithoutEmpty)).to.throw();
   });
 });
