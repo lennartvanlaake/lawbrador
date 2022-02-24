@@ -2,12 +2,57 @@
 	import SearchInput from '$lib/components/search/SearchInput.svelte';
 	import SearchResultList from '$lib/components/search/SearchResultList.svelte';
 	import SourceConfigSelector from '$lib/components/search/SourceConfigSelector.svelte';
+	import { overflows, submitQuery, getNextPage, getInputFromSearchParams } from '$lib/ts/search';
+	import { doIfEnter } from '$lib/ts/utils';
 	import type { SourceSiteConfig } from '@lawbrador/shared';
+  	import { tick, onMount } from 'svelte';
 	import type { IndexProps } from './types';
+	import { Mutex } from 'async-mutex';
 	export let indexProps: IndexProps;
+
+	let firstSearchResultLength: number;
+	let hasMore = true;
+	let loaderIsVisible = true;
+	// mutex guarantees we don't get multiple running queries
+	const mutex = new Mutex();
+
 	function setSourceConfig(e: CustomEvent<SourceSiteConfig>) {
 		indexProps = { ...indexProps, sourceConfig: e.detail };
 	}
+
+	async function page() {
+			console.log("next page");
+			await mutex.waitForUnlock();
+			await mutex.runExclusive(async() => {
+				const pageResult = await getNextPage(firstSearchResultLength, indexProps.searchParams, indexProps.searchResults, indexProps.sourceConfig);
+				indexProps.searchResults = pageResult.searchResults;
+				indexProps.searchParams = pageResult.searchParams;
+				hasMore = !pageResult.isLast;
+			});
+
+	}
+
+	async function onQuerySubmitted() {
+		await mutex.runExclusive(async () => {
+			indexProps.searchResults = await submitQuery(indexProps.searchParams, indexProps.sourceConfig)
+			firstSearchResultLength = indexProps.searchResults.length;
+			console.log("submitted");
+		});
+		await tick();
+		// keep adding results until there are no more or the list is scrollable
+		while (loaderIsVisible && hasMore) {
+			await page();
+			await tick();
+		}
+	}
+
+	const paramsFromQuery = getInputFromSearchParams(indexProps.query, indexProps.sourceConfig); 	
+	onMount(async () => {
+		if (paramsFromQuery) {
+			indexProps.searchParams = paramsFromQuery;
+		 	await onQuerySubmitted();
+		}
+	})
 </script>
 
 <h1>Search here</h1>
@@ -18,13 +63,14 @@
 	on:configSelected={setSourceConfig}
 />
 <SearchInput
-	bind:searchResults={indexProps.searchResults}
 	bind:searchParams={indexProps.searchParams}
 	sourceConfig={indexProps.sourceConfig}
-	query={indexProps.query}	
+	on:querySubmitted={onQuerySubmitted}
 />
-<SearchResultList
-	bind:searchResults={indexProps.searchResults}
-	sourceConfig={indexProps.sourceConfig}
-	bind:searchParams={indexProps.searchParams}
+<SearchResultList bind:loaderIsVisible
+		  bind:searchResults={indexProps.searchResults}
+		  bind:hasMore
+		  sourceConfig={indexProps.sourceConfig}
+		  on:bottomReached={page}
 />
+<svelte:window on:keypress={(event) => doIfEnter(event, async () => await onQuerySubmitted())} />

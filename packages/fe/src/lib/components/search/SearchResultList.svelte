@@ -1,53 +1,19 @@
 <script lang="ts">
 	import SearchResultComponent from '../search/SearchResult.svelte';
-	import InfiniteScroll from 'svelte-infinite-scroll';
-	import { incrementPageNumber } from '@lawbrador/shared';
 	import type { SearchResult, SourceSiteConfig } from '@lawbrador/shared';
-	import { search } from '$lib/ts/api';
+	import InfiniteScrollLoader from './InfiniteScrollLoader.svelte';
 
 	export let sourceConfig: SourceSiteConfig;
 	export let searchResults: SearchResult[] = [];
-	export let searchParams: Record<string, string>;
-	let scrollThreshold: number = Number.MAX_VALUE;
-	let isSearching = false;
-	let firstSearchResultLength: number;
-	async function getNextPage() {
-		console.log("getting next");
-		if (isSearching) {
-			return;
-		}
-		try {
-			isSearching = true;
-			incrementPageNumber(searchParams, sourceConfig.htmlSearchRuleSet);
-			const nextPage = (await search({
-				sourceConfigId: sourceConfig._id,
-				searchParams: searchParams
-			})).results;
-			if (nextPage.length < firstSearchResultLength) {
-				scrollThreshold = 0;
-			}
-			// all the results are the same
-			//@ts-ignore
-			const nextPageHashes = nextPage.map((r) => r.hash);
-			const searchResultHashes = searchResults.map((r) => r.hash); 
-			if (nextPageHashes.every((r) => searchResultHashes.includes(r))) {
-				scrollThreshold = 0;
-				return;
-			}
-			searchResults = searchResults.concat(nextPage);
-			isSearching = false;
-		} catch (e) {
-			scrollThreshold = 0;
-			isSearching = false;
-		}
-	}
+	export let hasMore = true;
+	export let loaderIsVisible = true;
 </script>
 
-<div id="results">
+<div id="results" >
 	{#each searchResults ?? [] as result}
 		<SearchResultComponent data={result} {sourceConfig} />
-		<InfiniteScroll threshold={scrollThreshold} horizontal={false} reverse={false} window={false} hasMore={true} elementScroll={null} on:loadMore={getNextPage} />
 	{/each}
+	<InfiniteScrollLoader bind:hasMore bind:loaderIsVisible on:bottomReached/>
 </div>
 
 <style>

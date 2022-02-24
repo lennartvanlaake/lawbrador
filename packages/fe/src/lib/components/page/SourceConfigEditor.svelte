@@ -24,6 +24,7 @@ async function submit() {
 		id = result._id;
 	}
 	properties.sourceConfigs = await Api.getSourceConfigs();
+	//@ts-ignore
 	properties.sourceConfig = properties.sourceConfigs.filter(c => c._id == id)[0];
 }
 $: console.log(properties);
