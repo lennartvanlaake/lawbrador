@@ -20,7 +20,6 @@
 </div>
 <style>
 	#results {
-		width: 90vw;
 		max-height: 80vh;
 		overflow-x: scroll;
 	}

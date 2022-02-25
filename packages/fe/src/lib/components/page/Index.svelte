@@ -66,13 +66,14 @@
 </script>
 
 
-<h1>Search here</h1>
+<h3>Source</h3>
 <SourceConfigSelector
 	sourceConfig={indexProps.sourceConfig}
 	sourceConfigList={indexProps.sourceConfigs}
 	sourceConfigId={indexProps.sourceConfig ? indexProps.sourceConfig._id : indexProps.query.get('sourceConfigId')}
 	on:configSelected={setSourceConfig}
 />
+<h3>Query</h3>
 <SearchInput
 	bind:searchParams={indexProps.searchParams}
 	sourceConfig={indexProps.sourceConfig}
