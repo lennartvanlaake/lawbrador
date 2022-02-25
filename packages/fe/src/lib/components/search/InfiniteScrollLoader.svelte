@@ -22,5 +22,34 @@ import { createEventDispatcher, onMount } from "svelte";
 </script>
 
 <div bind:this={element}>
-	<p>...</p>
+	{#if hasMore }
+	<p class=loading></p>
+	{/if }
 </div>
+
+<style>
+
+.loading:after {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
+  -webkit-animation: ellipsis steps(4,end) 900ms infinite;      
+  animation: ellipsis steps(4,end) 900ms infinite;
+  content: "\2026"; /* ascii code for the ellipsis character */
+  width: 0px;
+}
+
+@keyframes ellipsis {
+  to {
+    width: 20px;    
+  }
+}
+
+@-webkit-keyframes ellipsis {
+  to {
+    width: 20px;    
+  }
+}
+</style>
+
+

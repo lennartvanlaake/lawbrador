@@ -1,8 +1,11 @@
-import type { SearchResult, SourceSiteConfig } from '@lawbrador/shared';
-import {search} from './api';
+import { Errors, SearchResult, SourceSiteConfig } from '@lawbrador/shared';
+import { search } from './api';
 import { incrementPageNumber } from '@lawbrador/shared';
 
-export function getInputFromSearchParams(query: URLSearchParams, sourceConfig: SourceSiteConfig): Record<string, string> | null {
+export function getInputFromSearchParams(
+	query: URLSearchParams,
+	sourceConfig: SourceSiteConfig
+): Record<string, string> | null {
 	let searchParams = {};
 	if (sourceConfig && query?.get(sourceConfig.htmlSearchRuleSet.queryVariable)) {
 		query.forEach((value, key) => {
@@ -13,59 +16,68 @@ export function getInputFromSearchParams(query: URLSearchParams, sourceConfig: S
 	return null;
 }
 
-export async function getNextPage(firstSearchResultLength: number, searchParams: Record<string, string>, oldResults: SearchResult[], sourceConfig: SourceSiteConfig) {
+export async function getNextPage(
+	firstSearchResultLength: number,
+	searchParams: Record<string, string>,
+	oldResults: SearchResult[],
+	sourceConfig: SourceSiteConfig
+) {
 	try {
-	   	searchParams = incrementPageNumber(searchParams, sourceConfig.htmlSearchRuleSet);
-		const newResults = (await search({
-			sourceConfigId: sourceConfig._id,
-			searchParams: searchParams
-		})).results;
-		return {
-			isLast: isLastPage(firstSearchResultLength, newResults, oldResults),
-			searchParams: searchParams,
-			searchResults: oldResults.concat(newResults) 
-		}
-	} catch (e) {
-		console.error(e);
-		return {
-			isLast: true, 
-			searchParams: searchParams,
-			searchResults: oldResults 
-		}
-	}
-}
-
-function isLastPage(firstSearchResultLength: number, newResults: SearchResult[], oldResults: SearchResult[]): boolean {
-	//got less results than the first time
-	if (newResults.length < firstSearchResultLength) {
-		return true;	
-	}
-	// all the results are the same
-	//@ts-ignore
-	const nextPageHashes = newResults.map((r) => r.hash);
-	const searchResultHashes = oldResults.map((r) => r.hash); 
-	if (nextPageHashes.every((r) => searchResultHashes.includes(r))) {
-		return true;
-	}
-	return false;
-
-}
-
-export async function submitQuery(searchParams: Record<string, string>, sourceConfig: SourceSiteConfig): Promise<SearchResult[]> {
-	searchParams[sourceConfig.htmlSearchRuleSet.pageVariable] = '1';
-	try {
-		let searchResults = (
-			await search({ sourceConfigId: sourceConfig._id!!, searchParams: searchParams })
+		searchParams = incrementPageNumber(searchParams, sourceConfig.htmlSearchRuleSet);
+		const newResults = (
+			await search({
+				sourceConfigId: sourceConfig._id,
+				searchParams: searchParams
+			})
 		).results;
-		if (searchResults.length == 0) {
-			throw Error("");
+		// some results are the same: this is the last page and filter duplicates
+		const newResultsHashes = newResults.map((r) => r.hash);
+		const oldResultsHashes = oldResults.map((r) => r.hash);
+		if (newResultsHashes.some((r) => oldResultsHashes.includes(r))) {
+			return {
+				isLast: true,
+				searchParams: searchParams,
+				searchResults: oldResults.concat(
+					newResults.filter((it) => !oldResultsHashes.includes(it.hash))
+				)
+			};
 		}
-		addToHistory(searchParams, sourceConfig);
-		return searchResults;
+		//got less results than the first time: this is the last page
+		if (newResults.length < firstSearchResultLength) {
+			return {
+				isLast: false,
+				searchParams: searchParams,
+				searchResults: oldResults.concat(newResults)
+			};
+		}
+		return {
+			isLast: false,
+			searchParams: searchParams,
+			searchResults: oldResults.concat(newResults)
+		};
 	} catch (e) {
 		console.error(e);
-		throw Error("");
+		return {
+			isLast: true,
+			searchParams: searchParams,
+			searchResults: oldResults
+		};
 	}
+}
+
+export async function submitQuery(
+	searchParams: Record<string, string>,
+	sourceConfig: SourceSiteConfig
+): Promise<SearchResult[]> {
+	searchParams[sourceConfig.htmlSearchRuleSet.pageVariable] = '1';
+	let searchResults = (
+		await search({ sourceConfigId: sourceConfig._id!!, searchParams: searchParams })
+	).results;
+	if (searchResults.length == 0) {
+		throw Error(Errors.NO_RESULTS);
+	}
+	addToHistory(searchParams, sourceConfig);
+	return searchResults;
 }
 
 function addToHistory(searchParams: Record<string, string>, sourceConfig: SourceSiteConfig) {

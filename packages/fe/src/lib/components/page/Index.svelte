@@ -13,6 +13,7 @@
 	let firstSearchResultLength: number;
 	let hasMore = true;
 	let loaderIsVisible = true;
+	let hasSearched = false;
 	// mutex guarantees we don't get multiple running queries
 	const mutex = new Mutex();
 
@@ -21,6 +22,7 @@
 	}
 
 	async function page() {
+		try {
 			console.log("next page");
 			await mutex.waitForUnlock();
 			await mutex.runExclusive(async() => {
@@ -29,20 +31,28 @@
 				indexProps.searchParams = pageResult.searchParams;
 				hasMore = !pageResult.isLast;
 			});
+		} catch (e) {
+			alert(e.message);
+		}
 
 	}
 
 	async function onQuerySubmitted() {
-		await mutex.runExclusive(async () => {
-			indexProps.searchResults = await submitQuery(indexProps.searchParams, indexProps.sourceConfig)
-			firstSearchResultLength = indexProps.searchResults.length;
-			console.log("submitted");
-		});
-		await tick();
-		// keep adding results until there are no more or the list is scrollable
-		while (loaderIsVisible && hasMore) {
-			await page();
+		try {
+			hasSearched = true;
+			await mutex.runExclusive(async () => {
+				indexProps.searchResults = await submitQuery(indexProps.searchParams, indexProps.sourceConfig)
+				firstSearchResultLength = indexProps.searchResults.length;
+				console.log("submitted");
+			});
 			await tick();
+			// keep adding results until there are no more or the list is scrollable
+			while (loaderIsVisible && hasMore) {
+				await page();
+				await tick();
+			}
+		} catch (e) {
+			alert(e.message);
 		}
 	}
 
@@ -54,6 +64,7 @@
 		}
 	})
 </script>
+
 
 <h1>Search here</h1>
 <SourceConfigSelector
@@ -71,6 +82,7 @@
 		  bind:searchResults={indexProps.searchResults}
 		  bind:hasMore
 		  sourceConfig={indexProps.sourceConfig}
+		  {hasSearched}
 		  on:bottomReached={page}
 />
 <svelte:window on:keypress={(event) => doIfEnter(event, async () => await onQuerySubmitted())} />
