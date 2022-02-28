@@ -2,7 +2,7 @@
 	import SearchInput from '$lib/components/search/SearchInput.svelte';
 	import SearchResultList from '$lib/components/search/SearchResultList.svelte';
 	import SourceConfigSelector from '$lib/components/search/SourceConfigSelector.svelte';
-	import { overflows, submitQuery, getNextPage, getInputFromSearchParams } from '$lib/ts/search';
+	import { submitQuery, getNextPage, getInputFromSearchParams } from '$lib/ts/search';
 	import { doIfEnter } from '$lib/ts/utils';
 	import type { SourceSiteConfig } from '@lawbrador/shared';
   	import { tick, onMount } from 'svelte';
@@ -64,7 +64,7 @@
 		}
 	})
 </script>
-
+<img src="/logo.png" alt="lawbrador logo" />
 
 <h3>Source</h3>
 <SourceConfigSelector
@@ -87,3 +87,10 @@
 		  on:bottomReached={page}
 />
 <svelte:window on:keypress={(event) => doIfEnter(event, async () => await onQuerySubmitted())} />
+
+<style>
+	img {
+		padding-top: 1rem;
+	}
+
+</style>
