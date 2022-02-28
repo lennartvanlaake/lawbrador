@@ -1,5 +1,4 @@
 <script lang="ts">
-import List from '@smui/list';
 import type { ErrorObject } from 'ajv';
 import AddButton from './AddButton.svelte';
 import { getImprovedErrorMessages } from '$lib/ts/validate';
@@ -9,8 +8,8 @@ export let empty: any;
 export let errors: ErrorObject[] | undefined;
 $: messages = getImprovedErrorMessages(errors, 2, "List");
 </script>
-<List>
+<ul>
 	<slot />
-</List>
+</ul>
 <AddButton bind:value={list} empty={empty} />
 <WarningBox {messages} />

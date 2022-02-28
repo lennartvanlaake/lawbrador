@@ -1,6 +1,5 @@
 <script lang="ts">
 	import structuredClone from '@ungap/structured-clone';
-	import Button, { Label } from '@smui/button';
 	import { createEventDispatcher } from 'svelte';
 	export let value: Array<any> | any;
 	export let empty: any;
@@ -21,7 +20,7 @@
 </script>
 
 {#if isArray || !value}
-	<Button on:click={fillProp} {disabled}>
-		<Label>{text}</Label>
-	</Button>
+	<button on:click={fillProp} {disabled}>
+		{text}
+	</button>
 {/if}

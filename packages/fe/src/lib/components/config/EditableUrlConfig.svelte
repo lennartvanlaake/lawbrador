@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { UrlConfig } from '@lawbrador/shared';
 	import { Schemas } from '@lawbrador/shared';
-	import Paper, { Title, Content } from '@smui/paper';
 	import EditableUrlComponent from './EditableUrlComponent.svelte';
 	import { EMPTY_URL_COMPONENT, EMPTY_QUERY_PARAM } from '@lawbrador/shared';
 	import Removable from '../common/Removable.svelte';
@@ -17,11 +16,10 @@
 	$: console.log(errors);
 </script>
 
-<div class="paper-container">
+<section>
 	<ValidatedTextField bind:value={urlConfig.base} errors={errors?.base} label="Base url" />
-	<Paper>
-		<Title>Path components</Title>
-		<Content>
+	<section>
+		<h3>Path components</h3>
 			<ValidatedList
 				bind:list={urlConfig.pathComponents}
 				errors={errors?.pathComponents}
@@ -33,26 +31,21 @@
 					</Removable>
 				{/each}
 			</ValidatedList>
-		</Content>
-	</Paper>
-	<Paper>
-		<Title>Query components</Title>
-		<Content>
+	</section>
+	<section>
+		<h3>Query components</h3>
 			<ValidatedList
 				bind:list={urlConfig.queryComponents}
 				errors={errors?.queryComponents}
 				empty={EMPTY_QUERY_PARAM}
 			>
 				{#each urlConfig.queryComponents as param}
-					<Paper >
-						<Content>
+					<section >
 							<Removable bind:value={param} bind:list={urlConfig.queryComponents}>
 								<EditableQueryParam bind:param />
 							</Removable>
-						</Content>
-					</Paper>
+					</section>
 				{/each}
 			</ValidatedList>
-		</Content>
-	</Paper>
-</div>
+	</section>
+</section>

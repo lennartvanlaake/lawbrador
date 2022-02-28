@@ -1,7 +1,6 @@
 <script lang="ts">
 	import RemovableRuleConfig from './RemovableRuleConfig.svelte';
 	import ToggledRuleConfig from './ToggledRuleConfig.svelte';
-	import Paper, { Title, Content } from '@smui/paper';
 	import type { DocumentRuleSet } from '@lawbrador/shared';
 	import { DEFAULT_EMPTY_SELECTION_RULE, EMPTY_MARKUP_RULE, Schemas } from '@lawbrador/shared';
 	import { Validator } from '$lib/ts/validate';
@@ -13,12 +12,10 @@
 	const validator = new Validator(Schemas.documentRuleSet);
 	$: errors = validator.validate(ruleSet);
 </script>
-<Paper>
-	<Content>
+<section>
 	<ToggledRuleConfig bind:ruleConfig={ruleSet.bodyRule} title="Body rule" />
-	<Paper>
-		<Title>Condition rules</Title>
-		<Content>
+	<section>
+		<h3>Condition rules</h3>
 		<Toggled empty={[DEFAULT_EMPTY_SELECTION_RULE]} bind:value={ruleSet.conditionRules}>
 			<ValidatedList bind:list={ruleSet.conditionRules} errors={errors?.conditionRules} empty={DEFAULT_EMPTY_SELECTION_RULE}>
 				{#each ruleSet.conditionRules ?? [] as rule}
@@ -26,25 +23,21 @@
 				{/each}
 			</ValidatedList>
 		</Toggled>
-		</Content>
-	</Paper>
-	<Paper>
-	<Title>Markup rules</Title>
+	</section>
+	<section>
+	<h3>Markup rules</h3>
 	<Toggled empty={[EMPTY_MARKUP_RULE]} bind:value={ruleSet.markupRules}>
 		<ValidatedList bind:list={ruleSet.markupRules} errors={errors?.markupRules} empty={EMPTY_MARKUP_RULE}>
 		{#each ruleSet.markupRules ?? [] as rule}
-			<Paper>
-			<Content>
+			<section>
 			<Removable bind:value={rule} bind:list={ruleSet.markupRules}>
 			<EditableMarkupRule
 				bind:rule={rule}
 			/>
 			</Removable>
-			</Content>
-			</Paper>
+			</section>
 		{/each}
 		</ValidatedList>
 	</Toggled>
-	</Paper>
-	</Content>
-</Paper> 
+	</section>
+</section> 

@@ -3,7 +3,6 @@ import EditableSourceConfig from "$lib/components/config/EditableSourceConfig.sv
 import SourceConfigSelector from "$lib/components/search/SourceConfigSelector.svelte";
 import type { SourceConfigEditorProps } from "./types";
 import { EMPTY_SOURCE_CONFIG } from "@lawbrador/shared"
-import Button, { Label } from '@smui/button';
 import type { SourceSiteConfig } from "@lawbrador/shared";
 import * as Api from "$lib/ts/api";
 export let properties: SourceConfigEditorProps;
@@ -26,16 +25,17 @@ async function submit() {
 	properties.sourceConfigs = await Api.getSourceConfigs();
 	//@ts-ignore
 	properties.sourceConfig = properties.sourceConfigs.filter(c => c._id == id)[0];
+	alert("Submitted succesfully");
 }
 $: console.log(properties);
 </script>
 <SourceConfigSelector sourceConfigList={properties.sourceConfigs} on:configSelected={setSourceConfig}/>
-<Button on:click={() => properties.sourceConfig = EMPTY_SOURCE_CONFIG}>
-	<Label>New</Label>
-</Button>
-<Button disabled={!isValid} on:click={submit} >
-	<Label>Submit</Label>
-</Button>
+<button on:click={() => properties.sourceConfig = EMPTY_SOURCE_CONFIG}>
+	New
+</button>
+<button disabled={!isValid} on:click={submit} >
+	Submit
+</button>
 {#if properties.sourceConfig }
 	<EditableSourceConfig sourceConfig={properties.sourceConfig} bind:isValid={isValid} />
 {/if}

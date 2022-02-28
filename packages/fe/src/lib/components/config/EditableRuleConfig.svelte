@@ -3,7 +3,6 @@ import { Validator } from "$lib/ts/validate";
 import ValidatedTextField  from "$lib/components/common/ValidatedTextField.svelte";
 import type { SelectionRule } from "@lawbrador/shared";
 import { Schemas, ALL_SELECTION_OPERATORS, ALL_SELECTION_LOCATIONS  } from "@lawbrador/shared";
-import Select, { Option } from '@smui/select';
 export let ruleConfig: SelectionRule | undefined; 
 export let title: string | null = null;
 const validator = new Validator(Schemas.selectionRule);
@@ -12,21 +11,21 @@ $: errors  = validator.validate(ruleConfig);
 {#if ruleConfig }
 
 {#if title }
-	<h3>{ title }</h3>
+<h4>{ title }</h4>
 {/if }
 <div class="columns margins">
-<Select bind:value={ruleConfig.op} label="Selection operator">
+<select bind:value={ruleConfig.op} label="selection operator">
 {#each ALL_SELECTION_OPERATORS as op }
-	<Option value={op}>{op}</Option>
+	<option value={op}>{op}</option>
 {/each}
-</Select>
+</select>
 
-<Select bind:value={ruleConfig.location} label="Selection location">
+<select bind:value={ruleConfig.location} label="selection location">
 {#each ALL_SELECTION_LOCATIONS as loc }
-	<Option value={loc}>{loc}</Option>
+	<option value={loc}>{loc}</option>
 {/each}
-</Select>
-<ValidatedTextField bind:value={ruleConfig.value} label="Selector value" errors={errors?.value}>
+</select>
+<ValidatedTextField bind:value={ruleConfig.value} label="selector value" errors={errors?.value}>
 </ValidatedTextField>
 </div>
 

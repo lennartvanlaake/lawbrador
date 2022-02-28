@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Button, { Label } from '@smui/button';
 	import structuredClone from '@ungap/structured-clone';
 	export let value: any;
 	export let empty: any;
@@ -18,16 +17,14 @@
 
 <slot name="title" />
 <div>
-	<Button on:click={toggle}>
-	<Label> 
+	<button on:click={toggle}>
 		{#if enabled }
 			{ DISABLE_TEXT }
 		{:else}
 			{ ENABLE_TEXT }
 		{/if } 
-	</Label>
 
-</Button>
+</button>
 {#if enabled }
 	<slot>
 	</slot>

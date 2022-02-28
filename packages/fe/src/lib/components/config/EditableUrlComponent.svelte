@@ -1,8 +1,6 @@
 <script lang="ts">
 	import type { UrlComponent, VariableUrlComponent } from '@lawbrador/shared';
 	import { Schemas } from '@lawbrador/shared';
-	import Paper, { Content } from '@smui/paper';
-	import Button, { Label } from '@smui/button';
 	import { Validator } from '$lib/ts/validate';
 	import ValidatedTextField from '$lib/components/common/ValidatedTextField.svelte';
 	import ValidatedList from '$lib/components/common/ValidatedList.svelte';
@@ -46,8 +44,7 @@
 </script>
 
 {#if config}
-	<Paper square variant="unelevated">
-		<Content>
+	<section>
 			{#if !isVariable(config)}
 				<ValidatedTextField bind:value={config.value} errors={errors?.value} label="Static value" />
 			{:else}
@@ -57,14 +54,14 @@
 					label="Variable name"
 				/>
 			{/if}
-			<Button on:click={switchVariable}>
-				<Label>{buttonText}</Label>
-			</Button>
+			<button on:click={switchVariable}>
+				{buttonText}
+			</button>
 			{#if isVariable(config)}
-				<h3>Options</h3>
-				<Button on:click={switchPossibleValues}>
-					<Label>{possibleValuesText}</Label>
-				</Button>
+				<h4>Options</h4>
+				<button on:click={switchPossibleValues}>
+					{possibleValuesText}
+				</button>
 				{#if isPossibleValuesEnabled}
 					<ValidatedList
 						bind:list={config.possibleValues}
@@ -77,6 +74,5 @@
 					</ValidatedList>
 				{/if}
 			{/if}
-		</Content>
-	</Paper>
+	</section>
 {/if}

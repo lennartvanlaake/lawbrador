@@ -1,6 +1,5 @@
 <script lang="ts">
 import { createEventDispatcher } from 'svelte';
-import TextField from '@smui/textfield';
 import AddButton from "./AddButton.svelte";
 import RemoveButton from "./RemoveButton.svelte";
 export let value: string | null = null;
@@ -16,7 +15,7 @@ function remove() {
 	value = null;
 }
 </script>
-<TextField label={label} bind:value disabled={disabled} required={required} />
+<input type="text" label={label} bind:value disabled={disabled} required={required} />
 {#if disabled }
 <AddButton bind:value empty={""} />
 {:else }

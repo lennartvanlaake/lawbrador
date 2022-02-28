@@ -1,15 +1,19 @@
 <script lang="ts">
-import TextField  from '@smui/textfield';
-import HelperText from '@smui/textfield/helper-text';
 import type { ErrorObject } from 'ajv';
 export let value: string;
 export let label: string;
 export let errors: ErrorObject[] | undefined;
 </script>
-<TextField bind:value {label} invalid={!!errors} required>
-	<HelperText validationMsg slot="helper">
-	{#each errors ?? [] as error }
-		{label} { error.message }	
-	{/each }
-	</HelperText>
-</TextField>
+<input type="text" bind:value {label} class:invalid={!!errors} required />
+<ol>
+{#each errors ?? [] as error }
+	<li>{label} { error.message }</li>
+{/each }
+</ol>
+
+<style>
+	.invalid {
+		background-color: red;
+		color: white;
+	}
+</style>

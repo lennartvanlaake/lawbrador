@@ -1,5 +1,4 @@
 <script lang="ts">
-import Button, { Label } from '@smui/button';
 export let value: any;
 export let list: Array<any> | null = null;
 export let text: string = "Remove";
@@ -10,8 +9,8 @@ export let remove = () => {
 	}
 	}
 </script>
-<Button on:click={remove}>
-	<Label>{text}</Label>
-</Button>
+<button on:click={remove}>
+	{text}
+</button>
 
 

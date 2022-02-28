@@ -24,14 +24,6 @@
 		"pino-pretty": "^7.3.0"
 	},
 	"devDependencies": {
-		"@smui/button": "^6.0.0-beta.9",
-		"@smui/dialog": "^6.0.0-beta.14",
-		"@smui/form-field": "^6.0.0-beta.11",
-		"@smui/list": "^6.0.0-beta.11",
-		"@smui/paper": "^6.0.0-beta.9",
-		"@smui/select": "^6.0.0-beta.9",
-		"@smui/switch": "^6.0.0-beta.11",
-		"@smui/textfield": "^6.0.0-beta.9",
 		"@sveltejs/adapter-node": "1.0.0-next.68",
 		"ajv": "^8.8.2",
 		"ajv-formats": "^2.1.1",
