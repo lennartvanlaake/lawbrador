@@ -144,13 +144,6 @@ export const eurlexConfig: SourceSiteConfig = {
     {
       bodyRule: {
         op: "is",
-        location: "class",
-        value: "tabContent",
-      },
-    },
-    {
-      bodyRule: {
-        op: "is",
         location: "id",
         value: "textTabContent",
       },
