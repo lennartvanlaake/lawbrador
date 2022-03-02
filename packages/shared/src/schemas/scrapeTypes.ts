@@ -37,7 +37,7 @@ export interface TextNode extends BaseRestructuredNode {
 }
 
 export interface OtherNode extends BaseRestructuredNode {
-  name: "div" | "ol" | "p" | "h1" | "h2" | "h3" | "hidden";
+  name: "div" | "ol" | "p" | "h1" | "h2" | "h3" | "inline" | "hidden";
 }
 
 export type RestructuredDocument = Static<typeof restructuredDocument>;

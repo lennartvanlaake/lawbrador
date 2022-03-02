@@ -29,6 +29,34 @@ describe('Test matching first element', () => {
 		const firstMatched = getFirstMatching(parsed, rule);
 		expect(firstMatched.ids[0]).to.eq('usefull');
 	});
+	it('Matches first element based on exact id match and tag', () => {
+		const rule: SelectionRule = {
+			op: 'is',
+			location: 'id',
+			value: 'usefull',
+			nestedRule: {
+				op: 'is',
+				location: 'tag',
+				value: 'div'
+			}
+		};
+		const firstMatched = getFirstMatching(parsed, rule);
+		expect(firstMatched.ids[0]).to.eq('usefull');
+	});
+	it('Does not match first element based on exact id match and wrong tag', () => {
+		const rule: SelectionRule = {
+			op: 'is',
+			location: 'id',
+			value: 'usefull',
+			nestedRule: {
+				op: 'is',
+				location: 'tag',
+				value: 'notdiv'
+			}
+		};
+		const firstMatched = getFirstMatching(parsed, rule);
+		expect(firstMatched).to.be.null;
+	});
 	it('Matches first element based on id includes', () => {
 		const rule: SelectionRule = {
 			op: 'includes',
@@ -58,7 +86,7 @@ describe('Test matching first element', () => {
 	});
 	it('Matches first element based on text regex', () => {
 		const rule: SelectionRule = {
-			op: 'regex',
+			op: 'is',
 			location: 'text',
 			value: '.ext',
 		};

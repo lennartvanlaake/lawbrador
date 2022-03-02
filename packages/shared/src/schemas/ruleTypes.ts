@@ -19,7 +19,9 @@ import type {
 
 export type SelectionOperator = typeof ALL_SELECTION_OPERATORS[number];
 export type SelectionLocation = typeof ALL_SELECTION_LOCATIONS[number];
-export type SelectionRule = Static<typeof selectionRule>;
+export interface SelectionRule extends Static<typeof selectionRule> {
+	nestedRule?: SelectionRule
+};
 export type MarkupRule = Static<typeof markupRule>;
 export type DocumentRuleSet = Static<typeof documentRuleSet>;
 export type HtmlSearchRuleSet = Static<typeof htmlSearchRuleSet>;

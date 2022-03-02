@@ -17,6 +17,7 @@ export const selectionRule = Type.Object({
   op: selectionOperator,
   location: selectionLocation,
   value: Type.String({ minLength: 1 }),
+  nestedRule: Type.Optional(Type.Any()),
 });
 
 export const markupRule = Type.Object({

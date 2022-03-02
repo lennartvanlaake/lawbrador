@@ -32,8 +32,8 @@
 </h3>
 {/if }
 {#if node.children && node.name == "li" && node.marker }
-<li value={node.marker.text}>
-	{#each node.children as child}
+<li style="list-style-type:'{node.marker.text}   '">
+	{#each node.children ?? [] as child}
 		<NodeView node={child} />
 	{/each}
 </li>
@@ -45,3 +45,11 @@
 	{/each}
 </li>
 {/if }
+
+
+<style>
+
+	li::marker {
+		margin-right: 2rem;
+	}
+</style>

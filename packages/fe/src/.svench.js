@@ -1,1 +1,1 @@
-import '../static/smui.css'
+import '../static/simple.css'

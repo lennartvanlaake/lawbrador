@@ -1,19 +1,15 @@
-import type {
-  MarkupRule,
-  ParsedNode,
-  RestructuredNode,
-  TagName,
-} from "..";
+import type { MarkupRule, ParsedNode, RestructuredNode, TagName } from "..";
 import { matches } from "..";
 
 export function restructureRecursive(
   node: ParsedNode,
   markupRules: MarkupRule[],
+  parentTag: string | null = null
 ): RestructuredNode {
+  const tag: TagName = getTag(node, markupRules, parentTag);
   const children = node.children?.map((c) =>
-    restructureRecursive(c, markupRules)
+    restructureRecursive(c, markupRules, tag)
   );
-  const tag: TagName = getTag(node, children, markupRules);
   let output = {
     name: tag,
     children: children,
@@ -25,8 +21,8 @@ export function restructureRecursive(
 
 function getTag(
   node: ParsedNode,
-  children: RestructuredNode[] | undefined,
-  markupRules: MarkupRule[]
+  markupRules: MarkupRule[],
+  parentTag: string | null
 ): TagName {
   // does a markup rule assign a tag directly?
   for (let i = 0; i < markupRules.length; i++) {
@@ -44,15 +40,18 @@ function getTag(
   if (node.href) {
     return "a";
   }
-  if (children && children.length > 0) {
-    // if there are children with text, default to paragraph
-    if (children.some((it) => it.name == "text")) {
-      return "p";
+  if (node.children && node.children.length > 0) {
+    // if the parent is a p and it includes text, display text inline 
+    if (node.children?.some((it) => it.text?.trim())) {
+      if (parentTag == "p") {
+        return "inline";
+      } else {
+        return "p";
+      }
+    } else {
+      return "div";
     }
-    // else return as div
-    return "div";
-  } else {
-    // else return as plain text
-    return "text";
   }
+  // if no children exists and the node has not been pre-filtered, it must contain text
+  return "text";
 }

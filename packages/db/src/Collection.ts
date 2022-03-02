@@ -31,7 +31,6 @@ export default class TypedCollection<T> {
 		this.checkConnected();
 		const result = await this.raw!!.findOne(query) as T & MongoIdentity;
 		if (result) {
-			debugger;
 			return objectIdToString(result);
 		}
 		return result;

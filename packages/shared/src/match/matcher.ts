@@ -1,8 +1,10 @@
 import type { ParsedNode, SelectionRule } from '..';
 
-export function matches(node: ParsedNode, rule: SelectionRule): boolean {
-	if (!node) return false;
-	let toMatch: Array<string>;
+export function matches(node: ParsedNode | null, rule: SelectionRule | null): boolean {
+	if (!node || !rule) return false;
+	let nestedMatches = rule.nestedRule ? matches(node, rule.nestedRule) : true;
+	if (!nestedMatches) return false;
+	let toMatch: Array<string> = [];
 	switch (rule.location) {
 		case 'id':
 			toMatch = node.ids;
@@ -19,15 +21,17 @@ export function matches(node: ParsedNode, rule: SelectionRule): boolean {
 		case 'link':
 			toMatch = node.href ? [ node.href ] : [];
 		 	break;
+		case 'childIndex':
+			toMatch = [ node.childIndex.toString() ];
+		 	break;
 	}
 	if (!toMatch) return false;
 	switch (rule.op) {
 		case 'is':
-			return toMatch.includes(rule.value);
+			const exactRe = new RegExp(`^${rule.value}$`)
+			return toMatch.some(it => exactRe.test(it));
 		case 'includes':
-			return toMatch.some(it => it.includes(rule.value));
-		case 'regex':
-			const re = new RegExp(rule.value)
+			const re = new RegExp(rule.value);
 			return toMatch.some(it => re.test(it));
 	}
 }

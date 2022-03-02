@@ -19,8 +19,7 @@
   --text: #212121;
   --text-light: #585858;
   --border: #d8dae1;
-  /*--accent: #0d47a1;*/
-  --accent: var(--lawbrador-brown);  
+  --accent: #0d47a1;  
   --accent-light: #90caf9;
   --code: #d81b60;
   --preformatted: #444;

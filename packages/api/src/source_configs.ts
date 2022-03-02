@@ -14,7 +14,8 @@ export default async (fastify: FastifyInstance) => {
     Endpoints.SOURCES,
     routeConfig(Schemas.sourceSiteConfigs),
     async () => {
-      return await fastify.collections.sourceConfigs.all();
+      const sourceConfigs = await fastify.collections.sourceConfigs.all();
+      return sourceConfigs;
     }
   );
   fastify.post<{ Body: Omit<SourceSiteConfig, "_id"> }>(
@@ -32,6 +33,7 @@ export default async (fastify: FastifyInstance) => {
     Endpoints.SOURCES,
     routeConfig(Schemas.identity, Schemas.sourceSiteConfig),
     async (req) => {
+	debugger;
       await fastify.events.processSync(
         EventFactory.SourceConfigUpdated({ sourceConfig: req.body })
       );

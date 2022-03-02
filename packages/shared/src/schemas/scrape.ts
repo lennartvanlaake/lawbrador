@@ -5,6 +5,7 @@ export const parsedNode = Type.Object({
   tags: Type.Array(Type.String()),
   ids: Type.Array(Type.String()),
   classes: Type.Array(Type.String()),
+  childIndex: Type.Number(),
   href: Type.Optional(Type.String()),
   text: Type.Optional(Type.String()),
   children: Type.Optional(Type.Array(Type.Any())),

@@ -23,6 +23,17 @@ describe("Restructuring HTML with empty ruleset", () => {
       )
     ).to.be.true;
   });
+  it("Restructuring paragraph with some inline elements", () => {
+    const html = `<p><i>b</i>la</p>`;
+    const parsed = parse(html);
+    const restructured = applyRuleSet(parsed, ruleSet, eurlexConfig, sourceUrl);
+    expect(restructured.children.length).to.eq(2);
+    expect(restructured.name).to.eq("p");
+    expect(restructured.children[0].name).to.eq("inline");
+    expect((restructured.children[0].children[0] as TextNode).text).to.eq("b");
+    expect(restructured.children[1].name).to.eq("text");
+    expect((restructured.children[1] as TextNode).text).to.eq("la");
+  });
   it("Restructuring paragraphs with link", () => {
     const html = `<p><a href='somewhere'>bla<a></p><p>bla</p>`;
     const parsed = parse(html);
@@ -108,50 +119,3 @@ describe("Recognizing headers", () => {
   });
 });
 
-describe("Recognizing lists", () => {
-  const ruleSet: DocumentRuleSet = {
-    markupRules: [
-      {
-        tag: "li-marker",
-        filter: {
-          op: "regex",
-          location: "text",
-          value: "\\d+",
-        },
-      },
-    ],
-  };
-  it("Finds number inside text element", () => {
-    const html = `
-		<p>1 bla</p>
-		`;
-    const parsed = parse(html);
-    const restructured = applyRuleSet(parsed, ruleSet, eurlexConfig, sourceUrl);
-    expect(restructured.name).to.eq("ol");
-    const listElement = restructured.children[0] as ListElementNode;
-    expect(listElement.name).to.eq("li");
-    expect(listElement.marker.text).to.eq("1");
-  });
-  it("Finds number inside text element", () => {
-    const html = `
-		<table><tr><td>1</td><td>bla</td></tr></table>
-		`;
-    const parsed = parse(html);
-    const restructured = applyRuleSet(parsed, ruleSet, eurlexConfig, sourceUrl);
-    expect(restructured.name).to.eq("ol");
-    const listElement = restructured.children[0] as ListElementNode;
-    expect(listElement.name).to.eq("li");
-    expect(listElement.marker.text).to.eq("1");
-  });
-  it("Apply line number to two paragraphs", () => {
-    const html = `
-		</div><p>1</p><p>bla</p><p>diebla</p></div>	
-		`;
-    const parsed = parse(html);
-    const restructured = applyRuleSet(parsed, ruleSet, eurlexConfig, sourceUrl);
-    expect(restructured.name).to.eq("ol");
-    const listElement = restructured.children[0] as ListElementNode;
-    expect(listElement.name).to.eq("li");
-    expect(listElement.marker.text).to.eq("1");
-  });
-});

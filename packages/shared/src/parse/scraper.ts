@@ -19,16 +19,24 @@ declare module "cheerio" {
   }
 }
 
-function parseNode(node: Node, $: CheerioAPI): ParsedNode | null {
+function parseNode(node: Node, $: CheerioAPI, index: number = 0): ParsedNode | null {
+  let childIndex = 0;
   let output: ParsedNode = {
     tags: node.name ? [node.name] : [],
     ids: node.attribs?.id ? [node.attribs.id] : [],
     classes: node.attribs?.class ? [node.attribs.class] : [],
     href: node.attribs?.href,
     text: node.data?.trim(),
+    childIndex: index,
     children: node.children
       ?.filter((it) => !ignoredNodes.includes(it.name ?? ""))
-      .map((child) => parseNode(child, $) as ParsedNode)
+      .map((child) => {
+	 const parsed = parseNode(child, $, childIndex) as ParsedNode
+	 if (parsed) {
+		childIndex ++;
+	 }
+	 return parsed;
+      })
       .filter((it) => it),
   };
 
@@ -40,6 +48,7 @@ function parseNode(node: Node, $: CheerioAPI): ParsedNode | null {
   if (
     output.children &&
     output.children.length == 1 &&
+    !output.text &&
     !output.children[0].text
   ) {
     const childOutput = output.children[0];

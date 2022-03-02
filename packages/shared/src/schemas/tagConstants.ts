@@ -56,6 +56,12 @@ export const ALL_TAGS: readonly TagConfig[] = [
     type: "inline",
   },
   {
+    name: "inline",
+    default: false,
+    modifies: false,
+    type: "inline",
+  },
+  {
     name: "text",
     default: true,
     modifies: false,
