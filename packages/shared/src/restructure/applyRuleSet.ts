@@ -1,5 +1,5 @@
 import { DocumentRuleSet, Errors, ParsedNode, RestructuredNode, SourceSiteConfig } from "..";
-import { getFirstMatching, getTagConfig } from "..";
+import { getFirstMatching } from "..";
 import { modifyOutput } from "./modifyOutput";
 import { restructureRecursive } from "./restructureRecursive";
 
@@ -14,6 +14,6 @@ export function applyRuleSet(
 	throw new Error(Errors.NO_BODY_FOUND);
   }
   const restructured = restructureRecursive(body, rules?.markupRules ?? []);
-  const modifiedOutput = modifyOutput(restructured, sourceConfig, sourceUrl, null);
+  const modifiedOutput = modifyOutput(restructured, sourceConfig, sourceUrl);
   return modifiedOutput;
 }
