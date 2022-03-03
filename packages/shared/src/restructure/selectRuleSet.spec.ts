@@ -2,7 +2,6 @@ import type { SourceSiteConfig } from "..";
 import { expect } from "chai";
 import { parse } from "../parse/scraper";
 import { selectRuleSet } from "./selectRuleSet";
-import { sourceSiteConfig } from "../schemas/rules";
 
 const sourceConfig: SourceSiteConfig = {
   _id: "1",

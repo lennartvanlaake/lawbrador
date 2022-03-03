@@ -4,73 +4,56 @@ export const ALL_TAGS: readonly TagConfig[] = [
   {
     name: "p",
     default: true,
-    modifies: false,
     type: "paragraph",
   },
   {
     name: "h1",
     default: false,
-    modifies: false,
     type: "paragraph",
   },
   {
     name: "h2",
     default: false,
-    modifies: false,
     type: "paragraph",
   },
   {
     name: "h3",
     default: false,
-    modifies: false,
     type: "paragraph",
   },
   {
     name: "li",
     default: true,
-    modifies: false,
     type: "paragraph",
   },
   {
     name: "div",
     default: true,
-    modifies: false,
     type: "container",
   },
   {
     name: "ol",
     default: true,
-    modifies: false,
     type: "container",
   },
   {
     name: "a",
     default: true,
-    modifies: false,
-    type: "inline",
-  },
-  {
-    name: "li-marker",
-    default: false,
-    modifies: true,
     type: "inline",
   },
   {
     name: "inline",
     default: false,
-    modifies: false,
     type: "inline",
   },
   {
     name: "text",
     default: true,
-    modifies: false,
     type: "text",
   },
   {
     name: "hidden",
     default: false,
-    modifies: false,
     type: "hidden",
   },
 ] as const;

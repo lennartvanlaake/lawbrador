@@ -1,81 +1,48 @@
 import {
+  getTagConfig,
   makeLinkAbsolute,
+} from "..";
+import type { MarkupRule, ParsedNode, LinkNode,
   RestructuredNode,
   SourceSiteConfig,
   TextNode,
 } from "..";
+import {detectLiElements, wrapLiElementsInOl} from "./lineNumbers";
+
+//matches on start of string and stops match at whitespace in end:
+// - starts a non-word character, then 1 to 5 word characters, then non-word characters ((1), (a), (iii))
+// - one to five digits potentially followed by non-word character (1, 1., 123) 
+// - any single non-word character (-, *, ~)
 
 export function modifyOutput(
   node: RestructuredNode,
   sourceConfig: SourceSiteConfig,
-  sourceUrl: string,
-  parent: RestructuredNode | null
+  sourceUrl: string
 ): RestructuredNode {
+ //nothing to do if no children
   if (!node.children) {
     return node;
   }
-  if (node.children.length == 1 && node.children[0].name == "li-marker") {
-    return node.children[0];
-  }
   node.children = node.children.map((it) =>
-    modifyOutput(it, sourceConfig, sourceUrl, node)
+    modifyOutput(it, sourceConfig, sourceUrl)
   );
-  if (node.children.some((it) => it.name == "li-marker")) {
-    node = {
-      name: "li",
-      marker: node.children.filter(
-        (it) => it.name == "li-marker"
-      )[0] as TextNode,
-      children: node.children.filter(
-        (it) =>
-          it.name != "li-marker" &&
-          !it.children?.every((c) => c.name == "li-marker")
-      ),
-    };
-    // wrap in ol if single node list
-    if (!parent) {
-      return {
-        name: "ol",
-        children: [node],
-      };
-    }
-  }
-
-  node.children = wrapLiElementsInOl(node.children ?? [])
+  
   if (node.name == "a") {
-    node.href = `./document?url=${encodeURIComponent(
-      makeLinkAbsolute(node.href, sourceUrl)
-    )}&sourceConfigId=${sourceConfig._id}`;
+	return adjustLinkNode(node, sourceUrl, sourceConfig)
   }
+  node = detectLiElements(node);
+  node = wrapLiElementsInOl(node)
   return node;
 }
 
 
-function wrapLiElementsInOl(nodes: RestructuredNode[]): RestructuredNode[] {
-	let olElement: RestructuredNode | null = null;
-	for(let i = 0; i < nodes.length; i++) {
-		const currentNode = nodes[i];
-		if (currentNode.name == "li") {
-			if (!olElement) {
-				olElement = {
-					name: "ol",
-					children: [] as RestructuredNode[]
-				}
-			} 
-			olElement?.children?.push(currentNode);
-			nodes.splice(i, 1);
-			i--;
-			
-		} else {
-			if (olElement) {
-				nodes.splice(i+1, 0, olElement);
-				olElement = null;
-			}
-		}
-	}
-	return nodes;
-
+function adjustLinkNode(node: LinkNode, sourceUrl: string, sourceConfig: SourceSiteConfig): LinkNode {
+   node.href =  `./document?url=${encodeURIComponent(
+      makeLinkAbsolute(node.href, sourceUrl)
+    )}&sourceConfigId=${sourceConfig._id}`
+   return node; 
 }
+
 
 
 
