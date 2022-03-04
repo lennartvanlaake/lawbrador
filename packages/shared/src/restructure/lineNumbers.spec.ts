@@ -10,7 +10,10 @@ const sourceUrl = "http://source.url";
   const ruleSet: DocumentRuleSet = {
     markupRules: [],
   };
-describe("Recognizing lists", () => {
+
+
+
+describe("Positively recognizing number and text", () => {
   it("Finds number inside text element", () => {
     const html = `
 		<div><p>1 bla</p><p>bla</p><div>
@@ -79,3 +82,25 @@ describe("Recognizing lists", () => {
     expect((listElement.children[0].children[0] as TextNode).text).to.eq("bla");
   });
 });
+
+describe("Not having false positives", () => {
+
+  it("Do not recoginize date as a line number", () => {
+    const html = `
+		<p>17.01.1992</p>
+		`;
+    const parsed = parse(html);
+    const restructured = applyRuleSet(parsed, ruleSet, eurlexConfig, sourceUrl);
+    expect(restructured.name).to.eq('p');
+  });
+  it("Do not recognize number in link as line number", () => {
+    const html = `
+		<p>bla<a href='bladiebla'>(<span>1</span>)</a></p>
+		`;
+    const parsed = parse(html);
+    const restructured = applyRuleSet(parsed, ruleSet, eurlexConfig, sourceUrl);
+    expect(JSON.stringify(restructured)).not.to.include('marker');
+  });
+
+});
+

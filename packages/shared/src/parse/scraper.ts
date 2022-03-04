@@ -26,7 +26,7 @@ function parseNode(node: Node, $: CheerioAPI, index: number = 0): ParsedNode | n
     ids: node.attribs?.id ? [node.attribs.id] : [],
     classes: node.attribs?.class ? [node.attribs.class] : [],
     href: node.attribs?.href,
-    text: node.data?.trim(),
+    text: node.data,
     childIndex: index,
     children: node.children
       ?.filter((it) => !ignoredNodes.includes(it.name ?? ""))
@@ -41,7 +41,7 @@ function parseNode(node: Node, $: CheerioAPI, index: number = 0): ParsedNode | n
   };
 
   // if there is neither non-whitespace text nor children then ignore the node
-  if ((!output.children || output.children?.length == 0) && !output.text)
+  if ((!output.children || output.children?.length == 0) && !output.text?.trim())
     return null;
 
   // flatten if this is a tag only containing one other tag

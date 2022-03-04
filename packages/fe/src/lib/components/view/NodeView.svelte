@@ -15,9 +15,7 @@
 	<LinkView {node} />
 {:else if node.name == "inline" }
 	{#each node.children ?? [] as child }
-		{#if child }
-		<svelte:self {child} />
-		{/if }
+		<svelte:self node={child} />
 	{/each }
 {:else if "text" in node && node.text }
 	{node.text}

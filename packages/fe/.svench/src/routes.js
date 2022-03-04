@@ -189,6 +189,7 @@ const f /* files */ = [
     "views": [
       "name only node",
       "two name only nodes",
+      "eurlex directive name node",
       "h1 view",
       "h2 view",
       "h3 view",

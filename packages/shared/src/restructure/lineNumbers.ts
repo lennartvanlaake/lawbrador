@@ -1,7 +1,8 @@
 import {getTagConfig, ListElementNode, TextNode} from "..";
 import type { RestructuredNode } from '..';
 
-const LI_MARKER_REGEX = /^\W\w{1,5}\W|^\d{1,5}\W?|^\W/
+const IS_LI_MARKER_REGEX = /^\W\w{1,5}\W$|^\d{1,5}\W?$|^\W$/
+const CONTAINS_LI_MARKER_REGEX = /^\W\w{1,5}\W\s|^\d{1,5}\W?\s|^\W\s/
 
 export function detectLiElements(node: RestructuredNode): RestructuredNode {
    const tagConfig = getTagConfig(node.name);
@@ -17,20 +18,20 @@ export function detectLiElements(node: RestructuredNode): RestructuredNode {
    }
    // get first text child, or first text child of the first children
    const firstChild = "text" in node.children!![0] && node.children!![0].text ? node.children!![0] : node.children!![0].children!![0];
-   debugger;
    if ('text' in firstChild && firstChild.text) {
-	const match = firstChild.text.match(LI_MARKER_REGEX);
-	if (!match || match.length == 0) return node;
-	const matchingText = match[0];
-	if (matchingText == firstChild.text) {
+	const isMarkerMatch = firstChild.text.match(IS_LI_MARKER_REGEX);
+	if (isMarkerMatch && isMarkerMatch.length > 0) {
 		node = addMarker(node, firstChild);
 		node.children = node.children?.filter(it => it != node.children!![0]);
-	} else {
+		return node;
+	} 
+	const containsMarkerMatch = firstChild.text.match(CONTAINS_LI_MARKER_REGEX);
+	if (containsMarkerMatch && containsMarkerMatch.length > 0) {
+		const matchingText = containsMarkerMatch[0].trim();
 		const marker: TextNode = { name: "text", children: [], text: matchingText.trim() };
-		firstChild.text = firstChild.text.replace(matchingText, "");
+		firstChild.text = firstChild.text.replace(matchingText, "").trim();
 		node = addMarker(node, marker)
 	}
-
    }
    return node
 }
@@ -74,7 +75,6 @@ export function wrapLiElementsInOl(node: RestructuredNode): RestructuredNode {
 	}
 	if (olElement) children.push(olElement); 
 	node.children = children;
-	debugger;
 	return node;
 
 }

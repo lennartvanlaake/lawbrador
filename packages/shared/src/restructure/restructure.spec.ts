@@ -4,9 +4,6 @@ import type { LinkNode, ListElementNode, TextNode } from "..";
 import { parse } from "../parse/scraper";
 import { applyRuleSet } from "./applyRuleSet";
 import { eurlexConfig } from '..';
-function log(obj: any) {
-  console.dir(obj, { colors: true, depth: null });
-}
 
 const sourceUrl = "http://source.url";
 describe("Restructuring HTML with empty ruleset", () => {

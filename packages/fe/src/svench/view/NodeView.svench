@@ -1,6 +1,7 @@
 <script lang="ts">
 	//@ts-nocheck
 	import { View } from 'svench';
+	import { defaultRestructure } from '@lawbrador/shared';
 	import NodeView from '$lib/components/view/NodeView.svelte';
 	const nameOnly= { name: "text", children: undefined, text: "bla" };
 	const wrappedNameOnly = { name: "p", children: [nameOnly] };
@@ -17,6 +18,11 @@
 </View>
 <View name="two name only nodes" >
 	<NodeView node={twoNameOnlies} />
+</View>
+<View name="eurlex directive name node" >
+	<NodeView node={defaultRestructure(`<p class="doc-ti" id="d1e39-23-1">
+      <span>DIRECTIVE</span> 2006/54/EC <span>OF THE EUROPEAN PARLIAMENT AND OF THE COUNCIL</span>
+   </p>`)} />
 </View>
 <View name="h1 view">
 	<NodeView node={h1Only} />

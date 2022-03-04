@@ -1,4 +1,4 @@
-import type { MarkupRule, ParsedNode, RestructuredNode, TagName } from "..";
+import { getTagConfig, MarkupRule, ParsedNode, RestructuredNode, TagName } from "..";
 import { matches } from "..";
 
 export function restructureRecursive(
@@ -41,12 +41,12 @@ function getTag(
     return "a";
   }
   if (node.children && node.children.length > 0) {
-    // if the parent is a p and it includes text, display text inline 
+    // if the node contains text and the parent is absent or a container it is a type of paragraph
     if (node.children?.some((it) => it.text?.trim())) {
-      if (parentTag == "p") {
-        return "inline";
-      } else {
+      if (!parentTag || getTagConfig(parentTag).type == "container") {
         return "p";
+      } else {
+        return "inline";
       }
     } else {
       return "div";
