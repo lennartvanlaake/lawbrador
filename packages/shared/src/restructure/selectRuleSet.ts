@@ -17,6 +17,7 @@ export function selectRuleSet(
       return ruleSet;
     }
   }
+  //@ts-ignore
   const emptyRuleSet = config.documentRuleSets.filter(
     (it) =>
       !it.bodyRule && (!it.conditionRules || it.conditionRules.length == 0)

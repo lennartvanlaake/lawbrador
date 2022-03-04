@@ -6,7 +6,7 @@
 
 <strong>{option.variableName}</strong>
 {#if option.possibleValues}
-	<select bind:value>
+	<select bind:value on:change>
 		<option value="" />
 		{#each option.possibleValues as possibleValue}
 			<option value={possibleValue.value}>{possibleValue.displayName ?? possibleValue.value}</option
@@ -14,5 +14,5 @@
 		{/each}
 	</select>
 {:else}
-	<input type="text" bind:value />
+	<input type="text" bind:value  />
 {/if}

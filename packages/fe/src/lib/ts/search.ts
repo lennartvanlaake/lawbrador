@@ -73,10 +73,10 @@ export async function submitQuery(
 	let searchResults = (
 		await search({ sourceConfigId: sourceConfig._id!!, searchParams: searchParams })
 	).results;
+	addToHistory(searchParams, sourceConfig);
 	if (searchResults.length == 0) {
 		throw Error(Errors.NO_RESULTS);
 	}
-	addToHistory(searchParams, sourceConfig);
 	return searchResults;
 }
 
