@@ -10,6 +10,8 @@
 		/*lawbrador theme brown*/
 		--accent:#815307;
 	}
-
+	:global(section) {
+		margin-left: 2rem;
+	}
 
 </style>

@@ -8,9 +8,12 @@
 			"files": ".prettierrc",
 			"options": { "parser": "json" }
 		},
-
 		{
 			"files": "*.svench",
+			"options": { "parser": "svelte" }
+		},
+		{
+			"files": "*.svelte",
 			"options": { "parser": "svelte" }
 		}
 	]

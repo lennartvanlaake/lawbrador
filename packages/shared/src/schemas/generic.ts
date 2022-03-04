@@ -12,3 +12,7 @@ export const errorResponse = Type.Object({
 	message: Type.String(),
 });
 
+export const keyValue = Type.Object({
+	key: Type.String(),
+	value: Type.String()
+});

@@ -4,6 +4,7 @@ import {
   ALL_SELECTION_LOCATIONS,
   ALL_SELECTION_OPERATORS,
 } from "./ruleConstants";
+import {keyValue} from "./generic";
 
 export const selectionOperator = Type.Union(
   ALL_SELECTION_OPERATORS.map((op) => Type.Literal(op))
@@ -50,6 +51,7 @@ export const staticUrlComponent = Type.Object({
 
 export const variableUrlComponent = Type.Object({
   variableName: Type.String({ minLength: 1 }),
+  showIf: Type.Optional(keyValue),
   possibleValues: Type.Optional(
     Type.Array(valueWithDisplayName, { minItems: 1, uniqueItems: true })
   ),

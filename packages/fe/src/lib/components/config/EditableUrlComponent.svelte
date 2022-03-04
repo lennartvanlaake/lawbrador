@@ -4,8 +4,9 @@
 	import { Validator } from '$lib/ts/validate';
 	import ValidatedTextField from '$lib/components/common/ValidatedTextField.svelte';
 	import ValidatedList from '$lib/components/common/ValidatedList.svelte';
-	import { EMPTY_VALUE_WITH_DISPLAY_NAME } from '@lawbrador/shared';
+	import { EMPTY_VALUE_WITH_DISPLAY_NAME, EMPTY_KEY_VALUE } from '@lawbrador/shared';
 	import EditableValueWithDisplayName from './EditableValueWithDisplayName.svelte';
+import Toggled from '../common/Toggled.svelte';
 
 	export let config: UrlComponent;
 
@@ -14,8 +15,6 @@
 
 	const STATIC_TEXT = 'Make variable';
 	const VARIABLE_TEXT = 'Make static';
-	const ENABLE_TEXT = 'Enable';
-	const DISABLE_TEXT = 'Disable';
 
 	function isVariable(config: UrlComponent): config is VariableUrlComponent {
 		return 'variableName' in config;
@@ -27,18 +26,7 @@
 			config = { variableName: config.value };
 		}
 	}
-	function switchPossibleValues() {
-		config = config as VariableUrlComponent;
-		if (config.possibleValues) {
-			config.possibleValues = undefined;
-		} else {
-			config.possibleValues = [{ ...EMPTY_VALUE_WITH_DISPLAY_NAME }];
-		}
-	}
-
 	$: buttonText = isVariable(config) ? VARIABLE_TEXT : STATIC_TEXT;
-	$: isPossibleValuesEnabled = (config as VariableUrlComponent).possibleValues;
-	$: possibleValuesText = isPossibleValuesEnabled ? DISABLE_TEXT : ENABLE_TEXT;
 	$: validator = isVariable(config) ? variableValidator : staticValidator;
 	$: errors = validator.validate(config);
 </script>
@@ -58,11 +46,21 @@
 				{buttonText}
 			</button>
 			{#if isVariable(config)}
+				<h4>Show if...</h4>
+				<Toggled bind:value={config.showIf} empty={EMPTY_KEY_VALUE}>
+					{#if config.showIf }
+					<h5>Other variable</h5>
+					<input type="text" 
+						bind:value={config.showIf.key}
+					/>
+					<h5>Has value</h5>
+					<input type="text" 
+						bind:value={config.showIf.value}
+					/>
+					{/if }
+				</Toggled>
 				<h4>Options</h4>
-				<button on:click={switchPossibleValues}>
-					{possibleValuesText}
-				</button>
-				{#if isPossibleValuesEnabled}
+				<Toggled bind:value={config.possibleValues} empty={[]}>
 					<ValidatedList
 						bind:list={config.possibleValues}
 						empty={EMPTY_VALUE_WITH_DISPLAY_NAME}
@@ -72,7 +70,7 @@
 							<EditableValueWithDisplayName bind:option bind:options={config.possibleValues} />
 						{/each}
 					</ValidatedList>
-				{/if}
+				</Toggled>
 			{/if}
 	</section>
 {/if}

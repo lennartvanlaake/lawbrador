@@ -6,7 +6,7 @@ import { eurlexConfig } from "..";
 const ruleSet: DocumentRuleSet = {};
 const sourceUrl = "http://source.url";
 describe("Bug regression tests", () => {
-  it.only("Some text might not get displayed", () => {
+  it("Some text might not get displayed", () => {
     const html = `
 		<p>
       			<span>DIRECTIVE</span>
@@ -15,7 +15,6 @@ describe("Bug regression tests", () => {
    		</p>
 		`;
     const result = applyRuleSet(parse(html), ruleSet, eurlexConfig, sourceUrl);
-    logObject(result);
     expect(JSON.stringify(result)).to.contain("DIRECTIVE");
   });
 });

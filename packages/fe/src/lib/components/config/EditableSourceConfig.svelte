@@ -19,18 +19,18 @@ import Removable from '../common/Removable.svelte';
 	$: console.log(sourceConfig);
 </script>
 
+<h2>General</h2>
 <section>
-	<h2>General</h2>
 		<ValidatedTextField label="Name" bind:value={sourceConfig.name} errors={errors?.name} />
 </section>
 
+<h2>Search</h2>
 <section>
-	<h2>Search</h2>
 		<EditableSearchConfig bind:config={sourceConfig.htmlSearchRuleSet} />
 </section>
 
+<h2>Document rule sets</h2>
 <section>
-	<h2>Document rule sets</h2>
 		{#each sourceConfig.documentRuleSets ?? [] as ruleSet}
 		<Removable bind:value={ruleSet} bind:list={sourceConfig.documentRuleSets}>
 			<EditableDocumentRuleSet bind:ruleSet />
@@ -41,13 +41,13 @@ import Removable from '../common/Removable.svelte';
 		</div>
 </section>
 
+<h2>Search url config</h2>
 <section>
-	<h2>Search url config</h2>
 		<EditableUrlConfig bind:urlConfig={sourceConfig.searchUrlConfig} />
 </section>
 
+<h2>Document url config</h2>
 <section>
-	<h2>Document url config</h2>
 		<EditableUrlConfig bind:urlConfig={sourceConfig.documentUrlConfig} />
 </section>
 

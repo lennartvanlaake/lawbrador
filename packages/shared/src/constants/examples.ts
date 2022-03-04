@@ -1,5 +1,6 @@
 import type {
   DocumentRuleSet,
+  KeyValue,
   MarkupRule,
   QueryParam,
   SelectionRule,
@@ -9,6 +10,10 @@ import type {
   ValueWithDisplayName,
 } from "..";
 
+export const EMPTY_KEY_VALUE: KeyValue = {
+  key: "",
+  value: ""
+}
 export const EMPTY_URL_COMPONENT: UrlComponent = {
   value: "",
 };
