@@ -8,6 +8,8 @@ Lawbrador is in the early stages of development. There is no support of any kind
 
 Lawbrador wants to make the law accessible for everyone. We are creating a platform from which you can access any legal resource, do your research and share it.
 
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+
 ## How it works
 
 Instead of saving the legal universe to a private database, Lawbrador proxies queries to official search engines. Based on a configuratble set of rules Lawbrador reformats the original page into a generic format. Then Lawbrador allows you to research that text any way you want.
