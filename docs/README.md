@@ -34,7 +34,7 @@ Using these rules our algorithm can "understand" the actual semantics of an onli
 - Infinite scroll for search results
 - Links in documents point now point to proxied document in Lawbrador
 - Cache search results and proxied documents
-- Conditional search parameters (if we search for legsilation, which type of legsilation?)
+- Conditional search parameters (if we search for legsilation, which type of legislation?)
 
 ## Wishlist
 
