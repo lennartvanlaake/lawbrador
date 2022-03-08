@@ -1,0 +1,11 @@
+
+<script lang="ts">
+	import { View } from 'svench';
+	import TooltipButton from '$lib/components/common/TooltipButton.svelte';
+	const explanation = "very explanatory explanation of the things";
+	let data = "initial";
+</script>
+
+<View name="Basic string">
+	<TooltipButton tooltipText={explanation} /> 
+</View>
