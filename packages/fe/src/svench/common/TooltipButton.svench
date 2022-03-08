@@ -6,6 +6,14 @@
 	let data = "initial";
 </script>
 
-<View name="Basic string">
+<View  name="Basic string">
+	<div>
 	<TooltipButton tooltipText={explanation} /> 
+	</div>
 </View>
+<style>
+	div {
+		height:300px;
+		width:300px;
+	}
+</style>

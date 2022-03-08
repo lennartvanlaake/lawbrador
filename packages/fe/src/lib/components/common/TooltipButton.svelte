@@ -1,20 +1,20 @@
 <script lang="ts">
 	export let showTooltip = false;
-	export let tooltipText:string;
+	export let tooltipText: string;
 </script>
 
-<i class="fas fa-circle-question" class:active={showTooltip}></i>
+<i class="icon-question" class:active={showTooltip} on:click={() => (showTooltip = !showTooltip)} />
 
-{#if showTooltip }
-<p>{ tooltipText }</p>
+{#if showTooltip}
+	<p>{tooltipText}</p>
 {/if}
 
 <style>
 	i {
 		color: var(--accent);
+		cursor: pointer;
 	}
 	.active {
-		color: white;
-		background-color: var(--accent);
+		opacity: 20%;
 	}
 </style>

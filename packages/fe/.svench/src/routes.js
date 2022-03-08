@@ -17,6 +17,22 @@ const f /* files */ = [
     "headings": []
   },
   { // f[1]
+    path: "/svench/common/TooltipButton",
+    import: () => import("/home/lennart/lawbrador/packages/fe/src/svench/common/TooltipButton.svench"),
+    "id": "14fnvvf",
+    "ext": ".svench",
+    "dir": "svench/common",
+    "segment": "TooltipButton",
+    "sortKey": "TooltipButton",
+    "title": "TooltipButton",
+    "canonical": "/svench/common/TooltipButton",
+    "options": {},
+    "views": [
+      "Basic string"
+    ],
+    "headings": []
+  },
+  { // f[2]
     path: "/svench/config/DocumentRuleset",
     import: () => import("/home/lennart/lawbrador/packages/fe/src/svench/config/DocumentRuleset.svench"),
     "id": "1inwo2c",
@@ -34,7 +50,7 @@ const f /* files */ = [
     ],
     "headings": []
   },
-  { // f[2]
+  { // f[3]
     path: "/svench/config/RuleConfig",
     import: () => import("/home/lennart/lawbrador/packages/fe/src/svench/config/RuleConfig.svench"),
     "id": "r24b87",
@@ -51,7 +67,7 @@ const f /* files */ = [
     ],
     "headings": []
   },
-  { // f[3]
+  { // f[4]
     path: "/svench/config/SourceConfig",
     import: () => import("/home/lennart/lawbrador/packages/fe/src/svench/config/SourceConfig.svench"),
     "id": "tzhrfk",
@@ -68,7 +84,7 @@ const f /* files */ = [
     ],
     "headings": []
   },
-  { // f[4]
+  { // f[5]
     path: "/svench/config/UrlComponent",
     import: () => import("/home/lennart/lawbrador/packages/fe/src/svench/config/UrlComponent.svench"),
     "id": "1n005mr",
@@ -89,7 +105,7 @@ const f /* files */ = [
     ],
     "headings": []
   },
-  { // f[5]
+  { // f[6]
     path: "/svench/config/UrlConfig",
     import: () => import("/home/lennart/lawbrador/packages/fe/src/svench/config/UrlConfig.svench"),
     "id": "1zk3ce",
@@ -107,7 +123,7 @@ const f /* files */ = [
     ],
     "headings": []
   },
-  { // f[6]
+  { // f[7]
     path: "/svench/page/SourceConfigEditor",
     import: () => import("/home/lennart/lawbrador/packages/fe/src/svench/page/SourceConfigEditor.svench"),
     "id": "b83lhq",
@@ -124,7 +140,7 @@ const f /* files */ = [
     ],
     "headings": []
   },
-  { // f[7]
+  { // f[8]
     path: "/svench/search/SearchInput",
     import: () => import("/home/lennart/lawbrador/packages/fe/src/svench/search/SearchInput.svench"),
     "id": "d1azq9",
@@ -142,7 +158,7 @@ const f /* files */ = [
     ],
     "headings": []
   },
-  { // f[8]
+  { // f[9]
     path: "/svench/search/SourceConfigSelector",
     import: () => import("/home/lennart/lawbrador/packages/fe/src/svench/search/SourceConfigSelector.svench"),
     "id": "1213v37",
@@ -159,7 +175,7 @@ const f /* files */ = [
     ],
     "headings": []
   },
-  { // f[9]
+  { // f[10]
     path: "/svench/view/GoToOriginalModal",
     import: () => import("/home/lennart/lawbrador/packages/fe/src/svench/view/GoToOriginalModal.svench"),
     "id": "8qxjp",
@@ -175,7 +191,7 @@ const f /* files */ = [
     ],
     "headings": []
   },
-  { // f[10]
+  { // f[11]
     path: "/svench/view/NodeView",
     import: () => import("/home/lennart/lawbrador/packages/fe/src/svench/view/NodeView.svench"),
     "id": "1ue88xr",
@@ -210,7 +226,7 @@ const d /* dirs */ = [
     "sortKey": "common",
     "title": "common",
     "canonical": "/svench/common",
-    children: () => [f[0]]
+    children: () => [f[0], f[1]]
   },
   { // d[1]
     path: "/svench/config",
@@ -221,7 +237,7 @@ const d /* dirs */ = [
     "sortKey": "config",
     "title": "config",
     "canonical": "/svench/config",
-    children: () => [f[1], f[2], f[3], f[4], f[5]]
+    children: () => [f[2], f[3], f[4], f[5], f[6]]
   },
   { // d[2]
     path: "/svench/page",
@@ -232,7 +248,7 @@ const d /* dirs */ = [
     "sortKey": "page",
     "title": "page",
     "canonical": "/svench/page",
-    children: () => [f[6]]
+    children: () => [f[7]]
   },
   { // d[3]
     path: "/svench/search",
@@ -243,7 +259,7 @@ const d /* dirs */ = [
     "sortKey": "search",
     "title": "search",
     "canonical": "/svench/search",
-    children: () => [f[7], f[8]]
+    children: () => [f[8], f[9]]
   },
   { // d[4]
     path: "/svench/view",
@@ -254,7 +270,7 @@ const d /* dirs */ = [
     "sortKey": "view",
     "title": "view",
     "canonical": "/svench/view",
-    children: () => [f[9], f[10]]
+    children: () => [f[10], f[11]]
   },
   { // d[5]
     path: "/svench",
