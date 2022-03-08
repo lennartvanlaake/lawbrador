@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { SourceSiteConfig } from '@lawbrador/shared';
 	import { createEventDispatcher } from 'svelte';
+	import TooltipButton from '../common/TooltipButton.svelte';
 	export let sourceConfigList: SourceSiteConfig[];
 	export let sourceConfig: SourceSiteConfig | null = null;
 	export let sourceConfigId: string | null = null;
@@ -27,4 +28,5 @@
 		<option value={config._id}>{config.name}</option>
 	{/each}
 </select>
+<TooltipButton tooltipText={sourceConfig?.description ?? ""} />
 </div>

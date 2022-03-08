@@ -1,8 +1,12 @@
 <script lang="ts">
 import type { ErrorObject } from 'ajv';
-export let value: string;
+import { onMount } from 'svelte';
+export let value: string | undefined | null;
 export let label: string;
 export let errors: ErrorObject[] | undefined = undefined;
+onMount(() => {
+	if (!value) value = "";
+})
 </script>
 <input type="text" bind:value {label} class:invalid={!!errors} required />
 <ol>

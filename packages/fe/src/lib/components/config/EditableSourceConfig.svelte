@@ -21,7 +21,10 @@ import Removable from '../common/Removable.svelte';
 
 <h2>General</h2>
 <section>
+		<h4>Name</h4>
 		<ValidatedTextField label="Name" bind:value={sourceConfig.name} errors={errors?.name} />
+		<h4>Description</h4>
+		<textarea bind:value={sourceConfig.description}  />
 </section>
 
 <h2>Search</h2>

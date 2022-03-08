@@ -76,6 +76,7 @@ export const urlConfig = Type.Object({
 export const sourceSiteConfig = Type.Object({
   _id: Type.String(),
   name: Type.String({ minLength: 1 }),
+  description: Type.Optional(Type.String()),
   searchUrlConfig: urlConfig,
   documentUrlConfig: urlConfig,
   documentRuleSets: Type.Array(documentRuleSet),
