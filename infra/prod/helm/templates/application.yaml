@@ -80,6 +80,8 @@ spec:
               name: lawbrador-config-{{ .Values.werf.env }}
           - secretRef:
               name: db-secret 
+          - secretRef:
+              name: jwt-secret 
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
