@@ -26,7 +26,7 @@ export * from './schemas/ruleTypes';
 export * from './schemas/scrapeTypes';
 export * from './schemas/tagTypes';
 export * from './schemas/searchTypes';
-
+export * from './schemas/authTypes';
 
 
 

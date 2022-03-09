@@ -81,7 +81,7 @@ spec:
           - secretRef:
               name: db-secret 
           - secretRef:
-              name: jwt-secret 
+              name: auth-secrets 
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim

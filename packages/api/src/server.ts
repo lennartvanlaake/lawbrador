@@ -7,6 +7,7 @@ import fastifySwagger from "fastify-swagger";
 import type { MongoClient } from "mongodb";
 import { ALL_COLLECTIONS, LAWBRADOR_CLIENT } from "@lawbrador/db";
 import { ProcessorRegistry, LAWBRADOR_REGISTRY } from "@lawbrador/events";
+import fastifyJwt from "fastify-jwt";
 
 declare module "fastify" {
   interface FastifyInstance {
@@ -32,7 +33,7 @@ fastify.register(clearRoutes);
 fastify.register(getOrScrapeDocumentRoutes);
 fastify.register(searchRoutes);
 fastify.register(sourceConfigRoutes);
-
+fastify.register(fastifyJwt, { secret: process.env.JWT_SECRET ?? "secret" });
 
 const start = async () => {
   try {
