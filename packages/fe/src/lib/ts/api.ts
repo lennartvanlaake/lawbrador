@@ -4,9 +4,12 @@ import type {
 	SourceSiteConfig,
 	SearchResponse,
 	ScrapeResult,
-	ErrorResponse
+	ErrorResponse,
+	LoginResponse,
+	LoginRequest
 } from '@lawbrador/shared';
 import { Endpoints } from '@lawbrador/shared';
+import type { Method } from 'axios';
 
 // baseUrl should only be set in development, default to root when running on a server
 const baseUrl = import.meta.env.VITE_URL ?? '';
@@ -19,26 +22,28 @@ async function get(path: string, fetchParam: any) {
 	}
 }
 
-async function post(path: string, body: any) {
+async function request(path: string, body: any, method: Method) {
 	const req = {
-		method: 'POST',
+		method: method,
 		headers: {
-			'Content-Type': 'application/json'
+			'Content-Type': 'application/json',
+			'Authorization': localStorage.getItem("jwt") ?? ""
 		},
 		body: JSON.stringify(body)
 	};
-	return await (await fetch(`${baseUrl}${path}`, req)).json();
+	const result = await fetch(`${baseUrl}${path}`, req);
+	if (!result.ok) {
+		throw new Error(await result.text());
+	}
+	return await result.json();
+}
+
+async function post(path: string, body: any) {
+	return await request(path, body, "POST");
 }
 
 async function put(path: string, body: any) {
-	const req = {
-		method: 'PUT',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify(body)
-	};
-	return await (await fetch(`${baseUrl}${path}`, req)).json();
+	return await request(path, body, "PUT");
 }
 
 export async function getDocument(
@@ -74,3 +79,9 @@ export async function updateSourceConfig(config: SourceSiteConfig): Promise<Iden
 export async function search(body: SearchRequest): Promise<SearchResponse> {
 	return await post(Endpoints.SEARCH, body);
 }
+
+export async function exchangePasswordForJwt(body: LoginRequest): Promise<LoginResponse> {
+	return await post(Endpoints.LOGIN, body);
+}
+
+

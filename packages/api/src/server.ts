@@ -3,6 +3,7 @@ import clearRoutes from "./clear";
 import sourceConfigRoutes from "./source_configs";
 import getOrScrapeDocumentRoutes from "./get_or_scrape_document";
 import searchRoutes from "./search";
+import authRoutes from "./auth";
 import fastifySwagger from "fastify-swagger";
 import type { MongoClient } from "mongodb";
 import { ALL_COLLECTIONS, LAWBRADOR_CLIENT } from "@lawbrador/db";
@@ -33,6 +34,7 @@ fastify.register(clearRoutes);
 fastify.register(getOrScrapeDocumentRoutes);
 fastify.register(searchRoutes);
 fastify.register(sourceConfigRoutes);
+fastify.register(authRoutes);
 fastify.register(fastifyJwt, { secret: process.env.JWT_SECRET ?? "secret" });
 
 const start = async () => {

@@ -23,7 +23,6 @@ export default async (fastify: FastifyInstance) => {
     method: "POST",
     url: Endpoints.SOURCES,
     schema: {
-      response: Schemas.identity,
       body: Schemas.unsavedSourceSiteConfig,
     },
     preHandler: auth(fastify),
@@ -39,7 +38,6 @@ export default async (fastify: FastifyInstance) => {
     method: "PUT",
     url: Endpoints.SOURCES,
     schema: {
-      response: Schemas.identity,
       body: Schemas.sourceSiteConfig,
     },
     preHandler: auth(fastify),
