@@ -213,22 +213,28 @@ const f /* files */ = [
       "link view"
     ],
     "headings": []
+  },
+  { // f[12]
+    path: "/svench/common/Spinner",
+    import: () => import("/home/lennart/lawbrador/packages/fe/src/svench/common/Spinner.svench"),
+    "id": "ve78c9",
+    "ext": ".svench",
+    "dir": "svench/common",
+    "segment": "Spinner",
+    "sortKey": "Spinner",
+    "title": "Spinner",
+    "canonical": "/svench/common/Spinner",
+    "options": {},
+    "views": [
+      "only the spinner",
+      "big spinner"
+    ],
+    "headings": []
   }
 ]
 
 const d /* dirs */ = [
   { // d[0]
-    path: "/svench/common",
-    "id": "1uww9hr",
-    "ext": undefined,
-    "dir": "svench",
-    "segment": "common",
-    "sortKey": "common",
-    "title": "common",
-    "canonical": "/svench/common",
-    children: () => [f[0], f[1]]
-  },
-  { // d[1]
     path: "/svench/config",
     "id": "2omlb0",
     "ext": undefined,
@@ -239,7 +245,7 @@ const d /* dirs */ = [
     "canonical": "/svench/config",
     children: () => [f[2], f[3], f[4], f[5], f[6]]
   },
-  { // d[2]
+  { // d[1]
     path: "/svench/page",
     "id": "15mmdjh",
     "ext": undefined,
@@ -250,7 +256,7 @@ const d /* dirs */ = [
     "canonical": "/svench/page",
     children: () => [f[7]]
   },
-  { // d[3]
+  { // d[2]
     path: "/svench/search",
     "id": "mugowe",
     "ext": undefined,
@@ -261,7 +267,7 @@ const d /* dirs */ = [
     "canonical": "/svench/search",
     children: () => [f[8], f[9]]
   },
-  { // d[4]
+  { // d[3]
     path: "/svench/view",
     "id": "17o9sy7",
     "ext": undefined,
@@ -272,6 +278,17 @@ const d /* dirs */ = [
     "canonical": "/svench/view",
     children: () => [f[10], f[11]]
   },
+  { // d[4]
+    path: "/svench/common",
+    "id": "1uww9hr",
+    "ext": undefined,
+    "dir": "svench",
+    "segment": "common",
+    "sortKey": "common",
+    "title": "common",
+    "canonical": "/svench/common",
+    children: () => [f[12], f[0], f[1]]
+  },
   { // d[5]
     path: "/svench",
     "id": "57cs3x",
@@ -281,7 +298,7 @@ const d /* dirs */ = [
     "sortKey": "svench",
     "title": "svench",
     "canonical": "/svench",
-    children: () => [d[0], d[1], d[2], d[3], d[4]]
+    children: () => [d[4], d[0], d[1], d[2], d[3]]
   }
 ]
 

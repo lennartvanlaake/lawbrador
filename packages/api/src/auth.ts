@@ -6,6 +6,7 @@ import { routeConfig } from "./utils";
 export default async (fastify: FastifyInstance) => { 
 
   const adminPassword = process.env.ADMIN_PASSWORD ?? "password";
+  console.log(adminPassword);
   fastify.post<{ Body: LoginRequest; Response: LoginResponse }>(
     Endpoints.LOGIN,
     routeConfig(Schemas.loginResponse, Schemas.loginRequest),
