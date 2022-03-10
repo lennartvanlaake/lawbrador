@@ -1,4 +1,4 @@
-import type { DocumentRuleSet } from '..';
+import { DocumentRuleSet, logObject } from '..';
 import { expect } from 'chai';
 import type { LinkNode, ListElementNode, TextNode } from '..';
 import { parse } from '../parse/scraper';
@@ -36,7 +36,7 @@ describe('Positively recognizing number and text', () => {
 		expect(listElement.marker.text).to.eq('1');
 		expect((listElement.children[0].children[0] as TextNode).text).to.eq('b1a');
 	});
-	it('Finds number with number element inside paragraph', () => {
+	it('Finds number with number element in complex paragraph structure', () => {
 		const html = `
 		<div><p><a>1</a>bla</p><p><a>2</a>bla</p></div>
 		`;
@@ -49,7 +49,7 @@ describe('Positively recognizing number and text', () => {
 		expect(listElement.marker.text).to.eq('1');
 		expect((listElement.children[0] as TextNode).text).to.eq('bla');
 	});
-	it('Finds number with number element inside paragraph', () => {
+	it('Finds number with number element inside paragraph with lots of spaces', () => {
 		const html = `
 		<div><p>1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>bla</i></p><p>bla</p></div>
 		`;
@@ -60,7 +60,7 @@ describe('Positively recognizing number and text', () => {
 		const listElement = ol.children[0] as ListElementNode;
 		expect(listElement.name).to.eq('li');
 		expect(listElement.marker.text).to.eq('1');
-		expect((listElement.children[0].children[0] as TextNode).text).to.eq('bla');
+		expect((listElement.children[1].children[0] as TextNode).text).to.eq('bla');
 	});
 	it('Apply line number to two paragraphs', () => {
 		const html = `
