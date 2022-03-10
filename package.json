@@ -22,8 +22,6 @@
 		"precommit": "yarn format --loglevel error && yarn lint --quiet"
 	},
 	"devDependencies": {
-		"@lawbrador/prettier": "^1.0.0",
-		"@lawbrador/eslint-config": "^1.0.0",
 		"husky": "^7.0.4"
 	},
 	"resolutions": {
