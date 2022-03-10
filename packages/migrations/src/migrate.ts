@@ -1,3 +1,3 @@
-import 'ts-node/register';
-import { migrator } from './umzug';
+import "ts-node/register";
+import { migrator } from "./umzug";
 migrator.runAsCLI();

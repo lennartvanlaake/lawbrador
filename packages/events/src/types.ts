@@ -1,1 +1,1 @@
-export const MAIN_PROCESSING_GROUP = 'main';
+export const MAIN_PROCESSING_GROUP = "main";

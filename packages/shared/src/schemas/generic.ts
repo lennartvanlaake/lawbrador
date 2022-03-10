@@ -1,18 +1,18 @@
-import { Type } from '@sinclair/typebox';
+import { Type } from "@sinclair/typebox";
 
 export const identity = Type.Object({
-	_id: Type.String()
+  _id: Type.String(),
 });
 
 export const hashed = Type.Object({
-	hash: Type.String()
+  hash: Type.String(),
 });
 
 export const errorResponse = Type.Object({
-	message: Type.String()
+  message: Type.String(),
 });
 
 export const keyValue = Type.Object({
-	key: Type.String(),
-	value: Type.String()
+  key: Type.String(),
+  value: Type.String(),
 });

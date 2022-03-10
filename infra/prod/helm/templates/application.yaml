@@ -4,11 +4,11 @@ kind: ConfigMap
 metadata:
   name: lawbrador-config-{{ .Values.werf.env }}
 data:
-  MONGODB_PORT: '27017'
+  MONGODB_PORT: "27017"
   MONGODB_HOST: lawbrador-mongo-{{ .Values.werf.env }}-service
-  MONGODB_REPLICA_SET_MODE: 'primary'
+  MONGODB_REPLICA_SET_MODE: "primary"
   MONGODB_ADVERTISED_HOSTNAME: lawbrador-mongo-{{ .Values.werf.env }}-service
-  MONGODB_REPLICA_SET_KEY: 'replicaset'
+  MONGODB_REPLICA_SET_KEY: "replicaset"
 ---
 apiVersion: v1
 kind: Service
@@ -39,7 +39,8 @@ spec:
     spec:
       containers:
         - name: lawbrador-fe-{{ .Values.werf.env }}
-          image: { { .Values.werf.image.fe } }
+          # prettier-ignore
+          image: {{ .Values.werf.image.fe }}
           ports:
             - containerPort: 3000
 ---
@@ -72,7 +73,8 @@ spec:
     spec:
       containers:
         - name: lawbrador-api-{{ .Values.werf.env }}
-          image: { { .Values.werf.image.api } }
+          # prettier-ignore
+          image: {{ .Values.werf.image.api }}
           ports:
             - containerPort: 5000
           envFrom:
@@ -90,7 +92,7 @@ metadata:
   labels:
     app: lawbrador-mongo-{{ .Values.werf.env }}
 spec:
-  storageClassName: 'do-block-storage'
+  storageClassName: "do-block-storage"
   accessModes:
     - ReadWriteOnce
   resources:
@@ -127,7 +129,7 @@ spec:
       initContainers:
         - name: lawbrador-mongo-{{ .Values.werf.env }}-permission-fix
           image: busybox
-          command: ['/bin/chmod', '-R', '777', '/data']
+          command: ["/bin/chmod", "-R", "777", "/data"]
           volumeMounts:
             - name: lawbrador-mongo-{{ .Values.werf.env }}-volume
               mountPath: /data
@@ -154,19 +156,20 @@ kind: Job
 metadata:
   name: lawbrador-migrations-job-{{ .Values.werf.env }}
   annotations:
-    'helm.sh/hook': post-install,post-upgrade
+    "helm.sh/hook": post-install,post-upgrade
 spec:
   template:
     spec:
       containers:
         - name: lawbrador-migrations-{{ .Values.werf.env }}
-          image: { { .Values.werf.image.migrations } }
+          # prettier-ignore
+          image: {{ .Values.werf.image.migrations }}
           envFrom:
             - configMapRef:
                 name: lawbrador-config-{{ .Values.werf.env }}
             - secretRef:
                 name: db-secret
-          command: ['yarn', 'start', 'up']
+          command: ["yarn", "start", "up"]
       restartPolicy: Never
 ---
 apiVersion: networking.k8s.io/v1
@@ -174,10 +177,11 @@ kind: Ingress
 metadata:
   name: lawbrador-ingress-{{ .Values.werf.env }}
   annotations:
-    kubernetes.io/ingress.class: 'nginx'
+    kubernetes.io/ingress.class: "nginx"
 spec:
   rules:
-    - host: { { .Values.url } }
+    # prettier-ignore
+    - host: {{ .Values.url }}
       http:
         paths:
           - path: /

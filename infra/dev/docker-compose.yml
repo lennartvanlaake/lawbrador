@@ -1,16 +1,16 @@
-version: '2'
+version: "2"
 services:
   mongo:
     image: bitnami/mongodb:4.4
     ports:
-      - '27017:27017'
+      - "27017:27017"
     environment:
-      MONGODB_REPLICA_SET_MODE: 'primary'
-      MONGODB_ADVERTISED_HOSTNAME: 'localhost'
-      MONGODB_ROOT_PASSWORD: 'password'
-      MONGODB_REPLICA_SET_KEY: 'replicaset'
+      MONGODB_REPLICA_SET_MODE: "primary"
+      MONGODB_ADVERTISED_HOSTNAME: "localhost"
+      MONGODB_ROOT_PASSWORD: "password"
+      MONGODB_REPLICA_SET_KEY: "replicaset"
   nginx:
     build:
       context: nginx
       dockerfile: Dockerfile
-    network_mode: 'host'
+    network_mode: "host"

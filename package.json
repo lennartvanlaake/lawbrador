@@ -1,33 +1,32 @@
 {
-	"name": "lawbrador",
-	"version": "1.0.0",
-	"author": "Lennart van Laake",
-	"license": "AGPL-3.0-only",
-	"workspaces": [
-		"packages/**"
-	],
-	"private": true,
-	"prettier": "@lawbrador/prettier",
-	"scripts": {
-		"docker-down": "docker-compose -f infra/dev/docker-compose.yml down",
-		"docker": "docker-compose -f infra/dev/docker-compose.yml up",
-		"test": "yarn test:build && lerna run test --parallel || killall node",
-		"test:build": "tsc --noEmit",
-		"dev": "yarn docker -d && lerna run dev --parallel || killall node",
-		"debug": "yarn docker -d && lerna run debug --parallel || killall node",
-		"run-it": "lerna run run-it",
-		"prepare": "husky install",
-		"format": "prettier --write --ignore-path .gitignore .",
-		"lint": "eslint -c packages/eslint-config/index.js --fix --ignore-path .gitignore .",
-		"precommit": "yarn format --loglevel error && yarn lint --quiet"
-	},
-	"devDependencies": {
-		"husky": "^7.0.4"
-	},
-	"resolutions": {
-		"typescript": "4.5.4",
-		"fast-json-stringify": "2.7.13",
-		"mongodb": "4.1.4",
-		"@sinclair/typebox": "0.23.1"
-	}
+  "name": "lawbrador",
+  "version": "1.0.0",
+  "author": "Lennart van Laake",
+  "license": "AGPL-3.0-only",
+  "workspaces": [
+    "packages/**"
+  ],
+  "private": true,
+  "scripts": {
+    "docker-down": "docker-compose -f infra/dev/docker-compose.yml down",
+    "docker": "docker-compose -f infra/dev/docker-compose.yml up",
+    "test": "yarn test:build && lerna run test --parallel || killall node",
+    "test:build": "tsc --noEmit",
+    "dev": "yarn docker -d && lerna run dev --parallel || killall node",
+    "debug": "yarn docker -d && lerna run debug --parallel || killall node",
+    "run-it": "lerna run run-it",
+    "prepare": "husky install",
+    "format": "prettier -c packages/prettier/index.js --write --ignore-path .gitignore .",
+    "lint": "eslint -c packages/eslint-config/index.js --fix --ignore-path .gitignore .",
+    "precommit": "yarn format --loglevel error && yarn lint --quiet"
+  },
+  "devDependencies": {
+    "husky": "^7.0.4"
+  },
+  "resolutions": {
+    "typescript": "4.5.4",
+    "fast-json-stringify": "2.7.13",
+    "mongodb": "4.1.4",
+    "@sinclair/typebox": "0.23.1"
+  }
 }

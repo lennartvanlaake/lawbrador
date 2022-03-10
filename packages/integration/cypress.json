@@ -1,5 +1,5 @@
 {
-	"baseUrl": "https://workspace.lawbrador.nl",
-	"defaultCommandTimeout": 30000,
-	"pluginsFile": false
+  "baseUrl": "https://workspace.lawbrador.nl",
+  "defaultCommandTimeout": 30000,
+  "pluginsFile": false
 }
