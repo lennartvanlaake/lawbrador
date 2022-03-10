@@ -4,17 +4,17 @@
 	export let node: OtherNode;
 </script>
 
-{#if node.name == "div" }
-<div>
-	{#each node.children ?? [] as child}
-		<NodeView node={child} />
-	{/each}
-</div>
-{/if }
-{#if node.name == "ol" }
-<ol>
-	{#each node.children ?? [] as child}
-		<NodeView node={child} />
-	{/each}
-</ol>
-{/if }
+{#if node.name == 'div'}
+	<div>
+		{#each node.children ?? [] as child}
+			<NodeView node={child} />
+		{/each}
+	</div>
+{/if}
+{#if node.name == 'ol'}
+	<ol>
+		{#each node.children ?? [] as child}
+			<NodeView node={child} />
+		{/each}
+	</ol>
+{/if}

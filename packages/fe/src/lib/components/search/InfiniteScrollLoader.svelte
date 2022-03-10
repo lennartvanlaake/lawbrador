@@ -1,7 +1,7 @@
 <script lang="ts">
-import { createEventDispatcher, onMount } from "svelte";
-import Spinner from "../common/Spinner.svelte";
-	const dispatch = createEventDispatcher<{"bottomReached": any}>();
+	import { createEventDispatcher, onMount } from 'svelte';
+	import Spinner from '../common/Spinner.svelte';
+	const dispatch = createEventDispatcher<{ bottomReached: any }>();
 	export let hasMore: boolean;
 	export let loaderIsVisible: boolean;
 	let element: HTMLDivElement;
@@ -9,22 +9,19 @@ import Spinner from "../common/Spinner.svelte";
 		const observer = new IntersectionObserver((entries) => {
 			if (entries[0].intersectionRatio > 0) {
 				if (!loaderIsVisible && hasMore) {
-					dispatch("bottomReached");
+					dispatch('bottomReached');
 				}
 				loaderIsVisible = true;
 			} else {
-				loaderIsVisible = false;	
+				loaderIsVisible = false;
 			}
-
 		});
 		observer.observe(element);
 	});
 </script>
 
 <div bind:this={element}>
-	{#if hasMore }
+	{#if hasMore}
 		<Spinner />
-	{/if }
+	{/if}
 </div>
-
-

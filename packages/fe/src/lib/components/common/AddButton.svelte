@@ -3,8 +3,8 @@
 	import { createEventDispatcher } from 'svelte';
 	export let value: Array<any> | any;
 	export let empty: any;
-	export let text: string = 'Add';
-	export let disabled: boolean = false;
+	export let text = 'Add';
+	export let disabled = false;
 	const dispatch = createEventDispatcher();
 	const isArray = Array.isArray(value);
 	function fillProp() {

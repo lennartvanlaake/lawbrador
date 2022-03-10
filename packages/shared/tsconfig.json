@@ -1,11 +1,11 @@
 {
-  "extends": "../../tsconfig.json",
-  "include": ["src/**/*.ts"],
-  "compilerOptions": {
-    "module": "commonjs",
-    "composite": true,
-    "noEmit": false,
-    "noEmitOnError": false,
-    "outDir": "dist"
-  }
+	"extends": "../../tsconfig.json",
+	"include": ["src/**/*.ts"],
+	"compilerOptions": {
+		"module": "commonjs",
+		"composite": true,
+		"noEmit": false,
+		"noEmitOnError": false,
+		"outDir": "dist"
+	}
 }

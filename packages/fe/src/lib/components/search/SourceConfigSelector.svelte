@@ -5,8 +5,8 @@
 	export let sourceConfigList: SourceSiteConfig[];
 	export let sourceConfig: SourceSiteConfig | null = null;
 	export let sourceConfigId: string | null = null;
-	const dispatch = createEventDispatcher<{"configSelected": SourceSiteConfig}>();
-	
+	const dispatch = createEventDispatcher<{ configSelected: SourceSiteConfig }>();
+
 	//@ts-ignore
 	const sourceConfigMap: Record<string, SourceSiteConfig> = sourceConfigList.reduce((map, conf) => {
 		map[conf._id] = conf;
@@ -17,16 +17,17 @@
 		sourceConfig = sourceConfigId ? sourceConfigMap[sourceConfigId] : sourceConfig;
 		console.log(sourceConfig);
 		if (sourceConfig) {
-			dispatch("configSelected", sourceConfig);
+			dispatch('configSelected', sourceConfig);
 		}
 	}
 	$: selectSourceConfig(sourceConfigId);
 </script>
+
 <div>
-<select bind:value={sourceConfigId}>
-	{#each sourceConfigList as config}
-		<option value={config._id}>{config.name}</option>
-	{/each}
-</select>
-<TooltipButton tooltipText={sourceConfig?.description ?? ""} />
+	<select bind:value={sourceConfigId}>
+		{#each sourceConfigList as config}
+			<option value={config._id}>{config.name}</option>
+		{/each}
+	</select>
+	<TooltipButton tooltipText={sourceConfig?.description ?? ''} />
 </div>

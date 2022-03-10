@@ -1,9 +1,7 @@
-import { MAIN_PROCESSING_GROUP} from "./types";
-import type { LawbradorEvent } from '@lawbrador/shared'
-import type {
-	ClientSession,
-} from 'mongodb';
-import type ProcessorRegistry from "./processorRegistry";
+import { MAIN_PROCESSING_GROUP } from './types';
+import type { LawbradorEvent } from '@lawbrador/shared';
+import type { ClientSession } from 'mongodb';
+import type ProcessorRegistry from './processorRegistry';
 
 export default class EventProcessor<EventType> {
 	eventName: string;
@@ -12,17 +10,17 @@ export default class EventProcessor<EventType> {
 	process: (
 		e: LawbradorEvent<EventType>,
 		registry: ProcessorRegistry,
-		session: ClientSession,
+		session: ClientSession
 	) => Promise<void>;
 	constructor(
 		eventName: string,
 		process: (
 			e: LawbradorEvent<EventType>,
 			registry: ProcessorRegistry,
-			session: ClientSession,
+			session: ClientSession
 		) => Promise<void>,
 		processingGroupName: string = MAIN_PROCESSING_GROUP,
-		sync: boolean = true,
+		sync = true
 	) {
 		this.eventName = eventName;
 		this.processingGroup = processingGroupName;

@@ -10,5 +10,8 @@
 </script>
 
 <p>
-	<a href={`/document/?url=${encodeURIComponent(data.href)}&sourceConfigId=${sourceConfig._id}`} on:click|once={onClick}>{data.text}</a>
+	<a
+		href={`/document/?url=${encodeURIComponent(data.href)}&sourceConfigId=${sourceConfig._id}`}
+		on:click|once={onClick}>{data.text}</a
+	>
 </p>

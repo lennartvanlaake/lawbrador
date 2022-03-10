@@ -1,2 +1,2 @@
-import '../static/simple.css'
-import '../static/iconmoon.css'
+import '../static/simple.css';
+import '../static/iconmoon.css';

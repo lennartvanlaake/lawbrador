@@ -8,6 +8,6 @@
 	},
 	"scripts": {
 		"it": "cypress run",
-                "open": "yarn sync && cypress open"
+		"open": "yarn sync && cypress open"
 	}
 }

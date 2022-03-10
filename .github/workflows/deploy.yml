@@ -1,7 +1,7 @@
 name: learn-github-actions
 on:
   push:
-    branches: 
+    branches:
       - main
 jobs:
   converge:
@@ -16,7 +16,7 @@ jobs:
       - name: Converge
         uses: werf/actions/converge@v1.2
         with:
-          env: prod 
+          env: prod
           kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
         env:
-          WERF_SET_URL: "url=xanto.lawbrador.nl"
+          WERF_SET_URL: 'url=xanto.lawbrador.nl'

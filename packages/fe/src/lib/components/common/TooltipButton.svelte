@@ -7,11 +7,11 @@
 
 {#if showTooltip}
 	<p>
-	{#if tooltipText }
-		<em>{tooltipText}</em>
-	{:else }
-		<em>No description of this source provided</em>
-	{/if}
+		{#if tooltipText}
+			<em>{tooltipText}</em>
+		{:else}
+			<em>No description of this source provided</em>
+		{/if}
 	</p>
 {/if}
 

@@ -1,7 +1,7 @@
 <script lang="ts">
-import RemoveButton from "./RemoveButton.svelte";
-export let value: any | null | undefined = null;
-export let list: Array<any> | null = null;
+	import RemoveButton from './RemoveButton.svelte';
+	export let value: any | null | undefined = null;
+	export let list: Array<any> | null = null;
 </script>
 
 <slot />

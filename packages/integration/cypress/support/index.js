@@ -14,6 +14,7 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
+/* eslint-disable */
 export function clearDB() {
 	cy.request('DELETE', 'https://workspace.lawbrador.nl/api/all');
 	cy.log('cleared DB');

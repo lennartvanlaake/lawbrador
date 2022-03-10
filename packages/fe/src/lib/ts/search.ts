@@ -6,7 +6,7 @@ export function getInputFromSearchParams(
 	query: URLSearchParams,
 	sourceConfig: SourceSiteConfig
 ): Record<string, string> | null {
-	let searchParams = {};
+	const searchParams = {};
 	if (sourceConfig && query?.get(sourceConfig.htmlSearchRuleSet.queryVariable)) {
 		query.forEach((value, key) => {
 			searchParams[key] = value;
@@ -70,8 +70,8 @@ export async function submitQuery(
 	sourceConfig: SourceSiteConfig
 ): Promise<SearchResult[]> {
 	searchParams[sourceConfig.htmlSearchRuleSet.pageVariable] = '1';
-	let searchResults = (
-		await search({ sourceConfigId: sourceConfig._id!!, searchParams: searchParams })
+	const searchResults = (
+		await search({ sourceConfigId: sourceConfig._id!, searchParams: searchParams })
 	).results;
 	addToHistory(searchParams, sourceConfig);
 	if (searchResults.length == 0) {
@@ -81,7 +81,7 @@ export async function submitQuery(
 }
 
 function addToHistory(searchParams: Record<string, string>, sourceConfig: SourceSiteConfig) {
-	let url = `?sourceConfigId=${sourceConfig._id!!}`;
+	let url = `?sourceConfigId=${sourceConfig._id!}`;
 	sourceConfig.searchUrlConfig.queryComponents.forEach((queryParam) => {
 		const component = queryParam.urlComponent;
 		if ('variableName' in component) {

@@ -3,6 +3,7 @@ node_modules
 /storybook-static
 /src/stories/assets
 /build
+/dist
 /.svelte-kit
 /package
 .env

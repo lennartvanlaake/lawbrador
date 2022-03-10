@@ -4,7 +4,7 @@ import adapter from '@sveltejs/adapter-node';
 export default {
 	disableDependencyReinclusion: ['svench'],
 	preprocess: preprocess({
-		typescript: true,
+		typescript: true
 	}),
 	kit: {
 		vite: {

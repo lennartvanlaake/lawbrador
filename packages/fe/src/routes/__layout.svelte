@@ -1,15 +1,16 @@
 <script lang="ts">
 </script>
+
 <nav>
 	<a class="left" href="/">Home</a>
 	<a class="right" href="/about">About</a>
 </nav>
-<div id="spacer"></div>
-<slot></slot>
+<div id="spacer" />
+<slot />
 
 <style>
 	:global(:root) {
-		--accent:#815307;
+		--accent: #815307;
 	}
 	:global(section) {
 		margin-left: 2rem;
@@ -31,5 +32,4 @@
 		position: fixed;
 		background-color: white;
 	}
-
 </style>

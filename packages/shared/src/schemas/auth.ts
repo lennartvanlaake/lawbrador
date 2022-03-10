@@ -1,9 +1,9 @@
-import {  Type } from '@sinclair/typebox';
+import { Type } from '@sinclair/typebox';
 
 export const loginRequest = Type.Object({
-	password: Type.String(),
+	password: Type.String()
 });
 
 export const loginResponse = Type.Object({
-	jwt: Type.String(),
+	jwt: Type.String()
 });

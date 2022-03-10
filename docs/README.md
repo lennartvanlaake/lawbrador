@@ -16,10 +16,10 @@ Instead of saving the legal universe to a private database, Lawbrador proxies qu
 
 ### Example
 
-https://eur-lex.europa.eu/ is the website of on which you can find all EU-law. However, it does not work well on mobile and (in my huble opinion) has way too many irrelevant buttons to be used by a non-expert user. 
-
+https://eur-lex.europa.eu/ is the website of on which you can find all EU-law. However, it does not work well on mobile and (in my huble opinion) has way too many irrelevant buttons to be used by a non-expert user.
 
 In Lawbrador you can fill in a form explaining ot the application how https://eur-lex.europa.eu/ works. For instance:
+
 - To search you need to add the query parameter "query" in the url https://eur-lex.europa.eu/search.html.
 - The query results can be found in an element with the class "EurlexContent".
 - The actual text of the document can be found in an element with the id "TexteOnly".
@@ -38,11 +38,11 @@ Using these rules our algorithm can "understand" the actual semantics of an onli
 
 ## Wishlist
 
- - Automatically scroll to passage of document that contains search term
- - Add support for more sources
- - Save found search results as bookmarks
- - Label found search results
- - Highlight passages from search results
+- Automatically scroll to passage of document that contains search term
+- Add support for more sources
+- Save found search results as bookmarks
+- Label found search results
+- Highlight passages from search results
 
 ## Help wanted!
 

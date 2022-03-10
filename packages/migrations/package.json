@@ -1,15 +1,15 @@
 {
-  "name": "@lawbrador/migrations",
-  "version": "1.0.0",
-  "author": "Lennart van Laake",
-  "license": "AGPL",
-  "type": "module",
-  "scripts": {
-    "start": "node --experimental-specifier-resolution=node --loader ts-node/esm src/migrate.ts",
-    "dev": "node --experimental-specifier-resolution=node --loader ts-node/esm src/migrate.ts up"
-  },
-  "dependencies": {
-    "umzug": "^3.0.0",
-    "ts-node": "^10.4.0"
-  }
+	"name": "@lawbrador/migrations",
+	"version": "1.0.0",
+	"author": "Lennart van Laake",
+	"license": "AGPL",
+	"type": "module",
+	"scripts": {
+		"start": "node --experimental-specifier-resolution=node --loader ts-node/esm src/migrate.ts",
+		"dev": "node --experimental-specifier-resolution=node --loader ts-node/esm src/migrate.ts up"
+	},
+	"dependencies": {
+		"umzug": "^3.0.0",
+		"ts-node": "^10.4.0"
+	}
 }

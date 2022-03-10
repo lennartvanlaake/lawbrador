@@ -6,7 +6,7 @@ export * from './match/matcher';
 
 export { scrape } from './parse/scraper';
 
-export { restructure }  from './restructure/index';
+export { restructure } from './restructure/index';
 
 export * from './search/search';
 export * from './search/incrementPageNumber';
@@ -27,8 +27,6 @@ export * from './schemas/scrapeTypes';
 export * from './schemas/tagTypes';
 export * from './schemas/searchTypes';
 export * from './schemas/authTypes';
-
-
 
 export * from './schemas/genericTypes';
 export * from '@lawbrador/shared/src/schemas/ruleTypes';

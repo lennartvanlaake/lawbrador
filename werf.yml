@@ -1,7 +1,7 @@
 project: lawbrador
 configVersion: 1
-deploy: 
-  helmChartDir: ./infra/prod/helm 
+deploy:
+  helmChartDir: ./infra/prod/helm
   namespace: default
 ---
 image: fe
@@ -10,5 +10,5 @@ dockerfile: ./infra/prod/Dockerfile-fe
 image: api
 dockerfile: ./infra/prod/Dockerfile-api
 ---
-image: migrations 
+image: migrations
 dockerfile: ./infra/prod/Dockerfile-migrations

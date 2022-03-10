@@ -18,16 +18,13 @@
 <slot name="title" />
 <div>
 	<button on:click={toggle}>
-		{#if enabled }
-			{ DISABLE_TEXT }
+		{#if enabled}
+			{DISABLE_TEXT}
 		{:else}
-			{ ENABLE_TEXT }
-		{/if } 
-
-</button>
-{#if enabled }
-	<slot>
-	</slot>
-{/if }
-
+			{ENABLE_TEXT}
+		{/if}
+	</button>
+	{#if enabled}
+		<slot />
+	{/if}
 </div>

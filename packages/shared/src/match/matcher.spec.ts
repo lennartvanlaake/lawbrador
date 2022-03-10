@@ -24,7 +24,7 @@ describe('Test matching first element', () => {
 		const rule: SelectionRule = {
 			op: 'is',
 			location: 'id',
-			value: 'usefull',
+			value: 'usefull'
 		};
 		const firstMatched = getFirstMatching(parsed, rule);
 		expect(firstMatched.ids[0]).to.eq('usefull');
@@ -61,7 +61,7 @@ describe('Test matching first element', () => {
 		const rule: SelectionRule = {
 			op: 'includes',
 			location: 'id',
-			value: 'full',
+			value: 'full'
 		};
 		const firstMatched = getFirstMatching(parsed, rule);
 		expect(firstMatched.ids[0]).to.eq('usefull');
@@ -70,7 +70,7 @@ describe('Test matching first element', () => {
 		const rule: SelectionRule = {
 			op: 'is',
 			location: 'class',
-			value: 'content',
+			value: 'content'
 		};
 		const firstMatched = getFirstMatching(parsed, rule);
 		expect(firstMatched.ids[0]).to.eq('usefull');
@@ -79,7 +79,7 @@ describe('Test matching first element', () => {
 		const rule: SelectionRule = {
 			op: 'is',
 			location: 'text',
-			value: 'even more text',
+			value: 'even more text'
 		};
 		const firstMatched = getFirstMatching(parsed, rule);
 		expect(firstMatched.text).to.eq('even more text');
@@ -88,7 +88,7 @@ describe('Test matching first element', () => {
 		const rule: SelectionRule = {
 			op: 'is',
 			location: 'text',
-			value: '.ext',
+			value: '.ext'
 		};
 		const firstMatched = getFirstMatching(parsed, rule);
 		expect(firstMatched.text).to.eq('text');
@@ -97,7 +97,7 @@ describe('Test matching first element', () => {
 		const rule: SelectionRule = {
 			op: 'is',
 			location: 'tag',
-			value: 'ul',
+			value: 'ul'
 		};
 		const firstMatched = getFirstMatching(parsed, rule);
 		expect(firstMatched.tags[0]).to.eq('ul');
@@ -110,7 +110,7 @@ describe('Test matching all elements', () => {
 		const rule: SelectionRule = {
 			op: 'is',
 			location: 'class',
-			value: 'text',
+			value: 'text'
 		};
 		const matched = getAllMatching(parsed, rule);
 		expect(matched.length).to.eq(3);
@@ -119,7 +119,7 @@ describe('Test matching all elements', () => {
 		const rule: SelectionRule = {
 			op: 'is',
 			location: 'class',
-			value: 'content',
+			value: 'content'
 		};
 		const matched = getAllMatching(parsed, rule);
 		expect(matched.length).to.eq(2);

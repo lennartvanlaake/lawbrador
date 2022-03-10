@@ -9,11 +9,12 @@
 	const validator = new Validator(Schemas.valueWithDisplayName);
 	$: errors = validator.validate(option);
 </script>
+
 {#if option}
-<section>
-	<Removable bind:value={option} bind:list={options}>
-		<ValidatedTextField bind:value={option.value} errors={errors?.value} label="value" />
-		<input type="textfield" bind:value={option.displayName} label="display name" />
-	</Removable>
-</section>
-{/if }
+	<section>
+		<Removable bind:value={option} bind:list={options}>
+			<ValidatedTextField bind:value={option.value} errors={errors?.value} label="value" />
+			<input type="textfield" bind:value={option.displayName} label="display name" />
+		</Removable>
+	</section>
+{/if}

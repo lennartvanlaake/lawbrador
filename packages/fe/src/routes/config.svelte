@@ -5,10 +5,10 @@
 	import type { SourceSiteConfig } from '@lawbrador/shared';
 	import { getSourceConfigs } from '$lib/ts/api';
 	export const load: Load = async ({ fetch }) => {
-		const sources: SourceSiteConfig[] = await getSourceConfigs(fetch) ?? [];
+		const sources: SourceSiteConfig[] = (await getSourceConfigs(fetch)) ?? [];
 		const editorProps: SourceConfigEditorProps = {
 			sourceConfigs: sources,
-			sourceConfig: null 
+			sourceConfig: null
 		};
 		return {
 			props: {

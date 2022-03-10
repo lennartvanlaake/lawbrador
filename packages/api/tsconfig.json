@@ -1,12 +1,12 @@
 {
-  "extends": "../../tsconfig.json",
-  "include": ["src/**/*.ts"],
-  "references": [
-    {
-      "path": "../shared"
-    }
-  ],
-  "compilerOptions": {
-    "outDir": "dist"
-  }
+	"extends": "../../tsconfig.json",
+	"include": ["src/**/*.ts"],
+	"references": [
+		{
+			"path": "../shared"
+		}
+	],
+	"compilerOptions": {
+		"outDir": "dist"
+	}
 }

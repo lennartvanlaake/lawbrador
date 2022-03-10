@@ -1,27 +1,24 @@
-import type { Static } from "@sinclair/typebox";
+import type { Static } from '@sinclair/typebox';
 import type {
-  documentRuleSet,
-  htmlSearchRuleSet,
-  markupRule,
-  queryParam,
-  selectionRule,
-  sourceSiteConfig,
-  staticUrlComponent,
-  urlComponent,
-  urlConfig,
-  valueWithDisplayName,
-  variableUrlComponent,
-} from "./rules";
-import type {
-  ALL_SELECTION_OPERATORS,
-  ALL_SELECTION_LOCATIONS,
-} from "./ruleConstants";
+	documentRuleSet,
+	htmlSearchRuleSet,
+	markupRule,
+	queryParam,
+	selectionRule,
+	sourceSiteConfig,
+	staticUrlComponent,
+	urlComponent,
+	urlConfig,
+	valueWithDisplayName,
+	variableUrlComponent
+} from './rules';
+import type { ALL_SELECTION_OPERATORS, ALL_SELECTION_LOCATIONS } from './ruleConstants';
 
 export type SelectionOperator = typeof ALL_SELECTION_OPERATORS[number];
 export type SelectionLocation = typeof ALL_SELECTION_LOCATIONS[number];
 export interface SelectionRule extends Static<typeof selectionRule> {
-	nestedRule?: SelectionRule
-};
+	nestedRule?: SelectionRule;
+}
 export type MarkupRule = Static<typeof markupRule>;
 export type DocumentRuleSet = Static<typeof documentRuleSet>;
 export type HtmlSearchRuleSet = Static<typeof htmlSearchRuleSet>;

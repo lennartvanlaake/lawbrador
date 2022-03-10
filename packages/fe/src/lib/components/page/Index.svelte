@@ -5,7 +5,7 @@
 	import { submitQuery, getNextPage, getInputFromSearchParams } from '$lib/ts/search';
 	import { doIfEnter } from '$lib/ts/utils';
 	import type { SourceSiteConfig } from '@lawbrador/shared';
-  	import { tick, onMount } from 'svelte';
+	import { tick, onMount } from 'svelte';
 	import type { IndexProps } from './types';
 	import { Mutex } from 'async-mutex';
 	export let indexProps: IndexProps;
@@ -23,10 +23,15 @@
 
 	async function page() {
 		try {
-			console.log("next page");
+			console.log('next page');
 			await mutex.waitForUnlock();
-			await mutex.runExclusive(async() => {
-				const pageResult = await getNextPage(firstSearchResultLength, indexProps.searchParams, indexProps.searchResults, indexProps.sourceConfig);
+			await mutex.runExclusive(async () => {
+				const pageResult = await getNextPage(
+					firstSearchResultLength,
+					indexProps.searchParams,
+					indexProps.searchResults,
+					indexProps.sourceConfig
+				);
 				indexProps.searchResults = pageResult.searchResults;
 				indexProps.searchParams = pageResult.searchParams;
 				hasMore = !pageResult.isLast;
@@ -34,16 +39,18 @@
 		} catch (e) {
 			alert(e.message);
 		}
-
 	}
 
 	async function onQuerySubmitted() {
 		try {
 			hasSearched = true;
 			await mutex.runExclusive(async () => {
-				indexProps.searchResults = await submitQuery(indexProps.searchParams, indexProps.sourceConfig)
+				indexProps.searchResults = await submitQuery(
+					indexProps.searchParams,
+					indexProps.sourceConfig
+				);
 				firstSearchResultLength = indexProps.searchResults.length;
-				console.log("submitted");
+				console.log('submitted');
 			});
 			await tick();
 			// keep adding results until there are no more or the list is scrollable
@@ -56,21 +63,24 @@
 		}
 	}
 
-	const paramsFromQuery = getInputFromSearchParams(indexProps.query, indexProps.sourceConfig); 	
+	const paramsFromQuery = getInputFromSearchParams(indexProps.query, indexProps.sourceConfig);
 	onMount(async () => {
 		if (paramsFromQuery) {
 			indexProps.searchParams = paramsFromQuery;
-		 	await onQuerySubmitted();
+			await onQuerySubmitted();
 		}
-	})
+	});
 </script>
+
 <img src="/logo.png" alt="lawbrador logo" />
 
 <h3>Source</h3>
 <SourceConfigSelector
 	sourceConfig={indexProps.sourceConfig}
 	sourceConfigList={indexProps.sourceConfigs}
-	sourceConfigId={indexProps.sourceConfig ? indexProps.sourceConfig._id : indexProps.query.get('sourceConfigId')}
+	sourceConfigId={indexProps.sourceConfig
+		? indexProps.sourceConfig._id
+		: indexProps.query.get('sourceConfigId')}
 	on:configSelected={setSourceConfig}
 />
 <h3>Query</h3>
@@ -79,12 +89,13 @@
 	sourceConfig={indexProps.sourceConfig}
 	on:querySubmitted={onQuerySubmitted}
 />
-<SearchResultList bind:loaderIsVisible
-		  bind:searchResults={indexProps.searchResults}
-		  bind:hasMore
-		  sourceConfig={indexProps.sourceConfig}
-		  {hasSearched}
-		  on:bottomReached={page}
+<SearchResultList
+	bind:loaderIsVisible
+	bind:searchResults={indexProps.searchResults}
+	bind:hasMore
+	sourceConfig={indexProps.sourceConfig}
+	{hasSearched}
+	on:bottomReached={page}
 />
 <svelte:window on:keypress={(event) => doIfEnter(event, async () => await onQuerySubmitted())} />
 
@@ -92,5 +103,4 @@
 	img {
 		padding-top: 1rem;
 	}
-
 </style>

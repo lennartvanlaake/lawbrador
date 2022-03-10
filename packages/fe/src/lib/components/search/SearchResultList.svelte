@@ -2,8 +2,8 @@
 	import SearchResultComponent from '../search/SearchResult.svelte';
 	import type { SearchResult, SourceSiteConfig } from '@lawbrador/shared';
 	import InfiniteScrollLoader from './InfiniteScrollLoader.svelte';
-import Modal from '../common/Modal.svelte';
-import Spinner from '../common/Spinner.svelte';
+	import Modal from '../common/Modal.svelte';
+	import Spinner from '../common/Spinner.svelte';
 
 	export let sourceConfig: SourceSiteConfig;
 	export let searchResults: SearchResult[] = [];
@@ -13,20 +13,25 @@ import Spinner from '../common/Spinner.svelte';
 	export let hasClicked = false;
 </script>
 
-{#if hasClicked }
+{#if hasClicked}
 	<Modal>
-	 	<h1>Fetching<Spinner /></h1>
+		<h1>Fetching<Spinner /></h1>
 	</Modal>
-{/if }
+{/if}
 
-<div id="results" >
+<div id="results">
 	{#each searchResults ?? [] as result}
-		<SearchResultComponent data={result} {sourceConfig} on:searchResultClicked={() => hasClicked = true} />
+		<SearchResultComponent
+			data={result}
+			{sourceConfig}
+			on:searchResultClicked={() => (hasClicked = true)}
+		/>
 	{/each}
-	{#if hasSearched }
-		<InfiniteScrollLoader bind:hasMore bind:loaderIsVisible on:bottomReached/>
-	{/if }
+	{#if hasSearched}
+		<InfiniteScrollLoader bind:hasMore bind:loaderIsVisible on:bottomReached />
+	{/if}
 </div>
+
 <style>
 	#results {
 		max-height: 80vh;

@@ -10,9 +10,9 @@ export class Validator {
 	validate(value: any): Record<string, ErrorObject[]> | undefined {
 		this.validator(value);
 		const map = this.validator.errors?.reduce((a, e) => {
-			let propName = e.instancePath.split('/')[1];
+			const propName = e.instancePath.split('/')[1];
 			if (propName && a[propName]) {
-				a[propName] = [...a[propName] ?? [], e];
+				a[propName] = [...(a[propName] ?? []), e];
 			} else {
 				a[propName] = [e];
 			}
@@ -27,18 +27,18 @@ export class Validator {
 
 export function getImprovedErrorMessages(
 	errors: ErrorObject[] | undefined,
-	level: number = 1,
-	label: String = ""
+	level = 1,
+	label = ''
 ): string[] | undefined {
 	if (!errors) return undefined;
 	return [
 		...new Set(
 			errors.map((e) => {
 				const path = e.instancePath.split('/');
-				const isChildError = path.length > level 
+				const isChildError = path.length > level;
 				if (isChildError) {
 					console.log(path);
-					let childNumber = parseInt(path[level]) + 1;
+					const childNumber = parseInt(path[level]) + 1;
 					if (childNumber) {
 						return `Value number ${childNumber} is invalid`;
 					} else {

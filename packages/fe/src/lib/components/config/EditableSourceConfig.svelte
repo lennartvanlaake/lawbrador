@@ -9,7 +9,7 @@
 	import EditableUrlConfig from './EditableUrlConfig.svelte';
 	import EditableSearchConfig from './EditableSearchConfig.svelte';
 	import WarningBox from '../common/WarningBox.svelte';
-import Removable from '../common/Removable.svelte';
+	import Removable from '../common/Removable.svelte';
 
 	export let sourceConfig: Omit<SourceSiteConfig, '_id'>;
 	export let isValid = false;
@@ -21,37 +21,37 @@ import Removable from '../common/Removable.svelte';
 
 <h2>General</h2>
 <section>
-		<h4>Name</h4>
-		<ValidatedTextField label="Name" bind:value={sourceConfig.name} errors={errors?.name} />
-		<h4>Description</h4>
-		<textarea bind:value={sourceConfig.description}  />
+	<h4>Name</h4>
+	<ValidatedTextField label="Name" bind:value={sourceConfig.name} errors={errors?.name} />
+	<h4>Description</h4>
+	<textarea bind:value={sourceConfig.description} />
 </section>
 
 <h2>Search</h2>
 <section>
-		<EditableSearchConfig bind:config={sourceConfig.htmlSearchRuleSet} />
+	<EditableSearchConfig bind:config={sourceConfig.htmlSearchRuleSet} />
 </section>
 
 <h2>Document rule sets</h2>
 <section>
-		{#each sourceConfig.documentRuleSets ?? [] as ruleSet}
+	{#each sourceConfig.documentRuleSets ?? [] as ruleSet}
 		<Removable bind:value={ruleSet} bind:list={sourceConfig.documentRuleSets}>
 			<EditableDocumentRuleSet bind:ruleSet />
 		</Removable>
-		{/each}
-		<div>
+	{/each}
+	<div>
 		<AddButton bind:value={sourceConfig.documentRuleSets} empty={DEFAULT_EMPTY_RULESET} />
-		</div>
+	</div>
 </section>
 
 <h2>Search url config</h2>
 <section>
-		<EditableUrlConfig bind:urlConfig={sourceConfig.searchUrlConfig} />
+	<EditableUrlConfig bind:urlConfig={sourceConfig.searchUrlConfig} />
 </section>
 
 <h2>Document url config</h2>
 <section>
-		<EditableUrlConfig bind:urlConfig={sourceConfig.documentUrlConfig} />
+	<EditableUrlConfig bind:urlConfig={sourceConfig.documentUrlConfig} />
 </section>
 
 <WarningBox messages={getImprovedErrorMessages(errors?.all)} />

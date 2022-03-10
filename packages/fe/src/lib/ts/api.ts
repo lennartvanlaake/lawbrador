@@ -27,7 +27,7 @@ async function request(path: string, body: any, method: Method) {
 		method: method,
 		headers: {
 			'Content-Type': 'application/json',
-			'Authorization': localStorage.getItem("jwt") ?? ""
+			Authorization: localStorage.getItem('jwt') ?? ''
 		},
 		body: JSON.stringify(body)
 	};
@@ -39,11 +39,11 @@ async function request(path: string, body: any, method: Method) {
 }
 
 async function post(path: string, body: any) {
-	return await request(path, body, "POST");
+	return await request(path, body, 'POST');
 }
 
 async function put(path: string, body: any) {
-	return await request(path, body, "PUT");
+	return await request(path, body, 'PUT');
 }
 
 export async function getDocument(
@@ -83,5 +83,3 @@ export async function search(body: SearchRequest): Promise<SearchResponse> {
 export async function exchangePasswordForJwt(body: LoginRequest): Promise<LoginResponse> {
 	return await post(Endpoints.LOGIN, body);
 }
-
-

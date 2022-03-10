@@ -1,7 +1,7 @@
 <script lang="ts">
 	import NodeView from './NodeView.svelte';
 	import type { LinkNode } from '@lawbrador/shared';
-	export let node: LinkNode ;
+	export let node: LinkNode;
 </script>
 
 <a href={node.href}>

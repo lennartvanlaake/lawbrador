@@ -1,4 +1,4 @@
-import {  Type } from '@sinclair/typebox';
+import { Type } from '@sinclair/typebox';
 
 export const searchResult = Type.Object({
 	text: Type.String(),
@@ -7,11 +7,10 @@ export const searchResult = Type.Object({
 });
 
 export const searchResponse = Type.Object({
-	results: Type.Array(searchResult),
-})
+	results: Type.Array(searchResult)
+});
 
 export const searchRequest = Type.Object({
 	sourceConfigId: Type.String(),
-	searchParams: Type.Record(Type.String(), Type.String()),
+	searchParams: Type.Record(Type.String(), Type.String())
 });
-
