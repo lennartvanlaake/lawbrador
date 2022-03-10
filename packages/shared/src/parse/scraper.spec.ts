@@ -29,7 +29,7 @@ describe('Full example', () => {
 });
 
 describe('Scraping bugfix regressions', () => {
-	it.only('Text gets not displayed', () => {
+	it('Text gets not displayed', () => {
 		const html = `
 		<p>
       			<span>DIRECTIVE</span>
