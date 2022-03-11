@@ -18,6 +18,7 @@ export interface ParsedNode extends Static<typeof parsedNode> {
 }
 export interface BaseRestructuredNode {
   name: string;
+  id: string;
   children: RestructuredNode[] | undefined;
 }
 

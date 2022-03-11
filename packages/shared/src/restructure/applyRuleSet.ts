@@ -19,7 +19,8 @@ export function applyRuleSet(
   if (!body) {
     throw new Error(Errors.NO_BODY_FOUND);
   }
-  const restructured = restructureRecursive(body, rules?.markupRules ?? []);
+  const idMap = {};
+  const restructured = restructureRecursive(body, rules?.markupRules ?? [], idMap);
   const modifiedOutput = modifyOutput(restructured, sourceConfig, sourceUrl);
   return modifiedOutput;
 }

@@ -1,5 +1,6 @@
 import { getTagConfig, ListElementNode, TextNode } from "..";
 import type { RestructuredNode } from "..";
+import { v4 as uuid } from "uuid";
 
 const IS_LI_MARKER_REGEX = /^\W\w{1,5}\W$|^\d{1,5}\W?$|^\W$/;
 const CONTAINS_LI_MARKER_REGEX = /^\W\w{1,5}\W\s|^\d{1,5}\W?\s|^\W\s/;
@@ -14,6 +15,7 @@ export function detectLiElements(node: RestructuredNode): RestructuredNode {
     node.children![0].children?.length == 0
   ) {
     return {
+      id: uuid(),
       name: "li",
       children: node.children?.filter((it) => it != node.children![0]),
       marker: node.children![0].marker,
@@ -35,6 +37,7 @@ export function detectLiElements(node: RestructuredNode): RestructuredNode {
     if (containsMarkerMatch && containsMarkerMatch.length > 0) {
       const matchingText = containsMarkerMatch[0].trim();
       const marker: TextNode = {
+        id: uuid(),
         name: "text",
         children: [],
         text: matchingText.trim(),
@@ -63,6 +66,7 @@ export function wrapLiElementsInOl(node: RestructuredNode): RestructuredNode {
       // start a new list if no list is started
       if (!olElement) {
         olElement = {
+          id: uuid(),
           name: "ol",
           children: [] as RestructuredNode[],
         };

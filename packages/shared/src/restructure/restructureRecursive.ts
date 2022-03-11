@@ -5,23 +5,27 @@ import {
   RestructuredNode,
   TagName,
 } from "..";
+import { v4 as uuid } from 'uuid';
 import { matches } from "..";
 
 export function restructureRecursive(
   node: ParsedNode,
   markupRules: MarkupRule[],
+  idMap: Record<string, string>,
   parentTag: string | null = null
 ): RestructuredNode {
   const tag: TagName = getTag(node, markupRules, parentTag);
   const children = node.children?.map((c) =>
-    restructureRecursive(c, markupRules, tag)
+    restructureRecursive(c, markupRules, idMap, tag)
   );
   const output = {
+    id: uuid(),
     name: tag,
     children: children,
     text: node.text,
     href: node.href,
   };
+  node.ids?.forEach(it => idMap[it] = output.id)
   return output as RestructuredNode;
 }
 
