@@ -6,6 +6,9 @@
   "workspaces": [
     "packages/**"
   ],
+  "lint-staged": {
+    "*.{html,css,js,ts,svench,svelte,json}": ["prettier -c packages/prettier/index.js --write", "eslint -c packages/eslint-config/index.js --fix"]
+  },
   "private": true,
   "scripts": {
     "docker-down": "docker-compose -f infra/dev/docker-compose.yml down",
@@ -21,7 +24,8 @@
     "precommit": "yarn format --loglevel error && yarn lint --quiet"
   },
   "devDependencies": {
-    "husky": "^7.0.4"
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.5"
   },
   "resolutions": {
     "typescript": "4.5.4",
