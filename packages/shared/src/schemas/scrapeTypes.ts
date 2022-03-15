@@ -1,7 +1,6 @@
 import type { Static } from "@sinclair/typebox";
 import type {
   parsedNode,
-  restructuredDocument,
   scrapeRequest,
   scrapeResult,
 } from "./scrape";
@@ -42,7 +41,7 @@ export interface OtherNode extends BaseRestructuredNode {
 }
 
 export interface RestructuredDocument {
-  hash: string,
-  url: string,
-  body: RestructuredNode
+  hash: string;
+  url: string;
+  body: RestructuredNode;
 }

@@ -2,7 +2,6 @@ import type { FastifyInstance } from "fastify";
 import type {
   RestructuredDocument,
   ScrapeRequest,
-  ErrorResponse,
 } from "@lawbrador/shared";
 import {
   extractUrlVariables,
@@ -19,9 +18,6 @@ export default async (fastify: FastifyInstance) => {
     {
       schema: {
         querystring: Schemas.scrapeRequest,
-        response: {
-          200: Schemas.restructuredDocument,
-        },
       },
     },
     async (req): Promise<RestructuredDocument> => {

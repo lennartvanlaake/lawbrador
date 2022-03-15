@@ -25,6 +25,11 @@ export function applyRuleSet(
     rules?.markupRules ?? [],
     idMap
   );
-  const modifiedOutput = modifyOutput(restructured, sourceConfig, idMap, sourceUrl);
+  const modifiedOutput = modifyOutput(
+    restructured,
+    sourceConfig,
+    idMap,
+    sourceUrl
+  );
   return modifiedOutput;
 }

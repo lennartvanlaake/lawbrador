@@ -1,6 +1,5 @@
-import { LinkNode, logObject, SourceSiteConfig } from "..";
+import type { LinkNode, SourceSiteConfig } from "..";
 import { makeLinkAbsolute } from "..";
-"  dafds"
 const linkRegex = /#.*$/;
 
 export function adjustLinkNode(

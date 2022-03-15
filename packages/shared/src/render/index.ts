@@ -4,7 +4,8 @@ export function renderNode(node: RestructuredNode): string {
   if (node.name == "text") {
     return node.text;
   }
-  const childHtml = node.children?.reduce((a, c) => (a += renderNode(c)), "") ?? "";
+  const childHtml =
+    node.children?.reduce((a, c) => (a += renderNode(c)), "") ?? "";
   return `${getOpeningTag(node)}${childHtml}${getClosingTag(node)}`;
 }
 
