@@ -4,7 +4,7 @@ import EventProcessor from "./eventProcessor";
 import { EVENT_COLLECTION } from "@lawbrador/shared/src/db/collections";
 import { TypedCollection } from "@lawbrador/shared/src/db/Collection";
 import { clean, id } from "@lawbrador/shared/src/db/utils";
-import {
+import type {
   Identity,
   LawbradorEvent,
 } from "@lawbrador/shared/src/schemas/generic";

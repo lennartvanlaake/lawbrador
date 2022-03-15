@@ -1,4 +1,5 @@
-import { makeLinkAbsolute, UrlConfig } from "..";
+import type { UrlConfig } from "..";
+import { makeLinkAbsolute } from "..";
 import { buildUrl, extractUrlVariables } from "./url";
 import { expect } from "chai";
 

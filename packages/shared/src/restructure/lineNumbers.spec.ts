@@ -1,6 +1,6 @@
-import { DocumentRuleSet, logObject } from "..";
+import { logObject } from "..";
 import { expect } from "chai";
-import type { LinkNode, ListElementNode, TextNode } from "..";
+import type { LinkNode, ListElementNode, TextNode , DocumentRuleSet} from "..";
 import { parse } from "../parse/scraper";
 import { applyRuleSet } from "./applyRuleSet";
 import { eurlexConfig } from "..";

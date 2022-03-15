@@ -1,8 +1,9 @@
 import type { FastifyInstance } from "fastify";
+import type {
+  SourceSiteConfig} from "@lawbrador/shared";
 import {
   Endpoints,
   Schemas,
-  SourceSiteConfig,
   toIdentity,
 } from "@lawbrador/shared";
 import { id } from "@lawbrador/db";

@@ -1,5 +1,6 @@
 import { expect } from "chai";
-import { HtmlSearchRuleSet, incrementPageNumber } from "..";
+import type { HtmlSearchRuleSet} from "..";
+import { incrementPageNumber } from "..";
 
 describe("Incrementing the page number", () => {
   const config: HtmlSearchRuleSet = {

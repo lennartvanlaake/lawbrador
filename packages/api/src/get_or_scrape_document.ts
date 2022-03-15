@@ -1,8 +1,5 @@
 import type { FastifyInstance } from "fastify";
-import type {
-  RestructuredDocument,
-  ScrapeRequest,
-} from "@lawbrador/shared";
+import type { RestructuredDocument, ScrapeRequest } from "@lawbrador/shared";
 import {
   extractUrlVariables,
   Endpoints,

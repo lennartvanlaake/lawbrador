@@ -1,6 +1,7 @@
-import {
+import type {
   SourceConfigCreated,
-  SourceConfigUpdated,
+  SourceConfigUpdated} from "../eventFactory";
+import {
   SOURCE_CONFIG_CREATED,
   SOURCE_CONFIG_UPDATED,
 } from "../eventFactory";

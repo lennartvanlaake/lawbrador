@@ -1,4 +1,5 @@
-import { DocumentRuleSet, logObject } from "..";
+import type { DocumentRuleSet} from "..";
+import { logObject } from "..";
 import { expect } from "chai";
 import { parse } from "../parse/scraper";
 import { applyRuleSet } from "./applyRuleSet";

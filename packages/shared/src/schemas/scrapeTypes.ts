@@ -1,9 +1,5 @@
 import type { Static } from "@sinclair/typebox";
-import type {
-  parsedNode,
-  scrapeRequest,
-  scrapeResult,
-} from "./scrape";
+import type { parsedNode, scrapeRequest, scrapeResult } from "./scrape";
 
 export type ScrapeResult = Static<typeof scrapeResult>;
 export type ScrapeRequest = Static<typeof scrapeRequest>;

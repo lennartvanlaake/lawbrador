@@ -1,4 +1,5 @@
-import { Errors, SearchResult, SourceSiteConfig } from '@lawbrador/shared';
+import type { SearchResult, SourceSiteConfig } from '@lawbrador/shared';
+import { Errors } from '@lawbrador/shared';
 import { search } from './api';
 import { incrementPageNumber } from '@lawbrador/shared';
 

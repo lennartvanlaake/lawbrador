@@ -1,9 +1,10 @@
-import {
+import type {
   DocumentRuleSet,
-  Errors,
   ParsedNode,
   RestructuredNode,
-  SourceSiteConfig,
+  SourceSiteConfig} from "..";
+import {
+  Errors
 } from "..";
 import { getFirstMatching } from "..";
 import { modifyOutput } from "./modifyOutput";

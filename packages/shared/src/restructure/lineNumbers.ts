@@ -1,5 +1,5 @@
-import { getTagConfig, ListElementNode, TextNode } from "..";
-import type { RestructuredNode } from "..";
+import { getTagConfig } from "..";
+import type { RestructuredNode , ListElementNode, TextNode } from "..";
 import { v4 as uuid } from "uuid";
 
 const IS_LI_MARKER_REGEX = /^\W\w{1,5}\W$|^\d{1,5}\W?$|^\W$/;

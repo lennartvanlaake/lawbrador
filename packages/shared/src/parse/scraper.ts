@@ -1,6 +1,8 @@
-import cheerio, { Node, CheerioAPI } from "cheerio";
+import type { Node, CheerioAPI } from "cheerio";
+import cheerio from "cheerio";
 import axios from "axios";
-import { Errors, ParsedNode, ScrapeResult } from "@lawbrador/shared";
+import type { ParsedNode, ScrapeResult } from "@lawbrador/shared";
+import { Errors } from "@lawbrador/shared";
 
 const ignoredNodes = ["script", "style", "iframe"];
 

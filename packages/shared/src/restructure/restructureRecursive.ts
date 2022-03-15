@@ -1,9 +1,10 @@
-import {
-  getTagConfig,
+import type {
   MarkupRule,
   ParsedNode,
   RestructuredNode,
-  TagName,
+  TagName} from "..";
+import {
+  getTagConfig
 } from "..";
 import { v4 as uuid } from "uuid";
 import { matches } from "..";
