@@ -5,7 +5,7 @@ import {
   RestructuredNode,
   TagName,
 } from "..";
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from "uuid";
 import { matches } from "..";
 
 export function restructureRecursive(
@@ -25,7 +25,7 @@ export function restructureRecursive(
     text: node.text,
     href: node.href,
   };
-  node.ids?.forEach(it => idMap[it] = output.id)
+  node.ids?.forEach((it) => (idMap[it] = output.id));
   return output as RestructuredNode;
 }
 

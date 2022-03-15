@@ -41,4 +41,8 @@ export interface OtherNode extends BaseRestructuredNode {
   name: "div" | "ol" | "p" | "h1" | "h2" | "h3" | "inline" | "hidden";
 }
 
-export type RestructuredDocument = Static<typeof restructuredDocument>;
+export interface RestructuredDocument {
+  hash: string,
+  url: string,
+  body: RestructuredNode
+}

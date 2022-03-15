@@ -1,10 +1,7 @@
 import { getTagConfig, makeLinkAbsolute } from "..";
-import type {
-  RestructuredNode,
-  SourceSiteConfig,
-} from "..";
+import type { RestructuredNode, SourceSiteConfig } from "..";
 import { detectLiElements, wrapLiElementsInOl } from "./lineNumbers";
-import {adjustLinkNode} from "./links";
+import { adjustLinkNode } from "./links";
 
 export function modifyOutput(
   node: RestructuredNode,
@@ -27,4 +24,3 @@ export function modifyOutput(
   node = wrapLiElementsInOl(node);
   return node;
 }
-

@@ -1,10 +1,7 @@
 <script lang="ts">
 	import type { RestructuredDocument } from '@lawbrador/shared';
 	import NodeView from './NodeView.svelte';
-	export let document: RestructuredDocument;
+	export let document: RestructuredDocument
 </script>
-
-<a href={document.url} target="_blank">original</a>
-{#each document.body.children ?? [] as node}
-	<NodeView {node} />
-{/each}
+<a href={document.url}>Original</a>
+<NodeView node={document.body}></NodeView>

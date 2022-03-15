@@ -21,15 +21,3 @@ export const scrapeRequest = Type.Object({
   url: Type.String(),
   sourceConfigId: Type.String(),
 });
-
-// output after all mutations have been applied (limited checking because schema would get too complex)
-export const restructuredNode = Type.Object({
-  name: tagName,
-  children: Type.Optional(Type.Array(Type.Any())),
-});
-
-export const restructuredDocument = Type.Object({
-  hash: Type.String(),
-  url: Type.String(),
-  body: restructuredNode,
-});

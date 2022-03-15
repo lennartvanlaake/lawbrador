@@ -15,6 +15,9 @@
 	:global(section) {
 		margin-left: 2rem;
 	}
+	:global(.hidden) {
+		display: none;
+	}
 	#spacer {
 		margin-bottom: 6rem;
 	}

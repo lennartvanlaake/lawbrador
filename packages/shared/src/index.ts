@@ -3,6 +3,7 @@ export * from "./constants/examples";
 export * as Errors from "./constants/errors";
 
 export * from "./match/matcher";
+export * from "./render/index";
 
 export { scrape } from "./parse/scraper";
 

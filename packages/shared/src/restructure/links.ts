@@ -1,6 +1,6 @@
 import { LinkNode, logObject, SourceSiteConfig } from "..";
 import { makeLinkAbsolute } from "..";
-
+"  dafds"
 const linkRegex = /#.*$/;
 
 export function adjustLinkNode(
@@ -9,9 +9,8 @@ export function adjustLinkNode(
   idMap: Record<string, string>,
   sourceConfig: SourceSiteConfig
 ): LinkNode {
-  logObject(node)
-  node.href = makeLinkInternal(node.href, sourceUrl, sourceConfig._id);
   node.href = makeElementIdsInternal(node.href, idMap);
+  node.href = makeLinkInternal(node.href, sourceUrl, sourceConfig._id);
   return node;
 }
 

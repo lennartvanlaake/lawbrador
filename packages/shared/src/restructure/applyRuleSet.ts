@@ -20,7 +20,11 @@ export function applyRuleSet(
     throw new Error(Errors.NO_BODY_FOUND);
   }
   const idMap = {};
-  const restructured = restructureRecursive(body, rules?.markupRules ?? [], idMap);
-  const modifiedOutput = modifyOutput(restructured, sourceConfig, sourceUrl);
+  const restructured = restructureRecursive(
+    body,
+    rules?.markupRules ?? [],
+    idMap
+  );
+  const modifiedOutput = modifyOutput(restructured, sourceConfig, idMap, sourceUrl);
   return modifiedOutput;
 }
