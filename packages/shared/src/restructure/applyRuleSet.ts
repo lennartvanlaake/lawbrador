@@ -2,10 +2,9 @@ import type {
   DocumentRuleSet,
   ParsedNode,
   RestructuredNode,
-  SourceSiteConfig} from "..";
-import {
-  Errors
+  SourceSiteConfig,
 } from "..";
+import { Errors } from "..";
 import { getFirstMatching } from "..";
 import { modifyOutput } from "./modifyOutput";
 import { restructureRecursive } from "./restructureRecursive";

@@ -1,11 +1,6 @@
 import type { FastifyInstance } from "fastify";
-import type {
-  SourceSiteConfig} from "@lawbrador/shared";
-import {
-  Endpoints,
-  Schemas,
-  toIdentity,
-} from "@lawbrador/shared";
+import type { SourceSiteConfig } from "@lawbrador/shared";
+import { Endpoints, Schemas, toIdentity } from "@lawbrador/shared";
 import { id } from "@lawbrador/db";
 import { routeConfig } from "./utils";
 import { EventFactory } from "@lawbrador/events";

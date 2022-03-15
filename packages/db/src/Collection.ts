@@ -1,11 +1,5 @@
-import type {
-  Collection,
-  MongoClient,
-  Document,
-  ClientSession} from "mongodb";
-import {
-  ObjectId
-} from "mongodb";
+import type { Collection, MongoClient, Document, ClientSession } from "mongodb";
+import { ObjectId } from "mongodb";
 import type { Identity, MongoIdentity } from "@lawbrador/shared";
 import { DB_NAME } from "./constants";
 

@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import type { HtmlSearchRuleSet} from "..";
+import type { HtmlSearchRuleSet } from "..";
 import { incrementPageNumber } from "..";
 
 describe("Incrementing the page number", () => {

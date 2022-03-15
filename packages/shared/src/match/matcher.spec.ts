@@ -1,11 +1,7 @@
 import { expect } from "chai";
 import { parse } from "../parse/scraper";
-import type {
-  SelectionRule} from "@lawbrador/shared";
-import {
-  getFirstMatching,
-  getAllMatching,
-} from "@lawbrador/shared";
+import type { SelectionRule } from "@lawbrador/shared";
+import { getFirstMatching, getAllMatching } from "@lawbrador/shared";
 
 const inputOne = `
 	<div id='useless'>

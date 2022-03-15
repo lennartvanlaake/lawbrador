@@ -1,10 +1,5 @@
-import type {
-  SourceConfigCreated,
-  SourceConfigUpdated} from "../eventFactory";
-import {
-  SOURCE_CONFIG_CREATED,
-  SOURCE_CONFIG_UPDATED,
-} from "../eventFactory";
+import type { SourceConfigCreated, SourceConfigUpdated } from "../eventFactory";
+import { SOURCE_CONFIG_CREATED, SOURCE_CONFIG_UPDATED } from "../eventFactory";
 import EventProcessor from "../eventProcessor";
 
 const INSERT_SOURCE_CONFIG_PROCESSOR = new EventProcessor<SourceConfigCreated>(

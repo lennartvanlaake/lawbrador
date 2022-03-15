@@ -7,7 +7,7 @@ import authRoutes from "./auth";
 import fastifySwagger from "fastify-swagger";
 import type { MongoClient } from "mongodb";
 import { ALL_COLLECTIONS, LAWBRADOR_CLIENT } from "@lawbrador/db";
-import type { ProcessorRegistry} from "@lawbrador/events";
+import type { ProcessorRegistry } from "@lawbrador/events";
 import { LAWBRADOR_REGISTRY } from "@lawbrador/events";
 import fastifyJwt from "fastify-jwt";
 
