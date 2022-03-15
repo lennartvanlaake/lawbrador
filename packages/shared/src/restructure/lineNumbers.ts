@@ -2,8 +2,8 @@ import { getTagConfig } from "..";
 import type { RestructuredNode, ListElementNode, TextNode } from "..";
 import { v4 as uuid } from "uuid";
 
-const IS_LI_MARKER_REGEX = /^\W\w{1,5}\W$|^\d{1,5}\W?$|^\W$/;
-const CONTAINS_LI_MARKER_REGEX = /^\W\w{1,5}\W\s|^\d{1,5}\W?\s|^\W\s/;
+const IS_LI_MARKER_REGEX = /^\(\w{1,5}\)$|^\d{1,5}\W?$|^[-—]$/;
+//const CONTAINS_LI_MARKER_REGEX = /^\W\w{1,5}\W\s|^\d{1,5}\W?\s|^\W\s/;
 
 export function detectLiElements(node: RestructuredNode): RestructuredNode {
   const tagConfig = getTagConfig(node.name);
@@ -33,18 +33,18 @@ export function detectLiElements(node: RestructuredNode): RestructuredNode {
       node.children = node.children?.filter((it) => it != node.children![0]);
       return node;
     }
-    const containsMarkerMatch = firstChild.text.match(CONTAINS_LI_MARKER_REGEX);
-    if (containsMarkerMatch && containsMarkerMatch.length > 0) {
-      const matchingText = containsMarkerMatch[0].trim();
-      const marker: TextNode = {
-        id: uuid(),
-        name: "text",
-        children: [],
-        text: matchingText.trim(),
-      };
-      firstChild.text = firstChild.text.replace(matchingText, "").trim();
-      node = addMarker(node, marker);
-    }
+    //const containsMarkerMatch = firstChild.text.match(CONTAINS_LI_MARKER_REGEX);
+    //if (containsMarkerMatch && containsMarkerMatch.length > 0) {
+    //const matchingText = containsMarkerMatch[0].trim();
+    //const marker: TextNode = {
+    //id: uuid(),
+    //name: "text",
+    //children: [],
+    //text: matchingText.trim(),
+    //};
+    //firstChild.text = firstChild.text.replace(matchingText, "").trim();
+    //node = addMarker(node, marker);
+    //}
   }
   return node;
 }

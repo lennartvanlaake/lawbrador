@@ -16,13 +16,13 @@ function getOpeningTag(node: RestructuredNode) {
       tag = `<a href="${node.href}"`;
       break;
     case "li":
-      tag = `<li style="list-style-type:'${node.marker?.text ?? ""}'"`;
+      tag = `<li style="list-style-type:'${node.marker?.text ?? ""}  '"`;
       break;
     case "hidden":
       tag = "<span class=hidden";
       break;
     case "inline":
-      tag = "";
+      tag = "<span";
       break;
     default:
       tag = `<${node.name}`;
@@ -40,7 +40,7 @@ function getClosingTag(node: RestructuredNode) {
       tag = "</span>";
       break;
     case "inline":
-      tag = "";
+      tag = "</span>";
       break;
     default:
       tag = `</${node.name}>`;

@@ -21,7 +21,10 @@
     "dev": "yarn docker -d && lerna run dev --parallel || killall node",
     "debug": "yarn docker -d && lerna run debug --parallel || killall node",
     "run-it": "lerna run run-it",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "format": "prettier --write --ignore-path .gitignore .",
+    "lint": "eslint -c packages/eslint-config/index.js --fix --ignore-path .gitignore .",
+    "precommit": "yarn format --loglevel error && yarn lint --quiet"
   },
   "devDependencies": {
     "husky": "^7.0.4",

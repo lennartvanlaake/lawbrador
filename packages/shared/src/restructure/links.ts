@@ -8,18 +8,25 @@ export function adjustLinkNode(
   idMap: Record<string, string>,
   sourceConfig: SourceSiteConfig
 ): LinkNode {
-  node.href = makeElementIdsInternal(node.href, idMap);
-  node.href = makeLinkInternal(node.href, sourceUrl, sourceConfig._id);
+  const hashtagComponent = makeElementIdsInternal(node.href, idMap);
+  node.href = `${makeLinkInternal(
+    node.href,
+    sourceUrl,
+    sourceConfig._id
+  )}${hashtagComponent}`;
   return node;
 }
 
 function makeElementIdsInternal(link: string, idMap: Record<string, string>) {
-  const hashtagMatch = link.match(linkRegex);
+  const hashtagMatch = decodeURIComponent(link).match(linkRegex);
   if (!hashtagMatch) return link;
   const originalId = hashtagMatch[0].substring(1);
   const newId = idMap[originalId];
-  if (newId) return link.replace(originalId, newId).trim();
-  return link;
+  if (newId) {
+    return `#${newId}`;
+  } else {
+    return "";
+  }
 }
 
 function makeLinkInternal(link: string, sourceUrl: string, configId: string) {

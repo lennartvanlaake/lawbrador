@@ -18,6 +18,9 @@
 	:global(.hidden) {
 		display: none;
 	}
+	:global(li::marker) {
+		margin-right: 2rem;
+	}
 	#spacer {
 		margin-bottom: 6rem;
 	}
