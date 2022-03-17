@@ -4,9 +4,19 @@ export function renderNode(node: RestructuredNode): string {
   if (node.name == "text") {
     return node.text;
   }
+  const markerHtml = renderListMarker(node);
   const childHtml =
-    node.children?.reduce((a, c) => (a += renderNode(c)), "") ?? "";
+    markerHtml + node.children?.reduce((a, c) => (a += renderNode(c)), "") ??
+    "";
   return `${getOpeningTag(node)}${childHtml}${getClosingTag(node)}`;
+}
+
+function renderListMarker(node: RestructuredNode): string {
+  if ("marker" in node && node.marker) {
+    return `<span id="${node.marker.id}" class="marker">${node.marker.text} </span>`;
+  } else {
+    return "";
+  }
 }
 
 function getOpeningTag(node: RestructuredNode) {
@@ -15,11 +25,8 @@ function getOpeningTag(node: RestructuredNode) {
     case "a":
       tag = `<a href="${node.href}"`;
       break;
-    case "li":
-      tag = `<li style="list-style-type:'${node.marker?.text ?? ""}  '"`;
-      break;
     case "hidden":
-      tag = "<span class=hidden";
+      tag = `<span class="hidden"`;
       break;
     case "inline":
       tag = "<span";
@@ -27,9 +34,7 @@ function getOpeningTag(node: RestructuredNode) {
     default:
       tag = `<${node.name}`;
   }
-  if (tag) {
-    tag += ` id="${node.id}">`;
-  }
+  tag += ` id="${node.id}">`;
   return tag;
 }
 

@@ -9,8 +9,9 @@
 <slot />
 
 <style>
-	:global(:root) {
+	:global(ol) {
 		--accent: #815307;
+		list-style-type: none;
 	}
 	:global(section) {
 		margin-left: 2rem;
@@ -18,8 +19,9 @@
 	:global(.hidden) {
 		display: none;
 	}
-	:global(li::marker) {
-		margin-right: 2rem;
+	:global(.marker) {
+		position: absolute;
+		margin-left: -3rem;
 	}
 	#spacer {
 		margin-bottom: 6rem;
