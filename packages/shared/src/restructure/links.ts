@@ -19,7 +19,7 @@ export function adjustLinkNode(
 
 function makeElementIdsInternal(link: string, idMap: Record<string, string>) {
   const hashtagMatch = decodeURIComponent(link).match(linkRegex);
-  if (!hashtagMatch) return link;
+  if (!hashtagMatch) return "";
   const originalId = hashtagMatch[0].substring(1);
   const newId = idMap[originalId];
   if (newId) {

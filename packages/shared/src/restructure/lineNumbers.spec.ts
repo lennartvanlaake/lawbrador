@@ -11,18 +11,18 @@ const ruleSet: DocumentRuleSet = {
 };
 
 describe("Positively recognizing number and text", () => {
-  it("Finds number inside text element", () => {
-    const html = `
-		<div><p>1 bla</p><p>bla</p><div>
-		`;
-    const parsed = parse(html);
-    const restructured = applyRuleSet(parsed, ruleSet, eurlexConfig, sourceUrl);
-    const ol = restructured.children[0];
-    expect(ol.name).to.eq("ol");
-    const listElement = ol.children[0] as ListElementNode;
-    expect(listElement.name).to.eq("li");
-    expect(listElement.marker.text).to.eq("1");
-  });
+  //it("Finds number inside text element", () => {
+  //const html = `
+  //<div><p>1 bla</p><p>bla</p><div>
+  //`;
+  //const parsed = parse(html);
+  //const restructured = applyRuleSet(parsed, ruleSet, eurlexConfig, sourceUrl);
+  //const ol = restructured.children[0];
+  //expect(ol.name).to.eq("ol");
+  //const listElement = ol.children[0] as ListElementNode;
+  //expect(listElement.name).to.eq("li");
+  //expect(listElement.marker.text).to.eq("1");
+  //});
   it("Finds first-child number in table", () => {
     const html = `
 		<table><tr><td>1</td><td>b1a</td></tr><tr><td>2</td><td>b2a</td></tr></table>
@@ -49,19 +49,19 @@ describe("Positively recognizing number and text", () => {
     expect(listElement.marker.text).to.eq("1");
     expect((listElement.children[0] as TextNode).text).to.eq("bla");
   });
-  it("Finds number with number element inside paragraph with lots of spaces", () => {
-    const html = `
-		<div><p>1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>bla</i></p><p>bla</p></div>
-		`;
-    const parsed = parse(html);
-    const restructured = applyRuleSet(parsed, ruleSet, eurlexConfig, sourceUrl);
-    const ol = restructured.children[0];
-    expect(ol.name).to.eq("ol");
-    const listElement = ol.children[0] as ListElementNode;
-    expect(listElement.name).to.eq("li");
-    expect(listElement.marker.text).to.eq("1");
-    expect((listElement.children[1].children[0] as TextNode).text).to.eq("bla");
-  });
+  //it("Finds number with number element inside paragraph with lots of spaces", () => {
+  //const html = `
+  //<div><p>1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>bla</i></p><p>bla</p></div>
+  //`;
+  //const parsed = parse(html);
+  //const restructured = applyRuleSet(parsed, ruleSet, eurlexConfig, sourceUrl);
+  //const ol = restructured.children[0];
+  //expect(ol.name).to.eq("ol");
+  //const listElement = ol.children[0] as ListElementNode;
+  //expect(listElement.name).to.eq("li");
+  //expect(listElement.marker.text).to.eq("1");
+  //expect((listElement.children[1].children[0] as TextNode).text).to.eq("bla");
+  //});
   it("Apply line number to two paragraphs", () => {
     const html = `
 		<div>

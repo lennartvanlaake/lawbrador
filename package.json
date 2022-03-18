@@ -27,6 +27,8 @@
     "precommit": "yarn format --loglevel error && yarn lint --quiet"
   },
   "devDependencies": {
+    "eslint": "^8.11.0",
+    "eslint-plugin-no-only-tests": "^2.6.0",
     "husky": "^7.0.4",
     "lint-staged": "^12.3.5"
   },

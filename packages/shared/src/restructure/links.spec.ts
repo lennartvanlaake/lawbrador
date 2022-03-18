@@ -11,14 +11,13 @@ const ruleSet: DocumentRuleSet = {
 };
 
 describe("test links", () => {
-  it.only("replaces original id with new id in hashtag url", () => {
+  it("replaces original id with new id in hashtag url", () => {
     const html = `
 		<div id="original"><a href="http://source.url#original">link</a><p>stuff</p></div>
 		`;
     const parsed = parse(html);
     const restructured = applyRuleSet(parsed, ruleSet, eurlexConfig, sourceUrl);
     const id = restructured.id;
-    logObject(restructured);
     expect((restructured.children[0] as LinkNode).href).to.contain(id);
   });
 });
