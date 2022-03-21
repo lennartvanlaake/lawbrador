@@ -8,6 +8,7 @@ export * from "./render/index";
 export { scrape } from "./parse/scraper";
 
 export { restructure } from "./restructure/index";
+export { wrapElements } from "./wrapHtmlElements/index";
 
 export * from "./search/search";
 export * from "./search/incrementPageNumber";

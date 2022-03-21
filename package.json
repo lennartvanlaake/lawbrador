@@ -7,7 +7,7 @@
     "packages/**"
   ],
   "lint-staged": {
-    "*.{html,css,js,ts,svench,svelte,json}": [
+    "*.{html,js,ts,svench,svelte,json}": [
       "prettier -c packages/prettier/index.js --write",
       "eslint -c packages/eslint-config/index.js --fix"
     ]

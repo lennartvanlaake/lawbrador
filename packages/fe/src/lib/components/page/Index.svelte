@@ -8,6 +8,7 @@
 	import { tick, onMount } from 'svelte';
 	import type { IndexProps } from './types';
 	import { Mutex } from 'async-mutex';
+	import { queryToHighlight } from '$lib/ts/stores';
 	export let indexProps: IndexProps;
 
 	let firstSearchResultLength: number;
@@ -50,7 +51,8 @@
 					indexProps.sourceConfig
 				);
 				firstSearchResultLength = indexProps.searchResults.length;
-				console.log('submitted');
+				$queryToHighlight =
+					indexProps.searchParams[indexProps.sourceConfig.htmlSearchRuleSet.queryVariable];
 			});
 			await tick();
 			// keep adding results until there are no more or the list is scrollable

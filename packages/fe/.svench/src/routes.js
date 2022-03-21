@@ -221,6 +221,38 @@ const f /* files */ = [
 			'link view'
 		],
 		headings: []
+	},
+	{
+		// f[13]
+		path: '/svench/view/HighlightControl',
+		import: () =>
+			import('/home/lennart/lawbrador/packages/fe/src/svench/view/HighlightControl.svench'),
+		id: '1f1icd3',
+		ext: '.svench',
+		dir: 'svench/view',
+		segment: 'HighlightControl',
+		sortKey: 'HighlightControl',
+		title: 'HighlightControl',
+		canonical: '/svench/view/HighlightControl',
+		options: {},
+		views: [],
+		headings: []
+	},
+	{
+		// f[14]
+		path: '/svench/view/DocumentWithHighlights',
+		import: () =>
+			import('/home/lennart/lawbrador/packages/fe/src/svench/view/DocumentWithHighlights.svench'),
+		id: 'shaug6',
+		ext: '.svench',
+		dir: 'svench/view',
+		segment: 'DocumentWithHighlights',
+		sortKey: 'DocumentWithHighlights',
+		title: 'DocumentWithHighlights',
+		canonical: '/svench/view/DocumentWithHighlights',
+		options: {},
+		views: [],
+		headings: []
 	}
 ];
 
@@ -283,7 +315,7 @@ const d /* dirs */ = [
 		sortKey: 'view',
 		title: 'view',
 		canonical: '/svench/view',
-		children: () => [f[11], f[12]]
+		children: () => [f[14], f[11], f[13], f[12]]
 	},
 	{
 		// d[5]
