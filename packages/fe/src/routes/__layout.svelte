@@ -24,5 +24,6 @@
 		width: 100%;
 		position: fixed;
 		background-color: white;
+		z-index: 1;
 	}
 </style>
