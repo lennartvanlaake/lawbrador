@@ -5,7 +5,8 @@ export function wrapElements(
   insertBefore: string,
   insertAfter: string
 ) {
-  const regexString = searchTerm + "|" + searchTerm.split(/\s+/).join("|");
+  //const regexString = searchTerm + "|" + searchTerm.split(/\s+/).join("|");
+  const regexString = searchTerm.trim();
   const regex = new RegExp(regexString, "gi");
   const tagPositions = getIndexedMatches(html, tagRegex);
   const strippedHtml = html.replace(tagRegex, "");

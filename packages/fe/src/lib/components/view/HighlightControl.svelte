@@ -16,7 +16,7 @@
 	let elementIndex = 0;
 	let selectedElement: HTMLElement;
 	let timeout: number;
-	let enabled = true;
+	let enabled = !!$queryToHighlight;
 
 	onMount(() => {
 		queryToHighlight.subscribe(async () => {
@@ -28,10 +28,10 @@
 		if (timeout) {
 			clearTimeout(timeout);
 		}
-		// reset
-		resetHighlights();
 
 		setTimeout(async () => {
+			// reset
+			resetHighlights();
 			// if no query was input or it is just 1 character: return to original state
 			if (!$queryToHighlight || $queryToHighlight.length == 1) {
 				return;
@@ -50,7 +50,7 @@
 		if (selectedElement) selectedElement.style.textDecoration = 'none';
 		selectedElement = elementArray[elementIndex] as HTMLElement;
 		if (!selectedElement) return;
-		selectedElement.scrollIntoView();
+		selectedElement.scrollIntoView({ block: 'center' });
 		selectedElement.style.textDecoration = 'underline';
 	}
 
@@ -113,5 +113,9 @@
 	.progress {
 		width: 4rem;
 		display: inline-block;
+	}
+
+	i {
+		font-size: 2rem;
 	}
 </style>
