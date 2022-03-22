@@ -9,6 +9,7 @@
 	const postMatch = '</strong>';
 
 	export let html: string;
+	export let documentElement: Element;
 	const originalHtml = html;
 	let elementArray: Element[] = [];
 	let elementIndex = 0;
@@ -23,7 +24,7 @@
 		if (!$queryToHighlight) return;
 		html = wrapElements(originalHtml, $queryToHighlight, preMatch, postMatch);
 		await tick();
-		elementArray = Array.from(document.getElementsByClassName(HIGHLIGHT_CLASS));
+		elementArray = Array.from(documentElement.getElementsByClassName(HIGHLIGHT_CLASS));
 		selectHighlight();
 	}
 
