@@ -4,7 +4,6 @@
 	import { onMount, tick } from 'svelte';
 
 	const HIGHLIGHT_CLASS = 'highlight';
-	const SELECTED_HIGHLIGHT_CLASS = 'highlight';
 	const preMatch = `<strong class='${HIGHLIGHT_CLASS}'>`;
 	const postMatch = '</strong>';
 
@@ -17,6 +16,8 @@
 	let elementIndex = 0;
 	let selectedElement: HTMLElement;
 	let timeout: number;
+	let enabled = true;
+
 	onMount(() => {
 		queryToHighlight.subscribe(async () => {
 			await addHighlights();
@@ -28,9 +29,7 @@
 			clearTimeout(timeout);
 		}
 		// reset
-		elementIndex = 0;
-		elementArray = [];
-		html = originalHtml;
+		resetHighlights();
 
 		setTimeout(async () => {
 			// if no query was input or it is just 1 character: return to original state
@@ -59,30 +58,52 @@
 		elementIndex = (elementIndex + 1) % elementArray.length;
 		selectHighlight();
 	}
+
 	function decreaseElementIndex() {
 		// if at first element, start at top again, else decrease index by one
 		elementIndex = elementIndex == 0 ? elementArray.length - 1 : elementIndex - 1;
 		selectHighlight();
 	}
+
+	function resetHighlights() {
+		elementIndex = 0;
+		elementArray = [];
+		html = originalHtml;
+	}
+
+	function enable() {
+		enabled = true;
+		addHighlights();
+	}
+
+	function disable() {
+		enabled = false;
+		resetHighlights();
+	}
 </script>
 
 <div id="control-bg">
-	<div id="controls">
+	{#if enabled}
 		<input type="text" bind:value={$queryToHighlight} />
 		<span class="progress"
 			>{elementArray.length > 0 ? elementIndex + 1 : 0}/{elementArray.length}</span
 		>
 		<i class="icon-circle-up" on:click={decreaseElementIndex} />
 		<i class="icon-circle-down" on:click={increaseElementIndex} />
-		<i class="icon-cancel-circle" />
-	</div>
+		<i class="icon-cancel-circle" on:click={disable} />
+	{:else}
+		<i class="icon-search" on:click={enable} />
+	{/if}
 </div>
 
 <style>
 	#control-bg {
+		box-shadow: 0.1em 0.1em 0.1rem grey;
 		position: fixed;
 		bottom: 0px;
 		background-color: white;
+		border-radius: 0.5rem;
+		padding: 0.5rem;
 	}
 
 	input {

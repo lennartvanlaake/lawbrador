@@ -24,7 +24,7 @@ Curabitur eget tempor tortor. Maecenas facilisis dolor nec pulvinar convallis. P
 		url: '#',
 		body: node1
 	};
-	$queryToHighlight = 'hela';
+	$queryToHighlight = 'lorem ipsum';
 </script>
 
 <View name="document with highlights">
