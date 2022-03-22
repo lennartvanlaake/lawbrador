@@ -11,7 +11,7 @@
 	export let documentElement: Element;
 
 	const originalHtml = html;
-	const TYPING_STOPPED_TIMEOUT_MS = 1000;
+	const TYPING_STOPPED_TIMEOUT_MS = 400;
 	let elementArray: Element[] = [];
 	let elementIndex = 0;
 	let selectedElement: HTMLElement;
@@ -80,42 +80,81 @@
 		enabled = false;
 		resetHighlights();
 	}
+
+	onMount(() => {
+		document.addEventListener('keydown', (event) => {
+			switch (event.key) {
+				case 'ArrowUp':
+					decreaseElementIndex();
+					break;
+				case 'ArrowDown':
+					increaseElementIndex();
+					break;
+			}
+		});
+	});
 </script>
 
-<div id="control-bg">
-	{#if enabled}
+{#if enabled}
+	<div id="control-bg">
 		<input type="text" bind:value={$queryToHighlight} />
 		<span class="progress"
 			>{elementArray.length > 0 ? elementIndex + 1 : 0}/{elementArray.length}</span
 		>
 		<i class="icon-circle-up" on:click={decreaseElementIndex} />
 		<i class="icon-circle-down" on:click={increaseElementIndex} />
-		<i class="icon-cancel-circle" on:click={disable} />
-	{:else}
-		<i class="icon-search" on:click={enable} />
-	{/if}
-</div>
+		<div class="right-icons">
+			<i class="icon-cancel-circle" on:click={disable} />
+		</div>
+	</div>
+{:else}
+	<i class="icon-search" on:click={enable} />
+{/if}
 
 <style>
 	#control-bg {
-		box-shadow: 0.1em 0.1em 0.1rem grey;
 		position: fixed;
 		bottom: 0px;
 		background-color: white;
 		border-radius: 0.5rem;
-		padding: 0.5rem;
+		width: 100%;
+		max-width: 45rem;
+		display: flex;
+		align-items: center;
+	}
+
+	.icon-search {
+		box-shadow: 0.1rem 0.1rem 0.1rem 0 grey;
+		position: fixed;
+		background-color: white;
+		padding: 1rem;
+		bottom: 1rem;
+		right: 1rem;
+		border-radius: 50%;
+	}
+
+	.right-icons {
+		margin-left: auto;
 	}
 
 	input {
-		width: 20rem;
+		min-width: 10rem;
+		max-width: 20rem;
 	}
 
 	.progress {
-		width: 4rem;
+		margin-left: 0.5rem;
+		min-width: 4rem;
 		display: inline-block;
 	}
 
 	i {
+		color: var(--accent);
 		font-size: 2rem;
+		padding-right: 1rem;
+	}
+
+	i:hover {
+		color: var(--accent-light);
 	}
 </style>
