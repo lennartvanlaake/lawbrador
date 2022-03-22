@@ -1,0 +1,18 @@
+<script lang="ts">
+	import DocumentView from '$lib/components/view/DocumentView.svelte';
+	import { View } from 'svench';
+
+	import { defaultRestructure, RestructuredDocument } from '@lawbrador/shared';
+	import { queryToHighlight } from '$lib/ts/stores';
+	const node1 = defaultRestructure('<p>hela</p><p>hola</p>');
+	let document1 = {
+		hash: '123',
+		url: '#',
+		body: node1
+	};
+	$queryToHighlight = 'hela';
+</script>
+
+<View name="document with highlights">
+	<DocumentView bind:document={document1} />
+</View>

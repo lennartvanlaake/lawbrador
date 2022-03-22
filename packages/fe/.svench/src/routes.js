@@ -184,6 +184,22 @@ const f /* files */ = [
 	},
 	{
 		// f[11]
+		path: '/svench/view/DocumentWithHighlights',
+		import: () =>
+			import('/home/lennart/lawbrador/packages/fe/src/svench/view/DocumentWithHighlights.svench'),
+		id: 'shaug6',
+		ext: '.svench',
+		dir: 'svench/view',
+		segment: 'DocumentWithHighlights',
+		sortKey: 'DocumentWithHighlights',
+		title: 'DocumentWithHighlights',
+		canonical: '/svench/view/DocumentWithHighlights',
+		options: {},
+		views: ['document with highlights'],
+		headings: []
+	},
+	{
+		// f[12]
 		path: '/svench/view/GoToOriginalModal',
 		import: () =>
 			import('/home/lennart/lawbrador/packages/fe/src/svench/view/GoToOriginalModal.svench'),
@@ -196,30 +212,6 @@ const f /* files */ = [
 		canonical: '/svench/view/GoToOriginalModal',
 		options: {},
 		views: ['Go to google'],
-		headings: []
-	},
-	{
-		// f[12]
-		path: '/svench/view/NodeView',
-		import: () => import('/home/lennart/lawbrador/packages/fe/src/svench/view/NodeView.svench'),
-		id: '1ue88xr',
-		ext: '.svench',
-		dir: 'svench/view',
-		segment: 'NodeView',
-		sortKey: 'NodeView',
-		title: 'NodeView',
-		canonical: '/svench/view/NodeView',
-		options: {},
-		views: [
-			'name only node',
-			'two name only nodes',
-			'eurlex directive name node',
-			'h1 view',
-			'h2 view',
-			'h3 view',
-			'ol view',
-			'link view'
-		],
 		headings: []
 	},
 	{
@@ -240,18 +232,26 @@ const f /* files */ = [
 	},
 	{
 		// f[14]
-		path: '/svench/view/DocumentWithHighlights',
-		import: () =>
-			import('/home/lennart/lawbrador/packages/fe/src/svench/view/DocumentWithHighlights.svench'),
-		id: 'shaug6',
+		path: '/svench/view/NodeView',
+		import: () => import('/home/lennart/lawbrador/packages/fe/src/svench/view/NodeView.svench'),
+		id: '1ue88xr',
 		ext: '.svench',
 		dir: 'svench/view',
-		segment: 'DocumentWithHighlights',
-		sortKey: 'DocumentWithHighlights',
-		title: 'DocumentWithHighlights',
-		canonical: '/svench/view/DocumentWithHighlights',
+		segment: 'NodeView',
+		sortKey: 'NodeView',
+		title: 'NodeView',
+		canonical: '/svench/view/NodeView',
 		options: {},
-		views: [],
+		views: [
+			'name only node',
+			'two name only nodes',
+			'eurlex directive name node',
+			'h1 view',
+			'h2 view',
+			'h3 view',
+			'ol view',
+			'link view'
+		],
 		headings: []
 	}
 ];
@@ -315,7 +315,7 @@ const d /* dirs */ = [
 		sortKey: 'view',
 		title: 'view',
 		canonical: '/svench/view',
-		children: () => [f[14], f[11], f[13], f[12]]
+		children: () => [f[11], f[12], f[13], f[14]]
 	},
 	{
 		// d[5]
