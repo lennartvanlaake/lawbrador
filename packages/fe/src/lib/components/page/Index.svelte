@@ -10,12 +10,15 @@
 	import { Mutex } from 'async-mutex';
 	import { queryToHighlight } from '$lib/ts/stores';
 	import { browser } from '$app/env';
+	import Modal from '../common/Modal.svelte';
+	import Spinner from '../common/Spinner.svelte';
 	export let indexProps: IndexProps;
 
 	let firstSearchResultLength: number;
 	let hasMore = true;
 	let loaderIsVisible = true;
 	let hasSearched = false;
+	let showModal = false;
 	// mutex guarantees we don't get multiple running queries
 	const mutex = new Mutex();
 
@@ -46,6 +49,7 @@
 	async function onQuerySubmitted() {
 		try {
 			hasSearched = true;
+			showModal = true;
 			await mutex.runExclusive(async () => {
 				indexProps.searchResults = await submitQuery(
 					indexProps.searchParams,
@@ -66,6 +70,8 @@
 			}
 		} catch (e) {
 			alert(e.message);
+		} finally {
+			showModal = false;
 		}
 	}
 
@@ -105,8 +111,21 @@
 />
 <svelte:window on:keypress={(event) => doIfEnter(event, async () => await onQuerySubmitted())} />
 
+{#if showModal}
+	<Modal>
+		<div id="spinner">
+			<Spinner />
+		</div>
+	</Modal>
+{/if}
+
 <style>
 	img {
 		padding-top: 1rem;
+	}
+
+	#spinner {
+		font-size: 6rem;
+		text-align: center;
 	}
 </style>
