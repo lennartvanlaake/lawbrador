@@ -18,17 +18,22 @@
 		--accent-light: rgba(129, 83, 8, 0.5);
 	}
 
-	#spacer {
-		margin-bottom: 6rem;
-	}
-
 	:global(i) {
 		color: var(--accent);
 		font-size: 2rem;
+		cursor: pointer;
 	}
 
 	:global(i:hover) {
 		color: var(--accent-light) !important;
+	}
+
+	:global(button) {
+		font-size: large;
+	}
+
+	#spacer {
+		margin-bottom: 6rem;
 	}
 
 	.left {

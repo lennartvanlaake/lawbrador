@@ -31,3 +31,9 @@
 	</select>
 	<TooltipButton tooltipText={sourceConfig?.description ?? ''} />
 </div>
+
+<style>
+	div {
+		display: flex;
+	}
+</style>

@@ -9,6 +9,7 @@
 	import type { IndexProps } from './types';
 	import { Mutex } from 'async-mutex';
 	import { queryToHighlight } from '$lib/ts/stores';
+	import { browser } from '$app/env';
 	export let indexProps: IndexProps;
 
 	let firstSearchResultLength: number;
@@ -59,6 +60,9 @@
 			while (loaderIsVisible && hasMore) {
 				await page();
 				await tick();
+			}
+			if (browser) {
+				window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: 'smooth' });
 			}
 		} catch (e) {
 			alert(e.message);

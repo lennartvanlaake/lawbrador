@@ -17,9 +17,10 @@
 
 <style>
 	i {
-		color: var(--accent);
-		cursor: pointer;
+		margin-left: 0.5rem;
+		padding: 0;
 	}
+
 	.active {
 		opacity: 20%;
 	}
