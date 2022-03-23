@@ -149,8 +149,6 @@
 	}
 
 	i {
-		color: var(--accent);
-		font-size: 2rem;
 		padding-right: 1rem;
 	}
 

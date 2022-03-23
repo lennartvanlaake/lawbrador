@@ -9,9 +9,28 @@
 <slot />
 
 <style>
+	:global(:root) {
+		--accent: #815306;
+	}
+
+	/*same as accent, but with 50% opacity*/
+	:global(:root) {
+		--accent-light: rgba(129, 83, 8, 0.5);
+	}
+
 	#spacer {
 		margin-bottom: 6rem;
 	}
+
+	:global(i) {
+		color: var(--accent);
+		font-size: 2rem;
+	}
+
+	:global(i:hover) {
+		color: var(--accent-light) !important;
+	}
+
 	.left {
 		float: left;
 	}
