@@ -18,14 +18,17 @@ parameters. In the future we will expand the number of sources and available sea
 
 <h2>Help wanted!</h2>
 
-We want Lawbrador to work well for both lawyers and non-lawyers. To check that we are currently
-doing that we are always looking for people to test the current state of our application and give us
-feedback. Please contact me at lennartvanlaake[at]gmail.com if you have any comments or are
-interested in previewing our application. If you want more technical details you can go to our
-codebase at<a href="https://github.com/lennartvanlaake/lawbrador">github</a>.
+We aim to please! To make our platform awesome we need lots of feedback. Sign up<a href="signup"
+	>here</a
+>
+to subscribe to our newsletter and/or become an early-phase test user. If you want more technical
+details you can go to our project page at
+<a href="https://github.com/lennartvanlaake/lawbrador">github</a>.
 
 <style>
 	a {
 		display: contents;
+		font-weight: bold;
+		text-decoration: underline;
 	}
 </style>

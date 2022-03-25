@@ -4,6 +4,7 @@
 <nav>
 	<a class="left" href="/">Home</a>
 	<a class="right" href="/about">About</a>
+	<a class="right" href="/signup">Newsletter</a>
 </nav>
 <div id="spacer" />
 <slot />
