@@ -9,6 +9,7 @@
 		DEFAULT_EMPTY_SELECTION_RULE
 	} from '@lawbrador/shared';
 	import Toggled from '../common/Toggled.svelte';
+	import { empty } from 'svelte/internal';
 	export let ruleConfig: SelectionRule | undefined;
 	export let title: string | null = null;
 	const validator = new Validator(Schemas.selectionRule);

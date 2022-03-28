@@ -1,11 +1,20 @@
 <script lang="ts">
+	import CloseModalButton from './CloseModalButton.svelte';
+
+	export let closable = false;
+	export let show = true;
 </script>
 
-<div id="background">
-	<div id="content">
-		<slot />
+{#if show}
+	<div id="background">
+		<div id="content">
+			{#if closable}
+				<CloseModalButton on:click={() => (show = false)} />
+			{/if}
+			<slot />
+		</div>
 	</div>
-</div>
+{/if}
 
 <style>
 	#background {

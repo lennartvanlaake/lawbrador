@@ -15,14 +15,19 @@
 </script>
 
 {#if show}
-	<Modal>
-		{#each headers as headerLink}
-			<a href="#{headerLink.id}" on:click={(ev) => closeAndScroll(ev, headerLink)}>
-				{@html renderNode(headerLink)}
-			</a>
-		{/each}
+	<Modal closable={true}>
+		<div>
+			{#each headers as headerLink}
+				<a href="#{headerLink.id}" on:click={(ev) => closeAndScroll(ev, headerLink)}>
+					{@html renderNode(headerLink)}
+				</a>
+			{/each}
+		</div>
 	</Modal>
 {/if}
 
 <style>
+	/*div :global(h1) {*/
+	/*color: purple*/
+	/*}*/
 </style>

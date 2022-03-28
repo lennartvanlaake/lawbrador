@@ -3,8 +3,9 @@
 	import { defaultRestructure } from '@lawbrador/shared';
 	import HeaderIndex from '$lib/components/view/HeaderIndex.svelte';
 	let headers = defaultRestructure('<h1>1 bla</h1><h2>2 die</h2><h1>3 bla</h1>').children ?? [];
+	console.log(headers);
 </script>
 
-<View>
-	<HeaderIndex {headers} />
+<View name="filled index">
+	<HeaderIndex {headers} show={true} />
 </View>

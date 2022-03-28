@@ -9,15 +9,12 @@
 	import type { IndexProps } from './types';
 	import { Mutex } from 'async-mutex';
 	import { queryToHighlight } from '$lib/ts/stores';
-	import Modal from '../common/Modal.svelte';
-	import Spinner from '../common/Spinner.svelte';
 	export let indexProps: IndexProps;
 
 	let firstSearchResultLength: number;
 	let hasMore = true;
 	let loaderIsVisible = true;
 	let hasSearched = false;
-	let showModal = false;
 	// mutex guarantees we don't get multiple running queries
 	const mutex = new Mutex();
 
@@ -48,7 +45,6 @@
 	async function onQuerySubmitted() {
 		try {
 			hasSearched = true;
-			showModal = true;
 			await mutex.runExclusive(async () => {
 				indexProps.searchResults = await submitQuery(
 					indexProps.searchParams,
@@ -67,18 +63,8 @@
 			scrollToBottomSreen();
 		} catch (e) {
 			alert(e.message);
-		} finally {
-			showModal = false;
 		}
 	}
-
-	const paramsFromQuery = getInputFromSearchParams(indexProps.query, indexProps.sourceConfig);
-	onMount(async () => {
-		if (paramsFromQuery) {
-			indexProps.searchParams = paramsFromQuery;
-			await onQuerySubmitted();
-		}
-	});
 </script>
 
 <img src="/logo.png" alt="lawbrador logo" />
@@ -107,14 +93,6 @@
 	on:bottomReached={page}
 />
 <svelte:window on:keypress={(event) => doIfEnter(event, async () => await onQuerySubmitted())} />
-
-{#if showModal}
-	<Modal>
-		<div id="spinner">
-			<Spinner />
-		</div>
-	</Modal>
-{/if}
 
 <style>
 	img {

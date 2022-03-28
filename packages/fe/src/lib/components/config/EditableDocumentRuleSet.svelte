@@ -14,6 +14,9 @@
 </script>
 
 <section>
+	<h3>Preserve markup</h3>
+	<Toggled empty={true} bind:value={ruleSet.preserveMarkup} />
+
 	<ToggledRuleConfig bind:ruleConfig={ruleSet.bodyRule} title="Body rule" />
 	<section>
 		<h3>Condition rules</h3>
