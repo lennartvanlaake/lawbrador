@@ -3,13 +3,12 @@
 	import SearchResultList from '$lib/components/search/SearchResultList.svelte';
 	import SourceConfigSelector from '$lib/components/search/SourceConfigSelector.svelte';
 	import { submitQuery, getNextPage, getInputFromSearchParams } from '$lib/ts/search';
-	import { doIfEnter } from '$lib/ts/utils';
+	import { doIfEnter, scrollToBottomSreen } from '$lib/ts/utils';
 	import type { SourceSiteConfig } from '@lawbrador/shared';
 	import { tick, onMount } from 'svelte';
 	import type { IndexProps } from './types';
 	import { Mutex } from 'async-mutex';
 	import { queryToHighlight } from '$lib/ts/stores';
-	import { browser } from '$app/env';
 	import Modal from '../common/Modal.svelte';
 	import Spinner from '../common/Spinner.svelte';
 	export let indexProps: IndexProps;
@@ -65,9 +64,7 @@
 				await page();
 				await tick();
 			}
-			if (browser) {
-				window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: 'smooth' });
-			}
+			scrollToBottomSreen();
 		} catch (e) {
 			alert(e.message);
 		} finally {

@@ -1,9 +1,10 @@
 <script lang="ts">
 	import SourceConfigSelector from '$lib/components/search/SourceConfigSelector.svelte';
-	import { View } from 'svench';
+	import View from '$lib/components/workbench/View.svelte';
 	import { eurlexConfig } from '@lawbrador/shared';
-	const configList = [ eurlexConfig ];
+	const configList = [eurlexConfig];
 </script>
+
 <View name="empty">
 	<div>
 		<SourceConfigSelector sourceConfigList={[]} />
@@ -18,6 +19,6 @@
 
 <style>
 	div {
-		height:300px;
+		height: 300px;
 	}
 </style>

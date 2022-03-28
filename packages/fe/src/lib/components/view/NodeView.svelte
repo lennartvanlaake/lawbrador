@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount, tick } from 'svelte';
 	import { browser } from '$app/env';
+	import { scrollToCenter } from '$lib/ts/utils';
 	export let html: string;
 	const hashtagRegex = /#.*/;
 	onMount(async () => {
@@ -14,19 +15,15 @@
 		links.forEach((it) => {
 			const targetId = (it as HTMLAnchorElement).href.match(hashtagRegex);
 			if (targetId) {
-				// zero-index gets matched string, substring(1) removes '#'
-				makeScrollToCenter(it, targetId[0].substring(1));
+				makeScrollToCenter(it, targetId[0]);
 			}
 		});
 	}
 
 	function makeScrollToCenter(linkElement: HTMLAnchorElement, elementId: string) {
 		linkElement.addEventListener('click', (ev) => {
-			if (!elementId) return;
-			const targetElement = document.getElementById(elementId);
-			if (!targetElement) return;
 			ev.preventDefault();
-			targetElement.scrollIntoView({ block: 'center' });
+			scrollToCenter(elementId);
 		});
 	}
 </script>

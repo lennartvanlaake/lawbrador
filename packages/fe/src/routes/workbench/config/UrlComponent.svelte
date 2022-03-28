@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { View } from 'svench';
+	import View from '$lib/components/workbench/View.svelte';
 	import EditableUrlComponent from '$lib/components/config/EditableUrlComponent.svelte';
 	const value = { value: 'bla' };
 	const variable = { variableName: 'var' };

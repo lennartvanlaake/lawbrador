@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Modal from '../common/Modal.svelte';
-
 	export let link: string;
 </script>
 

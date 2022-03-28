@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { queryToHighlight } from '$lib/ts/stores';
+	import { scrollElementToCenter } from '$lib/ts/utils';
 	import { wrapElements } from '@lawbrador/shared';
 	import { onMount, tick } from 'svelte';
 
@@ -50,7 +51,7 @@
 		if (selectedElement) selectedElement.style.textDecoration = 'none';
 		selectedElement = elementArray[elementIndex] as HTMLElement;
 		if (!selectedElement) return;
-		selectedElement.scrollIntoView({ block: 'center' });
+		scrollElementToCenter(selectedElement);
 		selectedElement.style.textDecoration = 'underline';
 	}
 

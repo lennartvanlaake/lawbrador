@@ -1,7 +1,7 @@
 <script lang="ts">
 	import structuredClone from '@ungap/structured-clone';
-	export let value: any;
-	export let empty: any;
+	export let value: any = null;
+	export let empty: any = null;
 	let enabled = !!value;
 	const ENABLE_TEXT = 'Enable';
 	const DISABLE_TEXT = 'Disable';

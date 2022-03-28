@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { View } from 'svench';
+	import View from '$lib/components/workbench/View.svelte';
 	import Toggled from '$lib/components/common/Toggled.svelte';
-	const empty = "empty state";
-	let data = "initial";
+	const empty = 'empty state';
+	let data = 'initial';
 </script>
 
 <View name="Basic string">
@@ -11,7 +11,7 @@
 	</Toggled>
 </View>
 <View name="With bound data">
-	<Toggled bind:data={data} empty={empty} >
-		<p>{ data } </p>
+	<Toggled bind:data {empty}>
+		<p>{data}</p>
 	</Toggled>
 </View>

@@ -1,11 +1,9 @@
-
 <script lang="ts">
-//@ts-nocheck
 	import SearchInput from '$lib/components/search/SearchInput.svelte';
-	import { View } from 'svench';
+	import View from '$lib/components/workbench/View.svelte';
 	import { eurlexConfig } from '@lawbrador/shared';
-	const query = new URLSearchParams({ "query": "heehoi", "domain": "LEGISLATION" });
 </script>
+
 <View name="empty">
 	<SearchInput />
 </View>
@@ -13,5 +11,5 @@
 	<SearchInput sourceConfig={eurlexConfig} />
 </View>
 <View name="filled query (NB: this should submit immediately and give an error message)">
-	<SearchInput sourceConfig={eurlexConfig} query={query} />
+	<SearchInput sourceConfig={eurlexConfig} />
 </View>
