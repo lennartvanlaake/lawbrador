@@ -12,7 +12,7 @@
 		const query = url.searchParams;
 		const sources: SourceSiteConfig[] = await getSourceConfigs(fetch);
 		const sourceConfig = sources.find((s) => s._id == query.get('sourceConfigId')) ?? sources[0];
-		const urlSearchParams: SearchParams | null = getInputFromSearchParams(query) ?? {};
+		const urlSearchParams: SearchParams | null = getInputFromSearchParams(query);
 		let searchResults: SearchResult[] = urlSearchParams
 			? await submitQuery(urlSearchParams, sourceConfig)
 			: [];
