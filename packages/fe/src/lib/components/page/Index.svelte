@@ -11,10 +11,11 @@
 	import { queryToHighlight } from '$lib/ts/stores';
 	export let indexProps: IndexProps;
 
-	let firstSearchResultLength: number;
+	let firstSearchResultLength: number | undefined =
+		indexProps.searchResults.length > 0 ? indexProps.searchResults.length : undefined;
 	let hasMore = true;
 	let loaderIsVisible = true;
-	let hasSearched = false;
+	let hasSearched = indexProps.searchResults.length > 0;
 	// mutex guarantees we don't get multiple running queries
 	const mutex = new Mutex();
 
@@ -27,6 +28,7 @@
 			console.log('next page');
 			await mutex.waitForUnlock();
 			await mutex.runExclusive(async () => {
+				if (!firstSearchResultLength) return;
 				const pageResult = await getNextPage(
 					firstSearchResultLength,
 					indexProps.searchParams,
@@ -46,6 +48,7 @@
 		try {
 			hasSearched = true;
 			await mutex.runExclusive(async () => {
+				indexProps.searchResults = [];
 				indexProps.searchResults = await submitQuery(
 					indexProps.searchParams,
 					indexProps.sourceConfig

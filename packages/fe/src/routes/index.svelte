@@ -6,19 +6,12 @@
 	import type { SearchResult } from '@lawbrador/shared';
 	import type { Load } from '@sveltejs/kit';
 	import type { IndexProps } from '$lib/components/page/types';
-
-	const baseUrl = import.meta.env.VITE_URL ?? '';
-	import { Endpoints } from '@lawbrador/shared';
-	import { QUERY_VARIABLE_NAME } from '@lawbrador/shared/src/constants/other';
 	import { getInputFromSearchParams, submitQuery } from '$lib/ts/search';
+	import { getSourceConfigs } from '$lib/ts/api';
 	export const load: Load = async ({ url, fetch }) => {
 		const query = url.searchParams;
-		const sources: SourceSiteConfig[] = await (
-			await fetch(`${baseUrl}${Endpoints.SOURCES}`)
-		).json();
-		const sourceConfig =
-			//@ts-ignore
-			sources.find((s) => s._id == query.get('sourceConfigId')) ?? sources[0];
+		const sources: SourceSiteConfig[] = await getSourceConfigs(fetch);
+		const sourceConfig = sources.find((s) => s._id == query.get('sourceConfigId')) ?? sources[0];
 		const urlSearchParams: SearchParams | null = getInputFromSearchParams(query) ?? {};
 		let searchResults: SearchResult[] = urlSearchParams
 			? await submitQuery(urlSearchParams, sourceConfig)

@@ -16,11 +16,16 @@ import type { Method } from 'axios';
 const baseUrl = import.meta.env.VITE_URL ?? '';
 
 async function get(path: string, fetchParam: any) {
+	let result: Response;
 	if (fetchParam) {
-		return await (await fetchParam(`${baseUrl}${path}`)).json();
+		result = await fetchParam(`${baseUrl}${path}`);
 	} else {
-		return await (await fetch(`${baseUrl}${path}`)).json();
+		result = await fetch(`${baseUrl}${path}`);
 	}
+	if (!result.ok) {
+		throw new Error(await result.text());
+	}
+	return await result.json();
 }
 
 async function request(path: string, body: any, method: Method) {

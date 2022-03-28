@@ -73,16 +73,23 @@ export async function submitQuery(
 	sourceConfig: SourceSiteConfig
 ): Promise<SearchResult[]> {
 	searchParams[PAGE_VARIABLE_NAME] = '1';
-	const searchResults = (
-		await search({ sourceConfigId: sourceConfig._id!, searchParams: searchParams })
-	).results;
-	if (browser) {
-		addToHistory(searchParams, sourceConfig);
+	try {
+		const searchResults = (
+			await search({ sourceConfigId: sourceConfig._id!, searchParams: searchParams })
+		).results;
+		if (browser) {
+			addToHistory(searchParams, sourceConfig);
+		}
+		if (searchResults.length == 0) {
+			throw Error(Errors.NO_RESULTS);
+		}
+		return searchResults;
+	} catch (e) {
+		if (browser) {
+			alert(e.message);
+		}
 	}
-	if (searchResults.length == 0) {
-		throw Error(Errors.NO_RESULTS);
-	}
-	return searchResults;
+	return [];
 }
 
 function addToHistory(searchParams: SearchParams, sourceConfig: SourceSiteConfig) {
