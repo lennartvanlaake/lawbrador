@@ -9,8 +9,7 @@
 		"preview": "svelte-kit preview",
 		"start": "node dist/index.js",
 		"test:build": "svelte-check --ignore node_modules",
-		"check:watch": "svelte-check --ignore node_modules --watch",
-		"cmps": "yarn svench"
+		"check:watch": "svelte-check --ignore node_modules --watch"
 	},
 	"type": "module",
 	"dependencies": {
@@ -29,7 +28,6 @@
 		"svelte": "^3.44.3",
 		"svelte-check": "^2.4.3",
 		"svelte-preprocess": "^4.10.1",
-		"svench": "^0.2.0-31",
 		"vite": "^2.7.10"
 	}
 }
