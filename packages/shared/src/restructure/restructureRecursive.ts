@@ -47,8 +47,9 @@ function getTag(
 
     if (ruleSet.preserveMarkup) {
       for (let i = 0; i < node.tags.length; i++) {
-        if (node.tags[i] in ALL_MARKUP_NOTATIONS) {
-          return node.tags[i];
+        const tag = node.tags[i];
+        if (ALL_MARKUP_NOTATIONS.includes(tag)) {
+          return tag;
         }
       }
     }

@@ -1,19 +1,31 @@
-import type { DocumentRuleSet } from "..";
+import { DEFAULT_EMPTY_RULESET } from "..";
 import { expect } from "chai";
-import type { LinkNode, ListElementNode, TextNode } from "..";
+import type { LinkNode, ListElementNode, TextNode , DocumentRuleSet } from "..";
 import { parse } from "../parse/scraper";
 import { applyRuleSet } from "./applyRuleSet";
 import { eurlexConfig } from "..";
 
 const sourceUrl = "http://source.url";
 describe("Restructuring HTML with empty ruleset", () => {
-  const ruleSet: DocumentRuleSet = {};
+  const ruleSet: DocumentRuleSet = DEFAULT_EMPTY_RULESET;
   it("Restructuring two paragraphs", () => {
     const html = `<p>bla</p><p>bla</p>`;
     const parsed = parse(html);
     const restructured = applyRuleSet(parsed, ruleSet, eurlexConfig, sourceUrl);
     expect(restructured.children.length).to.eq(2);
     expect(restructured.children.every((n) => n.name == "p")).to.be.true;
+    expect(
+      restructured.children.every(
+        (n) => (n.children[0] as TextNode).text == "bla"
+      )
+    ).to.be.true;
+  });
+  it("Restructuring paragraph and header", () => {
+    const html = `<h1>bla</h1><p>bla</p>`;
+    const parsed = parse(html);
+    const restructured = applyRuleSet(parsed, ruleSet, eurlexConfig, sourceUrl);
+    expect(restructured.children.length).to.eq(2);
+    expect(restructured.children[0].name).to.eq("h1");
     expect(
       restructured.children.every(
         (n) => (n.children[0] as TextNode).text == "bla"
