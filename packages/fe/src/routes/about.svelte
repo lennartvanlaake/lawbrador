@@ -21,8 +21,8 @@ parameters. In the future we will expand the number of sources and available sea
 We aim to please! To make our platform awesome we need lots of feedback. Sign up<a href="signup"
 	>here</a
 >
-to subscribe to our newsletter and/or become an early-phase test user. If you want more technical
-details you can go to our project page at
+to subscribe to our newsletter and/or become an early-phase test user. If you want more technical details
+you can go to our project page at
 <a href="https://github.com/lennartvanlaake/lawbrador">github</a>.
 
 <style>

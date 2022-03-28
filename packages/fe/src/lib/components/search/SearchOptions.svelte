@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { SourceSiteConfig, VariableUrlComponent } from '@lawbrador/shared';
+	import { PAGE_VARIABLE_NAME, QUERY_VARIABLE_NAME } from '@lawbrador/shared/src/constants/other';
 	import SearchOptionInput from './SearchOptionInput.svelte';
 	export let searchParams: Record<string, string>;
 	export let sourceConfig: SourceSiteConfig;
@@ -8,27 +9,20 @@
 
 	// ignore params, svelte makes sure they trigger calling this function on value change
 	function getOptionsForConfig(_: SourceSiteConfig) {
-		const queryVariable = sourceConfig?.htmlSearchRuleSet.queryVariable;
-		const pageVariable = sourceConfig?.htmlSearchRuleSet.pageVariable;
-		const queryComponents = sourceConfig?.searchUrlConfig?.queryComponents;
-		//@ts-ignore
+		const queryComponents = sourceConfig?.searchUrlConfig?.queryComponents ?? [];
 		return queryComponents
-			?.filter(
-				(c) =>
-					'variableName' in c.urlComponent &&
-					c.urlComponent.variableName != pageVariable &&
-					c.urlComponent.variableName != queryVariable
-			)
-			?.map((c) => c.urlComponent as VariableUrlComponent)
-			?.filter((c) => dependentOptionsMatch(c));
+			.filter((c) => 'variableName' in c.urlComponent)
+			.map((c) => c.urlComponent as VariableUrlComponent)
+			.filter((c) => dependentOptionsMatch(c));
 	}
 
 	function onOptionValueChange() {
 		console.debug('changed');
-		options = getOptionsForConfig(sourceConfig);
+		options = getOptionsForConfig(sourceConfig) ?? [];
 		const optionNames = [
-			sourceConfig?.htmlSearchRuleSet.queryVariable,
-			...options?.map((it) => it.variableName)
+			QUERY_VARIABLE_NAME,
+			PAGE_VARIABLE_NAME,
+			...options.map((it) => it.variableName)
 		];
 		searchParams = Object.fromEntries(
 			Object.entries(searchParams).filter(([key]) => optionNames.includes(key))

@@ -44,6 +44,8 @@ export const EMPTY_URL_CONFIG: UrlConfig = {
 export const EMPTY_SOURCE_CONFIG: Omit<SourceSiteConfig, "_id"> = {
   name: "",
   searchUrlConfig: {
+    queryVariable: "text",
+    pageVariable: "page",
     base: "https://",
     pathComponents: [],
     queryComponents: [],
@@ -56,8 +58,6 @@ export const EMPTY_SOURCE_CONFIG: Omit<SourceSiteConfig, "_id"> = {
 
   documentRuleSets: [],
   htmlSearchRuleSet: {
-    queryVariable: "query",
-    pageVariable: "page",
     resultListRule: {
       ...DEFAULT_EMPTY_SELECTION_RULE,
     },
@@ -72,6 +72,8 @@ export const eurlexConfig: SourceSiteConfig = {
   _id: "61de9dc2a2dd97b823d99aea",
   name: "Eurlex",
   searchUrlConfig: {
+    queryVariable: "text",
+    pageVariable: "page",
     base: "https://eur-lex.europa.eu",
     pathComponents: [
       {
@@ -83,12 +85,6 @@ export const eurlexConfig: SourceSiteConfig = {
         name: "scope",
         urlComponent: {
           value: "EURLEX",
-        },
-      },
-      {
-        name: "text",
-        urlComponent: {
-          variableName: "query",
         },
       },
       {
@@ -111,12 +107,6 @@ export const eurlexConfig: SourceSiteConfig = {
         name: "type",
         urlComponent: {
           value: "quick",
-        },
-      },
-      {
-        name: "page",
-        urlComponent: {
-          variableName: "page",
         },
       },
     ],
@@ -169,8 +159,6 @@ export const eurlexConfig: SourceSiteConfig = {
     },
   ],
   htmlSearchRuleSet: {
-    queryVariable: "query",
-    pageVariable: "page",
     resultListRule: {
       op: "is",
       location: "class",

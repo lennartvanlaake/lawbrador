@@ -1,9 +1,14 @@
-import type { SourceSiteConfig, SearchResult } from '@lawbrador/shared';
+import type { SourceSiteConfig, SearchResult, SearchParams } from '@lawbrador/shared';
+
+interface QueryAndPage {
+	query: string;
+	page?: string;
+}
 
 export interface IndexProps {
 	sourceConfigs: SourceSiteConfig[];
 	query: URLSearchParams;
-	searchParams: Record<string, string>;
+	searchParams: SearchParams;
 	sourceConfig: SourceSiteConfig;
 	searchResults: SearchResult[];
 }

@@ -1,10 +1,10 @@
 import type { ErrorObject, ValidateFunction } from 'ajv';
-import type { TObject, TUnion } from '@sinclair/typebox';
+import type { TObject, TUnion, TIntersect } from '@sinclair/typebox';
 import { ajv } from '@lawbrador/shared';
 
 export class Validator {
 	validator: ValidateFunction;
-	constructor(schema: TObject<any> | TUnion<any>) {
+	constructor(schema: TObject<any> | TUnion<any> | TIntersect<any>) {
 		this.validator = ajv.compile(schema);
 	}
 	validate(value: any): Record<string, ErrorObject[]> | undefined {

@@ -1,30 +1,32 @@
-import type { SearchResult, SourceSiteConfig } from '@lawbrador/shared';
+import type { SearchParams, SearchResult, SourceSiteConfig } from '@lawbrador/shared';
 import { Errors } from '@lawbrador/shared';
 import { search } from './api';
 import { incrementPageNumber } from '@lawbrador/shared';
+import { PAGE_VARIABLE_NAME, QUERY_VARIABLE_NAME } from '@lawbrador/shared/src/constants/other';
+import { browser } from '$app/env';
 
-export function getInputFromSearchParams(
-	query: URLSearchParams,
-	sourceConfig: SourceSiteConfig
-): Record<string, string> | null {
-	const searchParams = {};
-	if (sourceConfig && query?.get(sourceConfig.htmlSearchRuleSet.queryVariable)) {
-		query.forEach((value, key) => {
-			searchParams[key] = value;
-		});
-		return searchParams;
+export function getInputFromSearchParams(query: URLSearchParams): SearchParams | null {
+	const queryValue = query.get(QUERY_VARIABLE_NAME);
+	if (!queryValue) {
+		return null;
 	}
-	return null;
+	const searchParams: SearchParams = {
+		query: queryValue
+	};
+	query.forEach((value, key) => {
+		searchParams[key] = value;
+	});
+	return searchParams;
 }
 
 export async function getNextPage(
 	firstSearchResultLength: number,
-	searchParams: Record<string, string>,
+	searchParams: SearchParams,
 	oldResults: SearchResult[],
 	sourceConfig: SourceSiteConfig
 ) {
 	try {
-		searchParams = incrementPageNumber(searchParams, sourceConfig.htmlSearchRuleSet);
+		searchParams = incrementPageNumber(searchParams);
 		const newResults = (
 			await search({
 				sourceConfigId: sourceConfig._id,
@@ -67,28 +69,31 @@ export async function getNextPage(
 }
 
 export async function submitQuery(
-	searchParams: Record<string, string>,
+	searchParams: SearchParams,
 	sourceConfig: SourceSiteConfig
 ): Promise<SearchResult[]> {
-	searchParams[sourceConfig.htmlSearchRuleSet.pageVariable] = '1';
+	searchParams[PAGE_VARIABLE_NAME] = '1';
 	const searchResults = (
 		await search({ sourceConfigId: sourceConfig._id!, searchParams: searchParams })
 	).results;
-	addToHistory(searchParams, sourceConfig);
+	if (browser) {
+		addToHistory(searchParams, sourceConfig);
+	}
 	if (searchResults.length == 0) {
 		throw Error(Errors.NO_RESULTS);
 	}
 	return searchResults;
 }
 
-function addToHistory(searchParams: Record<string, string>, sourceConfig: SourceSiteConfig) {
+function addToHistory(searchParams: SearchParams, sourceConfig: SourceSiteConfig) {
 	let url = `?sourceConfigId=${sourceConfig._id!}`;
+	url += `&${QUERY_VARIABLE_NAME}=${searchParams[QUERY_VARIABLE_NAME]}`;
 	sourceConfig.searchUrlConfig.queryComponents.forEach((queryParam) => {
 		const component = queryParam.urlComponent;
 		if ('variableName' in component) {
 			const paramValue = searchParams[component.variableName];
-			if (component.variableName != sourceConfig.htmlSearchRuleSet.pageVariable && paramValue) {
-				url = url + `&${component.variableName}=${paramValue}`;
+			if (paramValue) {
+				url += `&${component.variableName}=${paramValue}`;
 			}
 		}
 	});

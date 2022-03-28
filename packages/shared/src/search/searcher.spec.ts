@@ -16,6 +16,8 @@ describe("Test searching", () => {
     _id: "123",
     name: "test",
     searchUrlConfig: {
+      pageVariable: "",
+      queryVariable: "",
       base: "http://text.com",
       pathComponents: [],
       queryComponents: [],
@@ -27,8 +29,6 @@ describe("Test searching", () => {
     },
     documentRuleSets: [],
     htmlSearchRuleSet: {
-      pageVariable: "",
-      queryVariable: "",
       resultListRule: {
         op: "is",
         location: "class",

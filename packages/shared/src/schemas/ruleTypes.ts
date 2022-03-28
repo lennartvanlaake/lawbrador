@@ -3,7 +3,9 @@ import type {
   documentRuleSet,
   htmlSearchRuleSet,
   markupRule,
+  pageAndQuery,
   queryParam,
+  searchUrlConfig,
   selectionRule,
   sourceSiteConfig,
   staticUrlComponent,
@@ -31,4 +33,6 @@ export type VariableUrlComponent = Static<typeof variableUrlComponent>;
 export type UrlComponent = Static<typeof urlComponent>;
 export type QueryParam = Static<typeof queryParam>;
 export type UrlConfig = Static<typeof urlConfig>;
+export type PageAndQuery = Static<typeof pageAndQuery>;
+export type SearchUrlConfig = PageAndQuery & UrlConfig;
 export type SourceSiteConfig = Static<typeof sourceSiteConfig>;

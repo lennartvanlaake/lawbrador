@@ -4,6 +4,7 @@
 	import type { SourceSiteConfig } from '@lawbrador/shared';
 	import { Schemas } from '@lawbrador/shared';
 	import EditableDocumentRuleSet from './EditableDocumentRuleSet.svelte';
+	import EditableSearchUrlConfig from './EditableSearchUrlConfig.svelte';
 	import { DEFAULT_EMPTY_RULESET } from '@lawbrador/shared';
 	import AddButton from '../common/AddButton.svelte';
 	import EditableUrlConfig from './EditableUrlConfig.svelte';
@@ -46,7 +47,7 @@
 
 <h2>Search url config</h2>
 <section>
-	<EditableUrlConfig bind:urlConfig={sourceConfig.searchUrlConfig} />
+	<EditableSearchUrlConfig bind:config={sourceConfig.searchUrlConfig} />
 </section>
 
 <h2>Document url config</h2>

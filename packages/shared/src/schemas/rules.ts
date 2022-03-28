@@ -35,8 +35,6 @@ export const documentRuleSet = Type.Object({
 });
 
 export const htmlSearchRuleSet = Type.Object({
-  pageVariable: Type.String({ minLength: 1 }),
-  queryVariable: Type.String({ minLength: 1 }),
   resultListRule: selectionRule,
   resultLinkRule: Type.Optional(selectionRule),
 });
@@ -74,11 +72,18 @@ export const urlConfig = Type.Object({
   queryComponents: Type.Array(queryParam),
 });
 
+export const pageAndQuery = Type.Object({
+  pageVariable: Type.Optional(Type.String({ minLength: 1 })),
+  queryVariable: Type.String({ minLength: 1 }),
+});
+
+export const searchUrlConfig = Type.Intersect([urlConfig, pageAndQuery]);
+
 export const sourceSiteConfig = Type.Object({
   _id: Type.String(),
   name: Type.String({ minLength: 1 }),
   description: Type.Optional(Type.String()),
-  searchUrlConfig: urlConfig,
+  searchUrlConfig: searchUrlConfig,
   documentUrlConfig: urlConfig,
   documentRuleSets: Type.Array(documentRuleSet),
   htmlSearchRuleSet: htmlSearchRuleSet,

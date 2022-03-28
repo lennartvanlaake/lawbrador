@@ -1,5 +1,8 @@
 import type { UrlComponent, UrlConfig } from "..";
 import { Md5 } from "md5-typescript";
+import type { SearchUrlConfig } from "../schemas/ruleTypes";
+import { PAGE_VARIABLE_NAME, QUERY_VARIABLE_NAME } from "../constants/other";
+import { parse } from "../parse/scraper";
 function hash(str: string): string {
   return Md5.init(str);
 }
@@ -10,7 +13,10 @@ export function hashObject(obj: any) {
 export function hashUrlVariables(variables: any, config: UrlConfig) {
   return hashObject(extractUrlVariables(variables, config));
 }
-export function buildUrl(variables: Record<string, string>, config: UrlConfig) {
+export function buildUrl(
+  variables: Record<string, string>,
+  config: UrlConfig | SearchUrlConfig
+) {
   //@ts-ignore
   const renderedPath = config.pathComponents.reduce(
     (acc, curr: UrlComponent): string => {
@@ -29,6 +35,24 @@ export function buildUrl(variables: Record<string, string>, config: UrlConfig) {
     },
     ""
   );
+  if ("queryVariable" in config) {
+    const searchConfig = config as SearchUrlConfig;
+    config.queryComponents.push({
+      name: searchConfig.queryVariable,
+      urlComponent: {
+        variableName: QUERY_VARIABLE_NAME,
+      },
+    });
+    const pageVariable = searchConfig.pageVariable;
+    if (pageVariable) {
+      config.queryComponents.push({
+        name: pageVariable,
+        urlComponent: {
+          variableName: PAGE_VARIABLE_NAME,
+        },
+      });
+    }
+  }
 
   const renderedQueryString = config.queryComponents.reduce((acc, param) => {
     const key = param.name;
@@ -74,6 +98,20 @@ export function extractUrlVariables(
       }
     }
   });
+
+  if ("queryVariable" in config) {
+    const searchConfig = config as SearchUrlConfig;
+    output[QUERY_VARIABLE_NAME] = parsedUrl.searchParams.get(
+      searchConfig.queryVariable
+    );
+    let pageValue: string | undefined | null;
+    if (searchConfig.pageVariable) {
+      pageValue = parsedUrl.searchParams.get(searchConfig.pageVariable);
+    }
+    if (pageValue) {
+      output[PAGE_VARIABLE_NAME] = pageValue;
+    }
+  }
   return output;
 }
 

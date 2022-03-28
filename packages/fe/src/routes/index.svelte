@@ -2,13 +2,15 @@
 	export const hydrate = true;
 
 	import Index from '$lib/components/page/Index.svelte';
-	import type { SourceSiteConfig } from '@lawbrador/shared';
+	import type { SearchParams, SourceSiteConfig } from '@lawbrador/shared';
 	import type { SearchResult } from '@lawbrador/shared';
 	import type { Load } from '@sveltejs/kit';
 	import type { IndexProps } from '$lib/components/page/types';
 
 	const baseUrl = import.meta.env.VITE_URL ?? '';
 	import { Endpoints } from '@lawbrador/shared';
+	import { QUERY_VARIABLE_NAME } from '@lawbrador/shared/src/constants/other';
+	import { getInputFromSearchParams, submitQuery } from '$lib/ts/search';
 	export const load: Load = async ({ url, fetch }) => {
 		const query = url.searchParams;
 		const sources: SourceSiteConfig[] = await (
@@ -17,28 +19,15 @@
 		const sourceConfig =
 			//@ts-ignore
 			sources.find((s) => s._id == query.get('sourceConfigId')) ?? sources[0];
-		const searchParams: any =
-			sourceConfig?.searchUrlConfig?.queryComponents?.reduce((acc, cur) => {
-				const queryValue = query.get('variableName');
-				if ('variableName' in cur.urlComponent) {
-					if (
-						cur.urlComponent.variableName != sourceConfig.htmlSearchRuleSet.pageVariable &&
-						queryValue
-					) {
-						acc[cur.urlComponent.variableName] = queryValue;
-					}
-				}
-				return acc;
-			}, {}) ?? {};
-		let searchResults: SearchResult[] = [];
-		if (query.get(sourceConfig?.htmlSearchRuleSet?.queryVariable)) {
-			searchResults = [];
-		}
+		const urlSearchParams: SearchParams | null = getInputFromSearchParams(query) ?? {};
+		let searchResults: SearchResult[] = urlSearchParams
+			? await submitQuery(urlSearchParams, sourceConfig)
+			: [];
 		const indexProps: IndexProps = {
 			query: query,
 			sourceConfigs: sources,
 			sourceConfig: sourceConfig,
-			searchParams: searchParams,
+			searchParams: urlSearchParams ?? {},
 			searchResults: searchResults
 		};
 		return {

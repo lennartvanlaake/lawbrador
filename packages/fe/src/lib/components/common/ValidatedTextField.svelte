@@ -9,6 +9,9 @@
 	});
 </script>
 
+{#if label}
+	<h4>{label}</h4>
+{/if}
 <input type="text" bind:value {label} class:invalid={!!errors} required />
 <ol>
 	{#each errors ?? [] as error}

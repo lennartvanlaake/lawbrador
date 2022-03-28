@@ -1,3 +1,4 @@
+import { browser } from '$app/env';
 import type {
 	SearchRequest,
 	Identity,
@@ -23,12 +24,15 @@ async function get(path: string, fetchParam: any) {
 }
 
 async function request(path: string, body: any, method: Method) {
+	const headers: HeadersInit = browser
+		? {
+				'Content-Type': 'application/json',
+				Authorization: localStorage.getItem('jwt') ?? ''
+		  }
+		: { 'Content-Type': 'application/json' };
 	const req = {
 		method: method,
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: localStorage.getItem('jwt') ?? ''
-		},
+		headers: headers,
 		body: JSON.stringify(body)
 	};
 	const result = await fetch(`${baseUrl}${path}`, req);

@@ -2,10 +2,10 @@
 	import SearchInput from '$lib/components/search/SearchInput.svelte';
 	import SearchResultList from '$lib/components/search/SearchResultList.svelte';
 	import SourceConfigSelector from '$lib/components/search/SourceConfigSelector.svelte';
-	import { submitQuery, getNextPage, getInputFromSearchParams } from '$lib/ts/search';
+	import { submitQuery, getNextPage } from '$lib/ts/search';
 	import { doIfEnter, scrollToBottomSreen } from '$lib/ts/utils';
 	import type { SourceSiteConfig } from '@lawbrador/shared';
-	import { tick, onMount } from 'svelte';
+	import { tick } from 'svelte';
 	import type { IndexProps } from './types';
 	import { Mutex } from 'async-mutex';
 	import { queryToHighlight } from '$lib/ts/stores';
@@ -51,8 +51,7 @@
 					indexProps.sourceConfig
 				);
 				firstSearchResultLength = indexProps.searchResults.length;
-				$queryToHighlight =
-					indexProps.searchParams[indexProps.sourceConfig.htmlSearchRuleSet.queryVariable];
+				$queryToHighlight = indexProps.searchParams.query!;
 			});
 			await tick();
 			// keep adding results until there are no more or the list is scrollable
@@ -97,10 +96,5 @@
 <style>
 	img {
 		padding-top: 1rem;
-	}
-
-	#spinner {
-		font-size: 6rem;
-		text-align: center;
 	}
 </style>

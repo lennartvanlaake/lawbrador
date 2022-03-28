@@ -10,6 +10,7 @@ import {
   getAllMatching,
   makeLinkAbsolute,
 } from "..";
+
 const LINK_RULE: SelectionRule = { op: "is", location: "tag", value: "a" };
 
 export function parseSearchResults(
