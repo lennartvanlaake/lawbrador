@@ -1,17 +1,23 @@
-import type { MarkupRule, ParsedNode, RestructuredNode, TagName } from "..";
+import type {
+  DocumentRuleSet,
+  MarkupRule,
+  ParsedNode,
+  RestructuredNode,
+  TagName,
+} from "..";
 import { getTagConfig } from "..";
 import { v4 as uuid } from "uuid";
-import { matches } from "..";
+import { matches, ALL_MARKUP_NOTATIONS } from "..";
 
 export function restructureRecursive(
   node: ParsedNode,
-  markupRules: MarkupRule[],
+  ruleSet: DocumentRuleSet | undefined,
   idMap: Record<string, string>,
   parentTag: string | null = null
 ): RestructuredNode {
-  const tag: TagName = getTag(node, markupRules, parentTag);
+  const tag: TagName = getTag(node, ruleSet, parentTag);
   const children = node.children?.map((c) =>
-    restructureRecursive(c, markupRules, idMap, tag)
+    restructureRecursive(c, ruleSet, idMap, tag)
   );
   const output = {
     id: uuid(),
@@ -26,19 +32,26 @@ export function restructureRecursive(
 
 function getTag(
   node: ParsedNode,
-  markupRules: MarkupRule[],
+  ruleSet: DocumentRuleSet | undefined,
   parentTag: string | null
 ): TagName {
-  // does a markup rule assign a tag directly?
-  for (let i = 0; i < markupRules.length; i++) {
-    const rule = markupRules[i];
-    if (matches(node, rule.filter)) {
-      return rule.tag;
+  if (ruleSet) {
+    const markupRules = ruleSet?.markupRules ?? [];
+    // does a markup rule assign a tag directly?
+    for (let i = 0; i < markupRules.length; i++) {
+      const rule = markupRules[i];
+      if (matches(node, rule.filter)) {
+        return rule.tag;
+      }
     }
-  }
-  // apply marker assigned by applyLiMarkerRule
-  if (node.tags.includes("li-marker")) {
-    return "li-marker";
+
+    if (ruleSet.preserveMarkup) {
+      for (let i = 0; i < node.tags.length; i++) {
+        if (node.tags[i] in ALL_MARKUP_NOTATIONS) {
+          return node.tags[i];
+        }
+      }
+    }
   }
 
   // links are "a" by default

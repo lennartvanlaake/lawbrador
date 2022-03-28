@@ -29,6 +29,7 @@ export const markupRule = Type.Object({
 export const documentRuleSet = Type.Object({
   name: Type.Optional(Type.String()),
   conditionRules: Type.Optional(Type.Array(selectionRule)),
+  preserveMarkup: Type.Boolean({ default: true }),
   markupRules: Type.Optional(Type.Array(markupRule)),
   bodyRule: Type.Optional(selectionRule),
 });

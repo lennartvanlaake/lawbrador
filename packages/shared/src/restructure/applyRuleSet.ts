@@ -20,11 +20,7 @@ export function applyRuleSet(
     throw new Error(Errors.NO_BODY_FOUND);
   }
   const idMap = {};
-  const restructured = restructureRecursive(
-    body,
-    rules?.markupRules ?? [],
-    idMap
-  );
+  const restructured = restructureRecursive(body, rules, idMap);
   const modifiedOutput = modifyOutput(
     restructured,
     sourceConfig,

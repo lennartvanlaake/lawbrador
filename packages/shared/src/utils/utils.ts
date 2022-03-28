@@ -1,4 +1,10 @@
-import type { DocumentRuleSet, Identity, RestructuredNode } from "..";
+import type {
+  DocumentRuleSet,
+  Identity,
+  RestructuredNode} from "..";
+import {
+  DEFAULT_EMPTY_RULESET
+} from "..";
 import { eurlexConfig } from "..";
 import { parse } from "../parse/scraper";
 import { applyRuleSet } from "../restructure";
@@ -16,7 +22,7 @@ export function logObject(object: any) {
 }
 
 export function defaultRestructure(html: string): RestructuredNode {
-  const ruleSet: DocumentRuleSet = {};
+  const ruleSet: DocumentRuleSet = DEFAULT_EMPTY_RULESET;
   const sourceUrl = "http://source.url";
   return applyRuleSet(parse(html), ruleSet, eurlexConfig, sourceUrl);
 }

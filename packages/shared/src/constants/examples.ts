@@ -33,7 +33,9 @@ export const EMPTY_MARKUP_RULE: MarkupRule = {
   tag: "h1",
   filter: { ...DEFAULT_EMPTY_SELECTION_RULE },
 };
-export const DEFAULT_EMPTY_RULESET: DocumentRuleSet = {};
+export const DEFAULT_EMPTY_RULESET: DocumentRuleSet = {
+  preserveMarkup: true,
+};
 export const EMPTY_URL_CONFIG: UrlConfig = {
   base: "https://",
   pathComponents: [],
@@ -140,6 +142,7 @@ export const eurlexConfig: SourceSiteConfig = {
   },
   documentRuleSets: [
     {
+      preserveMarkup: true,
       bodyRule: {
         op: "is",
         location: "id",
@@ -147,6 +150,7 @@ export const eurlexConfig: SourceSiteConfig = {
       },
     },
     {
+      preserveMarkup: true,
       bodyRule: {
         op: "is",
         location: "id",

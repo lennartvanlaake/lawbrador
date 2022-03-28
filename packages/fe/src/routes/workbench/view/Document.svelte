@@ -3,8 +3,8 @@
 	import { defaultRestructure } from '@lawbrador/shared';
 	import { queryToHighlight } from '$lib/ts/stores';
 	const node1 =
-		defaultRestructure(`<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent semper tristique elit, nec laoreet ex sollicitudin eu. Proin eget lectus arcu. Quisque rutrum rutrum leo, et placerat eros ornare non. Fusce fermentum dui eget posuere cursus. Suspendisse potenti. Curabitur interdum facilisis nulla, in pretium risus convallis at. Curabitur nec vestibulum nisi, et dictum mauris. Suspendisse quam nulla, venenatis id congue eu, aliquet sit amet mauris.
-</p>
+		defaultRestructure(`<h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent semper tristique elit, nec laoreet ex sollicitudin eu. Proin eget lectus arcu. Quisque rutrum rutrum leo, et placerat eros ornare non. Fusce fermentum dui eget posuere cursus. Suspendisse potenti. Curabitur interdum facilisis nulla, in pretium risus convallis at. Curabitur nec vestibulum nisi, et dictum mauris. Suspendisse quam nulla, venenatis id congue eu, aliquet sit amet mauris.
+</h1>
 <p>
 Maecenas ornare arcu eu arcu ultricies, id mollis leo accumsan. Quisque enim risus, congue eget varius sed, egestas quis lectus. Curabitur efficitur risus sed justo vulputate, vitae finibus odio ornare. Pellentesque auctor leo eget pulvinar sagittis. In viverra nunc a aliquet facilisis. Mauris vitae ex rutrum, rutrum dui vitae, viverra diam. Cras consectetur nisi et sagittis pharetra. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed at iaculis justo. Aenean a dignissim quam. Duis pharetra mauris neque, sit amet malesuada eros pharetra eget. Aliquam vehicula arcu at ipsum volutpat efficitur. Nulla semper ipsum non mattis iaculis. Sed volutpat mattis nunc, non convallis sem ultricies at.
 </p>
