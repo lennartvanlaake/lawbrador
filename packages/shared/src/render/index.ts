@@ -1,5 +1,17 @@
 import type { RestructuredNode } from "..";
 
+export function renderText(node: RestructuredNode) {
+  const childText =
+    node.children?.reduce(
+      (p: string, c: RestructuredNode) => (p += renderText(c)),
+      ""
+    ) ?? "";
+  if ("text" in node) {
+    return node.text ?? "" + childText;
+  }
+  return childText;
+}
+
 export function renderNode(node: RestructuredNode): string {
   if (node.name == "text") {
     return node.text;

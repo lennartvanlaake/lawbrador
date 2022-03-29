@@ -1,10 +1,5 @@
-import type {
-  DocumentRuleSet,
-  Identity,
-  RestructuredNode} from "..";
-import {
-  DEFAULT_EMPTY_RULESET
-} from "..";
+import type { DocumentRuleSet, Identity, RestructuredNode } from "..";
+import { DEFAULT_EMPTY_RULESET } from "..";
 import { eurlexConfig } from "..";
 import { parse } from "../parse/scraper";
 import { applyRuleSet } from "../restructure";

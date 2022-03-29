@@ -5,7 +5,7 @@
 </script>
 
 <h1>{name}</h1>
-<Toggled>
+<Toggled value={true}>
 	<section>
 		<slot />
 	</section>

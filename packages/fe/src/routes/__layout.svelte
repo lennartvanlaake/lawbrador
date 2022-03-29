@@ -17,6 +17,7 @@
 	/*same as accent, but with 50% opacity*/
 	:global(:root) {
 		--accent-light: rgba(129, 83, 8, 0.5);
+		--accent-very-light: rgba(249, 238, 220, 1);
 	}
 
 	:global(i) {
