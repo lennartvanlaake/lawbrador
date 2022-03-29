@@ -5,7 +5,7 @@
 	import { submitQuery, getNextPage } from '$lib/ts/search';
 	import { doIfEnter, scrollToBottomSreen } from '$lib/ts/utils';
 	import type { SourceSiteConfig } from '@lawbrador/shared';
-	import { tick } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import type { IndexProps } from './types';
 	import { Mutex } from 'async-mutex';
 	import { queryToHighlight } from '$lib/ts/stores';
@@ -41,12 +41,14 @@
 			});
 		} catch (e) {
 			alert(e.message);
+			hasMore = false;
 		}
 	}
 
 	async function onQuerySubmitted() {
 		try {
 			hasSearched = true;
+			scrollToBottomSreen();
 			await mutex.runExclusive(async () => {
 				indexProps.searchResults = [];
 				indexProps.searchResults = await submitQuery(
@@ -65,8 +67,15 @@
 			scrollToBottomSreen();
 		} catch (e) {
 			alert(e.message);
+			hasMore = false;
 		}
 	}
+
+	onMount(() => {
+		if (hasSearched) {
+			scrollToBottomSreen();
+		}
+	});
 </script>
 
 <img src="/logo.png" alt="lawbrador logo" />
