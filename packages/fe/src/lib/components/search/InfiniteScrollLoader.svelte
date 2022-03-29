@@ -3,8 +3,8 @@
 	import Spinner from '../common/Spinner.svelte';
 	const dispatch = createEventDispatcher<{ bottomReached: any }>();
 	export let hasMore: boolean;
-	export let loaderIsVisible: boolean;
 	let element: HTMLDivElement;
+	let loaderIsVisible = true;
 	onMount(() => {
 		const observer = new IntersectionObserver((entries) => {
 			if (entries[0].intersectionRatio > 0) {

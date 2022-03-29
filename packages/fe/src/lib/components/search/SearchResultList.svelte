@@ -27,8 +27,8 @@
 			on:searchResultClicked={() => (hasClicked = true)}
 		/>
 	{/each}
-	{#if hasSearched}
-		<InfiniteScrollLoader bind:hasMore bind:loaderIsVisible on:bottomReached />
+	{#if hasSearched && hasMore}
+		<InfiniteScrollLoader bind:hasMore on:bottomReached />
 	{/if}
 </div>
 

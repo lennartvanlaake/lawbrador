@@ -11,11 +11,16 @@
 	import { queryToHighlight } from '$lib/ts/stores';
 	export let indexProps: IndexProps;
 
-	let firstSearchResultLength: number | undefined =
-		indexProps.searchResults.length > 0 ? indexProps.searchResults.length : undefined;
-	let hasMore = true;
-	let loaderIsVisible = true;
 	let hasSearched = indexProps.searchResults.length > 0;
+	let firstSearchResultLength: number | undefined = hasSearched
+		? indexProps.searchResults.length
+		: undefined;
+	let hasMore = true;
+
+	if (hasSearched) {
+		$queryToHighlight = indexProps.searchParams.query!;
+	}
+
 	// mutex guarantees we don't get multiple running queries
 	const mutex = new Mutex();
 
@@ -60,7 +65,7 @@
 			});
 			await tick();
 			// keep adding results until there are no more or the list is scrollable
-			while (loaderIsVisible && hasMore) {
+			while (hasMore) {
 				await page();
 				await tick();
 			}
@@ -96,7 +101,6 @@
 	on:querySubmitted={onQuerySubmitted}
 />
 <SearchResultList
-	bind:loaderIsVisible
 	bind:searchResults={indexProps.searchResults}
 	bind:hasMore
 	sourceConfig={indexProps.sourceConfig}
