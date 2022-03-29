@@ -2,21 +2,23 @@
 	import { scrollToCenter } from '$lib/ts/utils';
 
 	import type { RestructuredNode } from '@lawbrador/shared';
+	import type { Header } from '$lib/ts/types';
 	import { renderText } from '@lawbrador/shared';
 	import { renderNode } from '@lawbrador/shared';
 	import Modal from '../common/Modal.svelte';
+	import CollapsibleHeaderLink from './CollapsibleHeaderLink.svelte';
 	export let show = false;
 	export let headers: RestructuredNode[] = [];
-	interface Header {
-		parent: Header | null;
-		fullText: string;
-		level: number;
-		children: Header[];
-	}
 	$: nestedHeaders = nest(headers);
 
 	function toHeader(node: RestructuredNode): Header {
-		return { fullText: renderText(node), level: getHeaderLevel(node), children: [], parent: null };
+		return {
+			fullText: renderText(node),
+			level: getHeaderLevel(node),
+			children: [],
+			parent: null,
+			id: node.id
+		};
 	}
 
 	function getFirstLowerHeader(parentHeader: Header | null, currentLevel: number) {
@@ -59,27 +61,25 @@
 		}
 	}
 
-	function closeAndScroll(ev: Event, header: RestructuredNode) {
-		ev.preventDefault();
+	function close() {
 		show = false;
-		scrollToCenter(header.id);
 	}
 </script>
 
 {#if show}
 	<Modal closable={true}>
-		<div>
-			{#each headers as headerLink}
-				<a href="#{headerLink.id}" on:click={(ev) => closeAndScroll(ev, headerLink)}>
-					{@html renderNode(headerLink)}
-				</a>
+		<h2>Index</h2>
+		<div id="bg">
+			{#each nestedHeaders as headerLink}
+				<CollapsibleHeaderLink header={headerLink} on:linkClicked={close} />
 			{/each}
 		</div>
 	</Modal>
 {/if}
 
 <style>
-	/*div :global(h1) {*/
-	/*color: purple*/
-	/*}*/
+	#bg {
+		padding: 1rem;
+		background-color: var(--accent-very-light);
+	}
 </style>
