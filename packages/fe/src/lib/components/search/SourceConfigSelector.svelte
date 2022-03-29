@@ -3,8 +3,9 @@
 	import { createEventDispatcher } from 'svelte';
 	import TooltipButton from '../common/TooltipButton.svelte';
 	export let sourceConfigList: SourceSiteConfig[];
-	export let sourceConfig: SourceSiteConfig | null = null;
-	export let sourceConfigId: string | null = null;
+	export let sourceConfig: SourceSiteConfig | null =
+		sourceConfigList.length > 0 ? sourceConfigList[0] : null;
+	export let sourceConfigId: string | null = sourceConfig?._id ?? null;
 	const dispatch = createEventDispatcher<{ configSelected: SourceSiteConfig }>();
 
 	//@ts-ignore

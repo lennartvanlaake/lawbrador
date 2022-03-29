@@ -64,12 +64,12 @@
 				$queryToHighlight = indexProps.searchParams.query!;
 			});
 			await tick();
+			scrollToBottomSreen();
 			// keep adding results until there are no more or the list is scrollable
 			while (hasMore) {
 				await page();
 				await tick();
 			}
-			scrollToBottomSreen();
 		} catch (e) {
 			alert(e.message);
 			hasMore = false;

@@ -33,6 +33,15 @@ export async function getNextPage(
 				searchParams: searchParams
 			})
 		).results;
+
+		if (newResults.length == 0) {
+			return {
+				isLast: true,
+				searchParams: searchParams,
+				searchResults: oldResults
+			};
+		}
+
 		// some results are the same: this is the last page and filter duplicates
 		const newResultsHashes = newResults.map((r) => r.hash);
 		const oldResultsHashes = oldResults.map((r) => r.hash);
