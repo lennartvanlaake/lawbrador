@@ -8,7 +8,7 @@
 		"build": "svelte-kit build",
 		"preview": "svelte-kit preview",
 		"start": "node dist/index.js",
-		"ts-check": "svelte-check --ignore node_modules",
+		"svelte-check": "svelte-check --ignore node_modules --threshold error",
 		"check:watch": "svelte-check --ignore node_modules --watch"
 	},
 	"type": "module",
