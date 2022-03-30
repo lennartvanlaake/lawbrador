@@ -42,6 +42,7 @@
 		display: none;
 	}
 	:global(.marker) {
+		z-index: -1;
 		position: absolute;
 		margin-left: -3rem;
 	}
