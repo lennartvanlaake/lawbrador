@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { RestructuredDocument } from '@lawbrador/shared';
 	import { renderNode } from '@lawbrador/shared';
-	import HighlightControl from './HighlightControl.svelte';
+	import BottomToolBar from './BottomToolBar.svelte';
 	import NodeView from './NodeView.svelte';
 	export let document: RestructuredDocument;
 	let documentElement: Element;
@@ -12,4 +12,4 @@
 <div bind:this={documentElement}>
 	<NodeView {html} />
 </div>
-<HighlightControl bind:html {documentElement} />
+<BottomToolBar node={document.body} bind:html {documentElement} />

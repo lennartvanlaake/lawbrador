@@ -1,57 +1,54 @@
 <script lang="ts">
-	export let searchEnabled = true;
+	import HighlightControl from './HighlightControl.svelte';
 
+	import { queryToHighlight } from '$lib/ts/stores';
+	import HeaderIndex from './HeaderIndex.svelte';
+	import type { RestructuredNode } from '@lawbrador/shared';
+	export let html: string;
+	export let documentElement: Element;
+	export let node: RestructuredNode;
+	let searchEnabled = !!$queryToHighlight;
+	let indexEnabled = false;
 	function toggleSearch() {
 		searchEnabled = !searchEnabled;
 	}
+
+	function toggleIndex() {
+		indexEnabled = !indexEnabled;
+	}
 </script>
 
-<div id="control-bg">
-	<i class="icon-search" on:click={toggleSearch} />
+<div class="fixed-bottom">
+	{#if indexEnabled}
+		<HeaderIndex {node} bind:show={indexEnabled} />
+	{/if}
+	{#if searchEnabled}
+		<HighlightControl bind:html bind:enabled={searchEnabled} {documentElement} />
+	{/if}
+	<div id="control">
+		<i class="fa-solid fa-magnifying-glass" on:click={toggleSearch} />
+		<span class="right-icons">
+			<i class="fa-solid fa-file-lines" on:click={toggleIndex} />
+		</span>
+	</div>
 </div>
 
 <style>
-	#control-bg {
+	.fixed-bottom {
+		background-color: white;
 		position: fixed;
 		bottom: 0px;
-		background-color: white;
-		border-radius: 0.5rem;
 		width: 100%;
 		max-width: 45rem;
+	}
+
+	#control {
+		background-color: white;
+		border-radius: 0.5rem;
 		display: flex;
 		align-items: center;
 	}
-
-	.icon-search {
-		box-shadow: 0.1rem 0.1rem 0.1rem 0 grey;
-		position: fixed;
-		background-color: white;
-		padding: 1rem;
-		bottom: 1rem;
-		right: 1rem;
-		border-radius: 50%;
-	}
-
 	.right-icons {
 		margin-left: auto;
-	}
-
-	input {
-		min-width: 10rem;
-		max-width: 20rem;
-	}
-
-	.progress {
-		margin-left: 0.5rem;
-		min-width: 4rem;
-		display: inline-block;
-	}
-
-	i {
-		padding-right: 1rem;
-	}
-
-	i:hover {
-		color: var(--accent-light);
 	}
 </style>

@@ -2,7 +2,7 @@
 	import { queryToHighlight } from '$lib/ts/stores';
 	import { scrollElementToCenter } from '$lib/ts/utils';
 	import { wrapElements } from '@lawbrador/shared';
-	import { onMount, tick } from 'svelte';
+	import { onDestroy, onMount, tick } from 'svelte';
 
 	const HIGHLIGHT_CLASS = 'highlight';
 	const preMatch = `<strong class='${HIGHLIGHT_CLASS}'>`;
@@ -10,6 +10,7 @@
 
 	export let html: string;
 	export let documentElement: Element;
+	export let enabled: boolean;
 
 	const originalHtml = html;
 	const TYPING_STOPPED_TIMEOUT_MS = 400;
@@ -17,12 +18,15 @@
 	let elementIndex = 0;
 	let selectedElement: HTMLElement;
 	let timeout: number;
-	let enabled = !!$queryToHighlight;
 
 	onMount(() => {
 		queryToHighlight.subscribe(async () => {
 			await addHighlights();
 		});
+	});
+
+	onDestroy(() => {
+		resetHighlights();
 	});
 
 	async function addHighlights() {
@@ -72,11 +76,6 @@
 		html = originalHtml;
 	}
 
-	function enable() {
-		enabled = true;
-		addHighlights();
-	}
-
 	function disable() {
 		enabled = false;
 		resetHighlights();
@@ -96,42 +95,24 @@
 	});
 </script>
 
-{#if enabled}
-	<div id="control-bg">
-		<input type="text" bind:value={$queryToHighlight} />
-		<span class="progress"
-			>{elementArray.length > 0 ? elementIndex + 1 : 0}/{elementArray.length}</span
-		>
-		<i class="icon-circle-up" on:click={decreaseElementIndex} />
-		<i class="icon-circle-down" on:click={increaseElementIndex} />
-		<div class="right-icons">
-			<i class="icon-cancel-circle" on:click={disable} />
-		</div>
+<div id="control-bg">
+	<input type="text" bind:value={$queryToHighlight} />
+	<span class="progress"
+		>{elementArray.length > 0 ? elementIndex + 1 : 0}/{elementArray.length}</span
+	>
+	<i class="fa-solid fa-angle-up" on:click={decreaseElementIndex} />
+	<i class="fa-solid fa-angle-down" on:click={increaseElementIndex} />
+	<div class="right-icons">
+		<i class="fa-solid fa-xmark" on:click={disable} />
 	</div>
-{:else}
-	<i class="icon-search" on:click={enable} />
-{/if}
+</div>
 
 <style>
 	#control-bg {
-		position: fixed;
-		bottom: 0px;
 		background-color: white;
 		border-radius: 0.5rem;
-		width: 100%;
-		max-width: 45rem;
 		display: flex;
 		align-items: center;
-	}
-
-	.icon-search {
-		box-shadow: 0.1rem 0.1rem 0.1rem 0 grey;
-		position: fixed;
-		background-color: white;
-		padding: 1rem;
-		bottom: 1rem;
-		right: 1rem;
-		border-radius: 50%;
 	}
 
 	.right-icons {

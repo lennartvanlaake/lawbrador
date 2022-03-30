@@ -6,6 +6,7 @@
 	export let header: Header;
 	const dispatch = createEventDispatcher<{ linkClicked: any }>();
 	function scroll(ev: Event) {
+		console.log('click');
 		ev.preventDefault();
 		scrollToCenter(header.id);
 		dispatch('linkClicked');

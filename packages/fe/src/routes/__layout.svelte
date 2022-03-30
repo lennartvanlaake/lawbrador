@@ -24,6 +24,7 @@
 		color: var(--accent);
 		font-size: 2rem;
 		cursor: pointer;
+		padding: 0.5rem;
 	}
 
 	:global(i:hover) {
@@ -50,6 +51,5 @@
 		width: 100%;
 		position: fixed;
 		background-color: white;
-		z-index: 1;
 	}
 </style>
