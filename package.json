@@ -16,8 +16,7 @@
   "scripts": {
     "docker-down": "docker-compose -f infra/dev/docker-compose.yml down",
     "docker": "docker-compose -f infra/dev/docker-compose.yml up",
-    "test": "yarn check && lerna run test --parallel || killall node",
-    "svelte-check": "lerna run svelte-check",
+    "test": "tsc --noEmit && lerna run svelte-check && lerna run test --parallel || killall node",
     "dev": "yarn docker -d && lerna run dev --parallel || killall node",
     "debug": "yarn docker -d && lerna run debug --parallel || killall node",
     "run-it": "lerna run run-it",
