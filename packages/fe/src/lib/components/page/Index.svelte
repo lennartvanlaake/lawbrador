@@ -53,9 +53,8 @@
 	async function onQuerySubmitted() {
 		try {
 			hasSearched = true;
-			scrollToBottomSreen();
+			indexProps.searchResults = [];
 			await mutex.runExclusive(async () => {
-				indexProps.searchResults = [];
 				indexProps.searchResults = await submitQuery(
 					indexProps.searchParams,
 					indexProps.sourceConfig
