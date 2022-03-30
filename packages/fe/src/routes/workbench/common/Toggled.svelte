@@ -11,7 +11,7 @@
 	</Toggled>
 </View>
 <View name="With bound data">
-	<Toggled bind:data {empty}>
+	<Toggled value={data} {empty}>
 		<p>{data}</p>
 	</Toggled>
 </View>
