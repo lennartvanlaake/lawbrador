@@ -29,6 +29,7 @@ export * from "./schemas/scrapeTypes";
 export * from "./schemas/tagTypes";
 export * from "./schemas/searchTypes";
 export * from "./schemas/authTypes";
+export * from "./schemas/renderTypes";
 
 export * from "./schemas/genericTypes";
 export * from "@lawbrador/shared/src/schemas/ruleTypes";
