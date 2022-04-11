@@ -14,6 +14,10 @@
 		return map;
 	}, {});
 
+	if (sourceConfig) {
+		dispatch('configSelected', sourceConfig);
+	}
+
 	function selectSourceConfig(sourceConfigId: string | null) {
 		sourceConfig = sourceConfigId ? sourceConfigMap[sourceConfigId] : sourceConfig;
 		console.log(sourceConfig);
