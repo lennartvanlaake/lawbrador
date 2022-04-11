@@ -10,6 +10,7 @@
 	} from '@lawbrador/shared';
 	import Toggled from '../common/Toggled.svelte';
 	import { empty } from 'svelte/internal';
+	import Collapsable from '../common/Collapsable.svelte';
 	export let ruleConfig: SelectionRule | undefined;
 	export let title: string | null = null;
 	const validator = new Validator(Schemas.selectionRule);
@@ -17,10 +18,10 @@
 </script>
 
 {#if ruleConfig}
-	<div>
-		{#if title}
-			<h4>{title}</h4>
-		{/if}
+	<Collapsable>
+		<h4 slot="title">
+			{#if title}{title}{:else}Rule{/if}
+		</h4>
 		<select bind:value={ruleConfig.op} label="selection operator">
 			{#each ALL_SELECTION_OPERATORS as op}
 				<option value={op}>{op}</option>
@@ -39,9 +40,11 @@
 			errors={errors?.value}
 		/>
 
-		<h4>Nested rule</h4>
-		<Toggled bind:value={ruleConfig.nestedRule} empty={DEFAULT_EMPTY_SELECTION_RULE}>
-			<svelte:self bind:ruleConfig={ruleConfig.nestedRule} />
-		</Toggled>
-	</div>
+		<Collapsable>
+			<h4 slot="title">Nested rule</h4>
+			<Toggled bind:value={ruleConfig.nestedRule} empty={DEFAULT_EMPTY_SELECTION_RULE}>
+				<svelte:self bind:ruleConfig={ruleConfig.nestedRule} />
+			</Toggled>
+		</Collapsable>
+	</Collapsable>
 {/if}

@@ -11,6 +11,7 @@
 	import EditableSearchConfig from './EditableSearchConfig.svelte';
 	import WarningBox from '../common/WarningBox.svelte';
 	import Removable from '../common/Removable.svelte';
+	import Collapsable from '../common/Collapsable.svelte';
 
 	export let sourceConfig: Omit<SourceSiteConfig, '_id'>;
 	export let isValid = false;
@@ -20,21 +21,20 @@
 	$: console.log(sourceConfig);
 </script>
 
-<h2>General</h2>
-<section>
-	<h4>Name</h4>
+<Collapsable>
+	<h2 slot="title">General</h2>
 	<ValidatedTextField label="Name" bind:value={sourceConfig.name} errors={errors?.name} />
 	<h4>Description</h4>
 	<textarea bind:value={sourceConfig.description} />
-</section>
+</Collapsable>
 
-<h2>Search</h2>
-<section>
+<Collapsable>
+	<h2 slot="title">Search</h2>
 	<EditableSearchConfig bind:config={sourceConfig.htmlSearchRuleSet} />
-</section>
+</Collapsable>
 
-<h2>Document rule sets</h2>
-<section>
+<Collapsable>
+	<h2 slot="title">Document rule sets</h2>
 	{#each sourceConfig.documentRuleSets ?? [] as ruleSet}
 		<Removable bind:value={ruleSet} bind:list={sourceConfig.documentRuleSets}>
 			<EditableDocumentRuleSet bind:ruleSet />
@@ -43,16 +43,16 @@
 	<div>
 		<AddButton bind:value={sourceConfig.documentRuleSets} empty={DEFAULT_EMPTY_RULESET} />
 	</div>
-</section>
+</Collapsable>
 
-<h2>Search url config</h2>
-<section>
+<Collapsable>
+	<h2 slot="title">Search url config</h2>
 	<EditableSearchUrlConfig bind:config={sourceConfig.searchUrlConfig} />
-</section>
+</Collapsable>
 
-<h2>Document url config</h2>
-<section>
+<Collapsable>
+	<h2 slot="title">Document url config</h2>
 	<EditableUrlConfig bind:urlConfig={sourceConfig.documentUrlConfig} />
-</section>
+</Collapsable>
 
 <WarningBox messages={getImprovedErrorMessages(errors?.all)} />

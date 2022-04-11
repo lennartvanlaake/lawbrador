@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { MarkupRule } from '@lawbrador/shared';
 	import { ALL_MARKUP_NOTATIONS } from '@lawbrador/shared';
+	import Collapsable from '../common/Collapsable.svelte';
 	import EditableRuleConfig from './EditableRuleConfig.svelte';
 	export let rule: MarkupRule;
 </script>
@@ -10,4 +11,7 @@
 		<option value={tag}>{tag}</option>
 	{/each}
 </select>
-<EditableRuleConfig title="Filter" bind:ruleConfig={rule.filter} />
+<Collapsable>
+	<h4 slot="title">Filter</h4>
+	<EditableRuleConfig bind:ruleConfig={rule.filter} />
+</Collapsable>

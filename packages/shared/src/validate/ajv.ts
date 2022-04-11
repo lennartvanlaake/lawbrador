@@ -2,7 +2,8 @@ import addFormats from "ajv-formats";
 import Ajv from "ajv";
 import {} from "@lawbrador/shared";
 
-export const ajv = addFormats(new Ajv({ allErrors: true }), [
+//@ts-ignore
+export const ajv: Ajv = addFormats(new Ajv({ allErrors: true }), [
   "date-time",
   "time",
   "date",

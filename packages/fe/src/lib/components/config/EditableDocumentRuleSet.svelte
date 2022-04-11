@@ -8,18 +8,20 @@
 	import Toggled from '../common/Toggled.svelte';
 	import EditableMarkupRule from './EditableMarkupRule.svelte';
 	import Removable from '../common/Removable.svelte';
+	import Collapsable from '../common/Collapsable.svelte';
 	export let ruleSet: DocumentRuleSet;
 	const validator = new Validator(Schemas.documentRuleSet);
 	$: errors = validator.validate(ruleSet);
 </script>
 
-<section>
+<Collapsable>
+	<h3 slot="title">Ruleset</h3>
 	<h3>Preserve markup</h3>
 	<Toggled empty={true} bind:value={ruleSet.preserveMarkup} />
 
 	<ToggledRuleConfig bind:ruleConfig={ruleSet.bodyRule} title="Body rule" />
-	<section>
-		<h3>Condition rules</h3>
+	<Collapsable>
+		<h3 slot="title">Condition rules</h3>
 		<Toggled empty={[DEFAULT_EMPTY_SELECTION_RULE]} bind:value={ruleSet.conditionRules}>
 			<ValidatedList
 				bind:list={ruleSet.conditionRules}
@@ -31,9 +33,9 @@
 				{/each}
 			</ValidatedList>
 		</Toggled>
-	</section>
-	<section>
-		<h3>Markup rules</h3>
+	</Collapsable>
+	<Collapsable>
+		<h3 slot="title">Markup rules</h3>
 		<Toggled empty={[EMPTY_MARKUP_RULE]} bind:value={ruleSet.markupRules}>
 			<ValidatedList
 				bind:list={ruleSet.markupRules}
@@ -49,5 +51,5 @@
 				{/each}
 			</ValidatedList>
 		</Toggled>
-	</section>
-</section>
+	</Collapsable>
+</Collapsable>

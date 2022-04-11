@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { SourceSiteConfig } from '@lawbrador/shared';
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 	import TooltipButton from '../common/TooltipButton.svelte';
 	export let sourceConfigList: SourceSiteConfig[];
 	export let sourceConfig: SourceSiteConfig | null =
@@ -14,10 +14,6 @@
 		return map;
 	}, {});
 
-	if (sourceConfig) {
-		dispatch('configSelected', sourceConfig);
-	}
-
 	function selectSourceConfig(sourceConfigId: string | null) {
 		sourceConfig = sourceConfigId ? sourceConfigMap[sourceConfigId] : sourceConfig;
 		console.log(sourceConfig);
@@ -26,6 +22,10 @@
 		}
 	}
 	$: selectSourceConfig(sourceConfigId);
+
+	onMount(() => {
+		selectSourceConfig(sourceConfigId);
+	});
 </script>
 
 <div>
