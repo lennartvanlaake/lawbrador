@@ -1,42 +1,23 @@
-import type {
-  CloseTag,
-  IndexedTagOrText,
-  OpenTag,
-  TagOrText} from "..";
-import {
-  deduplicateWhitespace,
-  escapeRegExp,
-  getIndexedMatches
-} from "..";
+import { strConcat } from "ajv/dist/compile/codegen";
+import type { IndexedTagOrText, TagOrText } from "..";
+import { escapeRegExp, getIndexedMatches } from "..";
 
 export class RenderedDocument {
   snippets: IndexedTagOrText[] = [];
-  push(snippet: TagOrText) {
-    this.snippets.push(addIndexToSnippet(snippet, this.snippets.length));
-  }
+  strippedString: string;
 
+  constructor(snippets: TagOrText[]) {
+    this.snippets = snippets.map((it, index) => addIndexToSnippet(it, index));
+    this.strippedString = this.snippets
+      .filter((it) => it.type == "text")
+      .join("");
+  }
   toHtmlString() {
     return this.snippets.join("");
   }
 
-  toStrippedString() {
-    return this.snippets.filter((it) => it.type == "text").join("");
-  }
-
   recalculateIndex() {
     this.snippets.forEach((it, index) => (it.index = index));
-  }
-
-  splitSnippet(index: number) {
-    const toSplit = this.snippets.splice(index, 1)[0];
-    if (!toSplit || toSplit.type != "text") {
-      throw Error();
-    }
-    this.snippets = this.snippets
-      .slice(0, index)
-      .concat(toSplit)
-      .concat(this.snippets.slice(index));
-    this.recalculateIndex();
   }
 
   removeIf(filter: () => boolean) {
@@ -44,9 +25,9 @@ export class RenderedDocument {
     this.recalculateIndex();
   }
 
-  wrapAllMatching(query: string, pre: OpenTag, post: CloseTag) {
+  wrapAllMatching(query: string, pre: TagOrText, post: TagOrText) {
     const matches = getIndexedMatches(
-      this.toStrippedString(),
+      this.strippedString,
       new RegExp(escapeRegExp(query))
     );
     matches.forEach((it) =>
@@ -57,11 +38,11 @@ export class RenderedDocument {
   wrapNthMatch(
     query: string,
     matchIndex: number,
-    pre: OpenTag,
-    post: CloseTag
+    pre: TagOrText,
+    post: TagOrText
   ) {
     const matches = getIndexedMatches(
-      this.toStrippedString(),
+      this.strippedString,
       new RegExp(escapeRegExp(query))
     );
     const match = matches[matchIndex];
@@ -71,23 +52,11 @@ export class RenderedDocument {
   wrapCharacterIndices(
     start: number,
     end: number,
-    pre: OpenTag,
-    post: CloseTag
+    pre: TagOrText,
+    post: TagOrText
   ) {
-    const startMatch = this.calculateMatchAndOffset(start);
-    if (startMatch.offset != 0) {
-      this.splitSnippet(startMatch.offset);
-      this.wrapSnippet(startMatch.match.index + 1, pre, post);
-    } else {
-      this.wrapSnippet(startMatch.match.index, pre, post);
-    }
-    const endMatch = this.calculateMatchAndOffset(end);
-    if (endMatch.offset != 0) {
-      this.splitSnippet(endMatch.offset);
-      this.wrapSnippet(endMatch.match.index + 1, pre, post);
-    } else {
-      this.wrapSnippet(endMatch.match.index, pre, post);
-    }
+    this.insertAtCharacterIndex(start, pre);
+    this.insertAtCharacterIndex(end + 1, post);
   }
 
   calculateMatchAndOffset(characterIndex: number) {
@@ -108,9 +77,34 @@ export class RenderedDocument {
     };
   }
 
-  wrapSnippet(index: number, pre: OpenTag, post: CloseTag) {
-    this.snippets.splice(index, 0, addIndexToSnippet(pre, index));
-    this.snippets.splice(index + 2, 0, addIndexToSnippet(post, index + 2));
+  splitSnippet(index: number) {
+    const toSplit = this.snippets.splice(index, 1)[0];
+    if (!toSplit || toSplit.type != "text") {
+      throw Error();
+    }
+    this.snippets = this.snippets
+      .slice(0, index)
+      .concat(toSplit)
+      .concat(this.snippets.slice(index));
+    this.recalculateIndex();
+  }
+
+  insertAtCharacterIndex(characterIndex: number, snippet: TagOrText) {
+    const matchAndOffset = this.calculateMatchAndOffset(characterIndex);
+    if (matchAndOffset.offset) {
+      this.splitSnippet(matchAndOffset.offset);
+      this.snippets.splice(
+        characterIndex + 1,
+        0,
+        addIndexToSnippet(snippet, characterIndex + 1)
+      );
+    } else {
+      this.snippets.splice(
+        characterIndex,
+        0,
+        addIndexToSnippet(snippet, characterIndex)
+      );
+    }
     this.recalculateIndex();
   }
 }
