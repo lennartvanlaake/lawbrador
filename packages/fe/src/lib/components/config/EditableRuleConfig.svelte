@@ -11,7 +11,7 @@
 	import Toggled from '../common/Toggled.svelte';
 	import { empty } from 'svelte/internal';
 	import Collapsable from '../common/Collapsable.svelte';
-	export let ruleConfig: SelectionRule | undefined;
+	export let ruleConfig: SelectionRule | undefined | null;
 	export let title: string | null = null;
 	const validator = new Validator(Schemas.selectionRule);
 	$: errors = validator.validate(ruleConfig);

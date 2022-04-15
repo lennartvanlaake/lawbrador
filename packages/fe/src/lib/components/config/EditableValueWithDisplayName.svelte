@@ -3,7 +3,7 @@
 	import type { ValueWithDisplayName } from '@lawbrador/shared';
 	import Removable from '../common/Removable.svelte';
 	export let option: ValueWithDisplayName;
-	export let options: ValueWithDisplayName[] | undefined;
+	export let options: ValueWithDisplayName[] | undefined | null;
 	import { Validator } from '$lib/ts/validate';
 	import ValidatedTextField from '../common/ValidatedTextField.svelte';
 	const validator = new Validator(Schemas.valueWithDisplayName);

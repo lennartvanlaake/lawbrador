@@ -3,7 +3,7 @@
 	import { DEFAULT_EMPTY_SELECTION_RULE } from '@lawbrador/shared';
 	import Toggled from '../common/Toggled.svelte';
 	import EditableRuleConfig from './EditableRuleConfig.svelte';
-	export let ruleConfig: SelectionRule | undefined;
+	export let ruleConfig: SelectionRule | undefined | null;
 	export let title: string | null = null;
 	$: if (!ruleConfig) ruleConfig = undefined;
 	console.log(ruleConfig);

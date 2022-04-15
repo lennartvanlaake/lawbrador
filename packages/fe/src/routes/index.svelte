@@ -11,6 +11,7 @@
 	export const load: Load = async ({ url, fetch }) => {
 		const query = url.searchParams;
 		const sources: SourceSiteConfig[] = await getSourceConfigs(fetch);
+		//@ts-ignore
 		const sourceConfig = sources.find((s) => s._id == query.get('sourceConfigId')) ?? sources[0];
 		const urlSearchParams: SearchParams | null = getInputFromSearchParams(query);
 		let searchResults: SearchResult[] = urlSearchParams
