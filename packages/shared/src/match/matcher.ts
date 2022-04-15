@@ -67,7 +67,7 @@ export function getFirstMatching(
 
 export function getAllMatching(
   node: ParsedNode,
-  ...rules: Array<SelectionRule | undefined>
+  ...rules: Array<SelectionRule | undefined | null>
 ): ParsedNode[] {
   rules = rules.filter((it) => it);
   let result: ParsedNode[] = [];

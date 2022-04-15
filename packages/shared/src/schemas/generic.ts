@@ -1,4 +1,8 @@
+import type { TSchema} from "@sinclair/typebox";
 import { Type } from "@sinclair/typebox";
+
+export const NullOptionable = <T extends TSchema>(type: T) =>
+  Type.Optional(Type.Union([type, Type.Null()]));
 
 export const identity = Type.Object({
   _id: Type.String(),

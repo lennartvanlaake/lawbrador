@@ -9,7 +9,7 @@ describe("Validation testing", () => {
     expect(result).to.eq(false);
   });
   it("Validates url component without optional properties", () => {
-    const comp: UrlComponent = { variableName: "x" };
+    const comp: UrlComponent = { variableName: "x", showIf: undefined };
     const result = ajv.validate(Schemas.urlComponent, comp);
     expect(result).to.eq(true);
   });

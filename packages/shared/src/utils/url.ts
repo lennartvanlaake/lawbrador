@@ -19,6 +19,7 @@ export function buildUrl(
 ) {
   //@ts-ignore
   const renderedPath = config.pathComponents.reduce(
+    //@ts-ignore
     (acc, curr: UrlComponent): string => {
       const separator = acc.length == 0 ? "" : "/";
       if ("value" in curr) {
