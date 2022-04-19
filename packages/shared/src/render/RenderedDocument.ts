@@ -1,5 +1,5 @@
-import { strConcat } from "ajv/dist/compile/codegen";
-import type { IndexedTagOrText, TagOrText } from "..";
+import { v4 } from "uuid";
+import type { IndexedMatch, IndexedTagOrText, TagOrText } from "..";
 import { escapeRegExp, getIndexedMatches } from "..";
 
 export class RenderedDocument {
@@ -10,10 +10,11 @@ export class RenderedDocument {
     this.snippets = snippets.map((it, index) => addIndexToSnippet(it, index));
     this.strippedString = this.snippets
       .filter((it) => it.type == "text")
+      .map((it) => it.text)
       .join("");
   }
   toHtmlString() {
-    return this.snippets.join("");
+    return this.snippets.map((it) => it.text).join("");
   }
 
   recalculateIndex() {
@@ -28,10 +29,10 @@ export class RenderedDocument {
   wrapAllMatching(query: string, pre: TagOrText, post: TagOrText) {
     const matches = getIndexedMatches(
       this.strippedString,
-      new RegExp(escapeRegExp(query))
+      new RegExp(escapeRegExp(query), "g")
     );
     matches.forEach((it) =>
-      this.wrapCharacterIndices(it.index, it.index + length, pre, post)
+      this.wrapCharacterIndices(it.index, it.index + it.length, pre, post)
     );
   }
 
@@ -56,20 +57,22 @@ export class RenderedDocument {
     post: TagOrText
   ) {
     this.insertAtCharacterIndex(start, pre);
-    this.insertAtCharacterIndex(end + 1, post);
+    this.insertAtCharacterIndex(end, post, true);
   }
 
   calculateMatchAndOffset(characterIndex: number) {
-    const textSnippets = this.snippets.filter((it) => it.text);
+    const textSnippets = this.snippets.filter((it) => it.type == "text");
     let matchIndex = 0;
     let lengthSum = 0;
-    let match = textSnippets[matchIndex];
-    while (match && lengthSum + match.text.length < characterIndex) {
+    let match;
+    do {
+      match = textSnippets[matchIndex];
       lengthSum += match.text.length;
       matchIndex++;
-      match = textSnippets[matchIndex];
-    }
-    // lenghtsum should equal the start of the element in which the characterIndex occurs
+    } while (
+      textSnippets[matchIndex] &&
+      lengthSum + match.text.length <= characterIndex
+    ); // lenghtsum should equal the start of the element in which the characterIndex occurs
     // offset represents the index of the character in the text of the element
     return {
       match: match,
@@ -82,27 +85,47 @@ export class RenderedDocument {
     if (!toSplit || toSplit.type != "text") {
       throw Error();
     }
+    const firstHalf: IndexedTagOrText = {
+      id: v4(),
+      text: toSplit.text.slice(0, index),
+      origin: "original",
+      type: "text",
+      index: 0,
+    };
+    const secondHalf: IndexedTagOrText = {
+      id: v4(),
+      text: toSplit.text.slice(index),
+      origin: "original",
+      type: "text",
+      index: 0,
+    };
     this.snippets = this.snippets
       .slice(0, index)
-      .concat(toSplit)
+      .concat(firstHalf)
+      .concat(secondHalf)
       .concat(this.snippets.slice(index));
     this.recalculateIndex();
   }
 
-  insertAtCharacterIndex(characterIndex: number, snippet: TagOrText) {
+  insertAtCharacterIndex(
+    characterIndex: number,
+    snippet: TagOrText,
+    after = false
+  ) {
+    const afterCorrection = after ? 1 : 0;
     const matchAndOffset = this.calculateMatchAndOffset(characterIndex);
     if (matchAndOffset.offset) {
       this.splitSnippet(matchAndOffset.offset);
       this.snippets.splice(
-        characterIndex + 1,
+        matchAndOffset.match.index + 1 + afterCorrection,
         0,
-        addIndexToSnippet(snippet, characterIndex + 1)
+        addIndexToSnippet(snippet)
       );
     } else {
       this.snippets.splice(
-        characterIndex,
+        matchAndOffset.match.index + afterCorrection,
         0,
-        addIndexToSnippet(snippet, characterIndex)
+        addIndexToSnippet(snippet)
       );
     }
     this.recalculateIndex();
@@ -111,7 +134,7 @@ export class RenderedDocument {
 
 function addIndexToSnippet(
   snippet: TagOrText,
-  index: number
+  index = 0
 ): IndexedTagOrText {
   return {
     ...snippet,
