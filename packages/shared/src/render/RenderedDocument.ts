@@ -14,6 +14,7 @@ export class RenderedDocument {
       .map((it) => it.text)
       .join("");
   }
+
   toHtmlString() {
     return this.snippets.map((it) => it.text).join("");
   }

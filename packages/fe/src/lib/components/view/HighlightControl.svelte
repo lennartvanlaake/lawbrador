@@ -1,18 +1,27 @@
 <script lang="ts">
 	import { queryToHighlight } from '$lib/ts/stores';
 	import { scrollElementToCenter } from '$lib/ts/utils';
-	import { wrapElements } from '@lawbrador/shared';
+	import type { RenderedDocument, TagOrText } from '@lawbrador/shared';
 	import { onDestroy, onMount, tick } from 'svelte';
 
 	const HIGHLIGHT_CLASS = 'highlight';
-	const preMatch = `<strong class='${HIGHLIGHT_CLASS}'>`;
-	const postMatch = '</strong>';
+	const preMatch: TagOrText = {
+		id: '0',
+		text: `<strong class='${HIGHLIGHT_CLASS}'>`,
+		type: 'open',
+		origin: 'search'
+	};
+	const postMatch: TagOrText = {
+		id: '0',
+		text: '</strong>',
+		type: 'open',
+		origin: 'search'
+	};
 
-	export let html: string;
+	export let renderedDocument: RenderedDocument;
 	export let documentElement: Element;
 	export let enabled: boolean;
 
-	const originalHtml = html;
 	const TYPING_STOPPED_TIMEOUT_MS = 400;
 	let elementArray: Element[] = [];
 	let elementIndex = 0;
@@ -42,7 +51,7 @@
 				return;
 			}
 			// do the actual highlighting
-			html = wrapElements(originalHtml, $queryToHighlight, preMatch, postMatch);
+			renderedDocument.wrapAllMatching($queryToHighlight, preMatch, postMatch);
 			// wait for html to render in browser
 			await tick();
 			// get current array of highlights
@@ -73,7 +82,7 @@
 	function resetHighlights() {
 		elementIndex = 0;
 		elementArray = [];
-		html = originalHtml;
+		renderedDocument.snippets = renderedDocument.snippets.filter((it) => it.origin != 'search');
 	}
 
 	function disable() {

@@ -1,29 +1,4 @@
-import { v4 } from "uuid";
 import type { RestructuredNode, TagOrText } from "..";
-
-export function renderText(node: RestructuredNode) {
-  const childText =
-    node.children?.reduce(
-      (p: string, c: RestructuredNode) => (p += renderText(c)),
-      ""
-    ) ?? "";
-  if ("text" in node) {
-    return node.text ?? "" + childText;
-  }
-  return childText;
-}
-
-export function renderNode(node: RestructuredNode): string {
-  if (node.name == "text") {
-    return node.text;
-  }
-
-  const markerHtml = renderListMarker(node);
-  const childHtml =
-    markerHtml + node.children?.reduce((a, c) => (a += renderNode(c)), "") ??
-    "";
-  return `${getOpeningTag(node)}${childHtml}${getClosingTag(node)}`;
-}
 
 export function nodeToTextAndTags(node: RestructuredNode): TagOrText[] {
   if ("text" in node && node.text) {
@@ -36,6 +11,7 @@ export function nodeToTextAndTags(node: RestructuredNode): TagOrText[] {
       },
     ];
   }
+  const marker = renderListMarker(node);
   const opening: TagOrText = {
     id: node.id,
     text: getOpeningTag(node),
@@ -50,14 +26,33 @@ export function nodeToTextAndTags(node: RestructuredNode): TagOrText[] {
     type: "close",
     origin: "original",
   };
-  return [opening, ...children, closing];
+  return [...marker, opening, ...children, closing];
 }
 
-function renderListMarker(node: RestructuredNode): string {
+function renderListMarker(node: RestructuredNode): TagOrText[] {
   if ("marker" in node && node.marker) {
-    return `<span id="${node.marker.id}" class="marker">${node.marker.text} </span>`;
+    return [
+      {
+        type: "close",
+        text: `<span id="${node.marker.id}" class="marker">`,
+        id: node.id,
+        origin: "original",
+      },
+      {
+        type: "text",
+        text: node.marker.text,
+        id: node.id,
+        origin: "original",
+      },
+      {
+        type: "text",
+        text: `</span>`,
+        id: node.id,
+        origin: "original",
+      },
+    ];
   } else {
-    return "";
+    return [];
   }
 }
 

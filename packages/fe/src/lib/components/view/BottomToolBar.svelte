@@ -3,8 +3,8 @@
 
 	import { queryToHighlight } from '$lib/ts/stores';
 	import HeaderIndex from './HeaderIndex.svelte';
-	import type { RestructuredNode } from '@lawbrador/shared';
-	export let html: string;
+	import type { RenderedDocument, RestructuredNode } from '@lawbrador/shared';
+	export let renderedDocument: RenderedDocument;
 	export let documentElement: Element;
 	export let node: RestructuredNode;
 	let searchEnabled = !!$queryToHighlight;
@@ -23,7 +23,7 @@
 		<HeaderIndex {node} bind:show={indexEnabled} />
 	{/if}
 	{#if searchEnabled}
-		<HighlightControl bind:html bind:enabled={searchEnabled} {documentElement} />
+		<HighlightControl bind:renderedDocument bind:enabled={searchEnabled} {documentElement} />
 	{/if}
 	<div id="control">
 		<i class="fa-solid fa-magnifying-glass" on:click={toggleSearch} />

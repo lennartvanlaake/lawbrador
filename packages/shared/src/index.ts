@@ -8,7 +8,9 @@ export * from "./render/index";
 export { scrape } from "./parse/scraper";
 
 export { restructure } from "./restructure/index";
-export { wrapElements } from "./wrapHtmlElements/index";
+
+export { RenderedDocument } from "./render/RenderedDocument";
+export * from "./render/index";
 
 export * from "./search/search";
 export * from "./search/incrementPageNumber";
@@ -30,19 +32,3 @@ export * from "./schemas/tagTypes";
 export * from "./schemas/searchTypes";
 export * from "./schemas/authTypes";
 export * from "./schemas/renderTypes";
-
-export * from "./schemas/genericTypes";
-export * from "@lawbrador/shared/src/schemas/ruleTypes";
-export * from "@lawbrador/shared/src/schemas/scrapeTypes";
-export * from "./schemas/tagTypes";
-export * from "./schemas/searchTypes";
-export * from "./schemas/genericTypes";
-export * from "@lawbrador/shared/src/schemas/ruleTypes";
-export * from "@lawbrador/shared/src/schemas/scrapeTypes";
-export * from "./schemas/tagTypes";
-export * from "./schemas/searchTypes";
-export * from "./schemas/genericTypes";
-export * from "@lawbrador/shared/src/schemas/ruleTypes";
-export * from "@lawbrador/shared/src/schemas/scrapeTypes";
-export * from "./schemas/tagTypes";
-export * from "./schemas/searchTypes";
