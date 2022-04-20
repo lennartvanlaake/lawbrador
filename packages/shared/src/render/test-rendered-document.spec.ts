@@ -51,4 +51,43 @@ describe("Test rendered document", () => {
     expect(renderedDocument.toHtmlString()).to.contain("hoooi");
     expect(renderedDocument.toHtmlString()).to.contain("b<i>oooi</i>");
   });
+  it("wrapping selection", () => {
+    const html = "<p>hoooi</p><p>boooi</p>";
+    const restructured = defaultRestructure(html);
+    restructured.children[0].id = "2";
+    restructured.children[1].id = "3";
+    const array = nodeToTextAndTags(restructured);
+    const selection: Selection = {
+      anchorNode: {
+        //@ts-ignore
+        parentElement: {
+          id: "2",
+        },
+      },
+      anchorOffset: 1,
+      focusNode: {
+        //@ts-ignore
+        parentElement: {
+          id: "3",
+        },
+      },
+      focusOffset: 2,
+    };
+    const renderedDocument = new RenderedDocument(array);
+    const pre: TagOrText = {
+      id: "1",
+      origin: "marker",
+      text: "<i>",
+      type: "open",
+    };
+    const post: TagOrText = {
+      id: "1",
+      origin: "marker",
+      text: "</i>",
+      type: "close",
+    };
+    renderedDocument.wrapSelection(selection, pre, post);
+    expect(renderedDocument.toHtmlString()).to.contain("h<i>oooi");
+    expect(renderedDocument.toHtmlString()).to.contain("bo</i>ooi");
+  });
 });

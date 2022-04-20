@@ -11,3 +11,4 @@ export const NO_ID_FOR_SELECTION_ANCHOR =
   "Cannot find the id for the anchor node of this selection";
 export const NO_ID_MATCH =
   "Cannot find a match for the id of the selection anchor node";
+export const NO_ID_IN_NODE = "Cannot find id in node or parent node";

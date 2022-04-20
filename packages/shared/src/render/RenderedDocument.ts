@@ -1,5 +1,6 @@
 import { v4 } from "uuid";
 import type { IndexedTagOrText, TagOrText } from "..";
+import { Errors } from "..";
 import { escapeRegExp, getIndexedMatches } from "..";
 
 export class RenderedDocument {
@@ -53,6 +54,23 @@ export class RenderedDocument {
       pre,
       post
     );
+  }
+
+  wrapSelection(selection: Selection, pre: TagOrText, post: TagOrText) {
+    const startTag = this.snippets.filter(
+      (it) => it.id == getClosestId(selection.anchorNode)
+    )[0];
+    const startText = this.snippets.filter(
+      (it) => it.index > startTag.index && it.type == "text"
+    )[0];
+    this.insertAtMatchAndOffset(pre, startText, selection.anchorOffset, false);
+    const endTag = this.snippets.filter(
+      (it) => it.type == "close" && it.id == getClosestId(selection.focusNode)
+    )[0];
+    const endText = this.snippets
+      .filter((it) => it.index < endTag.index && it.type == "text")
+      .reverse()[0];
+    this.insertAtMatchAndOffset(post, endText, selection.focusOffset, false);
   }
 
   wrapCharacterIndices(
@@ -109,28 +127,42 @@ export class RenderedDocument {
     this.recalculateIndex();
   }
 
-  insertAtCharacterIndex(
-    characterIndex: number,
+  insertAtMatchAndOffset(
     snippet: TagOrText,
-    after = false
+    match: IndexedTagOrText,
+    offset: number,
+    after: boolean
   ) {
     const afterCorrection = after ? 1 : 0;
-    const matchAndOffset = this.calculateMatchAndOffset(characterIndex);
-    if (matchAndOffset.offset) {
-      this.splitSnippet(matchAndOffset.match, matchAndOffset.offset);
+    if (offset) {
+      this.splitSnippet(match, offset);
       this.snippets.splice(
-        matchAndOffset.match.index + 1 + afterCorrection,
+        match.index + 1 + afterCorrection,
         0,
         addIndexToSnippet(snippet)
       );
     } else {
       this.snippets.splice(
-        matchAndOffset.match.index + afterCorrection,
+        match.index + afterCorrection,
         0,
         addIndexToSnippet(snippet)
       );
     }
     this.recalculateIndex();
+  }
+
+  insertAtCharacterIndex(
+    characterIndex: number,
+    snippet: TagOrText,
+    after = false
+  ) {
+    const matchAndOffset = this.calculateMatchAndOffset(characterIndex);
+    this.insertAtMatchAndOffset(
+      snippet,
+      matchAndOffset.match,
+      matchAndOffset.offset,
+      after
+    );
   }
 }
 
@@ -140,4 +172,18 @@ function addIndexToSnippet(snippet: TagOrText, index = 0): IndexedTagOrText {
     ...snippet,
     index: index,
   };
+}
+
+function getClosestId(node: Node | null) {
+  if (!node) {
+    throw Error(Errors.NO_ID_IN_NODE);
+  }
+  if ((node as Element).id) {
+    return (node as Element).id;
+  }
+  const parentId = node.parentElement?.id;
+  if (!parentId) {
+    throw Error(Errors.NO_ID_IN_NODE);
+  }
+  return parentId;
 }
