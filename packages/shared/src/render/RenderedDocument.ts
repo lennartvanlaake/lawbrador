@@ -1,5 +1,5 @@
 import { v4 } from "uuid";
-import type { IndexedMatch, IndexedTagOrText, TagOrText } from "..";
+import type { IndexedTagOrText, TagOrText } from "..";
 import { escapeRegExp, getIndexedMatches } from "..";
 
 export class RenderedDocument {
@@ -44,10 +44,15 @@ export class RenderedDocument {
   ) {
     const matches = getIndexedMatches(
       this.strippedString,
-      new RegExp(escapeRegExp(query))
+      new RegExp(escapeRegExp(query), "g")
     );
     const match = matches[matchIndex];
-    this.wrapCharacterIndices(match.index, match.index + length, pre, post);
+    this.wrapCharacterIndices(
+      match.index,
+      match.index + match.length,
+      pre,
+      post
+    );
   }
 
   wrapCharacterIndices(
@@ -64,46 +69,43 @@ export class RenderedDocument {
     const textSnippets = this.snippets.filter((it) => it.type == "text");
     let matchIndex = 0;
     let lengthSum = 0;
-    let match;
+    let match: IndexedTagOrText;
     do {
       match = textSnippets[matchIndex];
       lengthSum += match.text.length;
       matchIndex++;
-    } while (
-      textSnippets[matchIndex] &&
-      lengthSum + match.text.length <= characterIndex
-    ); // lenghtsum should equal the start of the element in which the characterIndex occurs
+    } while (textSnippets[matchIndex] && lengthSum < characterIndex); // lenghtsum should equal the start of the element in which the characterIndex occurs
     // offset represents the index of the character in the text of the element
     return {
       match: match,
-      offset: lengthSum - characterIndex,
+      offset: match.text.length - (lengthSum - characterIndex),
     };
   }
 
-  splitSnippet(index: number) {
-    const toSplit = this.snippets.splice(index, 1)[0];
-    if (!toSplit || toSplit.type != "text") {
+  splitSnippet(snippet: IndexedTagOrText, offset: number) {
+    this.snippets.splice(snippet.index, 1);
+    if (!snippet || snippet.type != "text") {
       throw Error();
     }
     const firstHalf: IndexedTagOrText = {
       id: v4(),
-      text: toSplit.text.slice(0, index),
+      text: snippet.text.slice(0, offset),
       origin: "original",
       type: "text",
       index: 0,
     };
     const secondHalf: IndexedTagOrText = {
       id: v4(),
-      text: toSplit.text.slice(index),
+      text: snippet.text.slice(offset),
       origin: "original",
       type: "text",
       index: 0,
     };
     this.snippets = this.snippets
-      .slice(0, index)
+      .slice(0, snippet.index)
       .concat(firstHalf)
       .concat(secondHalf)
-      .concat(this.snippets.slice(index));
+      .concat(this.snippets.slice(snippet.index));
     this.recalculateIndex();
   }
 
@@ -115,7 +117,7 @@ export class RenderedDocument {
     const afterCorrection = after ? 1 : 0;
     const matchAndOffset = this.calculateMatchAndOffset(characterIndex);
     if (matchAndOffset.offset) {
-      this.splitSnippet(matchAndOffset.offset);
+      this.splitSnippet(matchAndOffset.match, matchAndOffset.offset);
       this.snippets.splice(
         matchAndOffset.match.index + 1 + afterCorrection,
         0,
@@ -132,10 +134,8 @@ export class RenderedDocument {
   }
 }
 
-function addIndexToSnippet(
-  snippet: TagOrText,
-  index = 0
-): IndexedTagOrText {
+// index can be kept at 0 if indices for the whole array are recalculated afterwards
+function addIndexToSnippet(snippet: TagOrText, index = 0): IndexedTagOrText {
   return {
     ...snippet,
     index: index,
