@@ -15,7 +15,7 @@
 	const postMatch: TagOrText = {
 		id: '0',
 		text: '</strong>',
-		type: 'open',
+		type: 'close',
 		origin: 'search'
 	};
 

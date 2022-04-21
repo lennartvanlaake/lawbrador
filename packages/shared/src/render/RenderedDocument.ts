@@ -125,23 +125,13 @@ export class RenderedDocument {
   #insertAtMatchAndOffset(
     snippet: TagOrText,
     match: IndexedTagOrText,
-    offset: number,
-    after: boolean
+    offset: number
   ) {
-    const afterCorrection = after ? 1 : 0;
     if (offset) {
       this.#splitSnippet(match, offset);
-      this.#snippets.splice(
-        match.index + 1 + afterCorrection,
-        0,
-        addIndexToSnippet(snippet)
-      );
+      this.#snippets.splice(match.index + 1, 0, addIndexToSnippet(snippet));
     } else {
-      this.#snippets.splice(
-        match.index + afterCorrection,
-        0,
-        addIndexToSnippet(snippet)
-      );
+      this.#snippets.splice(match.index, 0, addIndexToSnippet(snippet));
     }
     this.#update();
   }
