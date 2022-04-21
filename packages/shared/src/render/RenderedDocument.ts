@@ -58,14 +58,14 @@ export class RenderedDocument {
     const startText = this.#snippets.filter(
       (it) => it.index > startTag.index && it.type == "text"
     )[0];
-    this.#insertAtMatchAndOffset(pre, startText, selection.anchorOffset, false);
+    this.#insertAtMatchAndOffset(pre, startText, selection.anchorOffset);
     const endTag = this.#snippets.filter(
       (it) => it.type == "close" && it.id == getClosestId(selection.focusNode)
     )[0];
     const endText = this.#snippets
       .filter((it) => it.index < endTag.index && it.type == "text")
       .reverse()[0];
-    this.#insertAtMatchAndOffset(post, endText, selection.focusOffset, false);
+    this.#insertAtMatchAndOffset(post, endText, selection.focusOffset);
   }
 
   #wrapCharacterIndices(
@@ -75,7 +75,7 @@ export class RenderedDocument {
     post: TagOrText
   ) {
     this.#insertAtCharacterIndex(start, pre);
-    this.#insertAtCharacterIndex(end, post, true);
+    this.#insertAtCharacterIndex(end, post);
   }
 
   #calculateMatchAndOffset(characterIndex: number) {
@@ -136,17 +136,12 @@ export class RenderedDocument {
     this.#update();
   }
 
-  #insertAtCharacterIndex(
-    characterIndex: number,
-    snippet: TagOrText,
-    after = false
-  ) {
+  #insertAtCharacterIndex(characterIndex: number, snippet: TagOrText) {
     const matchAndOffset = this.#calculateMatchAndOffset(characterIndex);
     this.#insertAtMatchAndOffset(
       snippet,
       matchAndOffset.match,
-      matchAndOffset.offset,
-      after
+      matchAndOffset.offset
     );
   }
 
