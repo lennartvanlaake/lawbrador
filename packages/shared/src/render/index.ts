@@ -1,5 +1,17 @@
 import type { RestructuredNode, TagOrText } from "..";
 
+export function renderText(node: RestructuredNode) {
+  const childText =
+    node.children?.reduce(
+      (p: string, c: RestructuredNode) => (p += renderText(c)),
+      ""
+    ) ?? "";
+  if ("text" in node) {
+    return node.text ?? "" + childText;
+  }
+  return childText;
+}
+
 export function nodeToTextAndTags(node: RestructuredNode): TagOrText[] {
   if ("text" in node && node.text) {
     return [

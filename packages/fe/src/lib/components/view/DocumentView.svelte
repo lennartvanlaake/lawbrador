@@ -6,10 +6,19 @@
 	export let document: RestructuredDocument;
 	let documentElement: Element;
 	let renderedDocument = new RenderedDocument(nodeToTextAndTags(document.body));
+	let html = renderedDocument.htmlString;
+	function setHtml(ev: CustomEvent<string>) {
+		html = ev.detail;
+	}
 </script>
 
 <a href={document.url}>Original</a>
 <div bind:this={documentElement}>
-	<NodeView html={renderedDocument.toHtmlString()} />
+	<NodeView {html} />
 </div>
-<BottomToolBar node={document.body} bind:renderedDocument {documentElement} />
+<BottomToolBar
+	node={document.body}
+	bind:renderedDocument
+	{documentElement}
+	on:htmlChanged={setHtml}
+/>

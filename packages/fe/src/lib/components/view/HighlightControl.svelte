@@ -2,8 +2,9 @@
 	import { queryToHighlight } from '$lib/ts/stores';
 	import { scrollElementToCenter } from '$lib/ts/utils';
 	import type { RenderedDocument, TagOrText } from '@lawbrador/shared';
-	import { onDestroy, onMount, tick } from 'svelte';
+	import { createEventDispatcher, onDestroy, onMount, tick } from 'svelte';
 
+	const dispatch = createEventDispatcher<{ htmlChanged: string }>();
 	const HIGHLIGHT_CLASS = 'highlight';
 	const preMatch: TagOrText = {
 		id: '0',
@@ -36,6 +37,7 @@
 
 	onDestroy(() => {
 		resetHighlights();
+		dispatch('htmlChanged', renderedDocument.htmlString);
 	});
 
 	async function addHighlights() {
@@ -48,11 +50,13 @@
 			resetHighlights();
 			// if no query was input or it is just 1 character: return to original state
 			if (!$queryToHighlight || $queryToHighlight.length == 1) {
+				dispatch('htmlChanged', renderedDocument.htmlString);
 				return;
 			}
 			// do the actual highlighting
 			renderedDocument.wrapAllMatching($queryToHighlight, preMatch, postMatch);
 			// wait for html to render in browser
+			dispatch('htmlChanged', renderedDocument.htmlString);
 			await tick();
 			// get current array of highlights
 			elementArray = Array.from(documentElement.getElementsByClassName(HIGHLIGHT_CLASS));
@@ -82,12 +86,13 @@
 	function resetHighlights() {
 		elementIndex = 0;
 		elementArray = [];
-		renderedDocument.snippets = renderedDocument.snippets.filter((it) => it.origin != 'search');
+		renderedDocument.filter((it) => it.origin != 'search');
 	}
 
-	function disable() {
+	async function disable() {
 		enabled = false;
 		resetHighlights();
+		dispatch('htmlChanged', renderedDocument.htmlString);
 	}
 
 	onMount(() => {

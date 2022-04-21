@@ -4,37 +4,31 @@ import { Errors } from "..";
 import { escapeRegExp, getIndexedMatches } from "..";
 
 export class RenderedDocument {
-  snippets: IndexedTagOrText[] = [];
+  #snippets: IndexedTagOrText[] = [];
   strippedString: string;
+  htmlString: string;
 
   constructor(snippets: TagOrText[]) {
-    this.snippets = snippets.map((it, index) => addIndexToSnippet(it, index));
-    this.strippedString = this.snippets
+    this.#snippets = snippets.map((it, index) => addIndexToSnippet(it, index));
+    this.strippedString = this.#snippets
       .filter((it) => it.type == "text")
       .map((it) => it.text)
       .join("");
+    this.#update();
   }
 
-  toHtmlString() {
-    return this.snippets.map((it) => it.text).join("");
-  }
-
-  recalculateIndex() {
-    this.snippets.forEach((it, index) => (it.index = index));
-  }
-
-  removeIf(filter: () => boolean) {
-    this.snippets = this.snippets.filter(filter);
-    this.recalculateIndex();
+  filter(filter: (snippet: IndexedTagOrText) => boolean) {
+    this.#snippets = this.#snippets.filter(filter);
+    this.#update();
   }
 
   wrapAllMatching(query: string, pre: TagOrText, post: TagOrText) {
     const matches = getIndexedMatches(
       this.strippedString,
-      new RegExp(escapeRegExp(query), "g")
+      new RegExp(escapeRegExp(query), "gi")
     );
     matches.forEach((it) =>
-      this.wrapCharacterIndices(it.index, it.index + it.length, pre, post)
+      this.#wrapCharacterIndices(it.index, it.index + it.length, pre, post)
     );
   }
 
@@ -46,10 +40,10 @@ export class RenderedDocument {
   ) {
     const matches = getIndexedMatches(
       this.strippedString,
-      new RegExp(escapeRegExp(query), "g")
+      new RegExp(escapeRegExp(query), "gi")
     );
     const match = matches[matchIndex];
-    this.wrapCharacterIndices(
+    this.#wrapCharacterIndices(
       match.index,
       match.index + match.length,
       pre,
@@ -58,34 +52,34 @@ export class RenderedDocument {
   }
 
   wrapSelection(selection: Selection, pre: TagOrText, post: TagOrText) {
-    const startTag = this.snippets.filter(
+    const startTag = this.#snippets.filter(
       (it) => it.id == getClosestId(selection.anchorNode)
     )[0];
-    const startText = this.snippets.filter(
+    const startText = this.#snippets.filter(
       (it) => it.index > startTag.index && it.type == "text"
     )[0];
-    this.insertAtMatchAndOffset(pre, startText, selection.anchorOffset, false);
-    const endTag = this.snippets.filter(
+    this.#insertAtMatchAndOffset(pre, startText, selection.anchorOffset, false);
+    const endTag = this.#snippets.filter(
       (it) => it.type == "close" && it.id == getClosestId(selection.focusNode)
     )[0];
-    const endText = this.snippets
+    const endText = this.#snippets
       .filter((it) => it.index < endTag.index && it.type == "text")
       .reverse()[0];
-    this.insertAtMatchAndOffset(post, endText, selection.focusOffset, false);
+    this.#insertAtMatchAndOffset(post, endText, selection.focusOffset, false);
   }
 
-  wrapCharacterIndices(
+  #wrapCharacterIndices(
     start: number,
     end: number,
     pre: TagOrText,
     post: TagOrText
   ) {
-    this.insertAtCharacterIndex(start, pre);
-    this.insertAtCharacterIndex(end, post, true);
+    this.#insertAtCharacterIndex(start, pre);
+    this.#insertAtCharacterIndex(end, post, true);
   }
 
-  calculateMatchAndOffset(characterIndex: number) {
-    const textSnippets = this.snippets.filter((it) => it.type == "text");
+  #calculateMatchAndOffset(characterIndex: number) {
+    const textSnippets = this.#snippets.filter((it) => it.type == "text");
     let matchIndex = 0;
     let lengthSum = 0;
     let match: IndexedTagOrText;
@@ -101,8 +95,8 @@ export class RenderedDocument {
     };
   }
 
-  splitSnippet(snippet: IndexedTagOrText, offset: number) {
-    this.snippets.splice(snippet.index, 1);
+  #splitSnippet(snippet: IndexedTagOrText, offset: number) {
+    this.#snippets.splice(snippet.index, 1);
     if (!snippet || snippet.type != "text") {
       throw Error();
     }
@@ -120,15 +114,15 @@ export class RenderedDocument {
       type: "text",
       index: 0,
     };
-    this.snippets = this.snippets
+    this.#snippets = this.#snippets
       .slice(0, snippet.index)
       .concat(firstHalf)
       .concat(secondHalf)
-      .concat(this.snippets.slice(snippet.index));
-    this.recalculateIndex();
+      .concat(this.#snippets.slice(snippet.index));
+    this.#update();
   }
 
-  insertAtMatchAndOffset(
+  #insertAtMatchAndOffset(
     snippet: TagOrText,
     match: IndexedTagOrText,
     offset: number,
@@ -136,34 +130,39 @@ export class RenderedDocument {
   ) {
     const afterCorrection = after ? 1 : 0;
     if (offset) {
-      this.splitSnippet(match, offset);
-      this.snippets.splice(
+      this.#splitSnippet(match, offset);
+      this.#snippets.splice(
         match.index + 1 + afterCorrection,
         0,
         addIndexToSnippet(snippet)
       );
     } else {
-      this.snippets.splice(
+      this.#snippets.splice(
         match.index + afterCorrection,
         0,
         addIndexToSnippet(snippet)
       );
     }
-    this.recalculateIndex();
+    this.#update();
   }
 
-  insertAtCharacterIndex(
+  #insertAtCharacterIndex(
     characterIndex: number,
     snippet: TagOrText,
     after = false
   ) {
-    const matchAndOffset = this.calculateMatchAndOffset(characterIndex);
-    this.insertAtMatchAndOffset(
+    const matchAndOffset = this.#calculateMatchAndOffset(characterIndex);
+    this.#insertAtMatchAndOffset(
       snippet,
       matchAndOffset.match,
       matchAndOffset.offset,
       after
     );
+  }
+
+  #update() {
+    this.#snippets.forEach((it, index) => (it.index = index));
+    this.htmlString = this.#snippets.map((it) => it.text).join("");
   }
 }
 

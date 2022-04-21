@@ -23,7 +23,12 @@
 		<HeaderIndex {node} bind:show={indexEnabled} />
 	{/if}
 	{#if searchEnabled}
-		<HighlightControl bind:renderedDocument bind:enabled={searchEnabled} {documentElement} />
+		<HighlightControl
+			bind:renderedDocument
+			on:htmlChanged
+			bind:enabled={searchEnabled}
+			{documentElement}
+		/>
 	{/if}
 	<div id="control">
 		<i class="fa-solid fa-magnifying-glass" on:click={toggleSearch} />
