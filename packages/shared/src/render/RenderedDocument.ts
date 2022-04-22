@@ -5,8 +5,11 @@ import { escapeRegExp, getIndexedMatches } from "..";
 
 export class RenderedDocument {
   #snippets: IndexedTagOrText[] = [];
+  indexToSnippetMap: Map<number, IndexedTagOrText> = new Map();
+  snippetToIndexMap: Map<IndexedTagOrText, number> = new Map();
+  idToSnippetsMap: Map<string, IndexedTagOrText[]> = new Map();
   strippedString: string;
-  htmlString: string;
+  htmlString = "";
 
   constructor(snippets: TagOrText[]) {
     this.#snippets = snippets.map((it, index) => addIndexToSnippet(it, index));
@@ -79,19 +82,16 @@ export class RenderedDocument {
   }
 
   #calculateMatchAndOffset(characterIndex: number) {
-    const textSnippets = this.#snippets.filter((it) => it.type == "text");
-    let matchIndex = 0;
-    let lengthSum = 0;
-    let match: IndexedTagOrText;
-    do {
-      match = textSnippets[matchIndex];
-      lengthSum += match.text.length;
-      matchIndex++;
-    } while (textSnippets[matchIndex] && lengthSum < characterIndex); // lenghtsum should equal the start of the element in which the characterIndex occurs
-    // offset represents the index of the character in the text of the element
+    const matchEntry = Array.from(this.indexToSnippetMap)
+      .filter((it) => it[0] < characterIndex)
+      .pop();
+    if (!matchEntry) {
+      throw Error();
+    }
+    const match = matchEntry[1];
     return {
       match: match,
-      offset: match.text.length - (lengthSum - characterIndex),
+      offset: characterIndex - matchEntry[0],
     };
   }
 
@@ -146,8 +146,23 @@ export class RenderedDocument {
   }
 
   #update() {
-    this.#snippets.forEach((it, index) => (it.index = index));
-    this.htmlString = this.#snippets.map((it) => it.text).join("");
+    let totalLength = 0;
+    this.htmlString = "";
+    this.indexToSnippetMap.clear();
+    this.idToSnippetsMap.clear();
+    this.#snippets.forEach((it, index) => {
+      it.index = index;
+      this.htmlString += it.text;
+      this.snippetToIndexMap.set(it, totalLength);
+      if (it.type == "text") {
+        this.indexToSnippetMap.set(totalLength, it);
+        totalLength += it.text.length;
+      }
+      this.idToSnippetsMap.set(it.id, [
+        ...(this.idToSnippetsMap[it.id] ?? []),
+        it,
+      ]);
+    });
   }
 }
 
