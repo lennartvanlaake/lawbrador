@@ -1,3 +1,4 @@
+import { assert } from "chai";
 import { v4 } from "uuid";
 import type { IndexedTagOrText, TagOrText } from "..";
 import { Errors } from "..";
@@ -5,7 +6,7 @@ import { escapeRegExp, getIndexedMatches } from "..";
 
 export class RenderedDocument {
   #snippets: IndexedTagOrText[] = [];
-  indexToSnippetMap: Map<number, IndexedTagOrText> = new Map();
+  characterIndexToTextSnippet: Map<number, IndexedTagOrText> = new Map();
   snippetToIndexMap: Map<IndexedTagOrText, number> = new Map();
   idToSnippetsMap: Map<string, IndexedTagOrText[]> = new Map();
   strippedString: string;
@@ -22,6 +23,7 @@ export class RenderedDocument {
 
   filter(filter: (snippet: IndexedTagOrText) => boolean) {
     this.#snippets = this.#snippets.filter(filter);
+    this.#repairSplitText();
     this.#update();
   }
 
@@ -55,20 +57,28 @@ export class RenderedDocument {
   }
 
   wrapSelection(selection: Selection, pre: TagOrText, post: TagOrText) {
-    const startTag = this.#snippets.filter(
-      (it) => it.id == getClosestId(selection.anchorNode)
-    )[0];
-    const startText = this.#snippets.filter(
-      (it) => it.index > startTag.index && it.type == "text"
-    )[0];
-    this.#insertAtMatchAndOffset(pre, startText, selection.anchorOffset);
-    const endTag = this.#snippets.filter(
-      (it) => it.type == "close" && it.id == getClosestId(selection.focusNode)
-    )[0];
-    const endText = this.#snippets
-      .filter((it) => it.index < endTag.index && it.type == "text")
-      .reverse()[0];
-    this.#insertAtMatchAndOffset(post, endText, selection.focusOffset);
+    // PUT ALL TEXT IN SPANS AND ADD IDs TO THEM TO MAKE THIS WORK WELL!
+    const startingElement = this.idToSnippetsMap
+      .get(getClosestId(selection.anchorNode))!
+      .filter((it) => it.type == "open")[0];
+    const startOfStartingElement = this.snippetToIndexMap.get(startingElement);
+    if (startOfStartingElement === undefined || startOfStartingElement === null)
+      throw Error();
+    this.#insertAtCharacterIndex(
+      startOfStartingElement + selection.anchorOffset,
+      pre
+    );
+
+    const closingElement = this.idToSnippetsMap
+      .get(getClosestId(selection.focusNode))!
+      .filter((it) => it.type == "open")[0];
+    const startOfClosingElement = this.snippetToIndexMap.get(closingElement);
+    if (startOfClosingElement === undefined || startOfClosingElement === null)
+      throw Error();
+    this.#insertAtCharacterIndex(
+      startOfClosingElement + selection.focusOffset,
+      post
+    );
   }
 
   #wrapCharacterIndices(
@@ -81,18 +91,53 @@ export class RenderedDocument {
     this.#insertAtCharacterIndex(end, post);
   }
 
-  #calculateMatchAndOffset(characterIndex: number) {
-    const matchEntry = Array.from(this.indexToSnippetMap)
-      .filter((it) => it[0] < characterIndex)
-      .pop();
-    if (!matchEntry) {
-      throw Error();
+  #getSnippetContainingCharacter(index: number) {
+    const entries = this.characterIndexToTextSnippet.entries();
+    let it = entries.next();
+    while (!it.done) {
+      const entry = { snippet: it.value[1], startIndex: it.value[0] };
+      if (
+        index >= entry.startIndex &&
+        index <= entry.startIndex + entry.snippet.text.length
+      ) {
+        return entry;
+      }
+      it = entries.next();
     }
-    const match = matchEntry[1];
+    throw Error();
+  }
+
+  #calculateMatchAndOffset(characterIndex: number) {
+    const entry = this.#getSnippetContainingCharacter(characterIndex);
     return {
-      match: match,
-      offset: characterIndex - matchEntry[0],
+      match: entry.snippet,
+      offset: characterIndex - entry.startIndex,
     };
+  }
+
+  #insertAtCharacterIndex(characterIndex: number, snippet: TagOrText) {
+    const matchAndOffset = this.#calculateMatchAndOffset(characterIndex);
+    this.#insertAtMatchAndOffset(
+      snippet,
+      matchAndOffset.match,
+      matchAndOffset.offset
+    );
+  }
+
+  #insertAtMatchAndOffset(
+    snippet: TagOrText,
+    match: IndexedTagOrText,
+    offset: number
+  ) {
+    if (offset == match.text.length) {
+      this.#snippets.splice(match.index + 1, 0, addIndexToSnippet(snippet));
+    } else if (offset) {
+      this.#splitSnippet(match, offset);
+      this.#snippets.splice(match.index + 1, 0, addIndexToSnippet(snippet));
+    } else {
+      this.#snippets.splice(match.index, 0, addIndexToSnippet(snippet));
+    }
+    this.#update();
   }
 
   #splitSnippet(snippet: IndexedTagOrText, offset: number) {
@@ -122,44 +167,33 @@ export class RenderedDocument {
     this.#update();
   }
 
-  #insertAtMatchAndOffset(
-    snippet: TagOrText,
-    match: IndexedTagOrText,
-    offset: number
-  ) {
-    if (offset) {
-      this.#splitSnippet(match, offset);
-      this.#snippets.splice(match.index + 1, 0, addIndexToSnippet(snippet));
-    } else {
-      this.#snippets.splice(match.index, 0, addIndexToSnippet(snippet));
+  #repairSplitText() {
+    for (let i = 0; i < this.#snippets.length; i++) {
+      const it = this.#snippets[i];
+      const next = this.#snippets[i + 1];
+      // repair previously split text nodes
+      if (it.type == "text" && next?.type == "text") {
+        it.text += next.text;
+        this.#snippets.splice(i + 1, 1);
+      }
     }
-    this.#update();
-  }
-
-  #insertAtCharacterIndex(characterIndex: number, snippet: TagOrText) {
-    const matchAndOffset = this.#calculateMatchAndOffset(characterIndex);
-    this.#insertAtMatchAndOffset(
-      snippet,
-      matchAndOffset.match,
-      matchAndOffset.offset
-    );
   }
 
   #update() {
     let totalLength = 0;
     this.htmlString = "";
-    this.indexToSnippetMap.clear();
+    this.characterIndexToTextSnippet.clear();
     this.idToSnippetsMap.clear();
     this.#snippets.forEach((it, index) => {
       it.index = index;
       this.htmlString += it.text;
       this.snippetToIndexMap.set(it, totalLength);
       if (it.type == "text") {
-        this.indexToSnippetMap.set(totalLength, it);
+        this.characterIndexToTextSnippet.set(totalLength, it);
         totalLength += it.text.length;
       }
       this.idToSnippetsMap.set(it.id, [
-        ...(this.idToSnippetsMap[it.id] ?? []),
+        ...(this.idToSnippetsMap.get(it.id) ?? []),
         it,
       ]);
     });
@@ -181,9 +215,5 @@ function getClosestId(node: Node | null) {
   if ((node as Element).id) {
     return (node as Element).id;
   }
-  const parentId = node.parentElement?.id;
-  if (!parentId) {
-    throw Error(Errors.NO_ID_IN_NODE);
-  }
-  return parentId;
+  return getClosestId(node.parentElement);
 }

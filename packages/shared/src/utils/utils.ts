@@ -63,3 +63,7 @@ export interface IndexedMatch {
 export function deduplicateWhitespace(original: string) {
   return original.replace(/\s+/g, " ");
 }
+
+export function removeNewlines(original: string) {
+  return original.replace(/(\r\n|\n|\r)/gm, "");
+}

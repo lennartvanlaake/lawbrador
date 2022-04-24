@@ -17,8 +17,8 @@
 	};
 	const post: TagOrText = {
 		origin: 'marker',
-		type: 'open',
-		text: '<mark>',
+		type: 'close',
+		text: '</mark>',
 		id: '123'
 	};
 
