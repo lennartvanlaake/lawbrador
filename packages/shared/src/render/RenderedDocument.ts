@@ -57,35 +57,33 @@ export class RenderedDocument {
   }
 
   wrapSelection(selection: Selection, pre: TagOrText, post: TagOrText) {
-    // PUT ALL TEXT IN SPANS AND ADD IDs TO THEM TO MAKE THIS WORK WELL!
-    const startingElement = this.idToSnippetsMap.get(
-      getClosestId(selection.anchorNode)
-    )![0];
-    const startOfStartingElement = this.snippetToIndexMap.get(startingElement);
-    if (
-      startOfStartingElement === undefined ||
-      startOfStartingElement === null
-    ) {
-      throw Error();
-    }
-
-    const closingElement = this.idToSnippetsMap.get(
-      getClosestId(selection.focusNode)
-    )![0];
-    const startOfClosingElement = this.snippetToIndexMap.get(closingElement);
-    if (startOfClosingElement === undefined || startOfClosingElement === null) {
-      throw Error();
-    }
-
+    const startElementOffset = this.#getOffsetForNode(selection.anchorNode)
+    const endElementOffset = this.#getOffsetForNode(selection.focusNode)   
     this.#insertAtCharacterIndex(
-      startOfClosingElement + selection.focusOffset,
+      endElementOffset + selection.focusOffset,
       post
     );
     this.#insertAtCharacterIndex(
-      startOfStartingElement + selection.anchorOffset,
+      startElementOffset + selection.anchorOffset,
       pre
     );
+    this.#repairSplitText();
   }
+
+  #getOffsetForNode(node: Node | null) {
+    const snippet = this.idToSnippetsMap.get(
+      getClosestId(node)
+    )![0];
+    const start = this.snippetToIndexMap.get(snippet);
+    if (
+      start === undefined ||
+      start === null
+    ) {
+      throw Error(Errors.NO_SNIPPET_FOUND_FOR_ID);
+    }
+    return start;
+  }
+
 
   #wrapCharacterIndices(
     start: number,
