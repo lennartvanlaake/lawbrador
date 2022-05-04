@@ -59,25 +59,26 @@ export class RenderedDocument {
   wrapSelection(selection: Selection, pre: TagOrText, post: TagOrText) {
     // PUT ALL TEXT IN SPANS AND ADD IDs TO THEM TO MAKE THIS WORK WELL!
     const startingElement = this.idToSnippetsMap
-      .get(getClosestId(selection.anchorNode))!
-      .filter((it) => it.type == "open")[0];
+      .get(getClosestId(selection.anchorNode))![0];
     const startOfStartingElement = this.snippetToIndexMap.get(startingElement);
-    if (startOfStartingElement === undefined || startOfStartingElement === null)
+    if (startOfStartingElement === undefined || startOfStartingElement === null) {
       throw Error();
-    this.#insertAtCharacterIndex(
-      startOfStartingElement + selection.anchorOffset,
-      pre
-    );
+    }
 
     const closingElement = this.idToSnippetsMap
-      .get(getClosestId(selection.focusNode))!
-      .filter((it) => it.type == "open")[0];
+      .get(getClosestId(selection.focusNode))![0];
     const startOfClosingElement = this.snippetToIndexMap.get(closingElement);
-    if (startOfClosingElement === undefined || startOfClosingElement === null)
-      throw Error();
+    if (startOfClosingElement === undefined || startOfClosingElement === null) {
+    throw Error();
+    }
+
     this.#insertAtCharacterIndex(
       startOfClosingElement + selection.focusOffset,
       post
+    );
+    this.#insertAtCharacterIndex(
+      startOfStartingElement + selection.anchorOffset,
+      pre
     );
   }
 
@@ -186,11 +187,13 @@ export class RenderedDocument {
     this.idToSnippetsMap.clear();
     this.#snippets.forEach((it, index) => {
       it.index = index;
-      this.htmlString += it.text;
       this.snippetToIndexMap.set(it, totalLength);
       if (it.type == "text") {
         this.characterIndexToTextSnippet.set(totalLength, it);
         totalLength += it.text.length;
+        this.htmlString += `<span id="${it.id}" class="text">${it.text}</span>`;
+      } else {
+        this.htmlString += it.text;
       }
       this.idToSnippetsMap.set(it.id, [
         ...(this.idToSnippetsMap.get(it.id) ?? []),
