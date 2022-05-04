@@ -36,5 +36,8 @@
     "fast-json-stringify": "2.7.13",
     "mongodb": "4.1.4",
     "@sinclair/typebox": "0.23.1"
+  },
+  "dependencies": {
+    "lerna": "^4.0.0"
   }
 }
