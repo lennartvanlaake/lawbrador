@@ -15,7 +15,7 @@ export function renderText(node: RestructuredNode) {
 
 export function nodeToTextAndTags(node: RestructuredNode): TagOrText[] {
   if ("text" in node && node.text) {
-    return [textAndIdToNode(node.text, node.id)]
+    return [textAndIdToNode(node.text, node.id)];
   }
   const marker = renderListMarker(node);
   const opening: TagOrText = {
@@ -45,7 +45,7 @@ function renderListMarker(node: RestructuredNode): TagOrText[] {
         origin: "original",
       },
       textAndIdToNode(node.marker.text, node.marker.id),
-  
+
       {
         type: "close",
         text: `</span>`,
@@ -94,9 +94,9 @@ function getClosingTag(node: RestructuredNode) {
 
 export function textAndIdToNode(text: string, id: string): TagOrText {
   return {
-        type: "text",
-        text: text,
-        id: id,
-        origin: "original",
-      }
+    type: "text",
+    text: text,
+    id: id,
+    origin: "original",
+  };
 }

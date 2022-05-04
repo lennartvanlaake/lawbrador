@@ -58,18 +58,23 @@ export class RenderedDocument {
 
   wrapSelection(selection: Selection, pre: TagOrText, post: TagOrText) {
     // PUT ALL TEXT IN SPANS AND ADD IDs TO THEM TO MAKE THIS WORK WELL!
-    const startingElement = this.idToSnippetsMap
-      .get(getClosestId(selection.anchorNode))![0];
+    const startingElement = this.idToSnippetsMap.get(
+      getClosestId(selection.anchorNode)
+    )![0];
     const startOfStartingElement = this.snippetToIndexMap.get(startingElement);
-    if (startOfStartingElement === undefined || startOfStartingElement === null) {
+    if (
+      startOfStartingElement === undefined ||
+      startOfStartingElement === null
+    ) {
       throw Error();
     }
 
-    const closingElement = this.idToSnippetsMap
-      .get(getClosestId(selection.focusNode))![0];
+    const closingElement = this.idToSnippetsMap.get(
+      getClosestId(selection.focusNode)
+    )![0];
     const startOfClosingElement = this.snippetToIndexMap.get(closingElement);
     if (startOfClosingElement === undefined || startOfClosingElement === null) {
-    throw Error();
+      throw Error();
     }
 
     this.#insertAtCharacterIndex(
