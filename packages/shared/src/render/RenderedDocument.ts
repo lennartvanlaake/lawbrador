@@ -1,7 +1,8 @@
-import { v4 } from "uuid";
+
 import type { IndexedTagOrText, TagOrText } from "..";
 import { Errors } from "..";
 import { escapeRegExp, getIndexedMatches } from "..";
+import { id } from "../utils/utils";
 
 export class RenderedDocument {
   #snippets: IndexedTagOrText[] = [];
@@ -161,14 +162,14 @@ export class RenderedDocument {
       throw Error();
     }
     const firstHalf: IndexedTagOrText = {
-      id: v4(),
+      id: id(),
       text: snippet.text.slice(0, offset),
       origin: "original",
       type: "text",
       index: 0,
     };
     const secondHalf: IndexedTagOrText = {
-      id: v4(),
+      id: id(),
       text: snippet.text.slice(offset),
       origin: "original",
       type: "text",

@@ -1,12 +1,12 @@
-import type {
+import {
   DocumentRuleSet,
+  id,
   MarkupRule,
   ParsedNode,
   RestructuredNode,
   TagName,
 } from "..";
 import { getTagConfig } from "..";
-import { v4 as uuid } from "uuid";
 import { matches, ALL_MARKUP_NOTATIONS } from "..";
 
 export function restructureRecursive(
@@ -20,7 +20,7 @@ export function restructureRecursive(
     restructureRecursive(c, ruleSet, idMap, tag)
   );
   const output = {
-    id: uuid(),
+    id: id(),
     name: tag,
     children: children,
     text: node.text,

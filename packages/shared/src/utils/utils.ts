@@ -4,6 +4,10 @@ import { eurlexConfig } from "..";
 import { parse } from "../parse/scraper";
 import { applyRuleSet } from "../restructure";
 
+export function id() {
+  return crypto.randomUUID(); 
+}
+
 export function last(array: any[]) {
   return array[array.length - 1];
 }
