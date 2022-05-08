@@ -1,4 +1,3 @@
-import { assert } from "chai";
 import { v4 } from "uuid";
 import type { IndexedTagOrText, TagOrText } from "..";
 import { Errors } from "..";
@@ -57,16 +56,28 @@ export class RenderedDocument {
   }
 
   wrapSelection(selection: Selection, pre: TagOrText, post: TagOrText) {
-    const startElementOffset = this.#getOffsetForNode(selection.anchorNode)
-    const endElementOffset = this.#getOffsetForNode(selection.focusNode)   
-    this.#insertAtCharacterIndex(
-      endElementOffset + selection.focusOffset,
-      post
-    );
-    this.#insertAtCharacterIndex(
-      startElementOffset + selection.anchorOffset,
-      pre
-    );
+    const anchorPosition = this.#getOffsetForNode(selection.anchorNode) + selection.anchorOffset
+    const focusPosition = this.#getOffsetForNode(selection.focusNode) + selection.focusOffset
+    if (focusPosition > anchorPosition) {
+      this.#insertAtCharacterIndex(
+        anchorPosition,
+        pre
+      );
+      this.#insertAtCharacterIndex(
+        focusPosition,
+        post
+      );
+    } else {
+      this.#insertAtCharacterIndex(
+        focusPosition,
+        pre
+      );
+      this.#insertAtCharacterIndex(
+        anchorPosition,
+        post
+      );
+    
+    } 
     this.#repairSplitText();
   }
 

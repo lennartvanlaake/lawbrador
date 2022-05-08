@@ -44,7 +44,6 @@
 				focusNode: selection.focusNode,
 				focusOffset: selection.focusOffset
 			} as Selection;
-			console.log(lastValidSelection);
 		}
 	}
 
@@ -53,7 +52,6 @@
 			alert('No selection to be highlighted!');
 			return;
 		}
-		console.log(lastValidSelection);
 		renderedDocument.wrapSelection(lastValidSelection, pre, post);
 		dispatch('htmlChanged', renderedDocument.htmlString);
 	}
