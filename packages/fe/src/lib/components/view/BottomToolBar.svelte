@@ -1,5 +1,6 @@
 <script lang="ts">
 	import HighlightControl from './HighlightControl.svelte';
+	import MarkerControl from './MarkerControl.svelte';
 
 	import { queryToHighlight } from '$lib/ts/stores';
 	import HeaderIndex from './HeaderIndex.svelte';
@@ -9,12 +10,15 @@
 	export let node: RestructuredNode;
 	let searchEnabled = !!$queryToHighlight;
 	let indexEnabled = false;
+	let markerEnabled = false;
 	function toggleSearch() {
 		searchEnabled = !searchEnabled;
 	}
-
 	function toggleIndex() {
 		indexEnabled = !indexEnabled;
+	}
+	function toggleMarker() {
+		markerEnabled = !markerEnabled;
 	}
 </script>
 
@@ -30,8 +34,17 @@
 			{documentElement}
 		/>
 	{/if}
+	{#if markerEnabled}
+		<MarkerControl
+			bind:renderedDocument
+			on:htmlChanged
+			bind:enabled={markerEnabled}
+			{documentElement}
+		/>
+	{/if}
 	<div id="control">
 		<i class="fa-solid fa-magnifying-glass" on:click={toggleSearch} />
+		<i class="fa-solid fa-highlighter" on:click={toggleMarker} />
 		<span class="right-icons">
 			<i class="fa-solid fa-file-lines" on:click={toggleIndex} />
 		</span>

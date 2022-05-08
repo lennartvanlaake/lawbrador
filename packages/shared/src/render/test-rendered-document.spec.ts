@@ -28,8 +28,10 @@ describe("Test rendered document", () => {
     };
     renderedDocument.wrapAllMatching("i", pre, post);
     expect(renderedDocument.strippedString).to.eq("hibi");
-    expect(renderedDocument.htmlString).to.contain("h<i>i</i>");
-    expect(renderedDocument.htmlString).to.contain("b<i>i</i>");
+    expect(renderedDocument.htmlString).to.contain("h</span><i>");
+    expect(renderedDocument.htmlString).to.contain("i</span></i>");
+    expect(renderedDocument.htmlString).to.contain("b</span><i>");
+    expect(renderedDocument.htmlString).to.contain("i</span></i>");
   });
   it("wrapping second match", () => {
     const html = "<p>hoooi</p><p>boooi</p>";
@@ -49,7 +51,8 @@ describe("Test rendered document", () => {
     };
     renderedDocument.wrapNthMatch("oooi", 1, pre, post);
     expect(renderedDocument.htmlString).to.contain("hoooi");
-    expect(renderedDocument.htmlString).to.contain("b<i>oooi</i>");
+    expect(renderedDocument.htmlString).to.contain("b</span>");
+    expect(renderedDocument.htmlString).to.contain("oooi</span></i>");
   });
   it("wrapping selection", () => {
     const html = "<p>hoooi</p><p>boooi</p>";
@@ -87,7 +90,7 @@ describe("Test rendered document", () => {
       type: "close",
     };
     renderedDocument.wrapSelection(selection, pre, post);
-    expect(renderedDocument.htmlString).to.contain("h<i>oooi");
-    expect(renderedDocument.htmlString).to.contain("bo</i>ooi");
+    expect(renderedDocument.htmlString).to.contain("h</span><i>");
+    expect(renderedDocument.htmlString).to.contain("bo</span></i>");
   });
 });

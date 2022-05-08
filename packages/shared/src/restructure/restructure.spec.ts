@@ -1,6 +1,6 @@
 import { DEFAULT_EMPTY_RULESET } from "..";
 import { expect } from "chai";
-import type { LinkNode, ListElementNode, TextNode , DocumentRuleSet } from "..";
+import type { LinkNode, ListElementNode, TextNode, DocumentRuleSet } from "..";
 import { parse } from "../parse/scraper";
 import { applyRuleSet } from "./applyRuleSet";
 import { eurlexConfig } from "..";

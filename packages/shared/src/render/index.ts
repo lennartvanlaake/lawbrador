@@ -1,4 +1,5 @@
 import type { RestructuredNode, TagOrText } from "..";
+import type { TextNode } from "../schemas/scrapeTypes";
 
 export function renderText(node: RestructuredNode) {
   const childText =
@@ -14,14 +15,7 @@ export function renderText(node: RestructuredNode) {
 
 export function nodeToTextAndTags(node: RestructuredNode): TagOrText[] {
   if ("text" in node && node.text) {
-    return [
-      {
-        id: node.id,
-        text: node.text,
-        type: "text",
-        origin: "original",
-      },
-    ];
+    return [textAndIdToNode(node.text, node.id)];
   }
   const marker = renderListMarker(node);
   const opening: TagOrText = {
@@ -45,19 +39,15 @@ function renderListMarker(node: RestructuredNode): TagOrText[] {
   if ("marker" in node && node.marker) {
     return [
       {
-        type: "close",
+        type: "open",
         text: `<span id="${node.marker.id}" class="marker">`,
         id: node.id,
         origin: "original",
       },
+      textAndIdToNode(node.marker.text, node.marker.id),
+
       {
-        type: "text",
-        text: node.marker.text,
-        id: node.id,
-        origin: "original",
-      },
-      {
-        type: "text",
+        type: "close",
         text: `</span>`,
         id: node.id,
         origin: "original",
@@ -100,4 +90,13 @@ function getClosingTag(node: RestructuredNode) {
       tag = `</${node.name}>`;
   }
   return tag;
+}
+
+export function textAndIdToNode(text: string, id: string): TagOrText {
+  return {
+    type: "text",
+    text: text,
+    id: id,
+    origin: "original",
+  };
 }

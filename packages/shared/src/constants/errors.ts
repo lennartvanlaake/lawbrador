@@ -12,3 +12,4 @@ export const NO_ID_FOR_SELECTION_ANCHOR =
 export const NO_ID_MATCH =
   "Cannot find a match for the id of the selection anchor node";
 export const NO_ID_IN_NODE = "Cannot find id in node or parent node";
+export const NO_SNIPPET_FOUND_FOR_ID = "Cannot find snippet in document id map for this Node"
