@@ -7,32 +7,35 @@
 	import type { SourceSiteConfig } from '@lawbrador/shared';
 	import { onMount, tick } from 'svelte';
 	import type { IndexProps } from './types';
-	import { Mutex } from 'async-mutex';
 	import { queryToHighlight } from '$lib/ts/stores';
+
 	export let indexProps: IndexProps;
+	let timeout: number;
+	const TIMEOUT_VALUE = 100;
 
 	let hasSearched = indexProps.searchResults.length > 0;
 	let firstSearchResultLength: number | undefined = hasSearched
 		? indexProps.searchResults.length
 		: undefined;
 	let hasMore = true;
+	let spinnerIsVisible = true;
+	let isLoading = false;
+	
 
 	if (hasSearched) {
 		$queryToHighlight = indexProps.searchParams.query!;
 	}
 
-	// mutex guarantees we don't get multiple running queries
-	const mutex = new Mutex();
 
 	function setSourceConfig(e: CustomEvent<SourceSiteConfig>) {
 		indexProps = { ...indexProps, sourceConfig: e.detail };
 	}
 
 	async function page() {
+		if (isLoading) return;
+		console.log('start loading page');
 		try {
-			console.log('next page');
-			await mutex.waitForUnlock();
-			await mutex.runExclusive(async () => {
+			isLoading = true
 				if (!firstSearchResultLength) return;
 				const pageResult = await getNextPage(
 					firstSearchResultLength,
@@ -43,10 +46,12 @@
 				indexProps.searchResults = pageResult.searchResults;
 				indexProps.searchParams = pageResult.searchParams;
 				hasMore = !pageResult.isLast;
-			});
 		} catch (e) {
 			alert(e.message);
 			hasMore = false;
+		} finally {
+			isLoading = false;
+			console.log('finish loading page');
 		}
 	}
 
@@ -54,21 +59,17 @@
 		try {
 			hasSearched = true;
 			indexProps.searchResults = [];
-			await mutex.runExclusive(async () => {
-				indexProps.searchResults = await submitQuery(
-					indexProps.searchParams,
-					indexProps.sourceConfig
-				);
-				firstSearchResultLength = indexProps.searchResults.length;
-				$queryToHighlight = indexProps.searchParams.query!;
-			});
+			indexProps.searchResults = await submitQuery(
+				indexProps.searchParams,
+				indexProps.sourceConfig
+			);
+			firstSearchResultLength = indexProps.searchResults.length;
+			$queryToHighlight = indexProps.searchParams.query!;
 			await tick();
-			scrollToBottomSreen();
-			// keep adding results until there are no more or the list is scrollable
-			while (hasMore) {
+			if (hasMore && spinnerIsVisible) {
 				await page();
-				await tick();
 			}
+			scrollToBottomSreen();
 		} catch (e) {
 			alert(e.message);
 			hasMore = false;
@@ -104,7 +105,8 @@
 	bind:hasMore
 	sourceConfig={indexProps.sourceConfig}
 	{hasSearched}
-	on:bottomReached={page}
+	on:spinnerBecameVisible={() => { spinnerIsVisible = true; page(); }}
+	on:spinnerBecameHidden={() => spinnerIsVisible = false}
 />
 <svelte:window on:keypress={(event) => doIfEnter(event, async () => await onQuerySubmitted())} />
 

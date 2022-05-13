@@ -8,7 +8,6 @@
 	export let sourceConfig: SourceSiteConfig;
 	export let searchResults: SearchResult[] = [];
 	export let hasMore = true;
-	export let loaderIsVisible = true;
 	export let hasSearched = false;
 	export let hasClicked = false;
 </script>
@@ -28,7 +27,7 @@
 		/>
 	{/each}
 	{#if hasSearched && hasMore}
-		<InfiniteScrollLoader bind:hasMore on:bottomReached />
+		<InfiniteScrollLoader {hasMore} on:spinnerBecameVisible on:spinnerBecameHidden />
 	{/if}
 </div>
 
