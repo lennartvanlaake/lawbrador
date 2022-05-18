@@ -21,8 +21,3 @@ export const keyValue = Type.Object({
   value: Type.String(),
 });
 
-export const marking = Type.Object({
-  markedText: Type.String(),
-  occuranceIndex: Type.Number(),
-  comment: Type.Optional(Type.String()),
-});

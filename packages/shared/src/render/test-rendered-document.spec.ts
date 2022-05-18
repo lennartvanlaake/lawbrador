@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import type { TagOrText } from "..";
+import { id, TagOrText } from "..";
 import { defaultRestructure, nodeToTextAndTags } from "..";
 import { RenderedDocument } from "./RenderedDocument";
 describe("Test rendered document", () => {
@@ -26,33 +26,13 @@ describe("Test rendered document", () => {
       text: "</i>",
       type: "close",
     };
-    renderedDocument.wrapAllMatching("i", pre, post);
+    
+    renderedDocument.wrapAllMatching("i", pre, post, id());
     expect(renderedDocument.strippedString).to.eq("hibi");
     expect(renderedDocument.htmlString).to.contain("h</span><i>");
     expect(renderedDocument.htmlString).to.contain("i</span></i>");
     expect(renderedDocument.htmlString).to.contain("b</span><i>");
     expect(renderedDocument.htmlString).to.contain("i</span></i>");
-  });
-  it("wrapping second match", () => {
-    const html = "<p>hoooi</p><p>boooi</p>";
-    const array = nodeToTextAndTags(defaultRestructure(html));
-    const renderedDocument = new RenderedDocument(array);
-    const pre: TagOrText = {
-      id: "1",
-      origin: "marker",
-      text: "<i>",
-      type: "open",
-    };
-    const post: TagOrText = {
-      id: "1",
-      origin: "marker",
-      text: "</i>",
-      type: "close",
-    };
-    renderedDocument.wrapNthMatch("oooi", 1, pre, post);
-    expect(renderedDocument.htmlString).to.contain("hoooi");
-    expect(renderedDocument.htmlString).to.contain("b</span>");
-    expect(renderedDocument.htmlString).to.contain("oooi</span></i>");
   });
   it("wrapping selection", () => {
     const html = "<p>hoooi</p><p>boooi</p>";
@@ -89,7 +69,8 @@ describe("Test rendered document", () => {
       text: "</i>",
       type: "close",
     };
-    renderedDocument.wrapSelection(selection, pre, post);
+    const positions = renderedDocument.positionsFromSelection(selection)
+    renderedDocument.wrapPositions(positions, pre, post, id());
     expect(renderedDocument.htmlString).to.contain("h</span><i>");
     expect(renderedDocument.htmlString).to.contain("bo</span></i>");
   });

@@ -1,25 +1,23 @@
 <script lang="ts">
-	import type { RenderedDocument, TagOrText } from '@lawbrador/shared';
-	import { last } from '@lawbrador/shared';
-	import structuredClone from '@ungap/structured-clone';
+	import { RenderedDocument, Marking, TagOrText, UnidentifiedTagOrText, id, ID_PLACEHODER } from '@lawbrador/shared';
 	import { onMount, createEventDispatcher, onDestroy } from 'svelte';
 	export let renderedDocument: RenderedDocument;
 	export let enabled: boolean;
 	export let documentElement: Element;
+
+	let markings: Marking[] = []
 	$: highlightSelected = false;
 	const dispatch = createEventDispatcher<{ htmlChanged: string }>();
 	const SELECTION_EVENT_NAME = 'selectionchange';
-	const pre: TagOrText = {
+	const pre: UnidentifiedTagOrText = {
 		origin: 'marker',
 		type: 'open',
-		text: '<mark>',
-		id: '123'
+		text: `<mark id="${ID_PLACEHODER}">`,
 	};
-	const post: TagOrText = {
+	const post: UnidentifiedTagOrText = {
 		origin: 'marker',
 		type: 'close',
 		text: '</mark>',
-		id: '123'
 	};
 
 	let lastValidSelection: Selection | null = null;
@@ -52,7 +50,10 @@
 			alert('No selection to be highlighted!');
 			return;
 		}
-		renderedDocument.wrapSelection(lastValidSelection, pre, post);
+		const positions = renderedDocument.positionsFromSelection(lastValidSelection);
+		const markingId = id();
+		renderedDocument.wrapPositions(positions, pre, post, markingId);
+		markings.push({ ...positions, id: markingId });
 		dispatch('htmlChanged', renderedDocument.htmlString);
 	}
 

@@ -1,7 +1,9 @@
 
-import type { IndexedTagOrText, TagOrText } from "..";
+import type { IndexedTagOrText, StartAndEndPosition, TagOrText } from "..";
 import { Errors } from "..";
 import { escapeRegExp, getIndexedMatches } from "..";
+import { ID_PLACEHODER } from "../constants/view";
+import type { UnidentifiedTagOrText } from "../schemas/renderTypes";
 import { id } from "../utils/utils";
 
 export class RenderedDocument {
@@ -23,63 +25,37 @@ export class RenderedDocument {
 
   filter(filter: (snippet: IndexedTagOrText) => boolean) {
     this.#snippets = this.#snippets.filter(filter);
-    this.#repairSplitText();
+    this.repairSplitText();
     this.#update();
   }
 
-  wrapAllMatching(query: string, pre: TagOrText, post: TagOrText) {
+  wrapAllMatching(query: string, pre: UnidentifiedTagOrText, post: UnidentifiedTagOrText, id: string) {
     const matches = getIndexedMatches(
       this.strippedString,
       new RegExp(escapeRegExp(query), "gi")
     );
     matches.forEach((it) =>
-      this.#wrapCharacterIndices(it.index, it.index + it.length, pre, post)
+      this.#wrapCharacterIndices(it.index, it.index + it.length, identifyTagOrText(pre, id), identifyTagOrText(post, id))
     );
   }
-
-  wrapNthMatch(
-    query: string,
-    matchIndex: number,
-    pre: TagOrText,
-    post: TagOrText
-  ) {
-    const matches = getIndexedMatches(
-      this.strippedString,
-      new RegExp(escapeRegExp(query), "gi")
-    );
-    const match = matches[matchIndex];
-    this.#wrapCharacterIndices(
-      match.index,
-      match.index + match.length,
-      pre,
-      post
-    );
-  }
-
-  wrapSelection(selection: Selection, pre: TagOrText, post: TagOrText) {
+  positionsFromSelection(selection: Selection) {
     const anchorPosition = this.#getOffsetForNode(selection.anchorNode) + selection.anchorOffset
     const focusPosition = this.#getOffsetForNode(selection.focusNode) + selection.focusOffset
     if (focusPosition > anchorPosition) {
-      this.#insertAtCharacterIndex(
-        anchorPosition,
-        pre
-      );
-      this.#insertAtCharacterIndex(
-        focusPosition,
-        post
-      );
+      return {
+        start: anchorPosition,
+        end: focusPosition
+      }
     } else {
-      this.#insertAtCharacterIndex(
-        focusPosition,
-        pre
-      );
-      this.#insertAtCharacterIndex(
-        anchorPosition,
-        post
-      );
-    
-    } 
-    this.#repairSplitText();
+      return {
+        start: focusPosition,
+        end: anchorPosition
+      }
+    }
+  }
+
+  wrapPositions(positions: StartAndEndPosition, pre: UnidentifiedTagOrText, post: UnidentifiedTagOrText, id: string) {
+    this.#wrapCharacterIndices(positions.start, positions.end, identifyTagOrText(pre, id), identifyTagOrText(post, id))
   }
 
   #getOffsetForNode(node: Node | null) {
@@ -183,7 +159,7 @@ export class RenderedDocument {
     this.#update();
   }
 
-  #repairSplitText() {
+  repairSplitText() {
     for (let i = 0; i < this.#snippets.length; i++) {
       const it = this.#snippets[i];
       const next = this.#snippets[i + 1];
@@ -234,4 +210,11 @@ function getClosestId(node: Node | null) {
     return (node as Element).id;
   }
   return getClosestId(node.parentElement);
+}
+
+function identifyTagOrText(input: UnidentifiedTagOrText, id: string): TagOrText {
+  if (input.type == "open") {
+    input.text = input.text.replace(ID_PLACEHODER, id)
+  }
+  return { ...input, id: id }
 }

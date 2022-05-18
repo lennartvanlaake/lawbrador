@@ -1,5 +1,6 @@
 export * as Endpoints from "./constants/endpoints";
 export * from "./constants/examples";
+export * from "./constants/view";
 export * as Errors from "./constants/errors";
 
 export * from "./match/matcher";
@@ -32,3 +33,4 @@ export * from "./schemas/tagTypes";
 export * from "./schemas/searchTypes";
 export * from "./schemas/authTypes";
 export * from "./schemas/renderTypes";
+export * from "./schemas/annotationTypes";

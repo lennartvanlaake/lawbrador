@@ -2,19 +2,16 @@
 	import structuredClone from '@ungap/structured-clone';
 	import { queryToHighlight } from '$lib/ts/stores';
 	import { scrollElementToCenter } from '$lib/ts/utils';
-	import type { RenderedDocument, TagOrText } from '@lawbrador/shared';
+	import { HIGHLIGHT_CLASS, id, ID_PLACEHODER, RenderedDocument, TagOrText, UnidentifiedTagOrText } from '@lawbrador/shared';
 	import { createEventDispatcher, onDestroy, onMount, tick } from 'svelte';
 
 	const dispatch = createEventDispatcher<{ htmlChanged: string }>();
-	const HIGHLIGHT_CLASS = 'highlight';
-	const preMatch: TagOrText = {
-		id: '0',
-		text: `<strong class='${HIGHLIGHT_CLASS}'>`,
+	const preMatch: UnidentifiedTagOrText = {
+		text: `<strong class='${HIGHLIGHT_CLASS}' id='${ID_PLACEHODER}'>`,
 		type: 'open',
 		origin: 'search'
 	};
-	const postMatch: TagOrText = {
-		id: '0',
+	const postMatch: UnidentifiedTagOrText = {
 		text: '</strong>',
 		type: 'close',
 		origin: 'search'
@@ -55,7 +52,7 @@
 				return;
 			}
 			// do the actual highlighting
-			renderedDocument.wrapAllMatching($queryToHighlight, preMatch, postMatch);
+			renderedDocument.wrapAllMatching($queryToHighlight, preMatch, postMatch, id());
 			// wait for html to render in browser
 			dispatch('htmlChanged', renderedDocument.htmlString);
 			await tick();
