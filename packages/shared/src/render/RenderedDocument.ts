@@ -213,8 +213,9 @@ function getClosestId(node: Node | null) {
 }
 
 function identifyTagOrText(input: UnidentifiedTagOrText, id: string): TagOrText {
-  if (input.type == "open") {
-    input.text = input.text.replace(ID_PLACEHODER, id)
+  let output =  { ...input }
+  if (output.type == "open") {
+    output.text = output.text.replace(ID_PLACEHODER, id)
   }
-  return { ...input, id: id }
+  return { ...output, id: id } 
 }
