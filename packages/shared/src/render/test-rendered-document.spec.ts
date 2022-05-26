@@ -6,14 +6,14 @@ describe("Test rendered document", () => {
   it("Node to renderedDocument", () => {
     const html = "<div><p>hi</p><p>hoi</p></div>";
     const array = nodeToTextAndTags(defaultRestructure(html));
-    const renderedDocument = new RenderedDocument(array);
+    const renderedDocument = new RenderedDocument(array, "test");
     expect(renderedDocument.strippedString).to.eq("hihoi");
     expect(array.length).to.eq(8);
   });
   it("wrapping in renderedDocument", () => {
     const html = "<p>hi</p><p>bi</p>";
     const array = nodeToTextAndTags(defaultRestructure(html));
-    const renderedDocument = new RenderedDocument(array);
+    const renderedDocument = new RenderedDocument(array, "test");
     const pre: TagOrText = {
       id: "1",
       origin: "marker",
@@ -56,7 +56,7 @@ describe("Test rendered document", () => {
       },
       focusOffset: 2,
     };
-    const renderedDocument = new RenderedDocument(array);
+    const renderedDocument = new RenderedDocument(array, "test");
     const pre: TagOrText = {
       id: "1",
       origin: "marker",

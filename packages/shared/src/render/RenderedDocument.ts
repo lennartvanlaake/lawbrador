@@ -4,9 +4,11 @@ import { Errors } from "..";
 import { escapeRegExp, getIndexedMatches } from "..";
 import { ID_PLACEHODER } from "../constants/view";
 import type { UnidentifiedTagOrText } from "../schemas/renderTypes";
+import type { DocumentReference } from "../schemas/scrapeTypes";
 import { id } from "../utils/utils";
 
 export class RenderedDocument {
+  reference: DocumentReference;
   #snippets: IndexedTagOrText[] = [];
   characterIndexToTextSnippet: Map<number, IndexedTagOrText> = new Map();
   snippetToIndexMap: Map<IndexedTagOrText, number> = new Map();
@@ -14,7 +16,8 @@ export class RenderedDocument {
   strippedString: string;
   htmlString = "";
 
-  constructor(snippets: TagOrText[]) {
+  constructor(snippets: TagOrText[], reference: DocumentReference) {
+    this.reference = reference; 
     this.#snippets = snippets.map((it, index) => addIndexToSnippet(it, index));
     this.strippedString = this.#snippets
       .filter((it) => it.type == "text")

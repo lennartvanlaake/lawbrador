@@ -39,7 +39,6 @@
 			bind:renderedDocument
 			on:htmlChanged
 			bind:enabled={markerEnabled}
-			{documentElement}
 		/>
 	{/if}
 	<div id="control">

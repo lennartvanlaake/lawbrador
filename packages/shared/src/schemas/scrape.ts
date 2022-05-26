@@ -21,3 +21,10 @@ export const scrapeRequest = Type.Object({
   url: Type.String(),
   sourceConfigId: Type.String(),
 });
+
+export const documentReference = Type.Object({
+  name: Type.Union([Type.String(), Type.Null()]),
+  hash: Type.String(),
+  url: Type.String(),
+  sourceConfigId: Type.String()
+})

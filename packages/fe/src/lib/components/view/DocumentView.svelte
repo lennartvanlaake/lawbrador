@@ -5,14 +5,14 @@
 	import NodeView from './NodeView.svelte';
 	export let document: RestructuredDocument;
 	let documentElement: Element;
-	let renderedDocument = new RenderedDocument(nodeToTextAndTags(document.body));
+	let renderedDocument = new RenderedDocument(nodeToTextAndTags(document.body), document.reference);
 	let html = renderedDocument.htmlString;
 	function setHtml(ev: CustomEvent<string>) {
 		html = ev.detail;
 	}
 </script>
 
-<a href={document.url}>Original</a>
+<a href={document.reference.url}>Original</a>
 <div bind:this={documentElement}>
 	<NodeView {html} />
 </div>

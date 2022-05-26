@@ -1,10 +1,12 @@
 
 import { Type } from "@sinclair/typebox";
+import { documentReference } from "./scrape";
 
 export const marking = Type.Object({
     start: Type.Number(),
     end: Type.Number(),
-    id: Type.String()
+    id: Type.String(),
+    documentReference: documentReference
   })
 
 export const startAndEndPosition = Type.Object({

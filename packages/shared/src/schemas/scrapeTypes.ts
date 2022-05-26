@@ -1,8 +1,9 @@
 import type { Static } from "@sinclair/typebox";
-import type { parsedNode, scrapeRequest, scrapeResult } from "./scrape";
+import type { documentReference, parsedNode, scrapeRequest, scrapeResult } from "./scrape";
 
 export type ScrapeResult = Static<typeof scrapeResult>;
 export type ScrapeRequest = Static<typeof scrapeRequest>;
+export type DocumentReference = Static<typeof documentReference>;
 export type RestructuredNode =
   | LinkNode
   | OtherNode
@@ -37,7 +38,6 @@ export interface OtherNode extends BaseRestructuredNode {
 }
 
 export interface RestructuredDocument {
-  hash: string;
-  url: string;
+  reference: DocumentReference;
   body: RestructuredNode;
 }

@@ -10,8 +10,12 @@ export function restructure(
   const ruleSet = selectRuleSet(scrapeResult.body, config);
   const body = applyRuleSet(scrapeResult.body, ruleSet, config, sourceUrl);
   return {
-    url: scrapeResult.url,
-    hash: scrapeResult.hash,
+    reference: {
+      name: null,
+      url: scrapeResult.url,
+      hash: scrapeResult.hash,
+      sourceConfigId: config._id
+    },
     body: body,
   };
 }

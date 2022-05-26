@@ -1,6 +1,6 @@
 <script lang="ts">
 	import DocumentView from '$lib/components/view/DocumentView.svelte';
-	import { defaultRestructure } from '@lawbrador/shared';
+	import { defaultRestructure, RestructuredDocument } from '@lawbrador/shared';
 	import { queryToHighlight } from '$lib/ts/stores';
 	const node1 =
 		defaultRestructure(`<h1>Lorem ipsum</h1><p> dolor sit amet, consectetur adipiscing elit. Praesent semper tristique elit, nec laoreet ex sollicitudin eu. Proin eget lectus arcu. Quisque rutrum rutrum leo, et placerat eros ornare non. Fusce fermentum dui eget posuere cursus. Suspendisse potenti. Curabitur interdum facilisis nulla, in pretium risus convallis at. Curabitur nec vestibulum nisi, et dictum mauris. Suspendisse quam nulla, venenatis id congue eu, aliquet sit amet mauris.
@@ -17,9 +17,13 @@ Sed placerat semper justo at rutrum. Mauris at sagittis diam, non mollis velit. 
 
 <h1>Curabitur eget</h1><p>tempor tortor. Maecenas facilisis dolor nec pulvinar convallis. Praesent augue tortor, aliquet vitae dui eu, fringilla bibendum nulla. Sed ut libero cursus, venenatis diam eget, maximus nibh. Phasellus at lorem vel odio bibendum congue. Pellentesque quis mi velit. Aliquam vitae scelerisque tellus. Suspendisse hendrerit ultricies tristique. Donec ut sem a leo lacinia consequat a ultricies orci. Nulla nec iaculis tortor, id faucibus risus. Aenean est magna, placerat sed turpis eu, pharetra sollicitudin mauris.
 </p>`);
-	let document1 = {
-		hash: '123',
-		url: '#',
+	let document1: RestructuredDocument = {
+		reference: {
+			url: "#",
+			hash: "123",
+			name: "testdoc",
+			sourceConfigId: "456"
+		},
 		body: node1
 	};
 	$queryToHighlight = 'lorem ipsum';

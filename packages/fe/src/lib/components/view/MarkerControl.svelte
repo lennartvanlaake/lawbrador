@@ -60,7 +60,7 @@ import AnnotationSelectorModal from './AnnotationSelectorModal.svelte';
 		const positions = renderedDocument.positionsFromSelection(lastValidSelection);
 		const markingId = id();
 		renderedDocument.wrapPositions(positions, pre, post, markingId);
-		addMarking({ ...positions, id: markingId });
+		addMarking({ ...positions, id: markingId, documentReference: renderedDocument.reference });
 		dispatch('htmlChanged', renderedDocument.htmlString);
 	}
 
