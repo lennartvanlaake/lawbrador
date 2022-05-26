@@ -1,18 +1,19 @@
 <script lang="ts">
 import { scrollElementToCenter } from '$lib/ts/utils';
 
-	import { RenderedDocument, Marking, TagOrText, UnidentifiedTagOrText, id, ID_PLACEHODER } from '@lawbrador/shared';
-import { marking } from '@lawbrador/shared/src/schemas/annotation';
+	import { RenderedDocument, Marking, TagOrText, UnidentifiedTagOrText, id, ID_PLACEHODER, Annotation } from '@lawbrador/shared';
 	import { onMount, createEventDispatcher, onDestroy } from 'svelte';
-import { destroy_component } from 'svelte/internal';
+import AnnotationSelectorModal from './AnnotationSelectorModal.svelte';
 	export let renderedDocument: RenderedDocument;
 	export let enabled: boolean;
-	export let documentElement: Element;
 
-	let markings: Marking[] = []
+	let annotation: Annotation | null = null
 	let selectedMarking: Marking | null = null
 	let selectedMarkingIndex: number = 0
+	$: displayedIndex = annotation?.markings?.length  ?? 0 > 0 ? selectedMarkingIndex + 1 : 0
+	$: displayedLength = annotation?.markings?.length ?? 0
 	$: highlightSelected = false;
+	
 	const dispatch = createEventDispatcher<{ htmlChanged: string }>();
 	const SELECTION_EVENT_NAME = 'selectionchange';
 	const pre: UnidentifiedTagOrText = {
@@ -64,8 +65,8 @@ import { destroy_component } from 'svelte/internal';
 	}
 
 	function addMarking(marking: Marking) {
-		markings = [ ...markings, marking ]
-		markings.sort((a, b) => { return a.start - b.start })		
+		annotation!!.markings = [ ...annotation!!.markings, marking ]
+		annotation!!.markings.sort((a, b) => { return a.start - b.start })		
 	}
 
 	function selectMarking(marking: Marking) {
@@ -77,7 +78,7 @@ import { destroy_component } from 'svelte/internal';
 		} 
 		
 		selectedMarking = marking;
-		selectedMarkingIndex = markings.indexOf(marking)
+		selectedMarkingIndex = annotation!!.markings.indexOf(marking)
 		const element =document.getElementById(marking.id)
 		if (element) {
 			element.style.textDecoration = 'underline';
@@ -86,13 +87,13 @@ import { destroy_component } from 'svelte/internal';
 	}
 
 	function increaseMarkingIndex() {
-		const index = (selectedMarkingIndex + 1) % markings.length;
-		selectMarking(markings[index]);
+		const index = (selectedMarkingIndex + 1) % annotation!!.markings.length;
+		selectMarking(annotation!!.markings[index]);
 	}
 
 	function decreaseMarkingIndex() {
-		const index = selectedMarkingIndex == 0 ? markings.length - 1 : markings.length - 1;
-		selectMarking(markings[index]);
+		const index = selectedMarkingIndex == 0 ? annotation!!.markings.length - 1 : annotation!!.markings.length - 1;
+		selectMarking(annotation!!.markings[index]);
 	}
 
 	onMount(() => {
@@ -104,20 +105,24 @@ import { destroy_component } from 'svelte/internal';
 </script>
 
 <div id="control-bg">
-	{#if highlightSelected}
-		<span>Higlight selection?</span>
-		<span class="progress"
-		>{markings.length > 0 ? selectedMarkingIndex + 1 : 0}/{markings.length}</span
-	>
-	<i class="fa-solid fa-angle-up" on:click={decreaseMarkingIndex} />
-	<i class="fa-solid fa-angle-down" on:click={increaseMarkingIndex} />
-	<div class="right-icons">
-		<i class="fa-solid fa-check" on:click={markSelection} />
-		<i class="fa-solid fa-xmark" on:click={disable} />
-	</div>
-	{:else}
-		<span>No selection...</span>
-	{/if}
+	{#if !annotation}
+		<AnnotationSelectorModal bind:annotation={annotation}/>
+	{:else }
+		{#if highlightSelected}
+			<span>Higlight selection?</span>
+			<span class="progress"
+			>{displayedIndex}/{displayedLength}</span
+		>
+		<i class="fa-solid fa-angle-up" on:click={decreaseMarkingIndex} />
+		<i class="fa-solid fa-angle-down" on:click={increaseMarkingIndex} />
+		<div class="right-icons">
+			<i class="fa-solid fa-check" on:click={markSelection} />
+			<i class="fa-solid fa-xmark" on:click={disable} />
+		</div>
+		{:else}
+			<span>No selection...</span>
+		{/if}
+	{/if }
 </div>
 
 <style>
