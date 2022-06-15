@@ -1,4 +1,3 @@
-import type { TSchema } from "@sinclair/typebox";
 import type { RouteShorthandOptions } from "fastify";
 import type { SourceSiteConfig } from "@lawbrador/shared";
 import { hashObject } from "@lawbrador/shared";

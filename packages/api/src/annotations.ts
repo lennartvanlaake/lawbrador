@@ -1,7 +1,7 @@
 import type { FastifyInstance } from "fastify";
 import { id } from "@lawbrador/db";
-import EventFactory from "packages/events/src/eventFactory";
-import { Annotation, Endpoints, Schemas, toIdentity, UnsavedAnnotation } from "packages/shared/src";
+import EventFactory from "@lawbrador/events/src/eventFactory";
+import { Annotation, Endpoints, Schemas, toIdentity, UnsavedAnnotation } from "@lawbrador/shared";
 
 export default async (fastify: FastifyInstance) => {
     fastify.get(Endpoints.ANNOTATIONS, async () => {
