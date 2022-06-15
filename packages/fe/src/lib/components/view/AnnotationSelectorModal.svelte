@@ -1,16 +1,18 @@
 <script lang="ts">
-    import { Annotation, id } from '@lawbrador/shared'
+    import { newAnnotation } from '$lib/ts/api';
+    import type { Annotation } from '@lawbrador/shared'
     import Modal from '../common/Modal.svelte';
     export let annotation: Annotation | null = null;
     let show: boolean = true;
     let name: string | null = null;    
-    const select = () => {
+    const select = async () => {
         if (!name) {
             alert("Please fill in a name")
             return
         }
+        const id = await newAnnotation({ name: name!!, markings: []})
         annotation = {
-            id: id(),
+            _id: id._id,
             name: name!!,
             markings: []
         }

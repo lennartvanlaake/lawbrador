@@ -1,4 +1,5 @@
 import type {
+  Annotation,
   Hashed,
   LawbradorEvent,
   ScrapeResult,
@@ -13,6 +14,7 @@ export const EVENT_COLLECTION = new TypedCollection<LawbradorEvent<any>>(
 export const SOURCE_CONFIG_COLLECTION = new TypedCollection<SourceSiteConfig>(
   "sourceConfigs"
 );
+export const ANNOTATIONS = new TypedCollection<Annotation>("annotations");
 export const DOCUMENT_SCRAPE_CACHE = new TypedCache<ScrapeResult & Hashed>(
   "documentCache"
 );
@@ -25,4 +27,5 @@ export const ALL_COLLECTIONS = {
   sourceConfigs: SOURCE_CONFIG_COLLECTION,
   documentScrapeCache: DOCUMENT_SCRAPE_CACHE,
   searchCache: SEARCH_CACHE,
+  annotations: ANNOTATIONS
 };

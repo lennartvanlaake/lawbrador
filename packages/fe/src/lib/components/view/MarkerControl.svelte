@@ -60,7 +60,7 @@ import AnnotationSelectorModal from './AnnotationSelectorModal.svelte';
 		const positions = renderedDocument.positionsFromSelection(lastValidSelection);
 		const markingId = id();
 		renderedDocument.wrapPositions(positions, pre, post, markingId);
-		addMarking({ ...positions, id: markingId, documentReference: renderedDocument.reference });
+		addMarking({ ...positions, _id: markingId, documentReference: renderedDocument.reference });
 		dispatch('htmlChanged', renderedDocument.htmlString);
 	}
 
@@ -71,7 +71,7 @@ import AnnotationSelectorModal from './AnnotationSelectorModal.svelte';
 
 	function selectMarking(marking: Marking) {
 		if (selectedMarking) {
-			const element = document.getElementById(selectedMarking.id)
+			const element = document.getElementById(selectedMarking._id)
 			if (element) {
 				element.style.textDecoration = 'none';
 			}
@@ -79,7 +79,7 @@ import AnnotationSelectorModal from './AnnotationSelectorModal.svelte';
 		
 		selectedMarking = marking;
 		selectedMarkingIndex = annotation!!.markings.indexOf(marking)
-		const element =document.getElementById(marking.id)
+		const element =document.getElementById(marking._id)
 		if (element) {
 			element.style.textDecoration = 'underline';
 			scrollElementToCenter(element);

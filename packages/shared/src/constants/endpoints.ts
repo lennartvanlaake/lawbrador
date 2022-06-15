@@ -4,3 +4,4 @@ export const SEARCH = `${API_PREFIX}/search`;
 export const ALL = `${API_PREFIX}/all`;
 export const LOGIN = `${API_PREFIX}/login`;
 export const GET_OR_SCRAPE_DOCUMENT = `${API_PREFIX}/scrape/document`;
+export const ANNOTATIONS = `${API_PREFIX}/annotations`;

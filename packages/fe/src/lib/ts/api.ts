@@ -7,7 +7,9 @@ import type {
 	ScrapeResult,
 	ErrorResponse,
 	LoginResponse,
-	LoginRequest
+	LoginRequest,
+	Annotation,
+	UnsavedAnnotation
 } from '@lawbrador/shared';
 import { Endpoints } from '@lawbrador/shared';
 import type { Method } from 'axios';
@@ -84,7 +86,17 @@ export async function newSourceConfig(newConfig: Omit<SourceSiteConfig, '_id'>):
 export async function updateSourceConfig(config: SourceSiteConfig): Promise<Identity> {
 	return await put(Endpoints.SOURCES, config);
 }
+export async function getAnnotations(fetchParam: any = false): Promise<Annotation[]> {
+	return await get(Endpoints.ANNOTATIONS, fetchParam);
+}
 
+export async function newAnnotation(newAnnotation: UnsavedAnnotation): Promise<Identity> {
+	return await post(Endpoints.ANNOTATIONS, newAnnotation);
+}
+
+export async function updateAnnotation(updatedAnnotation: Annotation): Promise<Identity> {
+	return await put(Endpoints.ANNOTATIONS, updatedAnnotation);
+}
 export async function search(body: SearchRequest): Promise<SearchResponse> {
 	return await post(Endpoints.SEARCH, body);
 }
