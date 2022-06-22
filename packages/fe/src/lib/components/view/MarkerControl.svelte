@@ -23,7 +23,6 @@
 	$: addExistingMarkings(annotation);
 
 	function addExistingMarkings(_: any) {
-
 		resetMarks();
 		annotation?.markings.forEach((it) => {
 			if (it.documentReference.hash == renderedDocument.reference.hash) {
@@ -31,6 +30,18 @@
 			}
 		});
 		dispatch('htmlChanged', renderedDocument.htmlString);
+	}
+
+	function generateClosingMark(id: string) {
+		const removeButtonElement = document.createElement('i');
+		removeButtonElement.className = 'fa-solid fa-square-xmark';
+		removeButtonElement.onclick = () => {
+			if (annotation) {
+				annotation.markings = annotation!.markings.filter((it) => it._id != id);
+				updateAnnotation(annotation);
+			}
+		};
+		return removeButtonElement;
 	}
 
 	const dispatch = createEventDispatcher<{ htmlChanged: string }>();
@@ -95,6 +106,7 @@
 			const element = document.getElementById(selectedMarking._id);
 			if (element) {
 				element.style.textDecoration = 'none';
+				element.after("");
 			}
 		}
 
@@ -103,6 +115,7 @@
 		const element = document.getElementById(marking._id);
 		if (element) {
 			element.style.textDecoration = 'underline';
+			element.after(generateClosingMark(marking._id));
 			scrollElementToCenter(element);
 		}
 	}
