@@ -1,5 +1,4 @@
 <script lang="ts">
-	import structuredClone from '@ungap/structured-clone';
 	import { queryToHighlight } from '$lib/ts/stores';
 	import { scrollElementToCenter } from '$lib/ts/utils';
 	import { HIGHLIGHT_CLASS, id, ID_PLACEHODER, RenderedDocument, TagOrText, UnidentifiedTagOrText } from '@lawbrador/shared';

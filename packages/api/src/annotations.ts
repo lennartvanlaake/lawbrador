@@ -10,7 +10,7 @@ export default async (fastify: FastifyInstance) => {
     });
     fastify.route<{ Body: UnsavedAnnotation }>({
       method: "POST",
-      url: Endpoints.SOURCES,
+      url: Endpoints.ANNOTATIONS,
       schema: {
         body: Schemas.unsavedAnnotation,
       },
@@ -25,9 +25,9 @@ export default async (fastify: FastifyInstance) => {
     });
     fastify.route<{ Body: Annotation }>({
       method: "PUT",
-      url: Endpoints.SOURCES,
+      url: Endpoints.ANNOTATIONS,
       schema: {
-        body: Schemas.sourceSiteConfig,
+        body: Schemas.annotation,
       },
       handler: async (req) => {
         await fastify.events.processSync(

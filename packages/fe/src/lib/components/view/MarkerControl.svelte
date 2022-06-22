@@ -1,32 +1,50 @@
 <script lang="ts">
-import { scrollElementToCenter } from '$lib/ts/utils';
-
-	import { RenderedDocument, Marking, TagOrText, UnidentifiedTagOrText, id, ID_PLACEHODER, Annotation } from '@lawbrador/shared';
-	import { onMount, createEventDispatcher, onDestroy } from 'svelte';
-import AnnotationSelectorModal from './AnnotationSelectorModal.svelte';
+	import { updateAnnotation } from '$lib/ts/api';
+	import { scrollElementToCenter } from '$lib/ts/utils';
+	import {
+		Annotation,
+		id,
+		ID_PLACEHODER,
+		Marking,
+		RenderedDocument,
+		UnidentifiedTagOrText
+	} from '@lawbrador/shared';
+	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
+	import AnnotationSelectorModal from './AnnotationSelectorModal.svelte';
 	export let renderedDocument: RenderedDocument;
 	export let enabled: boolean;
 
-	let annotation: Annotation | null = null
-	let selectedMarking: Marking | null = null
-	let selectedMarkingIndex: number = 0
-	$: displayedIndex = annotation?.markings?.length  ?? 0 > 0 ? selectedMarkingIndex + 1 : 0
-	$: displayedLength = annotation?.markings?.length ?? 0
+	let annotation: Annotation | null = null;
+	let selectedMarking: Marking | null = null;
+	let selectedMarkingIndex: number = 0;
+	$: displayedIndex = annotation?.markings?.length ?? 0 > 0 ? selectedMarkingIndex + 1 : 0;
+	$: displayedLength = annotation?.markings?.length ?? 0;
 	$: highlightSelected = false;
-	
+	$: addExistingMarkings(annotation);
+
+	function addExistingMarkings(_: any) {
+
+		resetMarks();
+		annotation?.markings.forEach((it) => {
+			if (it.documentReference.hash == renderedDocument.reference.hash) {
+				renderedDocument.wrapPositions({ start: it.start, end: it.end }, pre, post, it._id);
+			}
+		});
+		dispatch('htmlChanged', renderedDocument.htmlString);
+	}
+
 	const dispatch = createEventDispatcher<{ htmlChanged: string }>();
 	const SELECTION_EVENT_NAME = 'selectionchange';
 	const pre: UnidentifiedTagOrText = {
 		origin: 'marker',
 		type: 'open',
-		text: `<mark id="${ID_PLACEHODER}">`,
+		text: `<mark id="${ID_PLACEHODER}">`
 	};
 	const post: UnidentifiedTagOrText = {
 		origin: 'marker',
 		type: 'close',
-		text: '</mark>',
+		text: '</mark>'
 	};
-
 	let lastValidSelection: Selection | null = null;
 	function resetMarks() {
 		renderedDocument.filter((it) => it.origin != 'marker');
@@ -64,22 +82,25 @@ import AnnotationSelectorModal from './AnnotationSelectorModal.svelte';
 		dispatch('htmlChanged', renderedDocument.htmlString);
 	}
 
-	function addMarking(marking: Marking) {
-		annotation!!.markings = [ ...annotation!!.markings, marking ]
-		annotation!!.markings.sort((a, b) => { return a.start - b.start })		
+	async function addMarking(marking: Marking) {
+		annotation!!.markings = [...annotation!!.markings, marking];
+		annotation!!.markings.sort((a, b) => {
+			return a.start - b.start;
+		});
+		updateAnnotation(annotation!!);
 	}
 
 	function selectMarking(marking: Marking) {
 		if (selectedMarking) {
-			const element = document.getElementById(selectedMarking._id)
+			const element = document.getElementById(selectedMarking._id);
 			if (element) {
 				element.style.textDecoration = 'none';
 			}
-		} 
-		
+		}
+
 		selectedMarking = marking;
-		selectedMarkingIndex = annotation!!.markings.indexOf(marking)
-		const element =document.getElementById(marking._id)
+		selectedMarkingIndex = annotation!!.markings.indexOf(marking);
+		const element = document.getElementById(marking._id);
 		if (element) {
 			element.style.textDecoration = 'underline';
 			scrollElementToCenter(element);
@@ -92,7 +113,10 @@ import AnnotationSelectorModal from './AnnotationSelectorModal.svelte';
 	}
 
 	function decreaseMarkingIndex() {
-		const index = selectedMarkingIndex == 0 ? annotation!!.markings.length - 1 : annotation!!.markings.length - 1;
+		const index =
+			selectedMarkingIndex == 0
+				? annotation!!.markings.length - 1
+				: annotation!!.markings.length - 1;
 		selectMarking(annotation!!.markings[index]);
 	}
 
@@ -106,26 +130,28 @@ import AnnotationSelectorModal from './AnnotationSelectorModal.svelte';
 
 <div id="control-bg">
 	{#if !annotation}
-		<AnnotationSelectorModal bind:annotation={annotation}/>
-	{:else }
-		{#if highlightSelected}
-			<span>Higlight selection?</span>
-			<span class="progress"
-			>{displayedIndex}/{displayedLength}</span
-		>
+		<AnnotationSelectorModal bind:annotation />
+	{:else if highlightSelected}
+		<span>Current annotation: <strong>{annotation.name}</strong></span>
+		<span>Higlight selection?</span>
+		<span class="progress">{displayedIndex}/{displayedLength}</span>
 		<i class="fa-solid fa-angle-up" on:click={decreaseMarkingIndex} />
 		<i class="fa-solid fa-angle-down" on:click={increaseMarkingIndex} />
 		<div class="right-icons">
 			<i class="fa-solid fa-check" on:click={markSelection} />
 			<i class="fa-solid fa-xmark" on:click={disable} />
 		</div>
-		{:else}
-			<span>No selection...</span>
-		{/if}
-	{/if }
+	{:else}
+		<span>Current annotation: <strong>{annotation.name}</strong> </span>
+		<span>No selection...</span>
+	{/if}
 </div>
 
 <style>
+	span {
+		margin-left: 1rem;
+	}
+
 	#control-bg {
 		background-color: white;
 		border-radius: 0.5rem;
