@@ -106,7 +106,9 @@
 			const element = document.getElementById(selectedMarking._id);
 			if (element) {
 				element.style.textDecoration = 'none';
-				element.after("");
+				if (element.nextElementSibling?.className.includes("fa")) {
+					element.nextElementSibling.remove();
+				}
 			}
 		}
 
