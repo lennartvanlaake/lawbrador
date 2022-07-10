@@ -146,20 +146,23 @@
 <div id="control-bg">
 	{#if !annotation}
 		<AnnotationSelectorModal bind:annotation />
-	{:else if highlightSelected}
+	{:else }
 		<span>Current annotation: <strong>{annotation.name}</strong></span>
-		<span>Higlight selection?</span>
+		
 		<span class="progress">{displayedIndex}/{displayedLength}</span>
 		<i class="fa-solid fa-angle-up" on:click={decreaseMarkingIndex} />
 		<i class="fa-solid fa-angle-down" on:click={increaseMarkingIndex} />
-		<div class="right-icons">
+		
+		{#if highlightSelected}
+			<span>Higlight selection?</span>
 			<i class="fa-solid fa-check" on:click={markSelection} />
+		{/if}
+		
+		<div class="right-icons">
 			<i class="fa-solid fa-xmark" on:click={disable} />
 		</div>
-	{:else}
-		<span>Current annotation: <strong>{annotation.name}</strong> </span>
-		<span>No selection...</span>
 	{/if}
+
 </div>
 
 <style>
