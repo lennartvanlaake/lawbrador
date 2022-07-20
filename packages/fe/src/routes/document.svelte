@@ -2,13 +2,18 @@
 	import GoToOriginalModal from '$lib/components/view/GoToOriginalModal.svelte';
 	import type { Load } from '@sveltejs/kit';
 	import DocumentView from '$lib/components/view/DocumentView.svelte';
-	import { getDocument } from '$lib/ts/api';
+	import { getAnnotations, getDocument } from '$lib/ts/api';
 	import type { RestructuredDocument } from '@lawbrador/shared';
 	export const load: Load = async ({ url, fetch }) => {
 		const documentUrl = url.searchParams.get('url');
 		const sourceConfigId = url.searchParams.get('sourceConfigId');
-		if (!documentUrl || !sourceConfigId)
+
+		// TODO implement getting document view including annotation referenced by query params
+		const annotationId = url.searchParams.get('annotationId');
+		const markingId = url.searchParams.get('markingId');
+		if (!documentUrl || !sourceConfigId) {
 			throw Error(`documentUrl: ${documentUrl} sourceConfigId ${sourceConfigId}`);
+		}
 		try {
 			const doc = await getDocument(documentUrl, sourceConfigId, fetch);
 			return {
