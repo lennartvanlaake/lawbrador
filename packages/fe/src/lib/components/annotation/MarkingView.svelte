@@ -1,9 +1,10 @@
 <script lang="ts">
     import { ID_PLACEHODER, Marking, RenderedDocument, UnidentifiedTagOrText } from "@lawbrador/shared";
-    import { afterUpdate, onMount, tick } from "svelte";
+    import { onMount, tick } from "svelte";
     export let marking: Marking;
     export let doc: RenderedDocument;
-	let containerElement: HTMLDivElement;
+	let scrollElement: HTMLDivElement;
+    let isFaded: boolean = true;
     const pre: UnidentifiedTagOrText = {
 		origin: 'marker',
 		type: 'open',
@@ -19,21 +20,49 @@
         await tick();
         const element = document.getElementById(marking._id);
         if (element) {
-            containerElement.scrollTo(0,  (element.offsetTop - containerElement.offsetTop) - (containerElement.clientHeight / 2));
+            scrollElement.scrollTo(0,  element.offsetTop - (scrollElement.clientHeight / 2));
         }
     })
 </script>
 
-<div class="bordered" bind:this={containerElement} >
-    {@html doc.htmlString}
+<h3>{doc.reference.name}</h3>
+<div class="container" class:faded={isFaded} on:click="{() => isFaded= false}" >
+    <div class="scrollable" bind:this={scrollElement} >
+        {@html doc.htmlString}
+    </div>
 </div>
 
 <style>
-    .bordered {
+    .container {
         height: 10rem;
         border-radius: 1rem;
-        border: 0.1rem solid gray;
+        /* border: 0.01rem solid gray;  */
+        position: relative;       
         width: 100%;
-        overflow-y: scroll;
     }
+
+    .scrollable {
+        overflow-y: scroll;
+        width: 100%;
+        height: 100%;
+    }
+
+    .faded::before {
+        content:'';
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        background-image: linear-gradient(
+            to bottom,
+            white 0%,
+            white 10%,
+            transparent 30%, 
+            transparent 70%,
+            white 90%,
+            white 100%
+        );
+        z-index: 30;
+    } 
 </style>
