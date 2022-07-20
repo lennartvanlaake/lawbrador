@@ -1,6 +1,7 @@
 <script lang="ts">
-	import MarkingView from '$lib/components/annotation/MarkingView.svelte';
-	import { defaultRestructure, Marking, nodeToTextAndTags, RenderedDocument, RestructuredDocument } from '@lawbrador/shared';
+	import AnnotationView from '$lib/components/annotation/AnnotationView.svelte';
+	import { Annotation, defaultRestructure, Marking, nodeToTextAndTags, RenderedDocument, RestructuredDocument } from '@lawbrador/shared';
+import { marking } from '@lawbrador/shared/src/schemas/annotation';
 	const node1 =
 		defaultRestructure(`<h1>Lorem ipsum</h1><p> dolor sit amet, consectetur adipiscing elit. Praesent semper tristique elit, nec laoreet ex sollicitudin eu. Proin eget lectus arcu. Quisque rutrum rutrum leo, et placerat eros ornare non. Fusce fermentum dui eget posuere cursus. Suspendisse potenti. Curabitur interdum facilisis nulla, in pretium risus convallis at. Curabitur nec vestibulum nisi, et dictum mauris. Suspendisse quam nulla, venenatis id congue eu, aliquet sit amet mauris.
 </p>
@@ -24,13 +25,24 @@ Sed placerat semper justo at rutrum. Mauris at sagittis diam, non mollis velit. 
 			sourceConfigId: "456"
 		}
 
-	const doc = new RenderedDocument(nodeToTextAndTags(node1), reference);
-    const marking: Marking = {
+	const docs = [new RenderedDocument(nodeToTextAndTags(node1), reference)];
+    const marking1: Marking = {
         _id: "123",
         start: 200,
         end: 220,
         documentReference: reference
     }
+    const marking2: Marking = {
+        _id: "234",
+        start: 400,
+        end: 220,
+        documentReference: reference
+    }
+	const annotation: Annotation = {
+		_id: "345",
+		name: "Lorem ipsum smart things",
+		markings: [marking1, marking2]
+	}
 </script>
 
-<MarkingView doc={doc} marking={marking} />
+<AnnotationView documents={docs} {annotation} />

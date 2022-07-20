@@ -25,6 +25,10 @@ export class RenderedDocument {
       .join("");
     this.#update();
   }
+  
+  copy() {
+    return new RenderedDocument(this.#snippets, this.reference);
+  }
 
   filter(filter: (snippet: IndexedTagOrText) => boolean) {
     this.#snippets = this.#snippets.filter(filter);
