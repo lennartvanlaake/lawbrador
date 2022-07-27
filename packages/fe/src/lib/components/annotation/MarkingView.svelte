@@ -38,7 +38,7 @@
 
 
 
-<h3>{doc.reference.name}</h3>
+<a href={doc.reference.url}>{doc.reference.url}</a>
 <div class="container" class:faded={isFaded} class:large={!isFaded} >
     <div class="scrollable" bind:this={scrollElement} >
         {@html doc.htmlString}

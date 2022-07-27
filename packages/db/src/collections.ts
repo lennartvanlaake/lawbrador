@@ -2,6 +2,7 @@ import type {
   Annotation,
   Hashed,
   LawbradorEvent,
+  RestructuredDocument,
   ScrapeResult,
   SourceSiteConfig,
 } from "@lawbrador/shared";
@@ -16,7 +17,7 @@ export const SOURCE_CONFIG_COLLECTION = new TypedCollection<SourceSiteConfig>(
 );
 export const ANNOTATIONS = new TypedCollection<Annotation>("annotations");
 export const DOCUMENT_SCRAPE_CACHE = new TypedCache<ScrapeResult & Hashed>(
-  "documentCache"
+  "documentScrapeCache"
 );
 export const SEARCH_CACHE = new TypedCache<ScrapeResult & Hashed>(
   "searchCache"

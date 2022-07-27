@@ -1,23 +1,20 @@
 import type { Static } from "@sinclair/typebox";
 import type {
+  ALL_SELECTION_LOCATIONS, ALL_SELECTION_OPERATORS
+} from "./ruleConstants";
+import type {
   documentRuleSet,
   htmlSearchRuleSet,
   markupRule,
   pageAndQuery,
-  queryParam,
-  searchUrlConfig,
-  selectionRule,
+  queryParam, selectionRule,
   sourceSiteConfig,
   staticUrlComponent,
   urlComponent,
   urlConfig,
   valueWithDisplayName,
-  variableUrlComponent,
+  variableUrlComponent
 } from "./rules";
-import type {
-  ALL_SELECTION_OPERATORS,
-  ALL_SELECTION_LOCATIONS,
-} from "./ruleConstants";
 
 export type SelectionOperator = typeof ALL_SELECTION_OPERATORS[number];
 export type SelectionLocation = typeof ALL_SELECTION_LOCATIONS[number];

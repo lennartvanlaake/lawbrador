@@ -9,7 +9,9 @@ import type {
 	LoginResponse,
 	LoginRequest,
 	Annotation,
-	UnsavedAnnotation
+	UnsavedAnnotation,
+	DocumentReference,
+	RestructuredDocument
 } from '@lawbrador/shared';
 import { Endpoints } from '@lawbrador/shared';
 import type { Method } from 'axios';
@@ -88,6 +90,14 @@ export async function updateSourceConfig(config: SourceSiteConfig): Promise<Iden
 }
 export async function getAnnotations(fetchParam: any = false): Promise<Annotation[]> {
 	return await get(Endpoints.ANNOTATIONS, fetchParam);
+}
+
+export async function getAnnotation(id: string, fetchParam: any = false): Promise<Annotation> {
+	return await get(`${Endpoints.ANNOTATIONS}/${id}`, fetchParam);
+}
+
+export async function getDocuments(references: DocumentReference[]): Promise<RestructuredDocument[]> {
+	return await post(`${Endpoints.GET_OR_SCRAPE_DOCUMENT}/search`, { references: references })
 }
 
 export async function newAnnotation(newAnnotation: UnsavedAnnotation): Promise<Identity> {

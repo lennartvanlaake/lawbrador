@@ -34,3 +34,4 @@ export * from "./schemas/searchTypes";
 export * from "./schemas/authTypes";
 export * from "./schemas/renderTypes";
 export * from "./schemas/annotationTypes";
+export * from "./schemas/requestTypes";

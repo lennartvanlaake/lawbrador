@@ -8,6 +8,10 @@ export const identity = Type.Object({
   _id: Type.String(),
 });
 
+export const identityParams = Type.Object({
+  id: Type.String(),
+});
+
 export const hashed = Type.Object({
   hash: Type.String(),
 });
