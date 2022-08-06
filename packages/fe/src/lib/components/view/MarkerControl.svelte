@@ -10,13 +10,16 @@
 		UnidentifiedTagOrText
 	} from '@lawbrador/shared';
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
+import Modal from '../common/Modal.svelte';
 	import AnnotationSelectorModal from './AnnotationSelectorModal.svelte';
 	export let renderedDocument: RenderedDocument;
 	export let enabled: boolean;
+	export let documentElement: HTMLElement;
 
 	let annotation: Annotation | null = null;
 	let selectedMarking: Marking | null = null;
 	let selectedMarkingIndex: number = 0;
+	let showMarkingMakerModal = false;
 	$: displayedIndex = annotation?.markings?.length ?? 0 > 0 ? selectedMarkingIndex + 1 : 0;
 	$: displayedLength = annotation?.markings?.length ?? 0;
 	$: highlightSelected = false;
@@ -66,19 +69,36 @@
 		enabled = false;
 		resetMarks();
 	}
+
+	let selectionOngoing = false;
 	function selectionChangedHandler() {
+		// debugger;
 		const selection = document.getSelection();
 		// this is needed to prevent clicks to be interpreted as selections
-		if (selection?.type == 'Range') {
-			highlightSelected = true;
-			// this is needed to clone Selection object, normal clone method does not work since Selection includes Window
-			lastValidSelection = {
-				anchorNode: selection.anchorNode,
-				anchorOffset: selection.anchorOffset,
-				focusNode: selection.focusNode,
-				focusOffset: selection.focusOffset
-			} as Selection;
+		if (!selection || selection.type != 'Range') {
+			return;
 		}
+		highlightSelected = true;
+		// this is needed to clone Selection object, normal clone method does not work since Selection includes Window
+		lastValidSelection = {
+			anchorNode: selection.anchorNode,
+			anchorOffset: selection.anchorOffset,
+			focusNode: selection.focusNode,
+			focusOffset: selection.focusOffset
+		} as Selection;
+		if (!selectionOngoing) {
+			selectionOngoing = true;
+			documentElement?.addEventListener('mouseup', openMarkingModal);
+	}
+}
+
+function openMarkingModal() {
+		if (document.getSelection()?.toString().trim() == "") {
+			return;
+		}
+		selectionOngoing = false;
+		showMarkingMakerModal = true;
+		documentElement?.removeEventListener('mouseup', openMarkingModal);
 	}
 
 	function markSelection() {
@@ -91,6 +111,7 @@
 		renderedDocument.wrapPositions(positions, pre, post, markingId);
 		addMarking({ ...positions, _id: markingId, documentReference: renderedDocument.reference });
 		dispatch('htmlChanged', renderedDocument.htmlString);
+		showMarkingMakerModal = false;
 	}
 
 	async function addMarking(marking: Marking) {
@@ -106,7 +127,7 @@
 			const element = document.getElementById(selectedMarking._id);
 			if (element) {
 				element.style.textDecoration = 'none';
-				if (element.nextElementSibling?.className.includes("fa")) {
+				if (element.nextElementSibling?.className.includes('fa')) {
 					element.nextElementSibling.remove();
 				}
 			}
@@ -135,6 +156,7 @@
 		selectMarking(annotation!!.markings[index]);
 	}
 
+
 	onMount(() => {
 		document.addEventListener(SELECTION_EVENT_NAME, selectionChangedHandler);
 	});
@@ -146,23 +168,31 @@
 <div id="control-bg">
 	{#if !annotation}
 		<AnnotationSelectorModal bind:annotation />
-	{:else }
+	{:else}
 		<span>Current annotation: <strong>{annotation.name}</strong></span>
-		
+
 		<span class="progress">{displayedIndex}/{displayedLength}</span>
 		<i class="fa-solid fa-angle-up" on:click={decreaseMarkingIndex} />
 		<i class="fa-solid fa-angle-down" on:click={increaseMarkingIndex} />
-		
-		{#if highlightSelected}
-			<span>Higlight selection?</span>
-			<i class="fa-solid fa-check" on:click={markSelection} />
-		{/if}
-		
 		<div class="right-icons">
 			<i class="fa-solid fa-xmark" on:click={disable} />
 		</div>
 	{/if}
 
+	{#if showMarkingMakerModal }
+			<Modal closable={true} bind:show={showMarkingMakerModal}>
+				<h3>Do you wish to highlight the following text?</h3>
+				<em>{document.getSelection()?.toString()}</em>
+				<div>
+					<label for="bla">Add your comment</label>
+				</div>
+				<textarea id="bla"></textarea>
+				<div>
+					<button on:click={markSelection}>Yes</button><button on:click={() => showMarkingMakerModal= false}>No</button>
+				</div>
+				
+			</Modal>
+	{/if }
 </div>
 
 <style>

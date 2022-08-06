@@ -6,7 +6,7 @@
 	import HeaderIndex from './HeaderIndex.svelte';
 	import type { RenderedDocument, RestructuredNode } from '@lawbrador/shared';
 	export let renderedDocument: RenderedDocument;
-	export let documentElement: Element;
+	export let documentElement: HTMLElement;
 	export let node: RestructuredNode;
 	let searchEnabled = !!$queryToHighlight;
 	let indexEnabled = false;
@@ -39,6 +39,7 @@
 			bind:renderedDocument
 			on:htmlChanged
 			bind:enabled={markerEnabled}
+			{documentElement}
 		/>
 	{/if}
 	<div id="control">
