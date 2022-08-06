@@ -10,8 +10,9 @@
 		UnidentifiedTagOrText
 	} from '@lawbrador/shared';
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
-import Modal from '../common/Modal.svelte';
+	import Modal from '../common/Modal.svelte';
 	import AnnotationSelectorModal from './AnnotationSelectorModal.svelte';
+	import MarkingModal from './MarkingModal.svelte';
 	export let renderedDocument: RenderedDocument;
 	export let enabled: boolean;
 	export let documentElement: HTMLElement;
@@ -79,39 +80,28 @@ import Modal from '../common/Modal.svelte';
 			return;
 		}
 		highlightSelected = true;
+		let selectionString = selection.toString();
 		// this is needed to clone Selection object, normal clone method does not work since Selection includes Window
 		lastValidSelection = {
 			anchorNode: selection.anchorNode,
 			anchorOffset: selection.anchorOffset,
 			focusNode: selection.focusNode,
-			focusOffset: selection.focusOffset
+			focusOffset: selection.focusOffset,
+			toString: () => selectionString
 		} as Selection;
 		if (!selectionOngoing) {
 			selectionOngoing = true;
 			documentElement?.addEventListener('mouseup', openMarkingModal);
+		}
 	}
-}
 
-function openMarkingModal() {
-		if (document.getSelection()?.toString().trim() == "") {
+	function openMarkingModal() {
+		if (document.getSelection()?.toString().trim() == '') {
 			return;
 		}
 		selectionOngoing = false;
 		showMarkingMakerModal = true;
 		documentElement?.removeEventListener('mouseup', openMarkingModal);
-	}
-
-	function markSelection() {
-		if (!lastValidSelection) {
-			alert('No selection to be highlighted!');
-			return;
-		}
-		const positions = renderedDocument.positionsFromSelection(lastValidSelection);
-		const markingId = id();
-		renderedDocument.wrapPositions(positions, pre, post, markingId);
-		addMarking({ ...positions, _id: markingId, documentReference: renderedDocument.reference });
-		dispatch('htmlChanged', renderedDocument.htmlString);
-		showMarkingMakerModal = false;
 	}
 
 	async function addMarking(marking: Marking) {
@@ -120,6 +110,7 @@ function openMarkingModal() {
 			return a.start - b.start;
 		});
 		updateAnnotation(annotation!!);
+		addExistingMarkings(null);
 	}
 
 	function selectMarking(marking: Marking) {
@@ -156,7 +147,6 @@ function openMarkingModal() {
 		selectMarking(annotation!!.markings[index]);
 	}
 
-
 	onMount(() => {
 		document.addEventListener(SELECTION_EVENT_NAME, selectionChangedHandler);
 	});
@@ -179,20 +169,15 @@ function openMarkingModal() {
 		</div>
 	{/if}
 
-	{#if showMarkingMakerModal }
-			<Modal closable={true} bind:show={showMarkingMakerModal}>
-				<h3>Do you wish to highlight the following text?</h3>
-				<em>{document.getSelection()?.toString()}</em>
-				<div>
-					<label for="bla">Add your comment</label>
-				</div>
-				<textarea id="bla"></textarea>
-				<div>
-					<button on:click={markSelection}>Yes</button><button on:click={() => showMarkingMakerModal= false}>No</button>
-				</div>
-				
-			</Modal>
-	{/if }
+	{#if showMarkingMakerModal}
+		<MarkingModal
+			bind:showMarkingMakerModal
+			bind:renderedDocument
+			bind:selection={lastValidSelection}
+			on:markingAdded={(evt) => addMarking(evt.detail)}
+		/>
+
+	{/if}
 </div>
 
 <style>

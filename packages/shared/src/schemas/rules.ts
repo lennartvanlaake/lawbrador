@@ -4,7 +4,7 @@ import {
   ALL_SELECTION_LOCATIONS,
   ALL_SELECTION_OPERATORS,
 } from "./ruleConstants";
-import { keyValue, NullOptionable } from "./generic";
+import { keyValue, NullOptional } from "./generic";
 
 export const selectionOperator = Type.Union(
   ALL_SELECTION_OPERATORS.map((op) => Type.Literal(op))
@@ -18,7 +18,7 @@ export const selectionRule = Type.Object({
   op: selectionOperator,
   location: selectionLocation,
   value: Type.String({ minLength: 1 }),
-  nestedRule: NullOptionable(Type.Any()),
+  nestedRule: NullOptional(Type.Any()),
 });
 
 export const markupRule = Type.Object({
@@ -27,21 +27,21 @@ export const markupRule = Type.Object({
 });
 
 export const documentRuleSet = Type.Object({
-  name: NullOptionable(Type.String()),
-  conditionRules: NullOptionable(Type.Array(selectionRule)),
-  preserveMarkup: NullOptionable(Type.Boolean({ default: true })),
-  markupRules: NullOptionable(Type.Array(markupRule)),
-  bodyRule: NullOptionable(selectionRule),
+  name: NullOptional(Type.String()),
+  conditionRules: NullOptional(Type.Array(selectionRule)),
+  preserveMarkup: NullOptional(Type.Boolean({ default: true })),
+  markupRules: NullOptional(Type.Array(markupRule)),
+  bodyRule: NullOptional(selectionRule),
 });
 
 export const htmlSearchRuleSet = Type.Object({
   resultListRule: selectionRule,
-  resultLinkRule: NullOptionable(selectionRule),
+  resultLinkRule: NullOptional(selectionRule),
 });
 
 export const valueWithDisplayName = Type.Object({
   value: Type.String({ minLength: 1 }),
-  displayName: NullOptionable(Type.String()),
+  displayName: NullOptional(Type.String()),
 });
 
 export const staticUrlComponent = Type.Object({
@@ -50,8 +50,8 @@ export const staticUrlComponent = Type.Object({
 
 export const variableUrlComponent = Type.Object({
   variableName: Type.String({ minLength: 1 }),
-  showIf: NullOptionable(keyValue),
-  possibleValues: NullOptionable(
+  showIf: NullOptional(keyValue),
+  possibleValues: NullOptional(
     Type.Array(valueWithDisplayName, { minItems: 1, uniqueItems: true })
   ),
 });
@@ -73,7 +73,7 @@ export const urlConfig = Type.Object({
 });
 
 export const pageAndQuery = Type.Object({
-  pageVariable: NullOptionable(Type.String({ minLength: 1 })),
+  pageVariable: NullOptional(Type.String({ minLength: 1 })),
   queryVariable: Type.String({ minLength: 1 }),
 });
 
@@ -82,7 +82,7 @@ export const searchUrlConfig = Type.Intersect([urlConfig, pageAndQuery]);
 export const sourceSiteConfig = Type.Object({
   _id: Type.String(),
   name: Type.String({ minLength: 1 }),
-  description: NullOptionable(Type.String()),
+  description: NullOptional(Type.String()),
   searchUrlConfig: searchUrlConfig,
   documentUrlConfig: urlConfig,
   documentRuleSets: Type.Array(documentRuleSet),

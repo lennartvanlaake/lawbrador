@@ -1,11 +1,13 @@
 
 import { Type } from "@sinclair/typebox";
+import { NullOptional } from "./generic";
 import { documentReference } from "./scrape";
 
 export const marking = Type.Object({
     start: Type.Number(),
     end: Type.Number(),
     _id: Type.String(),
+    description: NullOptional(Type.String()),
     documentReference: documentReference
   })
 
