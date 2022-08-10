@@ -2,15 +2,12 @@
 	import { updateAnnotation } from '$lib/ts/api';
 	import { scrollElementToCenter } from '$lib/ts/utils';
 	import {
-		Annotation,
-		id,
-		ID_PLACEHODER,
-		Marking,
-		RenderedDocument,
-		UnidentifiedTagOrText
+	Annotation,ID_PLACEHODER,
+	Marking,
+	RenderedDocument,
+	UnidentifiedTagOrText
 	} from '@lawbrador/shared';
-	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
-	import Modal from '../common/Modal.svelte';
+	import { createEventDispatcher,onDestroy,onMount,tick } from 'svelte';
 	import AnnotationSelectorModal from './AnnotationSelectorModal.svelte';
 	import MarkingModal from './MarkingModal.svelte';
 	export let renderedDocument: RenderedDocument;
@@ -21,19 +18,50 @@
 	let selectedMarking: Marking | null = null;
 	let selectedMarkingIndex: number = 0;
 	let showMarkingMakerModal = false;
+	let highlightSelected = false;
 	$: displayedIndex = annotation?.markings?.length ?? 0 > 0 ? selectedMarkingIndex + 1 : 0;
 	$: displayedLength = annotation?.markings?.length ?? 0;
-	$: highlightSelected = false;
-	$: addExistingMarkings(annotation);
+	$: annotation, addExistingMarkings();
 
-	function addExistingMarkings(_: any) {
+	async function addExistingMarkings() {
 		resetMarks();
 		annotation?.markings.forEach((it) => {
 			if (it.documentReference.hash == renderedDocument.reference.hash) {
+				console.log(it._id)
 				renderedDocument.wrapPositions({ start: it.start, end: it.end }, pre, post, it._id);
 			}
 		});
 		dispatch('htmlChanged', renderedDocument.htmlString);
+		await tick();
+		Array.from(document.getElementsByTagName("mark")).forEach(element => {
+			element.onmouseover = (evt: MouseEvent) => {
+				console.log(evt); 
+				const targetElement = evt.target as HTMLElement;
+				selectedMarking = annotation?.markings.filter(it => it._id == targetElement.id)[0]!!
+				console.log(selectedMarking)
+				console.log(targetElement.id);
+				console.debug(annotation) 
+			};
+			element.onclick = (evt: MouseEvent) => {
+				const targetElement = evt.target as HTMLElement;
+				console.log(selectedMarking); 
+				if (selectedMarking) {
+					console.log("Should show the modal now...");
+					showMarkingMakerModal = true;
+				}
+			}
+			element.onmouseleave = (evt: MouseEvent) => {
+				selectedMarking = null;
+			}
+			element.childNodes.forEach((it) => {
+				const childElement = it as HTMLElement;
+				childElement.style.pointerEvents = "none";
+			})
+		});
+	}
+	
+	function onClickMarking(event: MouseEvent) {
+		console.debug(event);
 	}
 
 	function generateClosingMark(id: string) {
@@ -47,6 +75,7 @@
 		};
 		return removeButtonElement;
 	}
+
 
 	const dispatch = createEventDispatcher<{ htmlChanged: string }>();
 	const SELECTION_EVENT_NAME = 'selectionchange';
@@ -73,6 +102,9 @@
 
 	let selectionOngoing = false;
 	function selectionChangedHandler() {
+		if (selectedMarking) {
+			return;
+		}
 		// debugger;
 		const selection = document.getSelection();
 		// this is needed to prevent clicks to be interpreted as selections
@@ -110,7 +142,21 @@
 			return a.start - b.start;
 		});
 		updateAnnotation(annotation!!);
-		addExistingMarkings(null);
+		addExistingMarkings();
+	}
+
+	async function deleteMarking(marking: Marking) {
+		annotation!!.markings = annotation!!.markings.filter(it => it._id != marking._id);
+		updateAnnotation(annotation!!);
+		addExistingMarkings();
+		selectedMarking = null;
+	}
+
+	async function editMarking(marking: Marking) {
+		annotation!!.markings.filter(it => it._id == marking._id)[0] = marking;
+		updateAnnotation(annotation!!);
+		addExistingMarkings();
+		selectedMarking = null;
 	}
 
 	function selectMarking(marking: Marking) {
@@ -171,16 +217,22 @@
 
 	{#if showMarkingMakerModal}
 		<MarkingModal
+			{selectedMarking}
 			bind:showMarkingMakerModal
 			bind:renderedDocument
 			bind:selection={lastValidSelection}
 			on:markingAdded={(evt) => addMarking(evt.detail)}
+			on:markingDeleted={(evt) => deleteMarking(evt.detail)}
+			on:markingEdited={(evt) => editMarking(evt.detail)}
 		/>
-
 	{/if}
 </div>
 
 <style>
+	:global(mark:hover) {
+		font-weight: 700;
+	}
+
 	span {
 		margin-left: 1rem;
 	}

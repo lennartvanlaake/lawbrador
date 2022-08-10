@@ -60,7 +60,7 @@ export class RenderedDocument {
       }
     }
   }
-
+  
   wrapPositions(positions: StartAndEndPosition, pre: UnidentifiedTagOrText, post: UnidentifiedTagOrText, id: string) {
     this.#wrapCharacterIndices(positions.start, positions.end, identifyTagOrText(pre, id), identifyTagOrText(post, id))
   }
