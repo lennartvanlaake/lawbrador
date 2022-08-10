@@ -30,13 +30,15 @@ Sed placerat semper justo at rutrum. Mauris at sagittis diam, non mollis velit. 
         _id: "123",
         start: 200,
         end: 220,
-        documentReference: reference
+        documentReference: reference,
+		description: "foobar"
     }
     const marking2: Marking = {
         _id: "234",
         start: 400,
         end: 220,
-        documentReference: reference
+        documentReference: reference,
+		description: "super goed verhaal"
     }
 	const annotation: Annotation = {
 		_id: "345",

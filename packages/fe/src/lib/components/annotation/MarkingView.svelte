@@ -46,6 +46,11 @@
     <div class="expand">
         <ExpandButton isPlus={isFaded} on:click={expandButtonClicked}></ExpandButton>
     </div>
+    {#if marking.description }
+    <div class="description">
+       <em> {marking.description}</em>
+    </div>
+    {/if }
 </div>
 
 <style>
@@ -54,12 +59,18 @@
         justify-content: center;
     }
 
+    .description {
+        text-align: center;
+        margin-top: 2rem;
+    }
+
     .container {
         height: 10rem;
         border-radius: 1rem;
         /* border: 0.01rem solid gray;  */
         position: relative;       
         width: 100%;
+        margin-bottom: 10rem;
     }
 
     .scrollable {

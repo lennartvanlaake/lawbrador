@@ -18,6 +18,7 @@ export default async (fastify: FastifyInstance) => {
         } 
       },
       handler: async (req) => {
+        debugger;
         const annotation = await fastify.collections.annotations.get(req.params.id);
         return annotation;
       }
